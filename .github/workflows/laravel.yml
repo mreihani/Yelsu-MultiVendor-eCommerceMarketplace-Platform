@@ -24,4 +24,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           password: ${{ secrets.PASSWORD }}
-          script: "cd /home/admin/domains/yelsu.com && ./deployer.sh"
+          script: "cd /home/yelsu/domains/yelsu.com && ./deployer.sh"
