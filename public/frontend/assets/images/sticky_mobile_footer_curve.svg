@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1126 249" style="enable-background:new 0 0 1126 249;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+	<filter id="shadow">
+		<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#cccccc" flood-opacity="1" />
+	</filter>
+	
+	<g style="filter:url(#shadow)">
+		<path class="st0" d="M0.7,19.4l367.7,0c30.5,0,57.6,19.2,67.7,48l14.4,40.9c17.1,48.6,63,81.1,114.5,81.1h0
+			c51.4,0,97.2-32.3,114.4-80.7l14.7-41.5c10.2-28.6,37.3-47.8,67.7-47.8l364.2,0.1v229.3L0.7,248.7V19.4z"/>
+	</g>
+</svg>

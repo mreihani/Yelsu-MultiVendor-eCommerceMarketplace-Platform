@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Http\Controllers\Backend\Specialist;
+
+use App\Models\Attribute;
+use App\Models\User;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Stevebauman\Purify\Facades\Purify;
+
+class SpecialistAttributeController extends Controller
+{
+    public function AllAttribute()
+    {
+        $specialistData = auth()->user();
+        $attributes = Attribute::get();
+
+        return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
+    }
+
+    public function AddAttribute()
+    {
+        $specialistData = auth()->user();
+        $parentCategories = Category::where('parent', 0)->get();
+
+        return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories'));
+    }
+
+    public function StoreAttribute(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'name' => ['required', 'unique:attributes'],
+            'kt_docs_repeater_basic' => ['required', 'array'],
+            'role' => ['required', 'array'],
+            'category_id' => ['required', 'array'],
+        ], [
+            'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
+            'name.unique' => 'نام ویژگی قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
+            'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
+            'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
+            'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
+            'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
+            'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
+            'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
+        ]);
+
+        $attribute = Attribute::firstOrCreate([
+            'name' => Purify::clean($incomingFields['name']),
+            'role' => implode(',', Purify::clean($incomingFields['role'])),
+            'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
+        ]);
+
+        foreach ($incomingFields['kt_docs_repeater_basic'] as $value) {
+            $attribute->values()->firstOrCreate([
+                'value' => Purify::clean($value['value'])
+            ]);
+        }
+
+        return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت ایجاد گردید.');
+    }
+
+    public function EditAttribute($id)
+    {
+        $specialistData = auth()->user();
+        $parentCategories = Category::where('parent', 0)->get();
+        $attribute = Attribute::find(Purify::clean($id));
+
+        return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute'));
+    }
+
+    public function UpdateAttribute(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'name' => ['required', Rule::unique('attributes')->ignore($request->id)],
+            'kt_docs_repeater_basic' => ['required', 'array'],
+            'role' => ['required', 'array'],
+            'category_id' => ['required', 'array'],
+        ], [
+            'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
+            'name.unique' => 'نام ویژگی قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
+            'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
+            'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
+            'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
+            'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
+            'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
+            'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
+        ]);
+
+        $attribute = Attribute::find(Purify::clean(($request->id)));
+
+        $attribute->update([
+            'name' => Purify::clean($incomingFields['name']),
+            'role' => implode(',', Purify::clean($incomingFields['role'])),
+            'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
+        ]);
+
+        $attribute->values()->delete();
+
+        foreach ($incomingFields['kt_docs_repeater_basic'] as $value) {
+            $attribute->values()->firstOrCreate([
+                'value' => Purify::clean($value['value'])
+            ]);
+        }
+
+        return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت بروزرسانی گردید.');
+    }
+
+    public function DeleteAttribute($id)
+    {
+        $attribute = Attribute::find(Purify::clean(($id)));
+        $attribute->delete();
+
+        return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت حذف گردید.');
+    }
+}

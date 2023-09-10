@@ -1,0 +1,44 @@
+#listMessages .myChat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#listMessages .myChat .chatTime {
+    color: #a1a5b7;
+}
+
+#listMessages .myChat .chatText {
+    background-color: #f8f5ff;
+    border-radius: 0.475rem !important;
+    padding: 1.25rem !important;
+}
+
+#startInfo h2 {
+    padding: 15px;
+}
+
+#listMessages .clientChat .chatTime {
+    color: #a1a5b7;
+}
+
+#listMessages .clientChat .chatText {
+    background-color: #f1faff;
+    border-radius: 0.475rem !important;
+    padding: 1.25rem !important;
+}
+
+.clientChat .chatBoxContent img {
+    display: none;
+}
+
+.clientChat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.myChat,
+.clientChat {
+    margin-top: 40px;
+}

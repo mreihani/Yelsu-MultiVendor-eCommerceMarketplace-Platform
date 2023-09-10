@@ -1,0 +1,17 @@
+.env
+/node_modules
+/logs
+phpunit.xml
+postcss.config.js
+/storage
+tailwind.config.js
+/tests
+vite.config.js
+/vendor
+private_html
+public_html
+/stats
+artisan
+/.htpasswd
+error_log
+deployer.sh
