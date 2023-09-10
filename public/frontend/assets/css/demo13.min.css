@@ -17345,9 +17345,9 @@ body .product-popup {
 /* Sidebar */
 .sidebar {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 23.5rem;
-    flex: 0 0 23.5rem;
-    max-width: 23.5rem;
+    -ms-flex: 0 0 24.5rem;
+    flex: 0 0 24.5rem;
+    max-width: 24.5rem;
     -webkit-transition: max-width 0.4s;
     transition: max-width 0.4s;
     -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
