@@ -16005,7 +16005,7 @@ body .product-popup {
 .category-dropdown .dropdown-box {
     padding: 0;
     right: 0;
-    min-width: 23rem;
+    min-width: 24.5rem;
     color: #333;
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -16801,7 +16801,7 @@ body .product-popup {
 }
 .vertical-menu > li {
     margin-left: 0;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 .vertical-menu > li > ul,
 .vertical-menu > li .megamenu {
@@ -17390,15 +17390,15 @@ body .product-popup {
 
 .sidebar-fixed .left-sidebar-content {
     padding: 0;
-    width: 23.5rem;
+    width: 24.5rem;
     z-index: 2200;
 }
 
 .category-dropdown {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 23.5rem;
-    flex: 0 0 23.5rem;
-    max-width: 23.5rem;
+    -ms-flex: 0 0 24.5rem;
+    flex: 0 0 24.5rem;
+    max-width: 24.5rem;
     z-index: 2200;
 }
 .category-dropdown .sidebar-logo {
@@ -17663,7 +17663,7 @@ body .product-popup {
     display: none;
 }
 .header-middle.sticky-content.fixed {
-    right: 23.5rem;
+    right: 24.5rem;
     padding: 1.4rem 0 1.5rem 0;
 }
 
@@ -18724,10 +18724,13 @@ body .product-popup {
     width: 950px;
 }
 
-ul.menu.vertical-menu.category-menu ul.megamenu {
-    position: fixed;
-    transform: translateY(-70px) !important;
-    min-height: 550px;
+/* disable it for mobile pages */
+@media (min-width: 575px) {
+    ul.menu.vertical-menu.category-menu ul.megamenu {
+        position: fixed;
+        transform: translateY(-70px) !important;
+        min-height: 550px;
+    }
 }
 
 .dropdown.category-dropdown.bg-white.sticky-sidebar {
@@ -18959,7 +18962,7 @@ ul.menu.vertical-menu.category-menu ul.megamenu {
 
 /* دکمه دسترسی های پلتفرم رو به موازات دسته بندی ها کردم */
 .main-nav .platform-submenu a {
-    margin-left: 0rem;
+    margin-left: -0.5rem;
     font-size: 1.45rem;
 }
 /* دکمه دسترسی های پلتفرم رو به موازات دسته بندی ها کردم */

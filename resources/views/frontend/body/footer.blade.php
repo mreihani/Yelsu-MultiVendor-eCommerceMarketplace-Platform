@@ -129,14 +129,19 @@
             </div>
             <!-- End of Container -->
             <div class="footer-bottom">
-                <div class="container">
+                <div class="container" style="width: 80%;">
                     <div class="footer-left">
                         <p class="copyright">تمامی حقوق برای شرکت ارمغان تجارت مغان با <a href="{{URL::to('/')}}">وبسایت Yelsu</a> محفوظ است. کپی به هر شکل غیر قانونی و غیر مجاز است.</p>
                     </div>
                     <div class="footer-right">
                         {{-- <span class="payment-label mr-lg-8">ما از پرداخت مطمئن استفاده می کنیم</span> --}}
                         <figure >
-                            <img src="{{asset('frontend/assets/images/pay-pic-for-footer.png')}}" alt="payment" width="300"/>
+                            {{-- <img src="{{asset('frontend/assets/images/pay-pic-for-footer.png')}}" alt="payment" width="300"/> --}}
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/mellat.png')}}" alt="payment" width="40"/>
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="payment" width="40"/>
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/refah.png')}}" alt="payment" width="40"/>
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="payment" width="40"/>
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="payment" width="40"/>
                         </figure>
                     </div>
                 </div>

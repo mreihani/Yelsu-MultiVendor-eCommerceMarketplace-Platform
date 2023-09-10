@@ -295,7 +295,8 @@ class SpecialistController extends Controller
         $old_img = Purify::clean($request->old_image);
 
         // here stop specialist to edit 1 to 8 important categories
-        if (Purify::clean($request->id) == 1 || Purify::clean($request->id) == 2 || Purify::clean($request->id) == 3 || Purify::clean($request->id) == 4 || Purify::clean($request->id) == 5 || Purify::clean($request->id) == 6 || Purify::clean($request->id) == 7 || Purify::clean($request->id) == 8) {
+        $parentCategories = Category::where('parent',0)->pluck('id')->toArray();
+        if (in_array(Purify::clean($request->id), $parentCategories)) {
             return redirect(route('specialist.all.category'))->with('error', 'شما اجازه ویرایش این دسته بندی را ندارید!');
         }
 

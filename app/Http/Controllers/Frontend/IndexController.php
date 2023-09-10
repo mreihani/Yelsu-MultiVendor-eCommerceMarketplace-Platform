@@ -56,7 +56,7 @@ class IndexController extends Controller
 
         $products = Product::where('status', 'active')->latest()->get();
         $categories = Category::latest()->get();
-        $parentCategories = Category::where('parent', 0)->latest()->get();
+        $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
 
         if ($parentCategories) {
             foreach ($parentCategories as $parentCategory) {
@@ -1004,7 +1004,7 @@ class IndexController extends Controller
 
 
         $categories = Category::latest()->get();
-        $parentCategories = Category::where('parent', 0)->latest()->get();
+        $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
 
         $root_catgory_obj = NULL;
         $category_hierarchy_arr = [];

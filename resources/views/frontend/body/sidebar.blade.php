@@ -10,79 +10,20 @@
             </a>
             <h3 class="d-block text-dark font-weight-bolder dropdown-title pb-0 mb-0">محصولات پلتفرم یلسو</h3>
             <div class="dropdown-box text-default">
+                @php
+                    $parentCategories = App\Models\Category::where('parent',0)->get();
+                @endphp
+
                 <ul class="menu vertical-menu category-menu yelsu_main_categories">
-                    
+                    @foreach ($parentCategories as $parentCategory)
                     <li>
-                        <a href="{{route('shop.category',['id'=> 1])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_steel.svg')}}" alt="steel"/> فولادی و فلزی
+                        <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
+                            <img width="45px" src = "{{asset($parentCategory->category_image)}}" alt="{{$parentCategory->category_name}}"/> {{$parentCategory->category_name}}
                             <span class="submenu-toggle-btn"></span>
                         </a>
-                        @include('frontend.body.layout.megamenu.steelCategory')
+                        @include("frontend.body.layout.megamenu." . $parentCategory->id)
                     </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 2])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_mining.svg')}}" alt="mining"/> معدنی و فرآوری
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.miningCategory')
-                    </li>
-                    
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 3])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_construction.svg')}}" alt="construction"/> ساختمانی و عمرانی
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.constructionCategory')
-                    </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 4])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_oil.svg')}}" alt="oil"/> نفت، گاز و پتروشیمی<span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.oilCategory')
-                    </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 5])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_energy.svg')}}" alt="energy"/> برق، مخابرات و آبرسانی
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.electricalCategory')
-                    </li>
-                   
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 6])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_agriculture.svg')}}" alt="agriculture"/>غذایی و کشاورزی<span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.agriculturalCategory')
-                    </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 7])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_mining_machines.svg')}}" alt="road"/><span class="sidebar-small-text">تجهیزات</span> راهسازی و معدنی
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.roadCategory')
-                    </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 8])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_industrial_machines.svg')}}" alt="industrial machinary"/><span class="sidebar-small-text">تجهیزات</span> جاده ای و کشاورزی
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @include('frontend.body.layout.megamenu.agricultralMachinesCategory')
-                    </li>
-
-                    <li>
-                        <a href="{{route('shop.category',['id'=> 860])}}">
-                            <img width="40px" src = "{{asset('frontend/assets/images/yelsu_images/home_appliances.jpg')}}" alt="home_appliances.jpg"/>مبلمان و لوازم خانگی
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        {{-- @include('frontend.body.layout.megamenu.agricultralMachinesCategory') --}}
-                    </li>
-                    
+                    @endforeach
                 </ul>
             </div>
 
