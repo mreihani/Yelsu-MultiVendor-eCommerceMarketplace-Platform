@@ -7,17 +7,18 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\Merchantoutlet;
 use Illuminate\Support\Carbon;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\File as LaravelFile;
-
-use App\Http\Controllers\Controller;
 
 class MerchantController extends Controller
 {
@@ -242,7 +243,9 @@ class MerchantController extends Controller
         $merchantData = User::find($user_id);
         $categories = Category::latest()->get()->reverse();
 
-        return view('merchant.backend.product.merchant_product_add', compact('merchantData', 'categories'));
+        $allAttributes = Attribute::get();
+
+        return view('merchant.backend.product.merchant_product_add', compact('merchantData', 'categories', 'allAttributes'));
     } //End method
 
     public function MerchantStoreProduct(Request $request)
@@ -336,6 +339,21 @@ class MerchantController extends Controller
             }
         }
 
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }    
+        // بخش مدیریت ویژگی ها
+
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     } //End method
 
@@ -362,7 +380,9 @@ class MerchantController extends Controller
             }
         }
 
-        return view('merchant.backend.product.merchant_product_edit', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array'));
+        $allAttributes = Attribute::get();
+
+        return view('merchant.backend.product.merchant_product_edit', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
     } //End method
 
     public function MerchantUpdateProduct(Request $request)
@@ -531,6 +551,20 @@ class MerchantController extends Controller
             CategoryProduct::where('product_id', $product_id)->delete();
         }
 
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->sync(Purify::clean($attributes));
+            }
+        }    
+        // بخش مدیریت ویژگی ها
+
         if ($product_verification == 'inactive') {
             return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی و پس از تایید کارشناس منتشر خواهد شد.');
         }
@@ -578,7 +612,9 @@ class MerchantController extends Controller
             }
         }
 
-        return view('merchant.backend.product.merchant_product_copy', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array'));
+        $allAttributes = Attribute::get();
+
+        return view('merchant.backend.product.merchant_product_copy', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
     } //End method
 
     public function MerchantStoreCopyProduct(Request $request)
@@ -681,6 +717,21 @@ class MerchantController extends Controller
                 ]);
             }
         }
+
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }    
+        // بخش مدیریت ویژگی ها
 
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     } //End method

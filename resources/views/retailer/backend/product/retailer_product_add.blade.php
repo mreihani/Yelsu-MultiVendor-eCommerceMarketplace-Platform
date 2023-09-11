@@ -328,9 +328,46 @@
                             <!--end::کارت body-->
                         </div>
                         <!--end::دسته بندی & tags-->
-                        <!--begin::هفتهly sales-->
-                        
-                        <!--end::هفتهly sales-->
+                        <!--begin::لوپ ویژگی ها-->
+                        @foreach ($allAttributes as $attribute)
+                            @if(in_array($retailerData->role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($retailerData->vendor_sector, $attribute->category_id))
+                                <div class="card card-flush py-4">
+                                    <!--begin::کارت header-->
+                                    <div class="card-header">
+                                        <!--begin::کارت title-->
+                                        <div class="card-title {{$attribute->required == "true" ? "required" : ""}}">
+                                            <h2>{{$attribute->name}}</h2>
+                                        </div>
+                                        <!--end::کارت title-->
+                                    </div>
+                                    <!--end::کارت header-->
+                                    <!--begin::کارت body-->
+                                    <div class="card-body pt-0">
+                                        <div>
+                                            <!--begin::Input group-->
+                                            <!--begin::انتخاب2-->
+                                            <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                                                @if($attribute->required == "false")
+                                                    <option value="none" selected="selected">هیچ کدام</option>
+                                                @endif
+                                                @foreach ($attribute->values as $item)
+                                                <option value="{{$item->id}}">{{$item->value}}</option>
+                                                @endforeach
+                                            </select>
+                                            <!--end::انتخاب2-->
+                                            <!--begin::توضیحات-->
+                                            {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}
+                                            <div class="text-muted fs-7 mb-7">{{$attribute->description}}</div>
+                                            <!--end::توضیحات-->
+                                            <!--end::Input group-->
+                                        </div>
+                                    </div>
+                                    <!--end::کارت body-->
+                                </div>
+                            @endif
+                        @endforeach
+                        <!--end::لوپ ویژگی ها-->
+
                         <!--begin::Template settings-->
                         
                         <!--end::Template settings-->

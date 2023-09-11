@@ -6,15 +6,16 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\MultiImg;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
-
-use App\Http\Controllers\Controller;
 
 class VendorProductController extends Controller
 {
@@ -69,7 +70,9 @@ class VendorProductController extends Controller
         $categories = array_reverse($category_hierarchy_arr);
         // end of - recursive function
 
-        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'categories'));
+        $allAttributes = Attribute::get();
+
+        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'categories', 'allAttributes'));
     }
 
     public function VendorStoreProduct(Request $request)
@@ -163,6 +166,21 @@ class VendorProductController extends Controller
             }
         }
 
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }
+        // بخش مدیریت ویژگی ها
+
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
 
@@ -216,8 +234,11 @@ class VendorProductController extends Controller
             }
         }
 
-        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array'));
+        $allAttributes = Attribute::get();
+
+        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
     }
+
     public function VendorUpdateProduct(Request $request)
     {
         $product_id = Purify::clean($request->id);
@@ -384,6 +405,20 @@ class VendorProductController extends Controller
             CategoryProduct::where('product_id', $product_id)->delete();
         }
 
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->sync(Purify::clean($attributes));
+            }
+        }    
+        // بخش مدیریت ویژگی ها
+
         if ($product_verification == 'inactive') {
             return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی و پس از تایید کارشناس منتشر خواهد شد.');
         }
@@ -431,7 +466,9 @@ class VendorProductController extends Controller
             }
         }
 
-        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array'));
+        $allAttributes = Attribute::get();
+
+        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
     }
 
     public function VendorStoreCopyProduct(Request $request)
@@ -534,6 +571,21 @@ class VendorProductController extends Controller
                 ]);
             }
         }
+
+        // بخش مدیریت ویژگی ها
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
+            }
+            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }    
+        // بخش مدیریت ویژگی ها
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }

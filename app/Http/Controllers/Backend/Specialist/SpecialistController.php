@@ -585,16 +585,18 @@ class SpecialistController extends Controller
         }
 
         // بخش مدیریت ویژگی ها
-        $product = Product::find($product_id);
-        $attributes = [];
-        foreach ($request->attribute as $key => $attribute) {
-            if ($attribute["value_id"] != 'none') {
-                $attributes[$key] = $attribute;
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
             }
-        }
-        if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
-            $product->attributes()->attach(Purify::clean($attributes));
-        }
+            if (count($attributes)) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }    
         // بخش مدیریت ویژگی ها
 
         return redirect(route('specialist.all.product'))->with('success', 'محصول مورد نظر با موفقیت ایجاد گردید.');
@@ -638,26 +640,26 @@ class SpecialistController extends Controller
 
         // these lines of code are all for category dropdown select form
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-        $selected_vendor_id_array = explode(",", $products->vendor_id);
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-        foreach ($vendorsName as $vendor_item) {
-            if (in_array($vendor_item->id, $selected_vendor_id_array)) {
-                $selected_vendor_array[] = $vendor_item;
-            } else {
-                $nonselected_vendor_array[] = $vendor_item;
-            }
-        }
 
         $allAttributes = Attribute::get();
 
-        return view('specialist.product.product_edit', compact('specialistData', 'categories', 'vendorsName', 'products', 'selected_category_array', 'nonselected_category_array', 'selected_vendor_array', 'nonselected_vendor_array', 'allAttributes'));
+        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
+        if($products->vendor_id != NULL) {
+            $role = "vendor" ;
+            $vendor_sector = $products->vendor->vendor_sector;
+        } elseif($products->merchant_id != NULL) {
+            $role = "merchant" ;
+            $vendor_sector = NULL;
+        } elseif($products->retailer_id != NULL) {
+            $role = "retailer" ;
+            $vendor_sector = $products->retailer->vendor_sector;
+        } else {
+            $role = $specialistData->role;
+            $vendor_sector = NULL;
+        }
+        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
+
+        return view('specialist.product.product_edit', compact('specialistData', 'categories', 'vendorsName', 'products', 'allAttributes', 'role', 'vendor_sector'));
     }
 
     public function SpecialistUpdateProduct(Request $request)
@@ -811,15 +813,15 @@ class SpecialistController extends Controller
         }
 
         // بخش مدیریت ویژگی ها
-        $attributes = [];
-        foreach ($request->attribute as $key => $attribute) {
-            if ($attribute["value_id"] != 'none') {
-                $attributes[$key] = $attribute;
+        if($request->attribute) {
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
             }
-        }
-        if (User::canUpdateAttribute(Purify::clean($request->attribute))) {
             $product->attributes()->sync(Purify::clean($attributes));
-        }
+        }    
         // بخش مدیریت ویژگی ها
 
         if ($product_verification_changed == true) {
@@ -914,14 +916,14 @@ class SpecialistController extends Controller
                     ['role', '=', "vendor"],
                 ])->get();
 
-        // add search for related users
+        // add search for related users      
         $relatedVendors = [];
         foreach ($VendorStatus as $item) {
             $vendor_sector_arr = explode(",", $item->vendor_sector);
             if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
                 $relatedVendors[] = $item;
             }
-        }
+        }      
         // add search for related users
 
         return view('specialist.users.vendor.activate_account.vendor_status', compact('relatedVendors', 'specialistData'));
@@ -1245,7 +1247,7 @@ class SpecialistController extends Controller
         $products = [];
         foreach ($productsDB as $product) {
             $vendor_sector_arr = explode(",", $product->vendor->vendor_sector);
-            if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
+            if (in_array($specialistData->specialist_category_id, $vendor_sector_arr) && ($product->parent_category_id == $specialistData->specialist_category_id)) {
                 $products[] = $product;
             }
         }
@@ -1262,7 +1264,7 @@ class SpecialistController extends Controller
         $products = [];
         foreach ($productsDB as $product) {
             $retailer_sector_arr = explode(",", $product->retailer->vendor_sector);
-            if (in_array($specialistData->specialist_category_id, $retailer_sector_arr)) {
+            if (in_array($specialistData->specialist_category_id, $retailer_sector_arr) && ($product->parent_category_id == $specialistData->specialist_category_id)) {
                 $products[] = $product;
             }
         }

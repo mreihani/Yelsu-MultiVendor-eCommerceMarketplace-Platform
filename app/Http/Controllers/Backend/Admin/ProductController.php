@@ -171,16 +171,18 @@ class ProductController extends Controller
         }
 
         // بخش مدیریت ویژگی ها
-        $product = Product::find($product_id);
-        $attributes = [];
-        foreach ($request->attribute as $key => $attribute) {
-            if ($attribute["value_id"] != 'none') {
-                $attributes[$key] = $attribute;
+        if($request->attribute) {
+            $product = Product::find($product_id);
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
             }
-        }
-        if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
-            $product->attributes()->attach(Purify::clean($attributes));
-        }
+            if (count($attributes) ) {
+                $product->attributes()->attach(Purify::clean($attributes));
+            }
+        }    
         // بخش مدیریت ویژگی ها
 
         return redirect(route('all.product'))->with('success', 'محصول مورد نظر با موفقیت ایجاد گردید.');
@@ -222,7 +224,23 @@ class ProductController extends Controller
 
         $allAttributes = Attribute::get();
 
-        return view('admin.backend.product.product_edit', compact('adminData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'selected_vendor_array', 'nonselected_vendor_array', 'allAttributes'));
+        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
+        if($products->vendor_id != NULL) {
+            $role = "vendor" ;
+            $vendor_sector = $products->vendor->vendor_sector;
+        } elseif($products->merchant_id != NULL) {
+            $role = "merchant" ;
+            $vendor_sector = NULL;
+        } elseif($products->retailer_id != NULL) {
+            $role = "retailer" ;
+            $vendor_sector = $products->retailer->vendor_sector;
+        } else {
+            $role = $adminData->role;
+            $vendor_sector = NULL;
+        }
+        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
+
+        return view('admin.backend.product.product_edit', compact('adminData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'selected_vendor_array', 'nonselected_vendor_array', 'allAttributes', 'role', 'vendor_sector'));
     }
 
     public function UpdateProduct(Request $request)
@@ -374,15 +392,15 @@ class ProductController extends Controller
         }
 
         // بخش مدیریت ویژگی ها
-        $attributes = [];
-        foreach ($request->attribute as $key => $attribute) {
-            if ($attribute["value_id"] != 'none') {
-                $attributes[$key] = $attribute;
+        if($request->attribute) {
+            $attributes = [];
+            foreach ($request->attribute as $key => $attribute) {
+                if ($attribute["value_id"] != 'none') {
+                    $attributes[$key] = $attribute;
+                }
             }
-        }
-        if (User::canUpdateAttribute(Purify::clean($request->attribute))) {
             $product->attributes()->sync(Purify::clean($attributes));
-        }
+        }    
         // بخش مدیریت ویژگی ها
 
         if ($product_verification_changed == true) {

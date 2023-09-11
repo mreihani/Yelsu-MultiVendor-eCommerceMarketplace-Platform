@@ -376,7 +376,7 @@
                                     <!--begin::کارت header-->
                                     <div class="card-header">
                                         <!--begin::کارت title-->
-                                        <div class="card-title">
+                                        <div class="card-title {{$attribute->required == "true" ? "required" : ""}}">
                                             <h2>{{$attribute->name}}</h2>
                                         </div>
                                         <!--end::کارت title-->
@@ -388,14 +388,17 @@
                                             <!--begin::Input group-->
                                             <!--begin::انتخاب2-->
                                             <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
-                                                <option value="none" selected="selected">هیچ کدام</option>
+                                                @if($attribute->required == "false")
+                                                    <option value="none" selected="selected">هیچ کدام</option>
+                                                @endif
                                                 @foreach ($attribute->values as $item)
-                                                <option value="{{$item->id}}">{{$item->value}}</option>
+                                                    <option value="{{$item->id}}">{{$item->value}}</option>
                                                 @endforeach
                                             </select>
                                             <!--end::انتخاب2-->
                                             <!--begin::توضیحات-->
-                                            <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div>
+                                            {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}
+                                            <div class="text-muted fs-7 mb-7">{{$attribute->description}}</div>
                                             <!--end::توضیحات-->
                                             <!--end::Input group-->
                                         </div>
