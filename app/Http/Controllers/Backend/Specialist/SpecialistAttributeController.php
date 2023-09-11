@@ -33,13 +33,14 @@ class SpecialistAttributeController extends Controller
     public function StoreAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => ['required', 'unique:attributes'],
+            'name' => ['required'],
+            'description' => ['required'],
             'kt_docs_repeater_basic' => ['required', 'array'],
             'role' => ['required', 'array'],
             'category_id' => ['required', 'array'],
         ], [
             'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
-            'name.unique' => 'نام ویژگی قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
+            'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
             'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
             'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
@@ -50,6 +51,8 @@ class SpecialistAttributeController extends Controller
 
         $attribute = Attribute::firstOrCreate([
             'name' => Purify::clean($incomingFields['name']),
+            'description' => Purify::clean($incomingFields['description']),
+            'required' => Purify::clean($request->required) == "on" ? "true" : "false",
             'role' => implode(',', Purify::clean($incomingFields['role'])),
             'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
         ]);
@@ -75,13 +78,15 @@ class SpecialistAttributeController extends Controller
     public function UpdateAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => ['required', Rule::unique('attributes')->ignore($request->id)],
+            'name' => ['required'], 
+            'description' => ['required'],
             'kt_docs_repeater_basic' => ['required', 'array'],
             'role' => ['required', 'array'],
             'category_id' => ['required', 'array'],
         ], [
             'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
             'name.unique' => 'نام ویژگی قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
+            'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
             'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
             'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
@@ -94,6 +99,8 @@ class SpecialistAttributeController extends Controller
 
         $attribute->update([
             'name' => Purify::clean($incomingFields['name']),
+            'description' => Purify::clean($incomingFields['description']),
+            'required' => Purify::clean($request->required) == "on" ? "true" : "false",
             'role' => implode(',', Purify::clean($incomingFields['role'])),
             'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
         ]);

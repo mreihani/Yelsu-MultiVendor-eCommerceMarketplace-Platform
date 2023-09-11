@@ -101,6 +101,42 @@
                             </div>
                             <!--end::کارت header-->
 
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="required mb-1">توضیحات ویژگی</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input type="text" name="description" class="form-control mb-2" placeholder="به عنوان مثال: این ویژگی فقط برای دسته بندی میلگرد آجدار استفاده می شود" value="{{old('description')}}" />
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">ارتباط ویژگی مورد نظر با دسته بندی مرتبط با آن را شرح دهید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                             <!--begin::کارت body-->
+                             <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="requiredAttribute">ویژگی اجباری</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="requiredAttribute" name="required" {{old('required') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">اگر ویژگی مورد نظر باید در صفحه افزودن آگهی حتما انتخاب شود گزینه اجباری را فعال نمایید. به عنوان مثال نوع واحد پولی یک ویژگی اجباری است که کاربر بایستی یکی از موارد را انتخاب نماید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
                             <!--begin::Repeater-->
                             <div id="kt_docs_repeater_basic">
                                 <!--begin::Form group-->

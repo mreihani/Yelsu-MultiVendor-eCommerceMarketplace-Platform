@@ -79,7 +79,7 @@
                         <!--begin::کارت toolbar-->
                         <div class="card-toolbar">
                             <!--begin::Add customer-->
-                            <a href="{{route('add.attribute')}}" class="btn btn-primary">افزودن ویژگی</a>
+                            <a href="{{route('specialist.add.attribute')}}" class="btn btn-primary">افزودن ویژگی</a>
                             <!--end::Add customer-->
                         </div>
                         <!--end::کارت toolbar-->
@@ -92,14 +92,14 @@
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
-                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                    <th class="">ردیف</th>
-                                    <th class="min-w-150px text-center">نام ویژگی</th>
-                                    <th class="min-w-150px text-center">مقادیر ویژگی</th>
-                                    <th class="min-w-150px">حساب کاربری مرتبط</th>
-                                    <th class="min-w-350px">زمینه فعالیت حساب کاربری</th>
-                                    <th class="text-end min-w-70px">عملیات</th>
-                                </tr>
+                                <th class="">ردیف</th>
+                                <th class="min-w-150px text-center">نام ویژگی</th>
+                                <th class="min-w-150px text-center">توضیحات ویژگی</th>
+                                <th class="min-w-150px text-center">مقادیر ویژگی</th>
+                                <th class="min-w-150px">حساب کاربری مرتبط</th>
+                                <th class="min-w-350px">زمینه فعالیت حساب کاربری</th>
+                                <th class="min-w-100px">اجباری یا اختیاری</th>
+                                <th class="text-end min-w-70px">عملیات</th>
                                 <!--end::Table row-->
                             </thead>
                             <!--end::Table head-->
@@ -120,6 +120,16 @@
                                         <div class="ms-5 text-center fw-bold">
                                             <!--begin::Title-->
                                             {{$attribute->name}}
+                                            <!--end::Title-->
+                                        </div>
+                                    </td>
+                                    <!--end::دسته بندی=-->
+
+                                    <!--begin::دسته بندی=-->
+                                    <td>
+                                        <div class="ms-5 text-center fw-bold">
+                                            <!--begin::Title-->
+                                            {{$attribute->description}}
                                             <!--end::Title-->
                                         </div>
                                     </td>
@@ -163,6 +173,22 @@
                                             {{App\Models\Category::find($category_id)->category_name}}
                                         </div>
                                         @endforeach
+                                        <!--end::Badges-->
+                                    </td>
+                                    <!--end:: وضعیت انتشار =-->
+
+                                    <!--begin:: وضعیت انتشار =-->
+                                    <td class="pe-0" data-order="در حال بازبینی">
+                                        <!--begin::Badges-->
+                                        @if($attribute->required == "true")
+                                            <div class="badge badge-light-success">
+                                                اجباری
+                                            </div>
+                                        @else
+                                            <div class="badge badge-light-dark">
+                                                اختیاری
+                                            </div>
+                                        @endif
                                         <!--end::Badges-->
                                     </td>
                                     <!--end:: وضعیت انتشار =-->
