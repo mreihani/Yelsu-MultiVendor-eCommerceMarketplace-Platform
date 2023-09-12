@@ -45,6 +45,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => 'required|confirmed|min:8|max:20',
             'policyAgreement' => 'required',
+            'captcha' => ['required', 'captcha'],
         ], [
             'firstname.required' => 'لطفا نام خود را وارد نمایید.',
             'lastname.required' => 'لطفا نام خانوادگی خود را وارد نمایید.',
@@ -60,6 +61,8 @@ class RegisteredUserController extends Controller
             'password.min' => 'کلمه عبور باید حداقل 8 کاراکتر باشد.',
             'password.max' => 'کلمه عبور باید حداکثر 20 کاراکتر باشد.',
             'policyAgreement.required' => 'لطفا موافقت نامه حفظ حریم خصوصی را تایید فرمایید.',
+            'captcha.required' => 'لطفا عبارت امنیتی را وارد نمایید.',
+            'captcha.captcha' => 'لطفا عبارت امنیتی را به درستی وارد نمایید.',
         ]);
 
         if ($incomingFields->fails()) {

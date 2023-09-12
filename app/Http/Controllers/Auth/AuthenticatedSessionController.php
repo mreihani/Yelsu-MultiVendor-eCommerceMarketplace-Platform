@@ -32,6 +32,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request) : RedirectResponse
     {
+        $incomingFields = $request->validate([
+            'captcha' => ['required', 'captcha'],
+        ], [
+            'captcha.required' => 'لطفا عبارت امنیتی را وارد نمایید.',
+            'captcha.captcha' => 'لطفا عبارت امنیتی را به درستی وارد نمایید.',
+        ]);
 
         if (Purify::clean($request->email) == NULL || ($request->password) == NULL) {
             return redirect('/login')->with('error', 'لطفا اطلاعات ورود را به درستی وارد نمایید.')->withInput();

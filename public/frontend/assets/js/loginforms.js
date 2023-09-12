@@ -72,3 +72,14 @@ $(document).on("click", "#check-driver", function () {
 
     $("#shop_address").slideDown();
 });
+
+// recaptcha reload ajax function
+$(".reload").click(function () {
+    $.ajax({
+        type: "GET",
+        url: "reload-captcha",
+        success: function (data) {
+            $(".captcha").html(data.captcha);
+        },
+    });
+});

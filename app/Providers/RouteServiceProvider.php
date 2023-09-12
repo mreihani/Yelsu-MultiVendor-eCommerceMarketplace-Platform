@@ -64,6 +64,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web'])
                 ->group(base_path('routes/web/geomarketing.php'));
 
+            Route::middleware(['web'])
+                ->group(base_path('routes/web/captcha.php'));    
+
             Route::middleware(['web', 'auth', 'role:admin'])
                 ->prefix('admin')
                 ->group(base_path('routes/web/admin.php'));

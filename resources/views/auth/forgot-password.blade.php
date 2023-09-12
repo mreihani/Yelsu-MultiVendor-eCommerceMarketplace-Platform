@@ -97,6 +97,20 @@
                             <h4 class="alert-title"></h4><i style="color:#50cd89" class="fas fa-check"></i> {{session('success')}}
                         </div>
                     @endif
+                    @if(session()->has('error'))
+                    <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5  mt-5 mb-5">
+                            <h4 class="alert-title" style="color:#ffa800">
+                                <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                                {{session('error')}}
+                    </div>
+                    @endif
+                    @foreach($errors->all() as $error)
+                        <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
+                            <h4 class="alert-title" style="color:#ffa800">
+                                <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                                {{$error}}
+                        </div>
+                    @endforeach
                     <div class="login-popup">  
                         <ul class="nav text-uppercase">                   
                             <li class="nav-item">
@@ -109,7 +123,25 @@
                                 <div class="form-group">
                                     <label>ایمیل *</label>
                                     <input type="email" class="form-control" name="email" required>
-                                </div>                               
+                                </div>   
+
+                                <div class="form-group mb-0">
+                                    <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <input type="text" name="captcha" class="form-control">
+                                        </div>
+                                        <div class="form-group col-lg-2 text-right">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
+                                                <i class="w-icon-return2"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group col-lg-4 text-right captcha">
+                                            {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">بازیابی رمز عبور</button>
                             </form>
                         </div>                                                   
@@ -135,7 +167,7 @@
     <!-- End of Scroll Top -->
 
     <!-- Start of Mobile Menu -->
-    <div class="mobile-menu-wrapper">
+    {{-- <div class="mobile-menu-wrapper">
         <div class="mobile-menu-overlay"></div>
         <!-- End of .mobile-menu-overlay -->
 
@@ -569,7 +601,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End of Mobile Menu -->
 
     <!-- Plugin JS File -->
@@ -579,6 +611,19 @@
 
     <!-- Lightbox JS -->
     <script src="{{asset('frontend/assets/lightbox/src/js/lightbox.js')}}"></script>
+
+    <script>
+    // recaptcha reload ajax function
+    $("#reload").click(function () {
+        $.ajax({
+            type: "GET",
+            url: "reload-captcha",
+            success: function (data) {
+                $(".captcha").html(data.captcha);
+            },
+        });
+    });
+    </script>
 
 </body>
 

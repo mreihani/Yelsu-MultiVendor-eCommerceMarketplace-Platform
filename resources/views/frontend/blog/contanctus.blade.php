@@ -187,6 +187,22 @@
                                         <textarea id="message" name="message" cols="30" rows="5" 
                                             class="form-control">{{old('message')}}</textarea>
                                     </div>
+                                    <div class="form-group mb-5">
+                                        <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
+                                        <div class="row">
+                                            <div class="form-group col-lg-8">
+                                                <input type="text" name="captcha" class="form-control">
+                                            </div>
+                                            <div class="form-group col-lg-1 text-right">
+                                                <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
+                                                    <i class="w-icon-return2"></i>
+                                                </button>
+                                            </div>
+                                            <div class="form-group col-lg-3 text-right captcha">
+                                                {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div>
                                         <button type="submit" class="btn btn-dark btn-rounded">ارسال کنید</button>
                                     </div>
@@ -206,5 +222,16 @@
 </main>
 <!-- End of Main -->
 
+<script>
+    $('#reload').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "reload-captcha",
+            success: function(data) {
+                $('.captcha').html(data.captcha);
+            }
+        });
+    });
+</script>
 
 @endsection

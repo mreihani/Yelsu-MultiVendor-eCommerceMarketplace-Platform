@@ -52,17 +52,19 @@ class BlogController extends Controller
 
     public function emailContactusPage(Request $request)
     {
-
         $incomingFields = $request->validate([
             'name' => 'required',
             'number' => 'required',
             'email' => 'required',
             'message' => 'required',
+            'captcha' => ['required', 'captcha'],
         ], [
             'name.required' => 'لطفا نام و نام خانوادگی خود را وارد نمایید.',
             'number.required' => 'لطفا شماره تلفن خود را وارد نمایید.',
             'email.required' => 'لطفا ایمیل خود را وارد نمایید.',
             'message.required' => 'لطفا پیام خود را وارد نمایید.',
+            'captcha.required' => 'لطفا عبارت امنیتی را وارد نمایید.',
+            'captcha.captcha' => 'لطفا عبارت امنیتی را به درستی وارد نمایید.',
         ]);
 
         $mailable = new Mailable();

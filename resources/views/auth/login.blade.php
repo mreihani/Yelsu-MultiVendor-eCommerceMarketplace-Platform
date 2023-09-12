@@ -133,6 +133,24 @@
                                             <label for="remember">مرا به خاطر بسپار </label>
                                             <a href="{{route('password.request')}}">فراموشی رمز عبور؟</a>
                                         </div>
+
+                                        <div class="form-group mb-0">
+                                            <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
+                                            <div class="row">
+                                                <div class="form-group col-lg-6">
+                                                    <input type="text" name="captcha" class="form-control">
+                                                </div>
+                                                <div class="form-group col-lg-2 text-right">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
+                                                        <i class="w-icon-return2"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-lg-4 text-right captcha">
+                                                    {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                         <button type="submit" class="btn btn-primary">ورود </button>
                                     </form>
                                 </div>
@@ -234,6 +252,24 @@
                                             <input type="checkbox" class="custom-checkbox" id="remember" name="policyAgreement">
                                             <label for="remember" class="font-size-md">با<a  href="{{route('blog.privacyPolicy')}}" class="text-primary font-size-md"> سیاست حفظ حریم خصوصی  </a>موافقم</label>
                                         </div>
+
+                                        <div class="form-group mb-0">
+                                            <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
+                                            <div class="row">
+                                                <div class="form-group col-lg-6">
+                                                    <input type="text" name="captcha" class="form-control">
+                                                </div>
+                                                <div class="form-group col-lg-2 text-right">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
+                                                        <i class="w-icon-return2"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-lg-4 text-right captcha">
+                                                    {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <button type="submit" class="btn btn-primary">عضویت </button>
                                     </form>
                                 </div>

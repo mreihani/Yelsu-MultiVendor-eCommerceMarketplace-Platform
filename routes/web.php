@@ -33,10 +33,4 @@ Route::get('changeDatabase', function () {
     //     $value->save();
     // }
 
-
-
-
-
-
-
 });
