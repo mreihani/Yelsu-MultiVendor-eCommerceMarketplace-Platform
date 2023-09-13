@@ -1,12 +1,11 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
     var petroswiper = new Swiper(".petroCategorySwiper", {
         spaceBetween: 30,
         loop: true,
-        autoplay: { 
+        autoplay: {
             delay: 3000,
         },
-    
+
         // Responsive breakpoints
         breakpoints: {
             // when window width is <= 320px
@@ -26,15 +25,15 @@ $(document).ready(function() {
             },
         },
     });
-    
+
     let petroCategorySwiper = $(".petroCategorySwiper")
         .children("div")
         .eq(0)
         .children("div");
-    
+
     $(document).on("click", ".nav-filterpetro", function (e) {
         let dataFilter = $(this).data("filter");
-    
+
         if (dataFilter != "all_categories_petro") {
             $.each(petroCategorySwiper, function (i, element) {
                 if (element.classList.contains(dataFilter)) {
@@ -43,31 +42,29 @@ $(document).ready(function() {
                     element.style.display = "none";
                 }
             });
-    
+
             petroswiper.autoplay.stop();
             $(".petroCategorySwiper > div").css(
                 "transform",
                 "translate3d(0px, 0px, 0px)"
             );
         }
-    
+
         if (dataFilter == "all_categories_petro") {
             $.each(petroCategorySwiper, function (i, element) {
                 element.style.display = "block";
             });
             petroswiper.autoplay.start();
         }
-
     });
-
 
     var steelswiper = new Swiper(".steelCategorySwiper", {
         spaceBetween: 30,
         loop: true,
-        autoplay: { 
+        autoplay: {
             delay: 3000,
         },
-    
+
         // Responsive breakpoints
         breakpoints: {
             // when window width is <= 320px
@@ -87,17 +84,15 @@ $(document).ready(function() {
             },
         },
     });
-    
-    
-    
+
     let steelCategorySwiper = $(".steelCategorySwiper")
         .children("div")
         .eq(0)
         .children("div");
-    
+
     $(document).on("click", ".nav-filtersteel", function (e) {
         let dataFilter = $(this).data("filter");
-    
+
         if (dataFilter != "all_categories_steel") {
             $.each(steelCategorySwiper, function (i, element) {
                 if (element.classList.contains(dataFilter)) {
@@ -106,14 +101,14 @@ $(document).ready(function() {
                     element.style.display = "none";
                 }
             });
-    
+
             steelswiper.autoplay.stop();
             $(".steelCategorySwiper > div").css(
                 "transform",
                 "translate3d(0px, 0px, 0px)"
             );
         }
-    
+
         if (dataFilter == "all_categories_steel") {
             $.each(steelCategorySwiper, function (i, element) {
                 element.style.display = "block";
@@ -121,14 +116,14 @@ $(document).ready(function() {
             steelswiper.autoplay.start();
         }
     });
-    
+
     var miningswiper = new Swiper(".miningCategorySwiper", {
         spaceBetween: 30,
         loop: true,
-        autoplay: { 
+        autoplay: {
             delay: 3000,
         },
-    
+
         breakpoints: {
             // when window width is <= 320px
             320: {
@@ -147,15 +142,15 @@ $(document).ready(function() {
             },
         },
     });
-    
+
     let miningCategorySwiper = $(".miningCategorySwiper")
         .children("div")
         .eq(0)
         .children("div");
-    
+
     $(document).on("click", ".nav-filtermining", function (e) {
         let dataFilter = $(this).data("filter");
-    
+
         if (dataFilter != "all_categories_mining") {
             $.each(miningCategorySwiper, function (i, element) {
                 if (element.classList.contains(dataFilter)) {
@@ -164,14 +159,14 @@ $(document).ready(function() {
                     element.style.display = "none";
                 }
             });
-    
+
             miningswiper.autoplay.stop();
             $(".miningCategorySwiper > div").css(
                 "transform",
                 "translate3d(0px, 0px, 0px)"
             );
         }
-    
+
         if (dataFilter == "all_categories_mining") {
             $.each(miningCategorySwiper, function (i, element) {
                 element.style.display = "block";
@@ -179,14 +174,14 @@ $(document).ready(function() {
             miningswiper.autoplay.start();
         }
     });
-    
+
     var constructionswiper = new Swiper(".constructionCategorySwiper", {
         spaceBetween: 30,
         loop: true,
-        autoplay: { 
+        autoplay: {
             delay: 3000,
         },
-    
+
         breakpoints: {
             // when window width is <= 320px
             320: {
@@ -205,15 +200,15 @@ $(document).ready(function() {
             },
         },
     });
-    
+
     let constructionCategorySwiper = $(".constructionCategorySwiper")
         .children("div")
         .eq(0)
         .children("div");
-    
+
     $(document).on("click", ".nav-filterconstruction", function (e) {
         let dataFilter = $(this).data("filter");
-    
+
         if (dataFilter != "all_categories_construction") {
             $.each(constructionCategorySwiper, function (i, element) {
                 if (element.classList.contains(dataFilter)) {
@@ -222,14 +217,14 @@ $(document).ready(function() {
                     element.style.display = "none";
                 }
             });
-    
+
             constructionswiper.autoplay.stop();
             $(".constructionCategorySwiper > div").css(
                 "transform",
                 "translate3d(0px, 0px, 0px)"
             );
         }
-    
+
         if (dataFilter == "all_categories_construction") {
             $.each(constructionCategorySwiper, function (i, element) {
                 element.style.display = "block";
@@ -237,12 +232,11 @@ $(document).ready(function() {
             constructionswiper.autoplay.start();
         }
     });
-    
-    
-    setTimeout(function(){
+
+    setTimeout(function () {
         petroswiper.autoplay.start();
-        steelswiper.autoplay.start();
-        miningswiper.autoplay.start();
-        constructionswiper.autoplay.start();
+        // steelswiper.autoplay.start();
+        // miningswiper.autoplay.start();
+        // constructionswiper.autoplay.start();
     }, 1500);
 });

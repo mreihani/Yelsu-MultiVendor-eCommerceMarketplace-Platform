@@ -33,36 +33,46 @@ class AdminAttributeController extends Controller
     public function StoreAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => ['required'],
-            'description' => ['required'],
-            'kt_docs_repeater_basic' => ['required', 'array'],
+            'name' => 'required',
+            'description' => 'required',
             'role' => ['required', 'array'],
             'category_id' => ['required', 'array'],
+            'attribute_type' => 'required',
         ], [
             'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
             'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
-            'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
-            'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
             'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
             'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
             'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
+            'attribute_type.required' => 'لطفا نوع ویژگی را وارد نمایید.',
         ]);
 
+        if($request->kt_docs_repeater_basic[0]["value"] == null && $request->attribute_type == "dropdown") {
+            return back()->with('error','لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.')->withInput();
+        }
+        
         $attribute = Attribute::firstOrCreate([
             'name' => Purify::clean($incomingFields['name']),
             'description' => Purify::clean($incomingFields['description']),
             'required' => Purify::clean($request->required) == "on" ? "true" : "false",
             'role' => implode(',', Purify::clean($incomingFields['role'])),
             'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
+            'attribute_type' =>  Purify::clean($incomingFields['attribute_type']),
         ]);
 
-        foreach ($incomingFields['kt_docs_repeater_basic'] as $value) {
+        if($incomingFields['attribute_type'] == "dropdown") {
+            foreach ($request->kt_docs_repeater_basic as $value) {
+                $attribute->values()->firstOrCreate([
+                    'value' => Purify::clean($value['value'])
+                ]);
+            }
+        } else {
             $attribute->values()->firstOrCreate([
-                'value' => Purify::clean($value['value'])
+                'value' => Purify::clean($request->value)
             ]);
         }
-
+        
         return redirect(route('all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت ایجاد گردید.');
     }
 
@@ -78,22 +88,24 @@ class AdminAttributeController extends Controller
     public function UpdateAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => ['required'], 
-            'description' => ['required'],
-            'kt_docs_repeater_basic' => ['required', 'array'],
+            'name' => 'required',
+            'description' => 'required',
             'role' => ['required', 'array'],
             'category_id' => ['required', 'array'],
+            'attribute_type' => 'required',
         ], [
             'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
-            'name.unique' => 'نام ویژگی قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
             'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
-            'kt_docs_repeater_basic.required' => 'لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.',
-            'kt_docs_repeater_basic.array' => 'لطفا مشخصات صحیح ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
             'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
             'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
             'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
+            'attribute_type.required' => 'لطفا نوع ویژگی را وارد نمایید.',
         ]);
+
+        if($request->kt_docs_repeater_basic[0]["value"] == null && $request->attribute_type == "dropdown") {
+            return back()->with('error','لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.')->withInput();
+        }
 
         $attribute = Attribute::find(Purify::clean(($request->id)));
 
@@ -103,13 +115,20 @@ class AdminAttributeController extends Controller
             'required' => Purify::clean($request->required) == "on" ? "true" : "false",
             'role' => implode(',', Purify::clean($incomingFields['role'])),
             'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
+            'attribute_type' =>  Purify::clean($incomingFields['attribute_type']),
         ]);
 
         $attribute->values()->delete();
 
-        foreach ($incomingFields['kt_docs_repeater_basic'] as $value) {
+        if($incomingFields['attribute_type'] == "dropdown") {
+            foreach ($request->kt_docs_repeater_basic as $value) {
+                $attribute->values()->firstOrCreate([
+                    'value' => Purify::clean($value['value'])
+                ]);
+            }
+        } else {
             $attribute->values()->firstOrCreate([
-                'value' => Purify::clean($value['value'])
+                'value' => Purify::clean($request->value)
             ]);
         }
 

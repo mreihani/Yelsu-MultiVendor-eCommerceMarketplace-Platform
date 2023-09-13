@@ -235,7 +235,7 @@
 
                                             <div class="d-flex">
                                                 <input class="form-check-input" type="radio" name="check_user_type" id="check-freightage" {{old('check_user_type') == 5 ? 'checked' : ''}} value="5"/>
-                                                <label class="form-check-label ml-1" for="check-freightage">من باربری هستم</label>
+                                                <label class="form-check-label ml-1" for="check-freightage">من شرکت حمل و نقل / باربری هستم</label>
                                             </div>
 
                                             <div class="d-flex">

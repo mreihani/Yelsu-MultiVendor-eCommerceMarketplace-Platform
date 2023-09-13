@@ -76,6 +76,13 @@
                         {{$error}}
                 </div>
             @endforeach
+            @if(session()->has('error'))
+                <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
+                    <h4 class="alert-title" style="color:#ffa800">
+                        <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                        {{session('error')}}
+                </div>
+            @endif
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl col-xl-8">
                 <form method="post" action="{{route('update.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
@@ -86,19 +93,19 @@
                         <div class="card card-flush py-5">
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
-                                    <!--begin::Input group-->
-                                    <div class="fv-row">
-                                        <!--begin::Tags-->
-                                        <label class="required mb-1">نام ویژگی</label>
-                                        <!--end::Tags-->
-                                        <!--begin::Input-->
-                                        <input type="text" name="name" class="form-control mb-2" placeholder="نام ویژگی مورد نظر را وارد نمایید. به عنوان مثال رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('name', $attribute->name)}}" />
-                                        <!--end::Input-->
-                                        <!--begin::توضیحات-->
-                                        <div class="text-muted fs-7">نام ویژگی مورد نیاز است و توصیه می شود منحصر به فرد باشد.</div>
-                                        <!--end::توضیحات-->
-                                    </div>
-                                    <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="required mb-1">نام ویژگی</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input type="text" name="name" class="form-control mb-2" placeholder="نام ویژگی مورد نظر را وارد نمایید. به عنوان مثال رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('name', $attribute->name)}}" />
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">نام ویژگی مورد نیاز است و توصیه می شود منحصر به فرد باشد.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
                             </div>
                             <!--end::کارت header-->
 
@@ -138,8 +145,37 @@
                             </div>
                             <!--end::کارت header-->
 
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="mb-2" for="requiredAttribute">نوع ویژگی</label>
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <div class="d-flex">
+                                            <!--begin::رادیو-->
+                                            <div class="form-check form-check-custom form-check-solid me-5">
+                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_type" id="attribute_type_dropdown" {{$attribute->attribute_type == "dropdown" ? "checked" : ""}}>
+                                                <label class="form-check-label" for="attribute_type_dropdown">از پیش تعریف شده</label>
+                                            </div>
+                                            <div class="form-check form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_type" id="attribute_type_input_field" {{$attribute->attribute_type == "input_field" ? "checked" : ""}}>
+                                                <label class="form-check-label" for="attribute_type_input_field">ورودی دلخواه</label>
+                                            </div>
+                                            <!--end::رادیو-->
+                                        </div>
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">با انتخاب گزینه از پیش تعریف شده، کاربر فقط می تواند یکی از مواردی که در سامانه ثبت شده را انتخاب کند. با انتخاب ورودی دلخواه، کاربر هر مقداری که در نظر دارد را می تواند از طریق یک فرم ورودی به سامانه وارد نماید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
                             <!--begin::Repeater-->
-                            <div id="kt_docs_repeater_basic">
+                            <div id="kt_docs_repeater_basic" style="{{$attribute->attribute_type == "input_field" ? "display:none" : ""}}">
                                 <!--begin::Form group-->
                                 <div class="form-group card-body">
                                     <label class="required">لطفا جزئیات ویژگی را مشخص نمایید. به عنوان مثال اگر رنگ را مد نظر دارید، به ترتیب آبی، قرمز، زرد و ... را از طریق دکمه افزودن جزئیات ویژگی وارد کنید.</label>
@@ -148,7 +184,7 @@
                                             <div data-repeater-item>
                                                 <div class="form-group row mt-4">
                                                     <div class="col-md-10">
-                                                        <input type="text" name="value" value="{{$value->value}}" class="form-control mb-2 mb-md-0" placeholder="مشخصات یا جزئیات ویژگی مورد نظر" />
+                                                        <input type="text" name="value" value="{{$attribute->attribute_type == "dropdown" ? $value->value : ''}}" class="form-control mb-2 mb-md-0" placeholder="مشخصات یا جزئیات ویژگی مورد نظر" />
                                                     </div>
                                                     <div class="col-md-2 d-flex justify-content-end align-items-center">
                                                         <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
@@ -173,6 +209,29 @@
                             </div>
                             <!--end::Repeater-->
 
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0 input-field" style="{{$attribute->attribute_type == "dropdown" ? "display:none" : ""}}">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="mb-1">مقدار ویژگی</label>
+                                    <!--end::Tags-->
+
+                                    <!--begin::Input-->
+                                    @if($attribute->attribute_type == "input_field" && $attribute->values[0]->value)
+                                        <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید." value={{$attribute->values[0]->value}}  />
+                                    @else
+                                        <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید." value="" />
+                                    @endif
+                                    <!--end::Input-->
+
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">اگر مقدار پیشفرضی وجود ندارد، این فیلد را خالی بگذارید تا کاربر مربوطه عدد مورد نظر خود را موقع تعریف محصول وارد نماید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -261,76 +320,19 @@
 </div>
 <!--end:::Main-->
 
-
-
-
-
-<!--begin::Repeater-->
-
-<!--begin::سفارشی Javascript(used for this page only)-->
-{{-- <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
-<!--end::سفارشی Javascript-->
-
-
 <script>
-    $('#kt_docs_repeater_basic').repeater({
-        initEmpty: false,
-
-        show: function () {
-            $(this).slideDown();
-        },
-
-        hide: function (deleteElement) {
-            $(this).slideUp(deleteElement);
+    $("input[name='attribute_type']").on('click', function(e) {
+        if(e.target.value == "input_field") {
+            $("#kt_docs_repeater_basic").toggle();
+            $(".input-field").toggle();
+        } else if(e.target.value == "dropdown") {
+            $("#kt_docs_repeater_basic").toggle();
+            $(".input-field").toggle();
         }
     });
 </script>
 
+<script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
-
-<script>
-    "use strict";
-
-// Class definition
-var KTFormRepeaterBasic = function () {
-    // Private functions
-    var example1 = function () {
-        $('#kt_docs_repeater_basic').repeater({
-            initEmpty: false,
-
-            defaultValues: {
-                'text-input': 'foo'
-            },
-
-            show: function () {
-                $(this).slideDown();
-            },
-
-            hide: function (deleteElement) {
-                $(this).slideUp(deleteElement);
-            }
-        });
-    }
-
-    return {
-        // Public Functions
-        init: function () {
-            example1();
-        }
-    };
-}();
-
-// On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormRepeaterBasic.init();
-});
-</script>
-<!--end::Repeater-->
-
 
 @endsection
