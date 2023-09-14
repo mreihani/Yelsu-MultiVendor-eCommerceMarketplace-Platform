@@ -95,11 +95,12 @@
                                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                     <th class="">ردیف</th>
                                     <th class="min-w-150px text-center">نام ویژگی</th>
-                                    <th class="min-w-150px text-center">توضیحات ویژگی</th>
-                                    <th class="min-w-150px text-center">مقادیر ویژگی</th>
-                                    <th class="min-w-150px">حساب کاربری مرتبط</th>
+                                    <th class="text-center">توضیحات ویژگی</th>
+                                    <th class="text-center">مقادیر ویژگی</th>
+                                    <th class="">حساب کاربری مرتبط</th>
                                     <th class="min-w-350px">زمینه فعالیت حساب کاربری</th>
-                                    <th class="min-w-100px">اجباری یا اختیاری</th>
+                                    <th class="">نوع ویژگی</th>
+                                    <th class="">اجباری یا اختیاری</th>
                                     <th class="text-end min-w-70px">عملیات</th>
                                 </tr>
                                 <!--end::Table row-->
@@ -175,6 +176,22 @@
                                             {{App\Models\Category::find($category_id)->category_name}}
                                         </div>
                                         @endforeach
+                                        <!--end::Badges-->
+                                    </td>
+                                    <!--end:: وضعیت انتشار =-->
+
+                                    <!--begin:: وضعیت انتشار =-->
+                                    <td class="pe-0" data-order="در حال بازبینی">
+                                        <!--begin::Badges-->
+                                        @if($attribute->attribute_type == "dropdown")
+                                            <div class="badge badge-light-success">
+                                                از پیش تعریف شده
+                                            </div>
+                                        @else
+                                            <div class="badge badge-light-primary">
+                                                ورودی دلخواه
+                                            </div>
+                                        @endif
                                         <!--end::Badges-->
                                     </td>
                                     <!--end:: وضعیت انتشار =-->

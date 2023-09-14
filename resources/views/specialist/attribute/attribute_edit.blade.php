@@ -155,11 +155,11 @@
                                         <div class="d-flex">
                                             <!--begin::رادیو-->
                                             <div class="form-check form-check-custom form-check-solid me-5">
-                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_type" id="attribute_type_dropdown" {{$attribute->attribute_type == "dropdown" ? "checked" : ""}}>
+                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_type" id="attribute_type_dropdown" {{$attribute->attribute_type == "dropdown" ? "checked" : ""}} @disabled(true)>
                                                 <label class="form-check-label" for="attribute_type_dropdown">از پیش تعریف شده</label>
                                             </div>
                                             <div class="form-check form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_type" id="attribute_type_input_field" {{$attribute->attribute_type == "input_field" ? "checked" : ""}}>
+                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_type" id="attribute_type_input_field" {{$attribute->attribute_type == "input_field" ? "checked" : ""}} @disabled(true)>
                                                 <label class="form-check-label" for="attribute_type_input_field">ورودی دلخواه</label>
                                             </div>
                                             <!--end::رادیو-->
@@ -167,7 +167,7 @@
                                     </div>
                                     <!--end::Tags-->
                                     <!--begin::توضیحات-->
-                                    <div class="mt-2 text-muted fs-7">با انتخاب گزینه از پیش تعریف شده، کاربر فقط می تواند یکی از مواردی که در سامانه ثبت شده را انتخاب کند. با انتخاب ورودی دلخواه، کاربر هر مقداری که در نظر دارد را می تواند از طریق یک فرم ورودی به سامانه وارد نماید.</div>
+                                    
                                     <!--end::توضیحات-->
                                 </div>
                                 <!--end::Input group-->
@@ -208,30 +208,6 @@
                                 <!--end::Form group-->
                             </div>
                             <!--end::Repeater-->
-
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0 input-field" style="{{$attribute->attribute_type == "dropdown" ? "display:none" : ""}}">
-                                <!--begin::Input group-->
-                                <div class="fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="mb-1">مقدار ویژگی</label>
-                                    <!--end::Tags-->
-
-                                    <!--begin::Input-->
-                                    @if($attribute->attribute_type == "input_field" && $attribute->values[0]->value)
-                                        <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید." value={{$attribute->values[0]->value}}  />
-                                    @else
-                                        <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید." value="" />
-                                    @endif
-                                    <!--end::Input-->
-
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">اگر مقدار پیشفرضی وجود ندارد، این فیلد را خالی بگذارید تا کاربر مربوطه عدد مورد نظر خود را موقع تعریف محصول وارد نماید.</div>
-                                    <!--end::توضیحات-->
-                                </div>
-                                <!--end::Input group-->
-                            </div>
-                            <!--end::کارت header-->
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -321,13 +297,11 @@
 <!--end:::Main-->
 
 <script>
-    $("input[name='attribute_type']").on('click', function(e) {
-        if(e.target.value == "input_field") {
+    $("input[name='attribute_type']").on('change', function(e) {
+        if(e.target.value == "dropdown") {
             $("#kt_docs_repeater_basic").toggle();
-            $(".input-field").toggle();
-        } else if(e.target.value == "dropdown") {
+        } else {
             $("#kt_docs_repeater_basic").toggle();
-            $(".input-field").toggle();
         }
     });
 </script>

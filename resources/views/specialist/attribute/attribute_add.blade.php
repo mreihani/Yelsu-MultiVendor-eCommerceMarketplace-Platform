@@ -206,24 +206,6 @@
                             </div>
                             <!--end::Repeater-->
 
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0 input-field" style="display: none;">
-                                <!--begin::Input group-->
-                                <div class="fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="mb-1">مقدار ویژگی</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید."/>
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">اگر مقدار پیشفرضی وجود ندارد، این فیلد را خالی بگذارید تا کاربر مربوطه عدد مورد نظر خود را موقع تعریف محصول وارد نماید.</div>
-                                    <!--end::توضیحات-->
-                                </div>
-                                <!--end::Input group-->
-                            </div>
-                            <!--end::کارت header-->
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group card-body ">
@@ -313,13 +295,11 @@
 <!--end:::Main-->
 
 <script>
-    $("input[name='attribute_type']").on('click', function(e) {
-        if(e.target.value == "input_field") {
+    $("input[name='attribute_type']").on('change', function(e) {
+        if(e.target.value == "dropdown") {
             $("#kt_docs_repeater_basic").toggle();
-            $(".input-field").toggle();
-        } else if(e.target.value == "dropdown") {
+        } else {
             $("#kt_docs_repeater_basic").toggle();
-            $(".input-field").toggle();
         }
     });
 </script>

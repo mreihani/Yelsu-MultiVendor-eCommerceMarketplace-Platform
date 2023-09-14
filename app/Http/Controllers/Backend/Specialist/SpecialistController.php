@@ -588,13 +588,16 @@ class SpecialistController extends Controller
         if($request->attribute) {
             $product = Product::find($product_id);
             $attributes = [];
-            foreach ($request->attribute as $key => $attribute) {
-                if ($attribute["value_id"] != 'none') {
-                    $attributes[$key] = $attribute;
+            foreach (Purify::clean($request->attribute) as $key => $attribute) {
+                $attribute_in_loop = Attribute::find($key);
+                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
+                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
                 }
             }
-            if (count($attributes)) {
-                $product->attributes()->attach(Purify::clean($attributes));
+            if (count($attributes) ) {
+                $product->attributes()->attach($attributes);
             }
         }    
         // بخش مدیریت ویژگی ها
@@ -814,13 +817,20 @@ class SpecialistController extends Controller
 
         // بخش مدیریت ویژگی ها
         if($request->attribute) {
+            $product = Product::find($product_id);
             $attributes = [];
-            foreach ($request->attribute as $key => $attribute) {
-                if ($attribute["value_id"] != 'none') {
-                    $attributes[$key] = $attribute;
+            foreach (Purify::clean($request->attribute) as $key => $attribute) {
+                $attribute_in_loop = Attribute::find($key);
+                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
+                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
                 }
             }
-            $product->attributes()->sync(Purify::clean($attributes));
+            $product->attributes()->detach();
+            if (count($attributes) ) {
+                $product->attributes()->sync($attributes);
+            }
         }    
         // بخش مدیریت ویژگی ها
 

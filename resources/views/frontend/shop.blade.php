@@ -128,8 +128,8 @@
                 style="background-image: url({{asset('frontend/assets/images/yelsu_images/dynamic_category_banner/home_applicances.jpg')}});">
                 
                 <div class="container banner-content d-flex">
-                    <a href="https://t.me/yelsu_com7">
-                        <p class="telegram_channel"><img width="20" src="{{asset('frontend/assets/images/yelsu_images/social_media/telegram.png')}}" alt="یلسو"/>کانال ماشین آلات جاده ای و کشاورزی</p>
+                    <a href="https://t.me/yelsu_com">
+                        <p class="telegram_channel"><img width="20" src="{{asset('frontend/assets/images/yelsu_images/social_media/telegram.png')}}" alt="یلسو"/>کانال دکوراسیون و لوازم خانگی</p>
                     </a>
                 </div>
             </div>     
