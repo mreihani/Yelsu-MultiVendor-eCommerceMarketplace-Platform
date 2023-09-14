@@ -109,15 +109,14 @@
                         <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li class="nav-item">
-                                    <a href="#sign-in" class="nav-link active">ورود </a>
+                                    <a href="{{URL::to('/login')}}" class="login-register-buttons active">ورود </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#sign-up" class="nav-link">ثبت نام</a>
+                                    <a href="{{URL::to('/register')}}" class="login-register-buttons">ثبت نام</a>
                                 </li>
                             </ul>
-               
                             <div class="tab-content">                   
-                                <div class="tab-pane active" id="sign-in">
+                                <div class="tab-pane active">
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="form-group">
@@ -154,128 +153,7 @@
                                         <button type="submit" class="btn btn-primary">ورود </button>
                                     </form>
                                 </div>
-                                
-                                <div class="tab-pane" id="sign-up">
-                                    <form method="POST" action="{{ route('register') }}">
-                                    @csrf
-                                        <div class="form-group mb-5">
-                                            <label>نام شرکت / فروشگاه (اختیاری برای مشتری / خریدار)</label>
-                                            <input type="text" class="form-control" name="shop_name" id="shop-name" value={{old('shop_name')}}>
-                                        </div>
-                                        <div class="form-group mb-5">
-                                            <label>نام *</label>
-                                            <input type="text" class="form-control" name="firstname" id="first-name" value={{old('firstname')}}>
-                                        </div>
-                                        <div class="form-group mb-5">
-                                            <label> نام خانوادگی  *</label>
-                                            <input type="text" class="form-control" name="lastname" id="last-name" value={{old('lastname')}}>
-                                        </div>
-                                        <div class="form-group mb-5">
-                                            <label>نام کاربری  * (لاتین و حداقل 5 کاراکتر)</label>
-                                            <input type="text" class="form-control" name="username" id="user-name" value={{old('username')}}>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>آدرس ایمیل شما  *</label>
-                                            <input type="text" class="form-control" name="email" id="email_1" value={{old('email')}}>
-                                        </div>
-                                        {{-- <div class="form-group mb-5">
-                                            <label> تلفن  *</label>
-                                            <input type="text" class="form-control" name="home_phone" id="phone-number">
-                                        </div> --}}
-                                        <div class="form-group mb-5">
-                                            <label>رمز عبور (حداقل 8 کاراکتر) *</label>
-                                            <input type="password" class="form-control" name="password" id="password_1">
-                                        </div>
-                                        <div class="form-group mb-5">
-                                            <label>تکرار رمز عبور *</label>
-                                            <input type="password" class="form-control" name="password_confirmation" id="password_1">
-                                        </div>
-
-                                        <div class="form-group mb-5" style="display: none;" id="shop_address">
-                                            <label>آدرس دفتر مرکزی *</label>
-                                            <input type="text" class="form-control" name="shop_address" id="shop-url" value={{old('shop_address')}}>
-                                        </div>
-
-                                        <div class="checkbox-content login-vendor">
-                                            @if ($parentCategories->count())
-                                            <div class="form-group mb-5">
-                                                <label>زمینه فعالیت *</label>
-                                                @foreach ($parentCategories as $category)
-                                                    <li class="filterButtonShopPage rootCat list-style-none">
-                                                        <input type="checkbox" name="vendor_sector[]" value="{{$category->id}}">
-                                                        <a href="{{route('shop.category',['id'=> $category->id])}}">
-                                                            {{$category->category_name}}
-                                                        </a> 
-                                                    </li>
-                                                @endforeach
-                                            </div>
-                                            @endif
-                                        </div>
-                                        
-                                        <div class="form-check user-checkbox mb-4">
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-customer" {{old('check_user_type') == 1 ? 'checked' : ''}} {{old('check_user_type') ? '' : 'checked'}} value="1"/>
-                                                <label class="form-check-label ml-1" for="check-customer">من مشتری / خریدار هستم</label>
-                                            </div>
-                                            
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-seller" {{old('check_user_type') == 2 ? 'checked' : ''}} value="2"/>
-                                                <label class="form-check-label ml-1" for="check-seller">من تولید کننده / تأمین کننده هستم</label>
-                                            </div>
-                                            
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-merchant" {{old('check_user_type') == 3 ? 'checked' : ''}} value="3"/>
-                                                <label class="form-check-label ml-1" for="check-merchant">من بازرگان / ترخیص کار هستم</label>
-                                            </div>
-
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-retailer" {{old('check_user_type') == 4 ? 'checked' : ''}} value="4"/>
-                                                <label class="form-check-label ml-1" for="check-retailer">من عمده فروش / خرده فروش هستم</label>
-                                            </div>
-
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-freightage" {{old('check_user_type') == 5 ? 'checked' : ''}} value="5"/>
-                                                <label class="form-check-label ml-1" for="check-freightage">من شرکت حمل و نقل / باربری هستم</label>
-                                            </div>
-
-                                            <div class="d-flex">
-                                                <input class="form-check-input" type="radio" name="check_user_type" id="check-driver" {{old('check_user_type') == 6 ? 'checked' : ''}} value="6"/>
-                                                <label class="form-check-label ml-1" for="check-driver">من راننده هستم</label>
-                                            </div>
-
-                                        </div>
-                                        <p>
-                                            اطلاعات شخصی شما محرمانه تلقی و بر اساس سیاست حفاظت از حریم خصوصی، نگهداری می‌شود. ما آن‌ها را نه منتشر خواهیم کرد و نه در اختیار دیگر مراجع خواهیم گذاشت.
-                                        </p>
-                                       
-                                        <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
-                                            <input type="checkbox" class="custom-checkbox" id="remember" name="policyAgreement">
-                                            <label for="remember" class="font-size-md">با<a  href="{{route('blog.privacyPolicy')}}" class="text-primary font-size-md"> سیاست حفظ حریم خصوصی  </a>موافقم</label>
-                                        </div>
-
-                                        <div class="form-group mb-0">
-                                            <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
-                                            <div class="row">
-                                                <div class="form-group col-lg-6">
-                                                    <input type="text" name="captcha" class="form-control">
-                                                </div>
-                                                <div class="form-group col-lg-2 text-right">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
-                                                        <i class="w-icon-return2"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="form-group col-lg-4 text-right captcha">
-                                                    {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">عضویت </button>
-                                    </form>
-                                </div>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>

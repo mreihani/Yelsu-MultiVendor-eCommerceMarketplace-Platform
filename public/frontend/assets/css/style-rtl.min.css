@@ -3558,7 +3558,12 @@ h6 {
     letter-spacing: 0;
 }
 
-.tab-content h1, .tab-content h2, .tab-content h3, .tab-content h4, .tab-content h5, .tab-content h6 {
+.tab-content h1,
+.tab-content h2,
+.tab-content h3,
+.tab-content h4,
+.tab-content h5,
+.tab-content h6 {
     font-weight: 300;
 }
 
@@ -8727,7 +8732,7 @@ input:-internal-autofill-selected {
     box-shadow: none;
     outline: 0;
 }
-.form-control::placeholder  {
+.form-control::placeholder {
     color: #999 !important;
 }
 .form-control::-webkit-input-placeholder {
@@ -23016,7 +23021,7 @@ td {
 
 /* Start -  Encom Galexy page CSS */
 #encomGalaxygPage .page-header {
-    background-size: cover; 
+    background-size: cover;
     background-repeat: no-repeat;
 }
 
@@ -23033,11 +23038,10 @@ td {
 }
 /* End -  Encom Galexy page CSS */
 
-
 /* Start - order processing steps in single shop page CSS */
 .orderProcessingSteps .processingContainer {
-    display:flex;
-    flex-wrap:wrap;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -23054,9 +23058,9 @@ td {
 
 /* Start - fix mobile extra padding in shop banner CSS */
 .shop-default-banner {
-    background-color: #fff; 
+    background-color: #fff;
     background-size: contain;
-    margin-bottom:30px;
+    margin-bottom: 30px;
 }
 
 .shop-default-banner .banner-content {
@@ -23065,12 +23069,11 @@ td {
 
 @media screen and (max-width: 800px) {
     .shop-default-banner {
-        padding:0;
-        margin-bottom:0;
+        padding: 0;
+        margin-bottom: 0;
     }
 }
 /* End -  fix mobile extra padding in shop banner CSS */
-
 
 /* Start - fix megamenu */
 .megamenu {
@@ -23097,8 +23100,6 @@ td {
 }
 /* End -  change mobile menu background color */
 
-
-
 /* Start - telegram channel css for shop top banner */
 .shop-default-banner .banner-content {
     position: static;
@@ -23116,7 +23117,6 @@ td {
 
 .shop-default-banner .banner-content .telegram_channel img {
     width: 24px;
-    
 }
 
 @media screen and (max-width: 1750px) {
@@ -23151,13 +23151,11 @@ td {
 }
 /* End -  telegram channel css for shop top banner */
 
-
 /* Start -  change call text color for zero priced products */
 .product-price:hover a {
-    color:#336699;
+    color: #336699;
 }
 /* END OF -  change call text color for zero priced products */
-
 
 /* Start - oil and petro instuction css for single product page */
 .oil-instruction a {
@@ -23169,17 +23167,15 @@ td {
 }
 /* END OF - oil and petro instuction css for single product page */
 
-
 /* Start - oil and petro instuction css for single product page */
 .single-page-product-variation {
     font-size: 14px;
 }
 /* END OF - oil and petro instuction css for single product page */
 
-
 /* single product page attributes like measurement css */
 .measurement-color-static {
-    color:black;
+    color: black;
     font-weight: bolder;
 }
 
@@ -23188,7 +23184,6 @@ td {
     font-weight: bolder;
 }
 /* single product page attributes like measurement css */
-
 
 /* footer custom css */
 .footer-flex-class {
@@ -23202,13 +23197,12 @@ td {
     width: 220px;
 }
 .flex-col {
-    margin-top:20px;
+    margin-top: 20px;
 }
 .footer-flex-class .social-media-col {
     max-width: 30%;
 }
 /* footer custom css */
-
 
 /* Start - Galaxy Petrol page CSS */
 #galaxyPetrolPage p {
@@ -23222,7 +23216,6 @@ td {
 
 /* End - Galaxy Petrol page CSS */
 
-
 /* Start - Fix single page tiny mce bullet issue */
 .main-content .tab-content ul {
     padding: revert;
@@ -23231,19 +23224,16 @@ td {
 }
 /* End - Fix single page tiny mce bullet issue */
 
-
 /* Start - Fix product single page description width issue */
 .product-tabs .tab-content {
     width: 100%;
 }
 /* End - Fix product single page description width issue */
 
-
 /* chat starter form custom css */
 /* .chatBox, .chatInput {
     background-color: #f2f2f2;;
 } */
-
 
 .chatStartForm {
     border: 2px solid rgba(0, 0, 0, 0.2);
@@ -23285,11 +23275,10 @@ td {
 
 .chatStartForm .invalidForm {
     border-color: red;
-    color:red;
+    color: red;
     display: block;
 }
 /* chat starter form custom css */
-
 
 /* Start - privacy policy page CSS */
 #privacyPolicyPage .container {
@@ -23305,7 +23294,6 @@ td {
     color: #336699;
 }
 /* End - privacy policy page CSS */
-
 
 /* Start - vendor all custom CSS */
 .store-content .store-title a {
@@ -23341,7 +23329,6 @@ td {
 }
 /* End - vendor all custom CSS */
 
-
 /* leaflet vendor page custom styles */
 #map {
     height: 750px;
@@ -23354,13 +23341,13 @@ td {
 }
 /* leaflet vendor page custom styles */
 
-
 /* leaflet shop page custom styles */
 .leafletPopupInfo {
     text-align: right;
 }
-.leafletPopupInfo a, .leafletPopupInfo p {
-    font-family: 'yekan';
+.leafletPopupInfo a,
+.leafletPopupInfo p {
+    font-family: "yekan";
 }
 .leafletPopupInfo a {
     color: white !important;
@@ -23402,7 +23389,6 @@ td {
 }
 /* leaflet shop page custom styles */
 
-
 /* vendor all page custom styles */
 @media (max-width: 768px) {
     .store-content .store-title a {
@@ -23417,16 +23403,41 @@ td {
 }
 /* shop page dropdown width css */
 
-
 /* change shop page mega menu font size */
 .dropdown-box .megamenu a {
-   font-size: 11px;
+    font-size: 11px;
 }
 /* change shop page mega menu font size */
-
 
 /* money laundring law page */
 .moneyLaundering p {
     text-align: justify;
 }
 /* money laundring law page */
+
+/* login and register page button css */
+.login-register-buttons {
+    padding: 1.3rem 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+    position: relative;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 0;
+    border: 0;
+    padding: 1.5rem 2.85rem;
+}
+.login-register-buttons.active {
+    border-bottom: solid 2px #336699;
+}
+.login-register-buttons:hover {
+    border-bottom: solid 2px #336699;
+    color: #336699;
+}
+/* login / register page button css */

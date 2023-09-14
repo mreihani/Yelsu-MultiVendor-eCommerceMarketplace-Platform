@@ -107,55 +107,15 @@
                         <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li class="nav-item">
-                                    <a href="#sign-in" class="nav-link">ورود </a>
+                                    <a href="{{URL::to('/login')}}" class="login-register-buttons">ورود </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#sign-up" class="nav-link active">ثبت نام</a>
+                                    <a href="{{URL::to('/register')}}" class="login-register-buttons active">ثبت نام</a>
                                 </li>
                             </ul>
 
-                            
                             <div class="tab-content">
-                                
-                                <div class="tab-pane" id="sign-in">
-                                    <form method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label>ایمیل *</label>
-                                            <input type="email" class="form-control" name="email" id="username" value={{old('email')}}>
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            <label>رمز عبور *</label>
-                                            <input type="password" class="form-control" name="password" id="password">
-                                        </div>
-                                        <div class="form-checkbox d-flex align-items-center justify-content-between">
-                                            <input type="checkbox" class="custom-checkbox" id="remember" name="remember">
-                                            <label for="remember">مرا به خاطر بسپار </label>
-                                            <a href="{{route('password.request')}}">فراموشی رمز عبور؟</a>
-                                        </div>
-
-                                        <div class="form-group mb-0">
-                                            <label for="message">عبارت امنیتی داخل تصویر را وارد نمایید *</label>
-                                            <div class="row">
-                                                <div class="form-group col-lg-6">
-                                                    <input type="text" name="captcha" class="form-control">
-                                                </div>
-                                                <div class="form-group col-lg-2 text-right">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-rounded reload" id="reload">
-                                                        <i class="w-icon-return2"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="form-group col-lg-4 text-right captcha">
-                                                    {!! captcha_img(env("MEWEBSTUDIO_CAPTCHA", "default")) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <button type="submit" class="btn btn-primary">ورود </button>
-                                    </form>
-                                </div>
-                                
-                                <div class="tab-pane active" id="sign-up">
+                                <div class="tab-pane active">
                                     <form method="POST" action="{{ route('register') }}">
                                     @csrf
                                         <div class="form-group mb-5">
@@ -274,8 +234,6 @@
                                     </form>
                                 </div>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>
