@@ -70,6 +70,7 @@ $(document).on("click", "#check-driver", function () {
     $("#check-customer").removeClass("active");
     $("#check-freightage").removeClass("active");
 
+    $(".login-vendor").slideUp();
     $("#shop_address").slideDown();
 });
 

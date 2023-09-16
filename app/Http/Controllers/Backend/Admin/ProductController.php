@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
-use App\Models\Attribute;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\MultiImg;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
+use App\Rules\AttributeIsRequired;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
-
-use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -87,12 +88,14 @@ class ProductController extends Controller
 
     public function StoreProduct(Request $request)
     {
+        
         $incomingFields = $request->validate([
             'product_thumbnail' => 'required',
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => 'required'
+            'selling_price' => 'required',
+            'attribute' => new AttributeIsRequired()
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
@@ -254,7 +257,8 @@ class ProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')->ignore($product_id)],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
-            'selling_price' => 'required'
+            'selling_price' => 'required',
+            'attribute' => new AttributeIsRequired()
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',

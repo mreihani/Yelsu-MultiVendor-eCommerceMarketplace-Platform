@@ -23,7 +23,7 @@
     tinymce.init({
         selector: '#category_description',
         plugins: "directionality image link table media lists",
-        toolbar: "undo redo | styleselect | bold italic underline | link image alignleft aligncenter alignright ltr rtl numlist bullist | fontsize",
+        toolbar: "undo redo | styleselect | bold italic underline | link image alignleft aligncenter alignright ltr rtl numlist bullist | fontsizeinput | forecolor backcolor",
         directionality: "rtl",
         relative_urls: false,
         remove_script_host: false,

@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
+use App\Rules\AttributeIsRequired;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
@@ -22,8 +23,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
-use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\File as LaravelFile;
@@ -503,7 +504,8 @@ class SpecialistController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => 'required'
+            'selling_price' => 'required',
+            'attribute' => new AttributeIsRequired()
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
@@ -673,7 +675,8 @@ class SpecialistController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')->ignore($product_id)],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
-            'selling_price' => 'required'
+            'selling_price' => 'required',
+            'attribute' => new AttributeIsRequired()
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',

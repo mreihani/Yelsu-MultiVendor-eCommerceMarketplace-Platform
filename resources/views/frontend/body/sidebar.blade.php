@@ -21,7 +21,7 @@
                             <img width="45px" src = "{{asset($parentCategory->category_image)}}" alt="{{$parentCategory->category_name}}"/> {{$parentCategory->category_name}}
                             <span class="submenu-toggle-btn"></span>
                         </a>
-                        @include("frontend.body.layout.megamenu." . $parentCategory->id)
+                        @includeIf("frontend.body.layout.megamenu." . $parentCategory->id)
                     </li>
                     @endforeach
                 </ul>

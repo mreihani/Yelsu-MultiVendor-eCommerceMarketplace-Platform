@@ -622,14 +622,6 @@
     <!-- Lightbox JS -->
     <script src="{{asset('frontend/assets/lightbox/src/js/lightbox.js')}}"></script>
 
-    @if(old('check_user_type') == 2 || old('check_user_type') == 3 || old('check_user_type') == 4 || old('check_user_type') == 5 || old('check_user_type') == 6)  
-        <script>$("#shop_address").show();</script>
-    @endif
-    
-    @if(old('check_user_type') == 2 || old('check_user_type') == 4 || old('check_user_type') == 5) 
-        <script>$('.login-vendor').show();</script>
-    @endif
-
     <script src="{{asset('frontend/assets/js/loginforms.js')}}"></script>
 
 </body>

@@ -113,7 +113,7 @@ class SpecialistAttributeController extends Controller
 
         $attribute->values()->delete();
 
-        if($request->attribute_type == "dropdown") {
+        if($attribute->attribute_type == "dropdown") {
             foreach ($request->kt_docs_repeater_basic as $value) {
                 $attribute->values()->firstOrCreate([
                     'value' => Purify::clean($value['value'])
