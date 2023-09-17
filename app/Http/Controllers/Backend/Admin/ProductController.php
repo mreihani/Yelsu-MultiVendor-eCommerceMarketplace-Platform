@@ -88,7 +88,6 @@ class ProductController extends Controller
 
     public function StoreProduct(Request $request)
     {
-        
         $incomingFields = $request->validate([
             'product_thumbnail' => 'required',
             'category_id' => 'required',

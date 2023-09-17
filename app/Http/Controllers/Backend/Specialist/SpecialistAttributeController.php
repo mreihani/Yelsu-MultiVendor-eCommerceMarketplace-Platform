@@ -25,9 +25,14 @@ class SpecialistAttributeController extends Controller
     public function AddAttribute()
     {
         $specialistData = auth()->user();
-        $parentCategories = Category::where('parent', 0)->get();
 
-        return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories'));
+        // category for filter
+        $parentCategories = $specialistData->specialist_category;
+        $all_children = Category::find($parentCategories->id)->child;
+        $filter_category_array[] = array($parentCategories, $all_children);
+        // category for filter
+
+        return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories', 'filter_category_array'));
     }
 
     public function StoreAttribute(Request $request)
@@ -82,7 +87,13 @@ class SpecialistAttributeController extends Controller
         $parentCategories = Category::where('parent', 0)->get();
         $attribute = Attribute::find(Purify::clean($id));
 
-        return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute'));
+        // category for filter
+        $parentCategories = $specialistData->specialist_category;
+        $all_children = Category::find($parentCategories->id)->child;
+        $filter_category_array[] = array($parentCategories, $all_children);
+        // category for filter
+
+        return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
     }
 
     public function UpdateAttribute(Request $request)

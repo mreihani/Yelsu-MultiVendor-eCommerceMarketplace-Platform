@@ -1,6 +1,6 @@
 @foreach ($categories as $key => $category)
    
-    @if(in_array($category->id, $vendor_sector_cat_arr_selected))
+    @if(in_array($category->id, explode(",",$attribute->category_id)))
         <li class="filterButtonShopPage list-style-none">
             @if($category->relatedChild->count()) 
                 <input @checked(true) type="checkbox" name="category_id[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
@@ -21,7 +21,7 @@
     @if($category->relatedChild->count()) 
     <!--begin::Table row Children-->
     <div class="mb-1 subCatGroup" style="margin-right: 30px;">
-        @include('vendor.outlets.layouts.edit-categories-group', ['categories' => $category->child])  
+        @include('admin.body.layouts.edit-categories-group', ['categories' => $category->child])  
     </div>
     <!--end::Table row Children-->
     @endif

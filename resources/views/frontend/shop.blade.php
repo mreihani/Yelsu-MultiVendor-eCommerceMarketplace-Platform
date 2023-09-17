@@ -377,7 +377,7 @@
                                         <li class="filterButtonShopPage rootCat">
                                             <input type="checkbox" name="category_{{$category[0]->id}}" value="{{$category[0]->id}}" {{in_array($category[0]->id, $inputArray) ? 'checked' : ''}}> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                         </li>
-                                        <div class="subCategoryBtn">
+                                        <div class="subCategoryBtn subCatGroup">
                                             @include('frontend.body.layout.shop-page-filter.categories-group', ['categories' => $category[1]])
                                         </div>
                                     @endforeach

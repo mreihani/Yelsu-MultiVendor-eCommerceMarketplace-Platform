@@ -27,7 +27,16 @@ class AdminAttributeController extends Controller
         $adminData = auth()->user();
         $parentCategories = Category::where('parent', 0)->get();
 
-        return view('admin.backend.attribute.attribute_add', compact('adminData', 'parentCategories'));
+        // category for filter
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+
+        }
+        // category for filter
+
+        return view('admin.backend.attribute.attribute_add', compact('adminData', 'parentCategories', 'filter_category_array'));
     }
 
     public function StoreAttribute(Request $request)
@@ -82,7 +91,16 @@ class AdminAttributeController extends Controller
         $parentCategories = Category::where('parent', 0)->get();
         $attribute = Attribute::find(Purify::clean($id));
 
-        return view('admin.backend.attribute.attribute_edit', compact('adminData', 'parentCategories', 'attribute'));
+        // category for filter
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+
+        }
+        // category for filter
+
+        return view('admin.backend.attribute.attribute_edit', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array'));
     }
 
     public function UpdateAttribute(Request $request)

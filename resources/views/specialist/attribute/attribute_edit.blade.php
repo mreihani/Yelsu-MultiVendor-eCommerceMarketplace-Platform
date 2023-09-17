@@ -253,14 +253,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group card-body ">
                                         <label class="required">لطفا ارتباط ویژگی با زمینه فعالیت حساب کاربری مدنظر (کارشناس، تأمین کننده، عمده یا خرده فروش) را انتخاب نمایید.</label>
-                                        @foreach ($parentCategories as $parentCategory)
-                                            <div class="form-check form-check-custom form-check-solid mt-2">
-                                                <input name="category_id[]" class="form-check-input" type="checkbox" value="{{$parentCategory->id}}" id="form_checkbox" {{in_array($parentCategory->id, explode(',', $attribute->category_id)) ? 'checked' : ''}} />
-                                                <label class="form-check-label" for="form_checkbox">
-                                                    {{$parentCategory->category_name}}
-                                                </label>
-                                            </div>
-                                        @endforeach
+                                        <ul class="list-style-none mt-4">
+                                            @foreach ($filter_category_array as $category)
+                                                <li class="filterButtonShopPage rootCat">
+                                                    @if(in_array($category[0]->id, explode(",",$attribute->category_id)))
+                                                        <input @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    @else
+                                                        <input type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    @endif
+                                                </li>
+                                                <div class="subCategoryBtn">
+                                                    @include('specialist.body.layouts.edit-categories-group', ['categories' => $category[1]])
+                                                </div>
+                                            @endforeach
+                                        </ul>    
                                     </div>
                                 </div>
                             </div>
@@ -308,5 +314,6 @@
 
 <script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/categoryFilterAttribute.js')}}"></script>
 
 @endsection

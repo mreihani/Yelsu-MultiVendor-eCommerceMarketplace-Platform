@@ -347,14 +347,19 @@
                                         <div>
                                             <!--begin::Input group-->
                                             <!--begin::انتخاب2-->
-                                            <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
-                                                @if($attribute->required == "false")
-                                                    <option value="none" selected="selected">هیچ کدام</option>
-                                                @endif
-                                                @foreach ($attribute->values as $item)
-                                                <option value="{{$item->id}}">{{$item->value}}</option>
-                                                @endforeach
-                                            </select>
+                                            @if($attribute->attribute_type == "dropdown")
+                                                <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                                                    @if($attribute->required == "false")
+                                                        <option value="none" selected="selected">هیچ کدام</option>
+                                                    @endif
+                                                    @foreach ($attribute->values as $item)
+                                                        <option value="{{$item->id}}">{{$item->value}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <input type="text" name="attribute[{{$attribute->id}}][value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
+                                                <input type="hidden" name="attribute[{{$attribute->id}}][value_id]" value="{{$attribute->values[0]->id}}">
+                                            @endif
                                             <!--end::انتخاب2-->
                                             <!--begin::توضیحات-->
                                             {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}

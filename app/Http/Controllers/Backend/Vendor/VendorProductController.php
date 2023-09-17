@@ -10,10 +10,11 @@ use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
+use App\Rules\AttributeIsRequired;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
 
+use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
 
@@ -82,7 +83,8 @@ class VendorProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => ['required', 'numeric']
+            'selling_price' => ['required', 'numeric'],
+            'attribute' => new AttributeIsRequired()
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'product_thumbnail.image' => 'لطفا فایل JPG یا PNG بارگذاری نمایید.',
@@ -170,15 +172,18 @@ class VendorProductController extends Controller
         if($request->attribute) {
             $product = Product::find($product_id);
             $attributes = [];
-            foreach ($request->attribute as $key => $attribute) {
-                if ($attribute["value_id"] != 'none') {
-                    $attributes[$key] = $attribute;
+            foreach (Purify::clean($request->attribute) as $key => $attribute) {
+                $attribute_in_loop = Attribute::find($key);
+                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
+                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
                 }
             }
-            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
-                $product->attributes()->attach(Purify::clean($attributes));
+            if (count($attributes) ) {
+                $product->attributes()->attach($attributes);
             }
-        }
+        }    
         // بخش مدیریت ویژگی ها
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
@@ -247,7 +252,8 @@ class VendorProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')->ignore($product_id)],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
-            'selling_price' => ['required', 'numeric']
+            'selling_price' => ['required', 'numeric'],
+            'attribute' => new AttributeIsRequired()
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -407,14 +413,19 @@ class VendorProductController extends Controller
 
         // بخش مدیریت ویژگی ها
         if($request->attribute) {
+            $product = Product::find($product_id);
             $attributes = [];
-            foreach ($request->attribute as $key => $attribute) {
-                if ($attribute["value_id"] != 'none') {
-                    $attributes[$key] = $attribute;
+            foreach (Purify::clean($request->attribute) as $key => $attribute) {
+                $attribute_in_loop = Attribute::find($key);
+                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
+                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
                 }
             }
-            if (User::canUpdateAttribute(Purify::clean($request->attribute))) {
-                $product->attributes()->sync(Purify::clean($attributes));
+            $product->attributes()->detach();
+            if (count($attributes) ) {
+                $product->attributes()->sync($attributes);
             }
         }    
         // بخش مدیریت ویژگی ها
@@ -478,7 +489,8 @@ class VendorProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => ['required', 'numeric']
+            'selling_price' => ['required', 'numeric'],
+            'attribute' => new AttributeIsRequired()
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -576,13 +588,16 @@ class VendorProductController extends Controller
         if($request->attribute) {
             $product = Product::find($product_id);
             $attributes = [];
-            foreach ($request->attribute as $key => $attribute) {
-                if ($attribute["value_id"] != 'none') {
-                    $attributes[$key] = $attribute;
+            foreach (Purify::clean($request->attribute) as $key => $attribute) {
+                $attribute_in_loop = Attribute::find($key);
+                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
+                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
+                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
                 }
             }
-            if (count($attributes) && User::canUpdateAttribute(Purify::clean($request->attribute))) {
-                $product->attributes()->attach(Purify::clean($attributes));
+            if (count($attributes) ) {
+                $product->attributes()->attach($attributes);
             }
         }    
         // بخش مدیریت ویژگی ها

@@ -11,7 +11,7 @@
     @if($category->relatedChild->count()) 
         <!--begin::Table row Children-->
         <div class="mb-1 subCatGroup" style="margin-right: 30px;">
-            @include('vendor.outlets.layouts.categories-group', ['categories' => $category->child])    
+            @include('specialist.body.layouts.categories-group', ['categories' => $category->child])    
         </div>
         <!--end::Table row Children-->
     @endif

@@ -97,7 +97,7 @@
                                 <th class="text-center">توضیحات ویژگی</th>
                                 <th class="text-center">مقادیر ویژگی</th>
                                 <th class="">حساب کاربری مرتبط</th>
-                                <th class="min-w-350px">زمینه فعالیت حساب کاربری</th>
+                                {{-- <th class="min-w-350px">زمینه فعالیت حساب کاربری</th> --}}
                                 <th class="">نوع ویژگی</th>
                                 <th class="">اجباری یا اختیاری</th>
                                 <th class="text-end min-w-70px">عملیات</th>
@@ -167,7 +167,7 @@
                                     <!--end::دسته بندی اصلی=-->
 
                                     <!--begin:: وضعیت انتشار =-->
-                                    <td class="pe-0" data-order="در حال بازبینی">
+                                    {{-- <td class="pe-0" data-order="در حال بازبینی">
                                         <!--begin::Badges-->
                                         @foreach (explode(',', $attribute->category_id) as $category_id)
                                         <div class="badge badge-light-primary">
@@ -175,7 +175,7 @@
                                         </div>
                                         @endforeach
                                         <!--end::Badges-->
-                                    </td>
+                                    </td> --}}
                                     <!--end:: وضعیت انتشار =-->
 
                                     <!--begin:: وضعیت انتشار =-->

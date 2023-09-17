@@ -210,10 +210,10 @@
                         </div>
                         <div class="swiper-slide member-wrap">
                             <figure class="br-lg">
-                                <img src="{{url('storage/upload/no_image.jpg')}}" alt="Member" width="295" height="332" />
+                                <img src="{{url('frontend/assets/images/pages/about_us/morteza-mohammadi.jpg')}}" alt="Member" width="295" height="332" />
                             </figure> 
                             <div class="member-info text-center">
-                                <h4 class="member-name mt-5 mb-0">کامبیز دورنما</h4>
+                                <h4 class="member-name mt-5 mb-0">مرتضی محمدی</h4>
                                 <p class="text-uppercase">عضو هیئت مدیره</p>
                             </div>
                         </div>
