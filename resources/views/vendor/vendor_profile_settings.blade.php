@@ -429,21 +429,20 @@
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        @if ($parentCategories->count())
-                                            <div class="form-group mb-5">
-                                                @foreach ($parentCategories as $category)
-                                                    @if(in_array($category->id, $vendor_sector_cat_id_arr))
-                                                        <li class="filterButtonShopPage rootCat list-style-none mt-5">
-                                                            <input type="checkbox" name="vendor_sector[]" value="{{$category->id}}" @checked(true)> {{$category->category_name}} 
-                                                        </li>
+                                        <ul class="list-style-none">
+                                            @foreach ($filter_category_array as $category)
+                                                <li class="filterButtonShopPage rootCat">
+                                                    @if(in_array($category[0]->id, $vendor_sector_cat_arr_selected))
+                                                        <input @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                     @else
-                                                        <li class="filterButtonShopPage rootCat list-style-none mt-5">
-                                                            <input type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> {{$category->category_name}} 
-                                                        </li>
+                                                        <input type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                     @endif
-                                                @endforeach
-                                            </div>
-                                            @endif
+                                                </li>
+                                                <div class="subCategoryBtn">
+                                                    @include('vendor.body.layouts.vendor_category.edit-categories-group', ['categories' => $category[1]])
+                                                </div>
+                                            @endforeach
+                                        </ul>    
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -541,6 +540,8 @@
         }
     });
 </script>
+
+<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
 
 @endsection
 

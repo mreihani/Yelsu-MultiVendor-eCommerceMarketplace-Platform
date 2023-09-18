@@ -21,6 +21,7 @@ class SpecialistAttributeController extends Controller
         $attributes = [];
         foreach ($rawAttributes as $attribute) {
             $root_categories_array = Category::findRootCategoryArray(explode(",", $attribute->category_id));
+           
             if(in_array($specialistData->specialist_category_id, $root_categories_array->pluck("id")->toArray())) {
                 $attributes[] = $attribute;
             }

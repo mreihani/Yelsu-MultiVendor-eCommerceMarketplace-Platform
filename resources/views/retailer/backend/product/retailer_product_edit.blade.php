@@ -346,7 +346,7 @@
                         <!--end::دسته بندی & tags-->
                         <!--begin::لوپ ویژگی ها-->
                         @foreach ($allAttributes as $attribute)
-                        @if(in_array($retailerData->role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($retailerData->vendor_sector, $attribute->category_id))
+                        @if(in_array($retailerData->role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($attribute->category_id, $retailerData->vendor_sector))
                                 <div class="card card-flush py-4">
                                     <!--begin::کارت header-->
                                     <div class="card-header">

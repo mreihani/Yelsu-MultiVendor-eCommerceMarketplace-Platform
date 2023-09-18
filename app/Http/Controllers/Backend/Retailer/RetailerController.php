@@ -62,13 +62,16 @@ class RetailerController extends Controller
 
         $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
 
-        $retailer_sector_arr = explode(",", $retailerData->vendor_sector);
-        $retailer_sector_cat_id_arr = [];
-        foreach ($retailer_sector_arr as $retailer_sector_item) {
-            $retailer_sector_cat_id_arr[] = Category::find($retailer_sector_item)->id;
+        // category for filter
+        $retailer_sector_cat_arr_selected =  explode(",", $retailerData->vendor_sector);
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
         }
+        // category for filter
 
-        return view('retailer.retailer_profile_settings', compact('retailerData', 'parentCategories', 'retailer_sector_cat_id_arr'));
+        return view('retailer.retailer_profile_settings', compact('retailerData', 'parentCategories', 'filter_category_array', 'retailer_sector_cat_arr_selected'));
     } //End method
 
     public function RetailerProfileStore(Request $request)
@@ -983,17 +986,13 @@ class RetailerController extends Controller
         $retailerData = User::find($id);
 
         $retailer_sector_arr = explode(",", $retailerData->vendor_sector);
-        $retailer_sector_cat_arr = [];
-        foreach ($retailer_sector_arr as $retailer_sector_item) {
-            $retailer_sector_cat_arr[] = Category::find($retailer_sector_item);
-        }
-
+        $retailer_sector_cat_arr = Category::findRootCategoryArray($retailer_sector_arr);
+        
         // category for filter
         $filter_category_array = [];
         foreach ($retailer_sector_cat_arr as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
         // category for filter
 
@@ -1072,17 +1071,13 @@ class RetailerController extends Controller
         $outlet = Retaileroutlet::find(Purify::clean($outlet_id));
 
         $retailer_sector_arr = explode(",", $retailerData->vendor_sector);
-
-        foreach ($retailer_sector_arr as $retailer_sector_item) {
-            $retailer_sector_cat_arr[] = Category::find($retailer_sector_item);
-        }
-
+        $retailer_sector_cat_arr = Category::findRootCategoryArray($retailer_sector_arr);
+        
         // category for filter
         $filter_category_array = [];
         foreach ($retailer_sector_cat_arr as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
         // category for filter
 

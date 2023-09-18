@@ -93,6 +93,7 @@ class Category extends Model
         }
         $root_catgory_obj_array[] = $root_catgory_obj;
     }
+    
     $root_catgory_obj_array = array_unique($root_catgory_obj_array);
     return $root_catgory_obj_collection = collect($root_catgory_obj_array);
   }

@@ -20,11 +20,8 @@ class OutletController extends Controller
         $vendorData = User::find($id);
 
         $vendor_sector_arr = explode(",", $vendorData->vendor_sector);
-        $vendor_sector_cat_arr = [];
-        foreach ($vendor_sector_arr as $vendor_sector_item) {
-            $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
-        }
-
+        $vendor_sector_cat_arr = Category::findRootCategoryArray($vendor_sector_arr);
+        
         // category for filter
         $filter_category_array = [];
         foreach ($vendor_sector_cat_arr as $parentCategory) {
@@ -104,10 +101,7 @@ class OutletController extends Controller
         $vendorData = User::find($id);
 
         $vendor_sector_arr = explode(",", $vendorData->vendor_sector);
-
-        foreach ($vendor_sector_arr as $vendor_sector_item) {
-            $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
-        }
+        $vendor_sector_cat_arr = Category::findRootCategoryArray($vendor_sector_arr);
 
         // category for filter
         $filter_category_array = [];

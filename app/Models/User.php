@@ -92,13 +92,13 @@ class User extends Authenticatable
         return true;
     }
 
-    public function scopeCanVendorSeeAttribute($query, $vendor_sector, $category_id)
+    public function scopeCanVendorSeeAttribute($query, $category_id, $vendor_sector)
     {
         if($vendor_sector == NULL) {
             return true;
         }
-        foreach (explode(',', $vendor_sector) as $vendor_sector_item) {
-            if(in_array($vendor_sector_item, explode(',', $category_id))) {
+        foreach (explode(',', $category_id) as $category_id_item) {
+            if(in_array($category_id_item, explode(',', $vendor_sector))) {
                 return true;
             }
         }

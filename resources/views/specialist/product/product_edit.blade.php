@@ -382,7 +382,7 @@
 
                         <!--begin::لوپ ویژگی ها-->
                         @foreach ($allAttributes as $attribute)
-                            @if(in_array($role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($vendor_sector, $attribute->category_id))
+                            @if(in_array($role, explode(',', $attribute->role)) && in_array($specialistData->specialist_category_id, App\Models\Category::findRootCategoryArray(explode(",", $attribute->category_id))->pluck('id')->toArray()))
                                 <div class="card card-flush py-4">
                                     <!--begin::کارت header-->
                                     <div class="card-header">

@@ -371,7 +371,7 @@
 
                         <!--begin::لوپ ویژگی ها-->
                         @foreach ($allAttributes as $attribute)
-                            @if(in_array($specialistData->role, explode(',',$attribute->role)) && in_array($specialistData->specialist_category_id, explode(',',$attribute->category_id)))
+                            @if(in_array($specialistData->role, explode(',', $attribute->role)) && in_array($specialistData->specialist_category_id, App\Models\Category::findRootCategoryArray(explode(",", $attribute->category_id))->pluck('id')->toArray()))
                                 <div class="card card-flush py-4">
                                     <!--begin::کارت header-->
                                     <div class="card-header">

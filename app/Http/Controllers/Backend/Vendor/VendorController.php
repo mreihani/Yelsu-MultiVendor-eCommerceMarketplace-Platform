@@ -63,13 +63,16 @@ class VendorController extends Controller
 
         $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
 
-        $vendor_sector_arr = explode(",", $vendorData->vendor_sector);
-        $vendor_sector_cat_id_arr = [];
-        foreach ($vendor_sector_arr as $vendor_sector_item) {
-            $vendor_sector_cat_id_arr[] = Category::find($vendor_sector_item)->id;
+        // category for filter
+        $vendor_sector_cat_arr_selected =  explode(",", $vendorData->vendor_sector);
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
         }
+        // category for filter
 
-        return view('vendor.vendor_profile_settings', compact('vendorData', 'parentCategories', 'vendor_sector_cat_id_arr'));
+        return view('vendor.vendor_profile_settings', compact('vendorData', 'parentCategories', 'filter_category_array', 'vendor_sector_cat_arr_selected'));
     } //End method
 
     public function VendorProfileStore(Request $request)
