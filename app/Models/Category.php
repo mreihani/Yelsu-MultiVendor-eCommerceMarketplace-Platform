@@ -77,4 +77,24 @@ class Category extends Model
     return $root_catgory_obj;
   }
 
+  // با استفاده از این متد، اگر یک آرایه از ای دی دسته بندی بدی، بهت روت اش رو برمیگردونه، استاتیک هم هست
+  public function scopeFindRootCategoryArray($query, $category_id_array) {
+    $root_catgory_obj_array = [];
+    $categories = $this->latest()->get();
+    foreach ($category_id_array as $category_id) {
+        $category_by_id = $this->find($category_id);
+        foreach ($categories as $categoryItem) {
+            if ($category_by_id->parent == 0) {
+              $root_catgory_obj = $category_by_id;
+              break;
+            } else {
+              $category_by_id = $this->find($category_by_id->parent);
+            }
+        }
+        $root_catgory_obj_array[] = $root_catgory_obj;
+    }
+    $root_catgory_obj_array = array_unique($root_catgory_obj_array);
+    return $root_catgory_obj_collection = collect($root_catgory_obj_array);
+  }
+
 }

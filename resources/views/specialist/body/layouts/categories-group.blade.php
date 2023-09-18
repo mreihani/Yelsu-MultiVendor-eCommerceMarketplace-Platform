@@ -2,9 +2,9 @@
     
     <li class="filterButtonShopPage list-style-none">
         @if($category->relatedChild->count()) 
-            <input type="checkbox" name="category_id[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
+            <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
         @else
-            <input type="checkbox" name="category_id[]" value="{{$category->id}}"> {{$category->category_name}} 
+            <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category->id}}"> {{$category->category_name}} 
         @endif
     </li>
 

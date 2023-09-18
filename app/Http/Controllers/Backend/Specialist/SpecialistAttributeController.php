@@ -17,8 +17,15 @@ class SpecialistAttributeController extends Controller
     public function AllAttribute()
     {
         $specialistData = auth()->user();
-        $attributes = Attribute::get();
-
+        $rawAttributes = Attribute::get();
+        $attributes = [];
+        foreach ($rawAttributes as $attribute) {
+            $root_categories_array = Category::findRootCategoryArray(explode(",", $attribute->category_id));
+            if(in_array($specialistData->specialist_category_id, $root_categories_array->pluck("id")->toArray())) {
+                $attributes[] = $attribute;
+            }
+        }
+        
         return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
     }
 
@@ -92,6 +99,12 @@ class SpecialistAttributeController extends Controller
         $all_children = Category::find($parentCategories->id)->child;
         $filter_category_array[] = array($parentCategories, $all_children);
         // category for filter
+
+        // عدم دسترسی به ویژگی غیر مرتبط با کارشناس غیر مرتبط
+        $root_categories_array = Category::findRootCategoryArray(explode(",", $attribute->category_id));
+        if(!in_array($specialistData->specialist_category_id, $root_categories_array->pluck("id")->toArray())) {
+            return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
+        }
 
         return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
     }

@@ -53,6 +53,20 @@
                     <h4 class="alert-title"></h4><i style="color:#50cd89" class="fas fa-check"></i> {{session('success')}}
                 </div>
             @endif
+            @if(session()->has('error'))
+                <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
+                    <h4 class="alert-title" style="color:#ffa800">
+                        <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                        {{session('error')}}
+                </div>
+            @endif
+            @foreach($errors->all() as $error)
+                <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
+                    <h4 class="alert-title" style="color:#ffa800">
+                        <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                        {{$error}}
+                </div>
+            @endforeach
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <!--begin::دسته بندی-->

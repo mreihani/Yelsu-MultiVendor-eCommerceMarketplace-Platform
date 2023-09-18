@@ -99,7 +99,7 @@
         <hr class="divider">
         <ul>
             <li><a href="{{route('shop.category',['id'=> 182])}}">دستگاه خطی کار</a></li>
-            <li><a href="{{route('shop.category',['id'=> 183])}}">دستگاه دریف کار</a></li>
+            <li><a href="{{route('shop.category',['id'=> 183])}}">دستگاه ردیف کار</a></li>
             <li><a href="{{route('shop.category',['id'=> 184])}}">دستگاه نشاکار</a></li>
         </ul>
 

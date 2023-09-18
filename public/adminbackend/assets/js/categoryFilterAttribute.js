@@ -56,6 +56,6 @@ $(document).on("click", ".filterButtonShopPage .fa", function (e) {
 
 // برای بسته بودن منوها هنگام بارگذاری اولیه
 $(document).ready(function () {
-    $("div.subCategoryBtn").hide();
+    //$("div.subCategoryBtn").hide();
     $("li.filterButtonShopPage").next("div.subCatGroup").hide();
 });
