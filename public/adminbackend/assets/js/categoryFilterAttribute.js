@@ -55,7 +55,39 @@ $(document).on("click", ".filterButtonShopPage .fa", function (e) {
 });
 
 // برای بسته بودن منوها هنگام بارگذاری اولیه
-$(document).ready(function () {
-    //$("div.subCategoryBtn").hide();
-    $("li.filterButtonShopPage").next("div.subCatGroup").hide();
-});
+$("div.subCategoryBtn").hide();
+$("li.filterButtonShopPage").next("div.subCatGroup").hide();
+// برای باز شدن منوهای تیک خورده
+$("li.showChecked").parents("div.subCatGroup").show();
+$("li.showChecked").parents("div.subCategoryBtn").show();
+
+$("li.showChecked").parents("div.subCatGroup").parents(".fa.fa-plus").hide();
+$("li.showChecked").parents("div.subCategoryBtn").parents(".fa.fa-plus").hide();
+
+// برای چک باکس های باز شده نزدیک مورد
+$("li.showChecked")
+    .parents("div.subCatGroup")
+    .prev("li.filterButtonShopPage")
+    .find(".fa.fa-plus")
+    .hide();
+$("li.showChecked")
+    .parents("div.subCatGroup")
+    .prev("li.filterButtonShopPage")
+    .find(".fa.fa-minus")
+    .show();
+
+// برای چک باکس های باز شده روت
+$("li.showChecked")
+    .parents("div.subCatGroup")
+    .prev("li.filterButtonShopPage")
+    .closest(".subCategoryBtn")
+    .prev("li.filterButtonShopPage")
+    .find(".fa.fa-plus")
+    .hide();
+$("li.showChecked")
+    .parents("div.subCatGroup")
+    .prev("li.filterButtonShopPage")
+    .closest(".subCategoryBtn")
+    .prev("li.filterButtonShopPage")
+    .find(".fa.fa-minus")
+    .show();

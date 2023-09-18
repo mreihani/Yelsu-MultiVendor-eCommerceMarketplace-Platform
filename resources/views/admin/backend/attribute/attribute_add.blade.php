@@ -253,7 +253,7 @@
                                         <ul class="list-style-none mt-4">
                                             @foreach ($filter_category_array as $category)
                                                 <li class="filterButtonShopPage rootCat">
-                                                    <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus" style="display: none;"></i><i class="fa fa-minus"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                 </li>
                                                 <div class="subCategoryBtn">
                                                     @include('admin.body.layouts.categories-group', ['categories' => $category[1]])
