@@ -61,9 +61,6 @@ $("li.filterButtonShopPage").next("div.subCatGroup").hide();
 $("li.showChecked").parents("div.subCatGroup").show();
 $("li.showChecked").parents("div.subCategoryBtn").show();
 
-$("li.showChecked").parents("div.subCatGroup").parents(".fa.fa-plus").hide();
-$("li.showChecked").parents("div.subCategoryBtn").parents(".fa.fa-plus").hide();
-
 // برای چک باکس های باز شده نزدیک مورد
 $("li.showChecked")
     .parents("div.subCatGroup")

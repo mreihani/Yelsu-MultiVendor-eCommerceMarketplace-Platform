@@ -191,118 +191,13 @@
                         </div>
                         <!--end::وضعیت-->
 
-                        <!--begin::واحد پولی-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>واحد پولی</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="currency" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_currency_select">
-                                    <option value="toman" selected="selected">تومان</option>
-                                    <option value="dollar">دلار</option>    
-                                    <option value="euro">یورو</option>    
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">واحد پولی محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::واحد پولی-->
-
-                        <!--begin::واحد اندازه گیری-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>واحد اندازه گیری</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="measurement" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_currency_select">
-                                    <option value="none" selected="selected">هیچ کدام</option>
-                                    <option value="number">عدد</option>    
-                                    <option value="ton">تن</option>    
-                                    <option value="barrel">بشکه</option>    
-                                    <option value="kg">کیلوگرم</option>    
-                                    <option value="gr">گرم</option>    
-                                    <option value="carat">قیراط</option>    
-                                    <option value="sot">سوت</option>    
-                                    <option value="property">باب</option>    
-                                    <option value="unit">واحد</option>    
-                                    <option value="piece">قطعه</option>    
-                                    <option value="device">دستگاه</option>    
-                                    <option value="branch">شاخه</option>    
-                                    <option value="roll">رل</option>    
-                                    <option value="gallon">گالن</option>    
-                                    <option value="lit">لیتر</option>    
-                                    <option value="m3">متر مکعب</option>    
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">واحد اندازه گیری محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::واحد اندازه گیری-->
-
-                        <!--begin::بسته بندی-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>نوع بسته بندی</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="packing" data-hide-search="true" data-placeholder="انتخاب" >
-                                    <option value="none" selected="selected">هیچ کدام</option>
-                                    <option value="tanker">تانکر</option>    
-                                    <option value="tank">مخزن</option>    
-                                    <option value="container" >کانتینر</option>    
-                                    <option value="jambobag">جامبوبگ</option>    
-                                    <option value="bulk">فله</option>    
-                                    <option value="pocket">پاکتی</option>    
-                                    <option value="bandil">بندیل</option>    
-                                    <option value="barrel">بشکه</option>    
-                                    <option value="gallon">گالن</option>    
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">نوع بسته بندی محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::بسته بندی-->
-
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title">
-                                    <h2> جزئیات</h2>
+                                    <h2> دسته بندی ها</h2>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
@@ -313,7 +208,7 @@
                                 <div>
                                     <!--begin::Input group-->
                                 <!--begin::Tags-->
-                                <label class="form-label">دسته بندی ها</label>
+                                {{-- <label class="form-label">دسته بندی ها</label> --}}
                                 <!--end::Tags-->
                                 <!--begin::انتخاب2-->
                                 <select name="category_id[]" class="form-select mb-2" data-control="select2" data-placeholder="انتخاب " data-allow-clear="true" multiple="multiple">

@@ -194,119 +194,14 @@
                             <!--end::کارت body-->
                         </div>
                         <!--end::وضعیت-->
-
-                        <!--begin::واحد پولی-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>واحد پولی</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="currency" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_currency_select">
-                                    <option value="toman" {{$products->currency == 'toman' ? "selected" : ""}}>تومان</option>
-                                    <option value="dollar" {{$products->currency == 'dollar' ? "selected" : ""}}>دلار</option>
-                                    <option value="euro" {{$products->currency == 'euro' ? "selected" : ""}}>یورو</option>
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">واحد پولی محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::واحد پولی-->
-
-                        <!--begin::واحد اندازه گیری-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>واحد اندازه گیری</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="measurement" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_currency_select">
-                                    <option value="none" {{$products->measurement == 'none' ? "selected" : ""}}>هیچ کدام</option>
-                                    <option value="number" {{$products->measurement == 'number' ? "selected" : ""}}>عدد</option>    
-                                    <option value="ton" {{$products->measurement == 'ton' ? "selected" : ""}}>تن</option>    
-                                    <option value="barrel" {{$products->measurement == 'barrel' ? "selected" : ""}}>بشکه</option>    
-                                    <option value="kg" {{$products->measurement == 'kg' ? "selected" : ""}}>کیلوگرم</option>    
-                                    <option value="gr" {{$products->measurement == 'gr' ? "selected" : ""}}>گرم</option>    
-                                    <option value="carat" {{$products->measurement == 'carat' ? "selected" : ""}}>قیراط</option>    
-                                    <option value="sot" {{$products->measurement == 'sot' ? "selected" : ""}}>سوت</option>    
-                                    <option value="property" {{$products->measurement == 'property' ? "selected" : ""}}>باب</option>    
-                                    <option value="unit" {{$products->measurement == 'unit' ? "selected" : ""}}>واحد</option>    
-                                    <option value="piece" {{$products->measurement == 'piece' ? "selected" : ""}}>قطعه</option>    
-                                    <option value="device" {{$products->measurement == 'device' ? "selected" : ""}}>دستگاه</option>    
-                                    <option value="branch" {{$products->measurement == 'branch' ? "selected" : ""}}>شاخه</option>    
-                                    <option value="roll" {{$products->measurement == 'roll' ? "selected" : ""}}>رل</option>    
-                                    <option value="gallon" {{$products->measurement == 'gallon' ? "selected" : ""}}>گالن</option>    
-                                    <option value="lit" {{$products->measurement == 'lit' ? "selected" : ""}}>لیتر</option>    
-                                    <option value="m3" {{$products->measurement == 'm3' ? "selected" : ""}}>متر مکعب</option>    
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">واحد اندازه گیری محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::واحد اندازه گیری-->
-
-                        <!--begin::بسته بندی-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title">
-                                    <h2>نوع بسته بندی</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="packing" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_currency_select">
-                                    <option value="none" {{$products->packing == 'none' ? "selected" : ""}}>هیچ کدام</option>
-                                    <option value="tanker" {{$products->packing == 'tanker' ? "selected" : ""}}>تانکر</option>    
-                                    <option value="tank" {{$products->packing == 'tank' ? "selected" : ""}}>مخزن</option>    
-                                    <option value="container" {{$products->packing == 'container' ? "selected" : ""}}>کانتینر</option>    
-                                    <option value="jambobag" {{$products->packing == 'jambobag' ? "selected" : ""}}>جامبوبگ</option>    
-                                    <option value="bulk" {{$products->packing == 'bulk' ? "selected" : ""}}>فله</option>    
-                                    <option value="pocket" {{$products->packing == 'pocket' ? "selected" : ""}}>پاکتی</option>    
-                                    <option value="bandil" {{$products->packing == 'bandil' ? "selected" : ""}}>بندیل</option>    
-                                    <option value="barrel" {{$products->packing == 'barrel' ? "selected" : ""}}>بشکه</option>    
-                                    <option value="gallon" {{$products->packing == 'gallon' ? "selected" : ""}}>گالن</option>    
-                                </select>
-                                <!--end::انتخاب2-->
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7">نوع بسته بندی محصول را تعیین کنید.</div>
-                                <!--end::توضیحات-->
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::بسته بندی-->
-
+                      
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title">
-                                    <h2> جزئیات</h2>
+                                    <h2> دسته بندی ها</h2>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
@@ -317,7 +212,7 @@
                                 <div>
                                     <!--begin::Input group-->
                                 <!--begin::Tags-->
-                                <label class="form-label">دسته بندی ها</label>
+                                {{-- <label class="form-label">دسته بندی ها</label> --}}
                                 <!--end::Tags-->
                                 <!--begin::انتخاب2-->
                                 <select name="category_id[]" class="form-select mb-2" data-control="select2" data-placeholder="انتخاب " data-allow-clear="true" multiple="multiple">
@@ -385,7 +280,7 @@
                         
                         <!--begin::لوپ ویژگی ها-->
                         @foreach ($allAttributes as $attributeKey => $attribute)
-                            @if(in_array($role, explode(',',$attribute->role)))
+                            @if(in_array($role, explode(',',$attribute->role)) && ($vendor_sector != NULL ? App\Models\User::canVendorSeeAttribute($attribute->category_id, $vendor_sector) : true))
                                 <div class="card card-flush py-4">
                                     <!--begin::کارت header-->
                                     <div class="card-header">

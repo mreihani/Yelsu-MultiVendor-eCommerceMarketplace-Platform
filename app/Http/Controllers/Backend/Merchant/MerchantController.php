@@ -326,9 +326,6 @@ class MerchantController extends Controller
             'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-            'currency' => Purify::clean($request['currency']),
-            'measurement' => Purify::clean($request['measurement']) ?? "none",
-            'packing' => Purify::clean($request['packing']) ?? "none",
             'specification' => ($request->specification),
         ]);
 
@@ -455,13 +452,11 @@ class MerchantController extends Controller
             || $product->meta_title != Purify::clean($request->meta_title)
             || $product->meta_description != Purify::clean($request->meta_description)
             || $product->meta_keywords != Purify::clean($request->meta_keywords)
-            || $product->currency != Purify::clean($request->currency)
-            || $product->measurement != Purify::clean($request->measurement)
-            || $product->packing != Purify::clean($request->packing)
             || $product->specification != ($request->specification)
             || $product->unlimitedStock != Purify::clean($request->unlimitedStock)
             || $product->status != Purify::clean($request->product_status)
             || $image
+            || Product::checkIfAttributeHasChanged($request->attribute, $product_id)
         ) {
             $product_verification = "inactive";
         } else {
@@ -508,9 +503,6 @@ class MerchantController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
             ]);
@@ -534,9 +526,6 @@ class MerchantController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
             ]);
@@ -715,9 +704,6 @@ class MerchantController extends Controller
             'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-            'currency' => Purify::clean($request['currency']),
-            'measurement' => Purify::clean($request['measurement']) ?? "none",
-            'packing' => Purify::clean($request['packing']) ?? "none",
             'specification' => ($request->specification),
         ]);
 

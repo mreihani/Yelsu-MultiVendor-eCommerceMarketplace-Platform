@@ -95,7 +95,7 @@
                                             دسته بندی: 
                                             <span class="product-category"><a href="{{route('shop.category',['id'=> $product->parent_category_id])}}">{{!empty($category->category_name) ? $category->category_name : 'بدون دسته بندی'}} </a></span>
                                         </div>
-                                        @if ($product->measurement != 'none')
+                                        {{-- @if ($product->measurement != 'none')
                                             <div class="product-categories">
                                                 واحد اندازه گیری:
                                                 @if ($product->measurement == 'number')
@@ -164,7 +164,7 @@
                                                     </span>    
                                                 @endif
                                             </div>
-                                        @endif
+                                        @endif --}}
                                         {{-- <div class="product-sku">
                                            کد:  <span>MS46891340</span>
                                         </div> --}}
@@ -279,7 +279,7 @@
                                 </div>
                                 @endif --}}
 
-                                @if ($product->packing != 'none')
+                                {{-- @if ($product->packing != 'none')
                                 <div class="single-page-product-variation mb-2">
                                     <div>
                                         <span class="measurement-color-static">
@@ -324,7 +324,7 @@
                                         @endif
                                     </div>   
                                 </div>
-                                @endif
+                                @endif --}}
 
                                 {{-- <div class="product-form product-variation-form product-color-swatch">
                                     <label>رنگ :</label>

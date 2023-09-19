@@ -571,9 +571,6 @@ class SpecialistController extends Controller
             'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-            'currency' => Purify::clean($request['currency']),
-            'measurement' => Purify::clean($request['measurement']) ?? "none",
-            'packing' => Purify::clean($request['packing']) ?? "none",
             'specification' => ($request->specification),
         ]);
 
@@ -768,9 +765,6 @@ class SpecialistController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => $product_verification,
             ]);
@@ -795,9 +789,6 @@ class SpecialistController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => $product_verification,
             ]);

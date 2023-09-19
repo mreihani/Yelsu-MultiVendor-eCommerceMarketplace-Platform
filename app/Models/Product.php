@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
 use App\Models\Attribute;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -42,5 +43,33 @@ class Product extends Model
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class)->withPivot('value_id','value');
+    }
+
+    public function ScopeCheckIfAttributeHasChanged($query, $incoming_attributes, $product_id) {
+        $product = Product::find($product_id);
+        $product_attributes_array = $product->attributes()->get();
+        
+        foreach ($product_attributes_array as $key => $attribute) {
+            foreach ($incoming_attributes as $attr_key => $attribute_item) {
+                if($attribute->attribute_type == "dropdown" && $attr_key == $attribute->id && $attribute->pivot->value_id != (int) $attribute_item['value_id']) {
+                    return true;
+                } elseif($attribute->attribute_type == "input_field" && $attr_key == $attribute->id && $attribute->pivot->value != $attribute_item['value']) {
+                    return true;
+                }
+            }
+        }
+        
+        // اینجا چک می کنه از بین ویژگی هایی که هیچکدام نیستن، کدوم یکی جدید اضافه شده
+        $incomingValueArray = [];
+        foreach ($incoming_attributes as $incomingKey => $incomingValue) {
+            if($incomingValue['value_id'] != "none") {
+                $incomingValueArray[] = $incomingKey;
+            }
+        }
+        if(array_diff($incomingValueArray, $product_attributes_array->pluck("id")->toArray())) {
+            return true;
+        }
+
+        return false;
     }
 }

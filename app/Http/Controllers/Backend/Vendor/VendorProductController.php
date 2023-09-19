@@ -47,6 +47,7 @@ class VendorProductController extends Controller
         // added recursive function to find all the categories related to specialist category
         $category_hierarchy_arr = [];
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
 
         foreach ($categories as $category_item) {
             $category_by_id = Category::find($category_item->id);
@@ -153,9 +154,6 @@ class VendorProductController extends Controller
             'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-            'currency' => Purify::clean($request['currency']),
-            'measurement' => Purify::clean($request['measurement']) ?? "none",
-            'packing' => Purify::clean($request['packing']) ?? "none",
             'specification' => ($request->specification),
         ]);
 
@@ -203,6 +201,7 @@ class VendorProductController extends Controller
         // added recursive function to find all the categories related to specialist category
         $category_hierarchy_arr = [];
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
 
         foreach ($categories as $category_item) {
             $category_by_id = Category::find($category_item->id);
@@ -309,13 +308,11 @@ class VendorProductController extends Controller
             || $product->meta_title != Purify::clean($request->meta_title)
             || $product->meta_description != Purify::clean($request->meta_description)
             || $product->meta_keywords != Purify::clean($request->meta_keywords)
-            || $product->currency != Purify::clean($request->currency)
-            || $product->measurement != Purify::clean($request->measurement)
-            || $product->packing != Purify::clean($request->packing)
             || $product->specification != ($request->specification)
             || $product->unlimitedStock != Purify::clean($request->unlimitedStock)
             || $product->status != Purify::clean($request->product_status)
             || $image
+            || Product::checkIfAttributeHasChanged($request->attribute, $product_id)
         ) {
             $product_verification = "inactive";
         } else {
@@ -362,9 +359,6 @@ class VendorProductController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
             ]);
@@ -388,9 +382,6 @@ class VendorProductController extends Controller
                 'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
                 'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-                'currency' => Purify::clean($request['currency']),
-                'measurement' => Purify::clean($request['measurement']) ?? "none",
-                'packing' => Purify::clean($request['packing']) ?? "none",
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
             ]);
@@ -464,6 +455,36 @@ class VendorProductController extends Controller
 
         $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
         $categories = Category::latest()->get();
+
+        // added recursive function to find all the categories related to specialist category
+        $category_hierarchy_arr = [];
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
+
+        foreach ($categories as $category_item) {
+            $category_by_id = Category::find($category_item->id);
+            if ($category_item->parentCategoryExists($category_item->id)) {
+                foreach ($categories as $categoryItem) {
+                    if ($category_by_id->parent == 0) {
+                        $root_catgory_obj = $category_by_id;
+                        break;
+                    } else {
+                        $category_by_id = Category::find($category_by_id->parent);
+                    }
+                }
+
+                if (in_array($root_catgory_obj->id, $vendorSectorArr)) {
+                    $category_hierarchy_arr[] = $category_item;
+                }
+            }
+        }
+        foreach ($vendorSectorArr as $vendorSectorItem) {
+            array_push($category_hierarchy_arr, Category::find($vendorSectorItem));
+        }
+        $categories = array_reverse($category_hierarchy_arr);
+        // end of - recursive function
+
+        
         $products = Product::findOrFail(Purify::clean($id));
         $selected_cat_id_array = explode(",", $products->category_id);
 
@@ -548,7 +569,6 @@ class VendorProductController extends Controller
             $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
         }
 
-
         $product_id = Product::insertGetId([
             'category_id' => $category_id,
             'parent_category_id' => $parent_category_id ?? NULL,
@@ -569,9 +589,6 @@ class VendorProductController extends Controller
             'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
-            'currency' => Purify::clean($request['currency']),
-            'measurement' => Purify::clean($request['measurement']) ?? "none",
-            'packing' => Purify::clean($request['packing']) ?? "none",
             'specification' => ($request->specification),
         ]);
 
