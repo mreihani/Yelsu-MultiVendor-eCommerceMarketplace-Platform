@@ -139,7 +139,7 @@ function message_fetch() {
         .then((response) => {
             let htmlChat;
             let chatBody = "";
-
+            
             let clientAvatar = response.data.otherUserObj.photo
                 ? window.location.origin +
                   "/storage/upload/specialist_images/" +

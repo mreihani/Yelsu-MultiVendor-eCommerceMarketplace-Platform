@@ -44,11 +44,12 @@ $(document).ready(() => {
 
                 response.data.messagesObj.forEach((messageItem) => {
                     let messageBody = messageItem.message;
-                    if(!messageItem.message) {
-                        messageBody = "کاربر فرم اطلاعات را تکمیل و شروع به چت کرده است"
+                    if (!messageItem.message) {
+                        messageBody =
+                            "کاربر فرم اطلاعات خود را تکمیل و ارسال نموده است";
                     }
-                        if (messageItem.userId == response.data.user.id) {
-                            chatBody += `
+                    if (messageItem.userId == response.data.user.id) {
+                        chatBody += `
     
                             <!--begin::پیام(in)-->
                             <div class="d-flex justify-content-start mb-10">
@@ -60,7 +61,7 @@ $(document).ready(() => {
                                     </div>
                                     <!--end::user-->
                                     <!--begin::Text-->
-                                    <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
+                                    <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
                                     <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
                                     <!--end::Text-->
                                 </div>
@@ -69,8 +70,8 @@ $(document).ready(() => {
                             <!--end::پیام(in)-->
     
                             `;
-                        } else {
-                            chatBody += `
+                    } else {
+                        chatBody += `
     
                             <!--begin::پیام(out)-->
                             <div class="d-flex justify-content-end mb-10">
@@ -87,7 +88,7 @@ $(document).ready(() => {
                                     <!--end::user-->
                                     <!--begin::Text-->
                                     <input class="otherUserIdAnchor" type="hidden" value="${response.data.otherUserObj.id}">
-                                    <div class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end" data-kt-element="message-text">${messageBody}</div>
+                                    <div class="p-5 clientChat text-dark fw-semibold mw-lg-400px text-end" data-kt-element="message-text">${messageBody}</div>
                                     <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
                                     <!--end::Text-->
                                 </div>
@@ -96,8 +97,7 @@ $(document).ready(() => {
                             <!--end::پیام(out)-->
     
                             `;
-                        }
-                    
+                    }
                 });
 
                 $("#listMessages").html(chatBody);
@@ -132,10 +132,11 @@ $(document).ready(() => {
 
                 response.data.messagesObj.forEach((messageItem) => {
                     let messageBody = messageItem.message;
-                    if(!messageItem.message) {
-                        messageBody = "کاربر فرم اطلاعات را تکمیل و شروع به چت کرده است"
+                    if (!messageItem.message) {
+                        messageBody =
+                            "کاربر فرم اطلاعات خود را تکمیل و ارسال نموده است";
                     }
-                    
+
                     if (messageItem.userId == response.data.user.id) {
                         chatBody += `
 
@@ -149,7 +150,7 @@ $(document).ready(() => {
                                 </div>
                                 <!--end::user-->
                                 <!--begin::Text-->
-                                <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
+                                <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
                                 <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
                                 <!--end::Text-->
                             </div>
@@ -176,7 +177,7 @@ $(document).ready(() => {
                                 <!--end::user-->
                                 <!--begin::Text-->
                                 <input class="otherUserIdAnchor" type="hidden" value="${response.data.otherUserObj.id}">
-                                <div class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end" data-kt-element="message-text">${messageBody}</div>
+                                <div class="p-5 clientChat text-dark fw-semibold mw-lg-400px text-end" data-kt-element="message-text">${messageBody}</div>
                                 <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
                                 <!--end::Text-->
                             </div>
@@ -186,7 +187,6 @@ $(document).ready(() => {
 
                         `;
                     }
-                    
                 });
 
                 document.getElementById("listMessages").innerHTML = chatBody;
@@ -237,7 +237,7 @@ $(document).ready(() => {
                         </div>
                         <!--end::user-->
                         <!--begin::Text-->
-                        <div class="p-5 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${userInput}</div>
+                        <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${userInput}</div>
                         <div class="text-muted fs-7 mb-1 d-flex justify-content-end">چند لحظه گذشته</div>
                         <!--end::Text-->
                     </div>
@@ -295,7 +295,7 @@ $(document).ready(() => {
                         let lastItem = chatItem[chatItem.length - 1];
                         let familyNameFirstAlphabet =
                             lastItem.otherUserObj.lastname.charAt(0);
-                        let home_phone = lastItem.otherUserObj.home_phone ?? '';
+                        let home_phone = lastItem.otherUserObj.home_phone ?? "";
 
                         htmlAutoFetch += `
                             <div class="d-flex flex-stack py-4">

@@ -54119,3 +54119,15 @@ input[type="number"] {
     display: none;
 }
 /* category dynamic list start custom css in profile Field Of Activity Freightage Page */
+
+
+/* custom css for specialist chat panel */
+.myChat {
+    background-color: #8ab7ffc7;
+    border-radius: 10px 10px 0px 10px;
+}
+.clientChat {
+    background-color: #edededc7;
+    border-radius: 10px 10px 10px 0;
+}
+/* custom css for specialist chat panel */

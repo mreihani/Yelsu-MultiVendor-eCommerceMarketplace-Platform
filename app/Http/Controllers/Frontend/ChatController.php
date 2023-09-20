@@ -18,41 +18,29 @@ use App\Http\Controllers\Controller;
 
 class ChatController extends Controller
 {
-    public function sendMessage(Request $request)
-    {
-
-        $otherUserId = Purify::clean($request->otherUserId);
-
-        if (Auth::check()) {
-            $userObject = Auth::user();
-            $userId = $userObject->id;
+    // توابع ریفرکتور
+    protected function generateUserId() {
+        if (Session::get('notLoggedInUserId')) {
+            $userId = Session::get('notLoggedInUserId');
         } else {
-            if (Session::get('notLoggedInUserId')) {
-                $userId = Session::get('notLoggedInUserId');
-            } else {
-                $userId = Str::uuid();
+            $userId = Str::uuid();
 
-                for ($i = 0; $i < 5; $i++) {
-                    if (! count(Chat::where('userId', $userId)->orWhere('otherUserId', $userId)->get())) {
-                        break;
-                    } else {
-                        $userId = Str::uuid();
-                    }
+            for ($i = 0; $i < 5; $i++) {
+                if (! count(Chat::where('userId', $userId)->orWhere('otherUserId', $userId)->get())) {
+                    break;
+                } else {
+                    $userId = Str::uuid();
                 }
-
-                Session::put('notLoggedInUserId', $userId);
             }
+
+            Session::put('notLoggedInUserId', $userId);
         }
 
-        $formFields = $request->validate([
-            'message' => 'required'
-        ]);
+        return $userId;
+    }
 
+    protected function findRoomId($userId, $otherUserId) {
         $temp_chat_results = Chat::all();
-
-        if (! trim(Purify::clean($formFields['message']))) {
-            return response()->noContent();
-        }
 
         if ((! $temp_chat_results->count())) {
             $roomId = 1;
@@ -65,68 +53,17 @@ class ChatController extends Controller
             } elseif ($ChatObj2->count()) {
                 $roomId = $ChatObj2[0]->roomId;
             } else {
-                $roomId = Chat::latest()->first()->roomId + 1;
+                $roomId = Chat::pluck('roomId')->max() + 1;
             }
         }
 
-        $chat_id = Chat::insertGetId([
-            'roomId' => $roomId,
-            'userId' => $userId,
-            'otherUserId' => $otherUserId,
-            'message' => Purify::clean($formFields['message']),
-
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-
-        //$otherUserObj = User::find($otherUserId);
-        //$messageObj = Chat::find($chat_id);
-        // event(new \App\Events\ChatMessageEvent($userObject, $otherUserId, $otherUserObj, $messageObj, $roomId));
-        // broadcast(new \App\Events\ChatMessageEvent($userObject, $otherUserId, $messageObj, $roomId))->toOthers();
-
-        return array('otherUserId' => $otherUserId, 'userId' => $userId, 'roomId' => $roomId);
+        return $roomId;
     }
 
-    public function fetchSpecialist(Request $request)
-    {
-        $users_array = User::where('specialist_category_id', Purify::clean($request->selected_category))->latest()->get();
-        $selected_category_name = Category::find(Purify::clean($request->selected_category))->category_name;
-
-        // return $users_array;
-        return response(['users_array' => $users_array, 'selected_category_name' => $selected_category_name]);
-    }
-
-    public function fetchSpecialistFinal(Request $request)
-    {
-        $otherUserId = (int) Purify::clean($request->otherUserId);
-        $otherUserObj = User::find($otherUserId);
-
-        $categoryName = $otherUserObj->specialist_category->category_name;
+    protected function getMessageObj($userId, $otherUserId) {
         $messagesObjJdate = [];
         $roomId = "";
         $messageStatus = false;
-
-        if (Auth::check()) {
-            $userObject = Auth::user();
-            $userId = $userObject->id;
-        } else {
-            if (Session::get('notLoggedInUserId')) {
-                $userId = Session::get('notLoggedInUserId');
-            } else {
-                $userId = Str::uuid();
-
-                for ($i = 0; $i < 5; $i++) {
-                    if (! count(Chat::where('userId', $userId)->orWhere('otherUserId', $userId)->get())) {
-                        break;
-                    } else {
-                        $userId = Str::uuid();
-                    }
-                }
-
-                Session::put('notLoggedInUserId', $userId);
-            }
-        }
 
         $temp_chat_reults = Chat::all();
 
@@ -161,6 +98,77 @@ class ChatController extends Controller
             $messagesObjJdate = NULL;
         }
 
+        return array("messagesObjJdate" => $messagesObjJdate, "roomId" => $roomId, "messageStatus" => $messageStatus);
+    }
+    // توابع ریفرکتور
+
+
+    public function sendMessage(Request $request)
+    {
+        $otherUserId = Purify::clean($request->otherUserId);
+
+        if (Auth::check()) {
+            $userObject = Auth::user();
+            $userId = $userObject->id;
+        } else {
+            $userId = $this->generateUserId();
+        }
+
+        $formFields = $request->validate([
+            'message' => 'required'
+        ]);
+
+        if (! trim(Purify::clean($formFields['message']))) {
+            return response()->noContent();
+        }
+
+        $roomId = $this->findRoomId($userId, $otherUserId);
+
+        $chat_id = Chat::insertGetId([
+            'roomId' => $roomId,
+            'userId' => $userId,
+            'otherUserId' => $otherUserId,
+            'message' => Purify::clean($formFields['message']),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        // توابع مربوط به ساکت
+        //$otherUserObj = User::find($otherUserId);
+        //$messageObj = Chat::find($chat_id);
+        // event(new \App\Events\ChatMessageEvent($userObject, $otherUserId, $otherUserObj, $messageObj, $roomId));
+        // broadcast(new \App\Events\ChatMessageEvent($userObject, $otherUserId, $messageObj, $roomId))->toOthers();
+
+        return array('otherUserId' => $otherUserId, 'userId' => $userId, 'roomId' => $roomId);
+    }
+
+    public function fetchSpecialist(Request $request)
+    {
+        $users_array = User::where('specialist_category_id', Purify::clean($request->selected_category))->latest()->get();
+        $selected_category_name = Category::find(Purify::clean($request->selected_category))->category_name;
+
+        return response(['users_array' => $users_array, 'selected_category_name' => $selected_category_name]);
+    }
+
+    public function fetchSpecialistFinal(Request $request)
+    {
+        $otherUserId = (int) Purify::clean($request->otherUserId);
+        $otherUserObj = User::find($otherUserId);
+
+        $categoryName = $otherUserObj->specialist_category->category_name;
+
+        if (Auth::check()) {
+            $userObject = Auth::user();
+            $userId = $userObject->id;
+        } else {
+            $userId = $this->generateUserId();
+        }
+
+        $messageObj = $this->getMessageObj($userId, $otherUserId);
+        $messagesObjJdate = $messageObj["messagesObjJdate"];
+        $roomId = $messageObj["roomId"];
+        $messageStatus = $messageObj["messageStatus"];
+
         return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
     }
 
@@ -178,38 +186,9 @@ class ChatController extends Controller
         } else {
             $otherUserId = Purify::clean($request->otherUserId);
 
-            if (Session::get('notLoggedInUserId')) {
-                $userId = Session::get('notLoggedInUserId');
-            } else {
-                $userId = Str::uuid();
+            $userId = $this->generateUserId();
 
-                for ($i = 0; $i < 5; $i++) {
-                    if (! count(Chat::where('userId', $userId)->orWhere('otherUserId', $userId)->get())) {
-                        break;
-                    } else {
-                        $userId = Str::uuid();
-                    }
-                }
-
-                Session::put('notLoggedInUserId', $userId);
-            }
-
-            $temp_chat_results = Chat::all();
-
-            if ((! $temp_chat_results->count())) {
-                $roomId = 1;
-            } else {
-                $ChatObj1 = Chat::where('userId', '=', $userId)->where('otherUserId', '=', $otherUserId)->latest()->get();
-                $ChatObj2 = Chat::where('userId', '=', $otherUserId)->where('otherUserId', '=', $userId)->latest()->get();
-
-                if ($ChatObj1->count()) {
-                    $roomId = $ChatObj1[0]->roomId;
-                } elseif ($ChatObj2->count()) {
-                    $roomId = $ChatObj2[0]->roomId;
-                } else {
-                    $roomId = Chat::latest()->first()->roomId + 1;
-                }
-            }
+            $roomId = $this->findRoomId($userId, $otherUserId);
 
             $chat_id = Chat::insertGetId([
                 'roomId' => $roomId,

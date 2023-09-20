@@ -1963,6 +1963,49 @@ class SpecialistController extends Controller
     Start of Chat Section 
     **************************************/
 
+    // توابع ریفرکتور
+    protected function getMessageObj($userId, $otherUserId) {
+        $messagesObjJdate = [];
+        $roomId = "";
+        $messageStatus = false;
+
+        $temp_chat_reults = Chat::all();
+
+        $ChatObj1 = Chat::where('userId', '=', $userId)->where('otherUserId', '=', $otherUserId)->latest()->get();
+        $ChatObj2 = Chat::where('userId', '=', $otherUserId)->where('otherUserId', '=', $userId)->latest()->get();
+
+        if ($ChatObj1->count() || $ChatObj2->count()) {
+
+            if ((! $temp_chat_reults->count())) {
+                $roomId = 1;
+            } else {
+                if ($ChatObj1->count()) {
+                    $roomId = $ChatObj1[0]->roomId;
+                } elseif ($ChatObj2->count()) {
+                    $roomId = $ChatObj2[0]->roomId;
+                }
+            }
+
+            $messagesObj = Chat::where('roomId', $roomId)->get();
+
+            if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
+                $messageStatus = true;
+            }
+
+            Session::put('messageCount' . $roomId, $messagesObj->count());
+
+            foreach ($messagesObj as $messageItem) {
+                $messagesCollection = collect($messageItem);
+                $messagesObjJdate[] = $messagesCollection->put('jdate', jdate($messageItem->created_at)->ago());
+            }
+        } else {
+            $messagesObjJdate = NULL;
+        }
+
+        return array("messagesObjJdate" => $messagesObjJdate, "roomId" => $roomId, "messageStatus" => $messageStatus);
+    }
+    // توابع ریفرکتور
+
     public function SpecialistPrivateChat()
     {
         $id = Auth::user()->id;
@@ -1986,11 +2029,14 @@ class SpecialistController extends Controller
                 $actuallyOtherUserId = $chatItem->last()->userId;
             }
 
+            // با استفاده از این مشخص میشه کاربر ورود کرده یا خیر
             $uuidArraySize = sizeof(explode("-", $actuallyOtherUserId));
 
+            // کاربر ورود کرده است
             if ($uuidArraySize == 1) {
                 $otherUserObj = User::find($actuallyOtherUserId)->only('id', 'firstname', 'lastname', 'email', 'home_phone');
             } else {
+                // کاربر ناشناس است
                 $otherUserObjDB = Chat::where('userId', $actuallyOtherUserId)->first();
                 $otherUserObj = array('firstname' => $otherUserObjDB->firstname, 'lastname' => $otherUserObjDB->lastname, 'id' => $actuallyOtherUserId, 'email' => $otherUserObjDB->email, 'home_phone' => $otherUserObjDB->home_phone);
             }
@@ -2001,6 +2047,7 @@ class SpecialistController extends Controller
             $chatArr[] = $chatItem;
         }
 
+        
         return view('specialist.chat.chat', compact('specialistData', 'chatArr'));
     }
 
@@ -2026,7 +2073,6 @@ class SpecialistController extends Controller
             } else {
                 $actuallyOtherUserId = $chatItem->last()->userId;
             }
-
 
             $uuidArraySize = sizeof(explode("-", $actuallyOtherUserId));
 
@@ -2059,45 +2105,13 @@ class SpecialistController extends Controller
             $otherUserObj = array('firstname' => $otherUserObjDB->firstname, 'lastname' => $otherUserObjDB->lastname, 'id' => $otherUserId, 'email' => $otherUserObjDB->email, 'home_phone' => $otherUserObjDB->home_phone);
         }
 
-        $messageStatus = false;
-
-        $messagesObjJdate = [];
-        $roomId = "";
-
         $userObject = Auth::user();
         $userId = $userObject->id;
 
-        $temp_chat_reults = Chat::all();
-
-        $ChatObj1 = Chat::where('userId', '=', $userId)->where('otherUserId', '=', $otherUserId)->latest()->get();
-        $ChatObj2 = Chat::where('userId', '=', $otherUserId)->where('otherUserId', '=', $userId)->latest()->get();
-
-        if ($ChatObj1->count() || $ChatObj2->count()) {
-
-            if ((! $temp_chat_reults->count())) {
-                $roomId = 1;
-            } else {
-                if ($ChatObj1->count()) {
-                    $roomId = $ChatObj1[0]->roomId;
-                } elseif ($ChatObj2->count()) {
-                    $roomId = $ChatObj2[0]->roomId;
-                }
-            }
-            $messagesObj = Chat::where('roomId', $roomId)->get();
-
-            if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
-                $messageStatus = true;
-            }
-
-            Session::put('messageCount' . $roomId, $messagesObj->count());
-
-            foreach ($messagesObj as $messageItem) {
-                $messagesCollection = collect($messageItem);
-                $messagesObjJdate[] = $messagesCollection->put('jdate', jdate($messageItem->created_at)->ago());
-            }
-        } else {
-            $messagesObjJdate = NULL;
-        }
+        $messageObj = $this->getMessageObj($userId, $otherUserId);
+        $messagesObjJdate = $messageObj["messagesObjJdate"];
+        $roomId = $messageObj["roomId"];
+        $messageStatus = $messageObj["messageStatus"];
 
         return response(['user' => $userObject, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userObject->id, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
     }
