@@ -172,6 +172,40 @@ class ChatController extends Controller
         return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
     }
 
+    public function fetchSpecialistLongPolling(Request $request)
+    {
+        $otherUserId = (int) Purify::clean($request->otherUserId);
+        $otherUserObj = User::find($otherUserId);
+
+        $categoryName = $otherUserObj->specialist_category->category_name;
+
+        if (Auth::check()) {
+            $userObject = Auth::user();
+            $userId = $userObject->id;
+        } else {
+            $userId = $this->generateUserId();
+        }
+
+        $messageObj = $this->getMessageObj($userId, $otherUserId);
+        $messagesObjJdate = $messageObj["messagesObjJdate"];
+        $roomId = $messageObj["roomId"];
+        $messageStatus = $messageObj["messageStatus"];
+
+        // Long polling functionality
+        $attempts = 1;
+        while($messageStatus == false && $attempts <= 5) {
+            sleep(2);
+            $messageObj = $this->getMessageObj($userId, $otherUserId);
+            $messagesObjJdate = $messageObj["messagesObjJdate"];
+            $roomId = $messageObj["roomId"];
+            $messageStatus = $messageObj["messageStatus"];
+            $attempts++;
+        }
+       
+
+        return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+    }
+
     public function sendfirstform(Request $request)
     {
         $obj = json_decode(Purify::clean($request->formData));

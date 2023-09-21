@@ -113,7 +113,7 @@ $(document).ready(() => {
                     message_fetch();
                     setInterval(() => {
                         fetchData();
-                    }, 5000);
+                    }, 10000);
                 });
                 // end of second ajax request
             })
@@ -473,10 +473,11 @@ function message_fetch() {
 
 function fetchData() {
     axios
-        .post("/fetchSpecialistFinal", {
+        .post("/fetchSpecialistLongPolling", {
             otherUserId: YelsuOtherUserId,
         })
         .then((response) => {
+            
             if (response.data.messageStatus) {
                 let htmlChat;
                 let chatBody = "";

@@ -56,7 +56,9 @@ Route::get('driver/statusView/{id}', [SpecialistController::class, 'SpecialistDr
 //Private Chat all route
 Route::get('private/chat', [SpecialistController::class, 'SpecialistPrivateChat'])->name('specialist.private.chat');
 Route::get('private/autofetch', [SpecialistController::class, 'SpecialistPrivateChatAutoFetch']);
+Route::get('private/newMessageCounter', [SpecialistController::class, 'newMessageCounter']);
 Route::post('private/fetchsinglemessage', [SpecialistController::class, 'fetchSingleMessage']);
+Route::post('private/fetchsinglemessagelongpolling', [SpecialistController::class, 'fetchSingleMessageLongPolling']);
 
 // File management all route
 Route::get('media/files', [SpecialistController::class, 'SpecialistMediaFiles'])->name('specialist.media.files');

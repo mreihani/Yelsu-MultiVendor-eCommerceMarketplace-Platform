@@ -811,6 +811,7 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">چت خصوصی</span>
+                                <span class="badge badge-primary totalUnreadMessages"></span>
                             </a>
                             <!--end:Menu link-->
                         </div>

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
-use App\Models\Driver;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Driver;
 use App\Models\Product;
 
 use App\Models\Category;
@@ -12,15 +12,16 @@ use App\Models\Merchant;
 use App\Models\Freightage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use App\Http\Requests\Auth\LoginRequest;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File as LaravelFile;
-
-use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {

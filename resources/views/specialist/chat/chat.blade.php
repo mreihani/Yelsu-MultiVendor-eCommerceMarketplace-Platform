@@ -1270,13 +1270,14 @@
 </div>
 
     <!--begin::سفارشی Javascript(used for this page only)-->
-    <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script>
+    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script> --}}
     <!--end::سفارشی Javascript-->
 
+    <script src="{{asset('frontend/assets/js/chatSPUX.js')}}"></script>
 @endsection

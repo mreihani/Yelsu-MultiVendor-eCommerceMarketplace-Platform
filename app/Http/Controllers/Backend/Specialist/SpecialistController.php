@@ -2006,6 +2006,8 @@ class SpecialistController extends Controller
     }
     // توابع ریفرکتور
 
+
+    // این تابع برای بارگذاری اولیه صفحه چت خصوصی است
     public function SpecialistPrivateChat()
     {
         $id = Auth::user()->id;
@@ -2051,6 +2053,7 @@ class SpecialistController extends Controller
         return view('specialist.chat.chat', compact('specialistData', 'chatArr'));
     }
 
+    // این تابع برای دریافت لیست کل چت ها است
     public function SpecialistPrivateChatAutoFetch()
     {
         $id = Auth::user()->id;
@@ -2065,6 +2068,7 @@ class SpecialistController extends Controller
         }
         $roomArr = array_unique($roomArr);
 
+        // create array of all chats
         foreach ($roomArr as $roomItem) {
             $chatItem = Chat::where('roomId', $roomItem)->latest()->get();
 
@@ -2089,9 +2093,44 @@ class SpecialistController extends Controller
             $chatArr[] = $chatItem;
         }
 
+        //Long polling functionality
+        $chatStatus = false;
+        $attempts = 1;
+        while($chatStatus == false && $attempts <= 5) {
+            sleep(2);
+            $userChats = Chat::where('userId', $id)->orWhere('otherUserId', $id)->latest()->get();
+            if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
+                $chatStatus = true;
+            }
+            Session::put('newChatMessage', $userChats->count());
+            $attempts++;
+        }
+
         return response(['chatArr' => $chatArr]);
     }
 
+    // این تابع برای شمارش پیام های جدید است که در هدر سایت قرار گرفته
+    public function newMessageCounter() {
+        $id = Auth::user()->id;
+        $specialistData = User::find($id);
+
+        //Long polling functionality
+        $chatStatus = false;
+        $attempts = 1;
+        while($chatStatus == false && $attempts <= 5) {
+            sleep(2);
+            $userChats = Chat::where('userId', $id)->orWhere('otherUserId', $id)->latest()->get();
+            if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
+                $chatStatus = true;
+            }
+            Session::put('newChatMessage', $userChats->count());
+            $attempts++;
+        }
+
+        return response(['totalUnreadMessages' => $userChats->count()]);
+    }
+
+    // این تابع برای دریافت چت یک کاربر به خصوص است
     public function fetchSingleMessage(Request $request)
     {
         $otherUserId = Purify::clean($request->otherUserId);
@@ -2112,6 +2151,45 @@ class SpecialistController extends Controller
         $messagesObjJdate = $messageObj["messagesObjJdate"];
         $roomId = $messageObj["roomId"];
         $messageStatus = $messageObj["messageStatus"];
+
+        return response(['user' => $userObject, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userObject->id, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+    }
+
+    // long polling interval for single chat item
+    public function fetchSingleMessageLongPolling(Request $request)
+    {
+        $otherUserId = Purify::clean($request->otherUserId);
+
+        $uuidArraySize = sizeof(explode("-", $otherUserId));
+
+        if ($uuidArraySize == 1) {
+            $otherUserObj = User::find($otherUserId);
+        } else {
+            $otherUserObjDB = Chat::where('userId', $otherUserId)->first();
+            $otherUserObj = array('firstname' => $otherUserObjDB->firstname, 'lastname' => $otherUserObjDB->lastname, 'id' => $otherUserId, 'email' => $otherUserObjDB->email, 'home_phone' => $otherUserObjDB->home_phone);
+        }
+
+        $userObject = Auth::user();
+        $userId = $userObject->id;
+
+        $messageObj = $this->getMessageObj($userId, $otherUserId);
+        $messagesObjJdate = $messageObj["messagesObjJdate"];
+        $roomId = $messageObj["roomId"];
+        $messageStatus = $messageObj["messageStatus"];
+
+        // Long polling functionality
+        $attempts = 1;
+        while($messageStatus == false && $attempts <= 5) {
+            sleep(2);
+
+            $messageObj = $this->getMessageObj($userId, $otherUserId);
+            $messagesObjJdate = $messageObj["messagesObjJdate"];
+            $roomId = $messageObj["roomId"];
+            $messageStatus = $messageObj["messageStatus"];
+
+            $attempts++;
+        }
+        // Long polling functionality
 
         return response(['user' => $userObject, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userObject->id, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
     }

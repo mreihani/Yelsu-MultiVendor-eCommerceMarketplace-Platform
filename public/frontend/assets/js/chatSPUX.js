@@ -110,10 +110,10 @@ $(document).ready(() => {
             });
     }
 
-    //  auto fetch
+    // auto fetch for single chat item with long polling
     function fetchData() {
         axios
-            .post("/specialist/private/fetchsinglemessage", {
+            .post("/specialist/private/fetchsinglemessagelongpolling", {
                 otherUserId: YelsuOtherUserId,
             })
             .then((response) => {
@@ -210,13 +210,12 @@ $(document).ready(() => {
             });
     }
 
-    // intervals auto fetch
     setInterval(() => {
         if (typeof YelsuOtherUserId != "undefined") {
             fetchData();
         }
-    }, 5000);
-    // end of auto fetch
+    }, 10000);
+    // end of auto fetch for single chat item with long polling
 
     // send chat function
     const formBtn = document.getElementById("inputMessageBtn");
@@ -287,6 +286,7 @@ $(document).ready(() => {
             method: "get",
 
             success: function (response) {
+                
                 if (response.chatArr.length) {
                     let chatListAutoFetch =
                         document.getElementById("chatListAutoFetch");
@@ -334,6 +334,6 @@ $(document).ready(() => {
 
     setInterval(() => {
         fetchChatData();
-    }, 5000);
+    }, 10000);
     // end of chat list auto fetch
 });

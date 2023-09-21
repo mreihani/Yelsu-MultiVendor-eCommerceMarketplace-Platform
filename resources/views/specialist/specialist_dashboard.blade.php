@@ -58,7 +58,7 @@
 		<!-- Chat CSS and JS -->
 		<link href="{{asset('adminbackend/assets/css/chatApp.css')}}" rel="stylesheet" type="text/css" />
 		<script src="{{asset('frontend/assets/js/axios.min.js')}}"></script>
-		<script src="{{asset('frontend/assets/js/chatSPUX.js')}}"></script>
+		
 
 	</head>
 
@@ -5661,7 +5661,7 @@
 		<!--end::Modals-->
 		
 
-		
+		<script src="{{asset('frontend/assets/js/chatNewMessageNotification.js')}}"></script>
 	</body>
 	<!--end::Body-->
 </html>
