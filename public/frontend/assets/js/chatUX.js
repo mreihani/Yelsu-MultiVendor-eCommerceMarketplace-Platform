@@ -340,6 +340,12 @@ function message_fetch() {
                     chatUserFirstSubmit();
                 });
 
+                $('.chatStartForm input').keypress(function(e){
+                    if(e.which == 13){
+                        chatUserFirstSubmit();
+                    }
+                });
+
                 $('#chatFormInputError').hide();
 
                 function chatUserFirstSubmit() {
@@ -547,3 +553,5 @@ function fetchData() {
             // console.log("Error: ", error);
         });
 }
+
+

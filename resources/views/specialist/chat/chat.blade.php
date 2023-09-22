@@ -1278,6 +1278,5 @@
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script> --}}
     <!--end::سفارشی Javascript-->
-
-    <script src="{{asset('frontend/assets/js/chatSPUX.js')}}"></script>
+    
 @endsection

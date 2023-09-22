@@ -217,66 +217,69 @@ $(document).ready(() => {
     }, 10000);
     // end of auto fetch for single chat item with long polling
 
+   
     // send chat function
-    const formBtn = document.getElementById("inputMessageBtn");
-    const inputMessage = document.getElementById("inputMessage");
+    if(window.location.pathname == "/specialist/private/chat") {
+        const formBtn = document.getElementById("inputMessageBtn");
+        const inputMessage = document.getElementById("inputMessage");
 
-    function sendItemPack() {
-        let userInput = inputMessage.value;
+        function sendItemPack() {
+            let userInput = inputMessage.value;
 
-        otherUserId = $(".otherUserIdAnchor").val();
+            otherUserId = $(".otherUserIdAnchor").val();
 
-        let newChatInput = `
-                
-                <div class="d-flex justify-content-start mb-10">
-                    <!--begin::Wrapper-->
-                    <div class="d-flex flex-column align-items-start">
-                        <!--begin::user-->
-                        <div class="d-flex align-items-center mb-2">
+            let newChatInput = `
+                    
+                    <div class="d-flex justify-content-start mb-10">
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column align-items-start">
+                            <!--begin::user-->
+                            <div class="d-flex align-items-center mb-2">
+                            </div>
+                            <!--end::user-->
+                            <!--begin::Text-->
+                            <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${userInput}</div>
+                            <div class="text-muted fs-7 mb-1 d-flex justify-content-end">چند لحظه گذشته</div>
+                            <!--end::Text-->
                         </div>
-                        <!--end::user-->
-                        <!--begin::Text-->
-                        <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${userInput}</div>
-                        <div class="text-muted fs-7 mb-1 d-flex justify-content-end">چند لحظه گذشته</div>
-                        <!--end::Text-->
+                        <!--end::Wrapper-->
                     </div>
-                    <!--end::Wrapper-->
-                </div>
-               
-                `;
+                
+                    `;
 
-        $("#listMessages").append(newChatInput);
+            $("#listMessages").append(newChatInput);
 
-        //auto scroll function
-        $(".chatBodyScroll").animate(
-            {
-                scrollTop: $(".chatBodyScroll").prop("scrollHeight"),
-            },
-            "fast"
-        );
+            //auto scroll function
+            $(".chatBodyScroll").animate(
+                {
+                    scrollTop: $(".chatBodyScroll").prop("scrollHeight"),
+                },
+                "fast"
+            );
 
-        $.ajax({
-            url: "/sendmessage",
-            method: "post",
-            data: {
-                message: userInput,
-                otherUserId: otherUserId,
-            },
-            success: function (response) {},
+            $.ajax({
+                url: "/sendmessage",
+                method: "post",
+                data: {
+                    message: userInput,
+                    otherUserId: otherUserId,
+                },
+                success: function (response) {},
+            });
+
+            $("#inputMessage").val("");
+        }
+
+        inputMessage.addEventListener("keypress", function onEvent(event) {
+            if (event.key === "Enter") {
+                sendItemPack();
+            }
         });
 
-        $("#inputMessage").val("");
-    }
-
-    inputMessage.addEventListener("keypress", function onEvent(event) {
-        if (event.key === "Enter") {
+        formBtn.addEventListener("click", function (event) {
             sendItemPack();
-        }
-    });
-
-    formBtn.addEventListener("click", function (event) {
-        sendItemPack();
-    });
+        });
+    }
     // end of send chat function
 
     // chat list auto fetch
@@ -286,8 +289,7 @@ $(document).ready(() => {
             method: "get",
 
             success: function (response) {
-                
-                if (response.chatArr.length) {
+                if (response.chatArr.length && window.location.pathname == "/specialist/private/chat") {
                     let chatListAutoFetch =
                         document.getElementById("chatListAutoFetch");
                     var htmlAutoFetch = "";
@@ -328,7 +330,29 @@ $(document).ready(() => {
 
                     chatListAutoFetch.innerHTML = htmlAutoFetch;
                 }
+                
+                if(response.totalUnreadMessages) {
+                    let audio = new Audio( window.location.origin  + '/adminbackend/assets/media/new-message.mp3');
+
+                    if(response.totalUnreadMessages == 0) {
+                        $('.totalUnreadMessages').html("");
+                    } else if(response.totalUnreadMessages > 99) {
+                        $('.totalUnreadMessages').html("99+");
+
+                        audio.play();
+                    } else {
+                        $('.totalUnreadMessages').html(response.totalUnreadMessages);
+
+                        audio.play();
+                    }
+                }
             },
+
+        });
+
+        // این تریگیر فایل صوتی باید خارج از پاسخ ایجکس باشه
+        $('.totalUnreadMessages').on('click',function(event){
+            audio.play();
         });
     }
 
@@ -336,4 +360,6 @@ $(document).ready(() => {
         fetchChatData();
     }, 10000);
     // end of chat list auto fetch
+    
+    
 });

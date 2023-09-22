@@ -23255,6 +23255,8 @@ td {
     border-radius: 5px;
     border: 1px solid #66666694;
     padding-right: 5px;
+    height: 30px;
+    width: 200px;
 }
 
 .chatStartForm button {
@@ -23277,6 +23279,10 @@ td {
     border-color: red;
     color: red;
     display: block;
+}
+
+#chatUserEmail, #chatUserPhone {
+    text-align: left;
 }
 /* chat starter form custom css */
 

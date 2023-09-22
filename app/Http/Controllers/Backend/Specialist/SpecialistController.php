@@ -2098,7 +2098,8 @@ class SpecialistController extends Controller
         $attempts = 1;
         while($chatStatus == false && $attempts <= 5) {
             sleep(2);
-            $userChats = Chat::where('userId', $id)->orWhere('otherUserId', $id)->latest()->get();
+            
+            $userChats = Chat::where('otherUserId', $id)->latest()->get();
             if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
                 $chatStatus = true;
             }
@@ -2106,28 +2107,7 @@ class SpecialistController extends Controller
             $attempts++;
         }
 
-        return response(['chatArr' => $chatArr]);
-    }
-
-    // این تابع برای شمارش پیام های جدید است که در هدر سایت قرار گرفته
-    public function newMessageCounter() {
-        $id = Auth::user()->id;
-        $specialistData = User::find($id);
-
-        //Long polling functionality
-        $chatStatus = false;
-        $attempts = 1;
-        while($chatStatus == false && $attempts <= 5) {
-            sleep(2);
-            $userChats = Chat::where('userId', $id)->orWhere('otherUserId', $id)->latest()->get();
-            if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
-                $chatStatus = true;
-            }
-            Session::put('newChatMessage', $userChats->count());
-            $attempts++;
-        }
-
-        return response(['totalUnreadMessages' => $userChats->count()]);
+        return response(['chatArr' => $chatArr, 'totalUnreadMessages' => $userChats->count()]);
     }
 
     // این تابع برای دریافت چت یک کاربر به خصوص است

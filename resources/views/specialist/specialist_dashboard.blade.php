@@ -5660,8 +5660,7 @@
 		<!--end::Modal - دعوت دوست-->
 		<!--end::Modals-->
 		
-
-		<script src="{{asset('frontend/assets/js/chatNewMessageNotification.js')}}"></script>
+		<script src="{{asset('frontend/assets/js/chatSPUX.js')}}"></script>
 	</body>
 	<!--end::Body-->
 </html>
