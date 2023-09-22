@@ -2094,18 +2094,18 @@ class SpecialistController extends Controller
         }
 
         //Long polling functionality
-        $chatStatus = false;
-        $attempts = 1;
-        while($chatStatus == false && $attempts <= 5) {
-            sleep(2);
+        // $chatStatus = false;
+        // $attempts = 1;
+        // while($chatStatus == false && $attempts <= 5) {
+        //     sleep(2);
             
-            $userChats = Chat::where('otherUserId', $id)->latest()->get();
-            if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
-                $chatStatus = true;
-            }
-            Session::put('newChatMessage', $userChats->count());
-            $attempts++;
-        }
+        //     $userChats = Chat::where('otherUserId', $id)->latest()->get();
+        //     if (Session::get('newChatMessage') && $userChats->count() != Session::get('newChatMessage')) {
+        //         $chatStatus = true;
+        //     }
+        //     Session::put('newChatMessage', $userChats->count());
+        //     $attempts++;
+        // }
 
         return response(['chatArr' => $chatArr, 'totalUnreadMessages' => $userChats->count()]);
     }

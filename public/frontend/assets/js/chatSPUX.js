@@ -332,18 +332,18 @@ $(document).ready(() => {
                 }
                 
                 if(response.totalUnreadMessages) {
-                    let audio = new Audio( window.location.origin  + '/adminbackend/assets/media/new-message.mp3');
+                    // let audio = new Audio( window.location.origin  + '/adminbackend/assets/media/new-message.mp3');
 
                     if(response.totalUnreadMessages == 0) {
                         $('.totalUnreadMessages').html("");
                     } else if(response.totalUnreadMessages > 99) {
                         $('.totalUnreadMessages').html("99+");
 
-                        audio.play();
+                        // audio.play();
                     } else {
                         $('.totalUnreadMessages').html(response.totalUnreadMessages);
 
-                        audio.play();
+                        // audio.play();
                     }
                 }
             },
@@ -351,14 +351,14 @@ $(document).ready(() => {
         });
 
         // این تریگیر فایل صوتی باید خارج از پاسخ ایجکس باشه
-        $('.totalUnreadMessages').on('click',function(event){
-            audio.play();
-        });
+        // $('.totalUnreadMessages').on('click',function(event){
+        //     audio.play();
+        // });
     }
 
     setInterval(() => {
         fetchChatData();
-    }, 10000);
+    }, 2000);
     // end of chat list auto fetch
     
     

@@ -111,9 +111,11 @@ $(document).ready(() => {
                     $("#spinnerChat").show();
                     // add message fetch function here
                     message_fetch();
+
                     setInterval(() => {
                         fetchData();
-                    }, 10000);
+                    }, 5000);
+
                 });
                 // end of second ajax request
             })
@@ -139,6 +141,8 @@ function message_fetch() {
         .then((response) => {
             let htmlChat;
             let chatBody = "";
+
+            let chatContactFormImage = window.location.origin + "/adminbackend/assets/media/misc/chat-contact-form.png";
             
             let clientAvatar = response.data.otherUserObj.photo
                 ? window.location.origin +
@@ -184,6 +188,7 @@ function message_fetch() {
                     <div class="chats">
 
                     <div class="chatStartForm mt-3">
+                        <img src="${chatContactFormImage}" style="display:flex; margin-left:auto; margin-right:auto; width: 140px;">
                         <p class="chatTitleStart mb-0">لطفا اطلاعات تماس خود را وارد نمایید</p>
                             <p id="chatFormInputError"">لطفا همه فیلد ها را به درستی وارد نمایید</p>
                             <div class="form-group d-flex justify-content-between mt-1">
@@ -330,8 +335,6 @@ function message_fetch() {
 
             window.YelsuRoomId = response.data.roomId;
             window.YelsuCurrentUserId = response.data.userId;
-
-
 
             // send first form function
             if(!response.data.messagesObj && !response.data.loginStatus) {
@@ -498,7 +501,9 @@ function fetchData() {
                     htmlChat = `
                     <div class="chats">
                         <div id="listMessages" class="chatBody">
-                            <h3 id="sendUrMsg">پیام خود را ارسال نمایید</h3>
+                            <h3 id="sendUrMsg">
+                            
+                            </h3>
                         </div>
                     </div>
                 `;

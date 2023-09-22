@@ -84,11 +84,11 @@ class ChatController extends Controller
 
             $messagesObj = Chat::where('roomId', $roomId)->get();
 
-            if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
-                $messageStatus = true;
-            }
-
-            Session::put('messageCount' . $roomId, $messagesObj->count());
+            // check message status for long polling
+            // if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
+            //     $messageStatus = true;
+            // }
+            // Session::put('messageCount' . $roomId, $messagesObj->count());
 
             foreach ($messagesObj as $messageItem) {
                 $messagesCollection = collect($messageItem);
@@ -189,19 +189,18 @@ class ChatController extends Controller
         $messageObj = $this->getMessageObj($userId, $otherUserId);
         $messagesObjJdate = $messageObj["messagesObjJdate"];
         $roomId = $messageObj["roomId"];
-        $messageStatus = $messageObj["messageStatus"];
+        $messageStatus = true;
 
         // Long polling functionality
-        $attempts = 1;
-        while($messageStatus == false && $attempts <= 5) {
-            sleep(2);
-            $messageObj = $this->getMessageObj($userId, $otherUserId);
-            $messagesObjJdate = $messageObj["messagesObjJdate"];
-            $roomId = $messageObj["roomId"];
-            $messageStatus = $messageObj["messageStatus"];
-            $attempts++;
-        }
-       
+        // $attempts = 1;
+        // while($messageStatus == false && $attempts <= 5) {
+        //     sleep(2);
+        //     $messageObj = $this->getMessageObj($userId, $otherUserId);
+        //     $messagesObjJdate = $messageObj["messagesObjJdate"];
+        //     $roomId = $messageObj["roomId"];
+        //     $messageStatus = $messageObj["messageStatus"];
+        //     $attempts++;
+        // }
 
         return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
     }
