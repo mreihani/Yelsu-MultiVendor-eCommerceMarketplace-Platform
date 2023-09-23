@@ -2174,9 +2174,6 @@ class SpecialistController extends Controller
             ]);
         }
 
-        // این رو موقتا ترو کن
-        // $messageStatus = true;
-
         return response(['otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userId, 'messageStatus' => $messageStatus]);
     }
 

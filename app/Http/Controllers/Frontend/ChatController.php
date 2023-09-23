@@ -179,14 +179,13 @@ class ChatController extends Controller
 
         $otherUserObjBackend = User::find($otherUserId);
 
-        $roomId = $this->findRoomId(auth()->user()->id, $otherUserId);
-
         if (Auth::check()) {
-            $userObject = Auth::user();
-            $userId = $userObject->id;
+            $userId = auth()->user()->id;
         } else {
             $userId = $this->generateUserId();
         }
+
+        $roomId = $this->findRoomId($userId, $otherUserId);
 
         $messageObj = $this->getMessageObj($userId, $otherUserId);
         $messagesObjJdate = $messageObj["messagesObjJdate"];
@@ -212,10 +211,6 @@ class ChatController extends Controller
                 'seen' => 1,
             ]);
         }
-
-
-        // این رو موقتا ترو کن
-        // $messageStatus = true;
 
         return response(['userId' => $userId, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'messageStatus' => $messageStatus]);
     }
