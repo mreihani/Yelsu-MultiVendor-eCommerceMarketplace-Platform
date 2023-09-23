@@ -53,11 +53,10 @@
 
 .chats {
     width: 100%;
-    padding: 0 15px;
+    /* padding: 0 15px; */
     color: black;
     position: relative;
     font-size: 0.9em;
-    
 }
 
 .chatBody {

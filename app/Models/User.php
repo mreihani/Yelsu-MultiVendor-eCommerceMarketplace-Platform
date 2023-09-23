@@ -78,6 +78,10 @@ class User extends Authenticatable
         return $this->hasOne(Driver::class);
     }
 
+    public function chat() {
+        return $this->hasMany(Chat::class,'userId','id');
+    }
+
     public function scopeCanUpdateAttribute($query, $attribute)
     {
         $collection = collect($attribute);

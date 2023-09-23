@@ -1988,10 +1988,10 @@ class SpecialistController extends Controller
 
             $messagesObj = Chat::where('roomId', $roomId)->get();
 
+            // این وضعیت پیام برای اینه که وقتی پیام جدید میاد صفحه اسکرول کنه پایین، اگر نباشه صفحه همینجوری می چسبه به پایین
             if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
                 $messageStatus = true;
             }
-
             Session::put('messageCount' . $roomId, $messagesObj->count());
 
             foreach ($messagesObj as $messageItem) {
@@ -2107,7 +2107,7 @@ class SpecialistController extends Controller
         //     $attempts++;
         // }
 
-        return response(['chatArr' => $chatArr, 'totalUnreadMessages' => $userChats->count()]);
+        return response(['chatArr' => $chatArr, 'totalUnreadMessages' => Chat::where('otherUserId', $id)->latest()->get()->count()]);
     }
 
     // این تابع برای دریافت چت یک کاربر به خصوص است
@@ -2118,21 +2118,18 @@ class SpecialistController extends Controller
         $uuidArraySize = sizeof(explode("-", $otherUserId));
 
         if ($uuidArraySize == 1) {
-            $otherUserObj = User::find($otherUserId);
+            $otherUserObj = User::find($otherUserId,['id','firstname','lastname']);
         } else {
             $otherUserObjDB = Chat::where('userId', $otherUserId)->first();
             $otherUserObj = array('firstname' => $otherUserObjDB->firstname, 'lastname' => $otherUserObjDB->lastname, 'id' => $otherUserId, 'email' => $otherUserObjDB->email, 'home_phone' => $otherUserObjDB->home_phone);
         }
 
-        $userObject = Auth::user();
-        $userId = $userObject->id;
+        $userId = auth()->user()->id;
 
         $messageObj = $this->getMessageObj($userId, $otherUserId);
         $messagesObjJdate = $messageObj["messagesObjJdate"];
-        $roomId = $messageObj["roomId"];
-        $messageStatus = $messageObj["messageStatus"];
 
-        return response(['user' => $userObject, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userObject->id, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+        return response(['otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userId]);
     }
 
     // long polling interval for single chat item
@@ -2143,14 +2140,13 @@ class SpecialistController extends Controller
         $uuidArraySize = sizeof(explode("-", $otherUserId));
 
         if ($uuidArraySize == 1) {
-            $otherUserObj = User::find($otherUserId);
+            $otherUserObj = User::find($otherUserId,['id','firstname','lastname']);
         } else {
             $otherUserObjDB = Chat::where('userId', $otherUserId)->first();
             $otherUserObj = array('firstname' => $otherUserObjDB->firstname, 'lastname' => $otherUserObjDB->lastname, 'id' => $otherUserId, 'email' => $otherUserObjDB->email, 'home_phone' => $otherUserObjDB->home_phone);
         }
 
-        $userObject = Auth::user();
-        $userId = $userObject->id;
+        $userId = auth()->user()->id;
 
         $messageObj = $this->getMessageObj($userId, $otherUserId);
         $messagesObjJdate = $messageObj["messagesObjJdate"];
@@ -2158,20 +2154,30 @@ class SpecialistController extends Controller
         $messageStatus = $messageObj["messageStatus"];
 
         // Long polling functionality
-        $attempts = 1;
-        while($messageStatus == false && $attempts <= 5) {
-            sleep(2);
+        // $attempts = 1;
+        // while($messageStatus == false && $attempts <= 5) {
+        //     sleep(2);
 
-            $messageObj = $this->getMessageObj($userId, $otherUserId);
-            $messagesObjJdate = $messageObj["messagesObjJdate"];
-            $roomId = $messageObj["roomId"];
-            $messageStatus = $messageObj["messageStatus"];
+        //     $messageObj = $this->getMessageObj($userId, $otherUserId);
+        //     $messagesObjJdate = $messageObj["messagesObjJdate"];
+        //     $roomId = $messageObj["roomId"];
+        //     $messageStatus = $messageObj["messageStatus"];
 
-            $attempts++;
+        //     $attempts++;
+        // }
+
+        // تابع مربوط به سین شدن پیام طرف مقابل
+        $otherUserObjMessages = Chat::where('roomId', $roomId)->where('userId', $otherUserId)->get();
+        foreach ($otherUserObjMessages as $otherUserObjMessage) {
+            $otherUserObjMessage->update([
+                'seen' => 1,
+            ]);
         }
-        // Long polling functionality
 
-        return response(['user' => $userObject, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userObject->id, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+        // این رو موقتا ترو کن
+        // $messageStatus = true;
+
+        return response(['otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'userId' => $userId, 'messageStatus' => $messageStatus]);
     }
 
     /**************************************

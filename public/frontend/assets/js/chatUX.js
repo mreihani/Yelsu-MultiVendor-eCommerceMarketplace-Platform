@@ -188,9 +188,9 @@ function message_fetch() {
                     <div class="chats">
 
                     <div class="chatStartForm mt-3">
-                        <img src="${chatContactFormImage}" style="display:flex; margin-left:auto; margin-right:auto; width: 140px;">
+                        <img src="${chatContactFormImage}" style="display:flex; margin-left:auto; margin-right:auto; width: 110px;">
                         <p class="chatTitleStart mb-0">لطفا اطلاعات تماس خود را وارد نمایید</p>
-                            <p id="chatFormInputError"">لطفا همه فیلد ها را به درستی وارد نمایید</p>
+                            <p id="chatFormInputError">لطفا همه فیلد ها را به درستی وارد نمایید</p>
                             <div class="form-group d-flex justify-content-between mt-1">
                                 <label for="chatUserFirstname">نام:</label>
                                 <input type="text" id="chatUserFirstname">
@@ -262,6 +262,14 @@ function message_fetch() {
             } else {
                 response.data.messagesObj.forEach((msgItem) => {
                     if(msgItem.message != null) {
+
+                        let seenIcon;
+                        if(msgItem.seen == 1) {
+                            seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><line id="secondary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                        } else {
+                            seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                        }
+
                         if (msgItem.userId == response.data.userId) {
                             chatBody += `
                             <div class="myChat">
@@ -271,7 +279,12 @@ function message_fetch() {
                                     </div>
                                     
                                 </div>
-                                <div class="chatTime">${msgItem.jdate}</div>
+                                
+                                <div class="chatTime">
+                                    ${seenIcon}
+                                    ${msgItem.jdate}
+                                </div>
+                                
                             </div>
                         `;
                         } else {
@@ -280,10 +293,14 @@ function message_fetch() {
                                     <div class="chatBoxContent">
                                         <img src="${clientAvatar}" alt="logo">
                                         <div class="chatText">
-                                         ${msgItem.message}
+                                            ${msgItem.message}
                                         </div>
                                     </div>
-                                    <div class="chatTime">${msgItem.jdate}</div>
+                                    
+                                    <div class="chatTime">
+                                        
+                                        ${msgItem.jdate}
+                                    </div>
                                 </div>
                             `;
                         }
@@ -435,7 +452,11 @@ function message_fetch() {
                             ${userInput}
                         </div>
                     </div>
-                    <div class="chatTime">چند لحظه گذشته</div>
+                    <div class="chatTime">
+                    <svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>
+                    
+                    چند لحظه گذشته
+                    </div>
                 </div>
                 `;
 
@@ -487,7 +508,7 @@ function fetchData() {
         })
         .then((response) => {
             
-            if (response.data.messageStatus) {
+            
                 let htmlChat;
                 let chatBody = "";
 
@@ -510,6 +531,14 @@ function fetchData() {
                 } else {
                     response.data.messagesObj.forEach((msgItem) => {
                         if(msgItem.message) {
+
+                            let seenIcon;
+                            if(msgItem.seen == 1) {
+                                seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><line id="secondary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                            } else {
+                                seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                            }
+
                             if(msgItem.userId == response.data.userId) {
                                 chatBody += `
                             <div class="myChat">
@@ -519,7 +548,10 @@ function fetchData() {
                                     </div>
                                     
                                 </div>
-                                <div class="chatTime">${msgItem.jdate}</div>
+                                <div class="chatTime">
+                                    ${seenIcon}
+                                    ${msgItem.jdate}
+                                </div>
                             </div>`;
                             } else {
                                 chatBody += `
@@ -527,10 +559,12 @@ function fetchData() {
                                     <div class="chatBoxContent">
                                         <img src="${clientAvatar}" alt="logo">
                                         <div class="chatText">
-                                         ${msgItem.message}
+                                           ${msgItem.message}
                                         </div>
                                     </div>
-                                    <div class="chatTime">${msgItem.jdate}</div>
+                                    <div class="chatTime">
+                                        ${msgItem.jdate}
+                                    </div>
                                 </div>
                             `;
                             }
@@ -547,12 +581,13 @@ function fetchData() {
                 window.YelsuRoomId = response.data.roomId;
                 window.YelsuCurrentUserId = response.data.userId;
 
-                //auto scroll function
-                $(".chatBody").animate(
-                    { scrollTop: $(".chatBody").prop("scrollHeight") },
-                    "fast"
-                );
-            }
+                if (response.data.messageStatus) {
+                    //auto scroll function
+                    $(".chatBody").animate(
+                        { scrollTop: $(".chatBody").prop("scrollHeight") },
+                        "fast"
+                    );
+                }
         })
         .catch((error) => {
             // console.log("Error: ", error);

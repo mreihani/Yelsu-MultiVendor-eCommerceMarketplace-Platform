@@ -84,11 +84,11 @@ class ChatController extends Controller
 
             $messagesObj = Chat::where('roomId', $roomId)->get();
 
-            // check message status for long polling
-            // if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
-            //     $messageStatus = true;
-            // }
-            // Session::put('messageCount' . $roomId, $messagesObj->count());
+            // این وضعیت پیام برای اینه که وقتی پیام جدید میاد صفحه اسکرول کنه پایین، اگر نباشه صفحه همینجوری می چسبه به پایین
+            if (Session::get('messageCount' . $roomId) && $messagesObj->count() != Session::get('messageCount' . $roomId)) {
+                $messageStatus = true;
+            }
+            Session::put('messageCount' . $roomId, $messagesObj->count());
 
             foreach ($messagesObj as $messageItem) {
                 $messagesCollection = collect($messageItem);
@@ -144,7 +144,7 @@ class ChatController extends Controller
 
     public function fetchSpecialist(Request $request)
     {
-        $users_array = User::where('specialist_category_id', Purify::clean($request->selected_category))->latest()->get();
+        $users_array = User::where('specialist_category_id', Purify::clean($request->selected_category))->latest()->get(['id', 'firstname','lastname']);
         $selected_category_name = Category::find(Purify::clean($request->selected_category))->category_name;
 
         return response(['users_array' => $users_array, 'selected_category_name' => $selected_category_name]);
@@ -153,9 +153,9 @@ class ChatController extends Controller
     public function fetchSpecialistFinal(Request $request)
     {
         $otherUserId = (int) Purify::clean($request->otherUserId);
-        $otherUserObj = User::find($otherUserId);
+        $otherUserObj = User::find($otherUserId, ['firstname', 'lastname', 'photo']);
 
-        $categoryName = $otherUserObj->specialist_category->category_name;
+        $categoryName = User::find($otherUserId)->specialist_category->category_name;
 
         if (Auth::check()) {
             $userObject = Auth::user();
@@ -169,15 +169,17 @@ class ChatController extends Controller
         $roomId = $messageObj["roomId"];
         $messageStatus = $messageObj["messageStatus"];
 
-        return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+        return response(['userId' => $userId, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'loginStatus' => auth()->check()]);
     }
 
     public function fetchSpecialistLongPolling(Request $request)
     {
         $otherUserId = (int) Purify::clean($request->otherUserId);
-        $otherUserObj = User::find($otherUserId);
+        $otherUserObj = User::find($otherUserId, ['firstname', 'lastname', 'photo']);
 
-        $categoryName = $otherUserObj->specialist_category->category_name;
+        $otherUserObjBackend = User::find($otherUserId);
+
+        $roomId = $this->findRoomId(auth()->user()->id, $otherUserId);
 
         if (Auth::check()) {
             $userObject = Auth::user();
@@ -188,8 +190,8 @@ class ChatController extends Controller
 
         $messageObj = $this->getMessageObj($userId, $otherUserId);
         $messagesObjJdate = $messageObj["messagesObjJdate"];
-        $roomId = $messageObj["roomId"];
-        $messageStatus = true;
+        $messageStatus = $messageObj["messageStatus"];
+        
 
         // Long polling functionality
         // $attempts = 1;
@@ -202,7 +204,20 @@ class ChatController extends Controller
         //     $attempts++;
         // }
 
-        return response(['userId' => $userId, 'loginStatus' => Auth::check(), 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'categoryName' => $categoryName, 'roomId' => $roomId, 'messageStatus' => $messageStatus]);
+
+        // تابع مربوط به سین شدن پیام طرف مقابل
+        $otherUserObjMessages = Chat::where('roomId', $roomId)->where('userId', $otherUserId)->get();
+        foreach ($otherUserObjMessages as $otherUserObjMessage) {
+            $otherUserObjMessage->update([
+                'seen' => 1,
+            ]);
+        }
+
+
+        // این رو موقتا ترو کن
+        // $messageStatus = true;
+
+        return response(['userId' => $userId, 'otherUserObj' => $otherUserObj, 'messagesObj' => $messagesObjJdate, 'messageStatus' => $messageStatus]);
     }
 
     public function sendfirstform(Request $request)

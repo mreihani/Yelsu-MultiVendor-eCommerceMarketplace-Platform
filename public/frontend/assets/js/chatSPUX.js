@@ -43,12 +43,21 @@ $(document).ready(() => {
                 }
 
                 response.data.messagesObj.forEach((messageItem) => {
+
                     let messageBody = messageItem.message;
+
+                    let seenIcon;
+                    if(messageItem.seen == 1) {
+                        seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><line id="secondary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                    } else {
+                        seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                    }
+
                     if (!messageItem.message) {
                         messageBody =
                             "کاربر فرم اطلاعات خود را تکمیل و ارسال نموده است";
                     }
-                    if (messageItem.userId == response.data.user.id) {
+                    if (messageItem.userId == response.data.userId) {
                         chatBody += `
     
                             <!--begin::پیام(in)-->
@@ -62,7 +71,11 @@ $(document).ready(() => {
                                     <!--end::user-->
                                     <!--begin::Text-->
                                     <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
-                                    <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
+                                    <div class="text-muted fs-7 mb-1 d-flex justify-content-end">
+                                        ${seenIcon}
+                                        &#8201;
+                                        ${messageItem.jdate}
+                                    </div>
                                     <!--end::Text-->
                                 </div>
                                 <!--end::Wrapper-->
@@ -117,6 +130,7 @@ $(document).ready(() => {
                 otherUserId: YelsuOtherUserId,
             })
             .then((response) => {
+                
                 let chatBody = "";
                 $("#startInfo").remove();
                 $("#kt_chat_messenger_footer").show();
@@ -137,7 +151,14 @@ $(document).ready(() => {
                             "کاربر فرم اطلاعات خود را تکمیل و ارسال نموده است";
                     }
 
-                    if (messageItem.userId == response.data.user.id) {
+                    let seenIcon;
+                    if(messageItem.seen == 1) {
+                        seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><line id="secondary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                    } else {
+                        seenIcon = '<svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>';
+                    }
+
+                    if (messageItem.userId == response.data.userId) {
                         chatBody += `
 
                         <!--begin::پیام(in)-->
@@ -151,7 +172,12 @@ $(document).ready(() => {
                                 <!--end::user-->
                                 <!--begin::Text-->
                                 <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${messageBody}</div>
-                                <div class="text-muted fs-7 mb-1 d-flex justify-content-end">${messageItem.jdate}</div>
+                                <div class="text-muted fs-7 mb-1 d-flex justify-content-end">
+                                    ${seenIcon}
+                                    &#8201;
+                                    ${messageItem.jdate}
+                                </div>
+                                
                                 <!--end::Text-->
                             </div>
                             <!--end::Wrapper-->
@@ -214,7 +240,7 @@ $(document).ready(() => {
         if (typeof YelsuOtherUserId != "undefined") {
             fetchData();
         }
-    }, 10000);
+    }, 5000);
     // end of auto fetch for single chat item with long polling
 
    
@@ -239,7 +265,11 @@ $(document).ready(() => {
                             <!--end::user-->
                             <!--begin::Text-->
                             <div class="p-5 myChat text-dark fw-semibold mw-lg-400px text-start" data-kt-element="message-text">${userInput}</div>
-                            <div class="text-muted fs-7 mb-1 d-flex justify-content-end">چند لحظه گذشته</div>
+                            <div class="text-muted fs-7 mb-1 d-flex justify-content-end">
+                            <svg fill="#000000" width="15px" height="15px" viewBox="0 0 24 24" id="check-double" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><polyline id="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></svg>
+                            &#8201;
+                            چند لحظه گذشته
+                            </div>
                             <!--end::Text-->
                         </div>
                         <!--end::Wrapper-->
@@ -330,22 +360,22 @@ $(document).ready(() => {
 
                     chatListAutoFetch.innerHTML = htmlAutoFetch;
                 }
-                
-                if(response.totalUnreadMessages) {
-                    // let audio = new Audio( window.location.origin  + '/adminbackend/assets/media/new-message.mp3');
 
-                    if(response.totalUnreadMessages == 0) {
-                        $('.totalUnreadMessages').html("");
-                    } else if(response.totalUnreadMessages > 99) {
-                        $('.totalUnreadMessages').html("99+");
+                // let audio = new Audio( window.location.origin  + '/adminbackend/assets/media/new-message.mp3');
 
-                        // audio.play();
-                    } else {
-                        $('.totalUnreadMessages').html(response.totalUnreadMessages);
+                if(response.totalUnreadMessages == 0) {
+                    $('.totalUnreadMessages').html("");
+                    console.log(response.totalUnreadMessages);
+                } else if(response.totalUnreadMessages > 99) {
+                    $('.totalUnreadMessages').html("99+");
 
-                        // audio.play();
-                    }
+                    // audio.play();
+                } else {
+                    $('.totalUnreadMessages').html(response.totalUnreadMessages);
+
+                    // audio.play();
                 }
+                
             },
 
         });
@@ -358,7 +388,7 @@ $(document).ready(() => {
 
     setInterval(() => {
         fetchChatData();
-    }, 2000);
+    }, 3000);
     // end of chat list auto fetch
     
     
