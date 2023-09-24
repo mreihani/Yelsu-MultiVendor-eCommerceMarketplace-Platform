@@ -114,7 +114,7 @@ $(document).ready(() => {
 
                     setInterval(() => {
                         fetchData();
-                    }, 5000);
+                    }, 10000);
 
                 });
                 // end of second ajax request

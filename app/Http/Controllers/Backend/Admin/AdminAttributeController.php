@@ -32,9 +32,7 @@ class AdminAttributeController extends Controller
         foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
-        // category for filter
 
         return view('admin.backend.attribute.attribute_add', compact('adminData', 'parentCategories', 'filter_category_array'));
     }

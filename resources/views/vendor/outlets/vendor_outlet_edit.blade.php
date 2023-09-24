@@ -231,7 +231,7 @@
                                 <!--end::Input group--> --}}
 
                                 <!--begin::Input group-->
-                                @if (count($vendor_sector_cat_arr))
+                                @if (count($vendorSectorArr))
                                     <div class="row mb-6">
                                         <!--begin::Tags-->
                                         <label class="col-lg-4 col-form-label fw-semibold fs-6">
@@ -242,20 +242,20 @@
                                        
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row mt-4">
-                                            <ul class="list-style-none">
+                                            <ul class="list-style-none mt-4">
                                                 @foreach ($filter_category_array as $category)
                                                     <li class="filterButtonShopPage rootCat">
-                                                        @if(in_array($category[0]->id, $vendor_sector_cat_arr_selected))
-                                                            <input @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                        @if(in_array($category[0]->id, $outletSectorArr))
+                                                            <input class="form-check-input" @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                         @else
-                                                            <input type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                            <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                         @endif
                                                     </li>
                                                     <div class="subCategoryBtn">
-                                                        @include('vendor.outlets.layouts.edit-categories-group', ['categories' => $category[1]])
+                                                        @include('vendor.body.layouts.vendor_outlets.edit-categories-group', ['categories' => $category[1]])
                                                     </div>
                                                 @endforeach
-                                            </ul>      
+                                            </ul>   
                                         </div>
                                         <!--end::Col-->   
                                     </div>

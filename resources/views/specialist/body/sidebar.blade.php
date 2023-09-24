@@ -797,10 +797,11 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">چت</span>
+                        <span class="menu-title">سامانه گفتگوی آنلاین</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
+
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
@@ -810,7 +811,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">چت خصوصی</span>
+                                <span class="menu-title">پیام های جدید</span>
                                 <span class="badge badge-primary totalUnreadMessages"></span>
                             </a>
                             <!--end:Menu link-->
@@ -818,6 +819,25 @@
                         <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " style="margin-left:14px;" href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">پیام های بایگانی شده</span>
+                                <span class="badge badge-warning totalUnreadMessages"></span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
                 </div>
                 <!--end:Menu item-->
 

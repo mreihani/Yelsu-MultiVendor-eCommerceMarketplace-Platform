@@ -433,9 +433,9 @@
                                             @foreach ($filter_category_array as $category)
                                                 <li class="filterButtonShopPage rootCat">
                                                     @if(in_array($category[0]->id, $vendor_sector_cat_arr_selected))
-                                                        <input @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                        <input class="form-check-input" @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                     @else
-                                                        <input type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                        <input class="form-check-input" type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                     @endif
                                                 </li>
                                                 <div class="subCategoryBtn">

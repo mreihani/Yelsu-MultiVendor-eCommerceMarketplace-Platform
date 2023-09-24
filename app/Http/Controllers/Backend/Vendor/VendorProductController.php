@@ -42,39 +42,18 @@ class VendorProductController extends Controller
     {
         $user_id = Auth::user()->id;
         $vendorData = User::find($user_id);
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
-        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $vendorSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($vendorSectorArr as $vendorSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($vendorSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
         $allAttributes = Attribute::get();
 
-        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'categories', 'allAttributes'));
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
     }
 
     public function VendorStoreProduct(Request $request)
@@ -189,58 +168,22 @@ class VendorProductController extends Controller
 
     public function VendorEditProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $vendorData = User::find($user_id);
-
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
-        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $vendorSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($vendorSectorArr as $vendorSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($vendorSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
-        // these lines of code are all for category dropdown select form
-        $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-        $selected_vendor_id_array = explode(",", $products->vendor_id);
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-
+        
         $allAttributes = Attribute::get();
+        $products = Product::findOrFail(Purify::clean($id));
 
-        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
     }
 
     public function VendorUpdateProduct(Request $request)
@@ -447,60 +390,22 @@ class VendorProductController extends Controller
 
     public function VendorCopyProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $vendorData = User::find($user_id);
 
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
-        $vendorSectorArr = Category::findRootCategoryArray($vendorSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $vendorSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($vendorSectorArr as $vendorSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($vendorSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
-        
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-
-        $selected_vendor_id_array = explode(",", $products->vendor_id);
-
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-
         $allAttributes = Attribute::get();
 
-        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+        
+        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
     }
 
     public function VendorStoreCopyProduct(Request $request)

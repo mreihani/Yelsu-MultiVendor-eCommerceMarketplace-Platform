@@ -19,19 +19,16 @@ class OutletController extends Controller
         $id = Auth::user()->id;
         $vendorData = User::find($id);
 
-        $vendor_sector_arr = explode(",", $vendorData->vendor_sector);
-        $vendor_sector_cat_arr = Category::findRootCategoryArray($vendor_sector_arr);
-        
-        // category for filter
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
+
         $filter_category_array = [];
-        foreach ($vendor_sector_cat_arr as $parentCategory) {
+        foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
-        // category for filter
 
-        return view('vendor.outlets.vendor_outlet_add', compact('vendorData', 'filter_category_array', 'vendor_sector_cat_arr'));
+        return view('vendor.outlets.vendor_outlet_add', compact('vendorData', 'filter_category_array', 'vendorSectorArr'));
     }
 
     public function VendorStoreOutlet(Request $request)
@@ -50,26 +47,6 @@ class OutletController extends Controller
             'category_id.required' => 'لطفا زیر دسته فعالیت را انتخاب نمایید.',
         ]);
 
-        // added recursive function to find root parent category
-        $root_catgory_id = [];
-        $categories = Category::latest()->get();
-        foreach (Purify::clean($incomingFields['category_id']) as $category_item) {
-            $category_by_id = Category::find($category_item);
-            foreach ($categories as $categoryItem) {
-                if ($category_by_id->parent == 0) {
-                    $root_catgory_id[] = $category_by_id->id;
-                    break;
-                } else {
-                    $category_by_id = Category::find($category_by_id->parent);
-                }
-            }
-        }
-        $root_catgory_id = array_unique($root_catgory_id);
-        // end of - recursive function to find root parent category
-
-        $selected_categories = array_merge($root_catgory_id, Purify::clean($incomingFields['category_id']));
-        $category_id = implode(',', $selected_categories);
-
         Outlet::insert([
             'shop_name' => Purify::clean($incomingFields['shop_name']),
             'shop_address' => Purify::clean($incomingFields['shop_address']),
@@ -81,11 +58,12 @@ class OutletController extends Controller
             'user_id' => Auth::user()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'category_id' => $category_id,
+            'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
         ]);
 
         return redirect(route('vendor.all.outlet'))->with('success', 'آدرس مورد نظر با موفقیت اضافه گردید.');
     }
+
     public function VendorAllOutlet()
     {
         $id = Auth::user()->id;
@@ -95,36 +73,34 @@ class OutletController extends Controller
 
         return view('vendor.outlets.vendor_outlet_all', compact('vendorData', 'outlets'));
     }
+
     public function VendorEditOutlet($outlet_id)
     {
         $id = Auth::user()->id;
         $vendorData = User::find($id);
 
-        $vendor_sector_arr = explode(",", $vendorData->vendor_sector);
-        $vendor_sector_cat_arr = Category::findRootCategoryArray($vendor_sector_arr);
+        $vendorSectorArr = explode(",", $vendorData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
 
-        // category for filter
         $filter_category_array = [];
-        foreach ($vendor_sector_cat_arr as $parentCategory) {
+        foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
-        // category for filter
 
         $outlet = Outlet::find(Purify::clean($outlet_id));
 
         if ($outlet->category_id) {
-            $vendor_sector_cat_arr_selected = explode(",", $outlet->category_id);
+            $outletSectorArr = explode(",", $outlet->category_id);
         } else {
-            $vendor_sector_cat_arr_selected = [];
+            $outletSectorArr = [];
         }
 
-        return view('vendor.outlets.vendor_outlet_edit', compact('vendorData', 'outlet', 'filter_category_array', 'vendor_sector_cat_arr', 'vendor_sector_cat_arr_selected'));
+        return view('vendor.outlets.vendor_outlet_edit', compact('vendorData', 'outlet', 'filter_category_array', 'vendorSectorArr', 'outletSectorArr'));
     }
+
     public function VendorUpdateOutlet(Request $request)
     {
-
         $outlet_id = Purify::clean($request->outlet_id);
 
         $incomingFields = $request->validate([
@@ -136,29 +112,6 @@ class OutletController extends Controller
             'shop_address.required' => 'لطفا آدرس فروشگاه / شرکت را وارد نمایید.',
             'category_id.required' => 'لطفا زیر دسته فعالیت را انتخاب نمایید.',
         ]);
-
-
-        // added recursive function to find root parent category
-        $root_catgory_id = [];
-        $categories = Category::latest()->get();
-        foreach (Purify::clean($incomingFields['category_id']) as $category_item) {
-            $category_by_id = Category::find($category_item);
-            foreach ($categories as $categoryItem) {
-                if ($category_by_id->parent == 0) {
-                    $root_catgory_id[] = $category_by_id->id;
-                    break;
-                } else {
-                    $category_by_id = Category::find($category_by_id->parent);
-                }
-            }
-        }
-        $root_catgory_id = array_unique($root_catgory_id);
-        // end of - recursive function to find root parent category
-
-
-        $selected_categories = array_merge($root_catgory_id, Purify::clean($incomingFields['category_id']));
-        $category_id = implode(',', $selected_categories);
-
 
         if (Purify::clean($request->latitude) && Purify::clean($request->longitude)) {
             Outlet::findOrFail($outlet_id)->update([
@@ -172,7 +125,7 @@ class OutletController extends Controller
                 'user_id' => Auth::user()->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'category_id' => $category_id,
+                'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
             ]);
         } else {
             Outlet::findOrFail($outlet_id)->update([
@@ -184,7 +137,7 @@ class OutletController extends Controller
                 'user_id' => Auth::user()->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'category_id' => $category_id,
+                'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
             ]);
         }
 

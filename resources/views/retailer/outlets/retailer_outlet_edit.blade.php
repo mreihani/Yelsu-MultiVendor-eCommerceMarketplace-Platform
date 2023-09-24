@@ -195,43 +195,8 @@
                                 </div>
                                 <!--end::Input group-->
 
-                                {{-- <!--begin::Input group-->
-                                @if (count($retailer_sector_cat_arr))
-                                    <div class="row mb-6">
-                                        <!--begin::Tags-->
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">
-                                            انتخاب زمینه فعالیت محل انتخاب شده
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="لطفا زمینه فعالیت محل انتخاب شده با مشخص کردن زیر دسته آن فعالیت را از گزینه های روبه انتخاب نمایید."></i></label>
-                                        </label>
-                                        
-                                        <!--end::Tags-->
-
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row mt-4">
-                                            <ul class="list-style-none">
-                                                @foreach ($filter_category_array as $category)
-                                                    <li class="filterButtonShopPage rootCat">
-                                                         {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                                    </li>
-                                                    <div class="subCategoryBtn">
-                                                        @foreach ($category[1] as $sub_cat_item)
-                                                            @if (in_array($sub_cat_item->id, $retailer_sector_cat_arr_selected))
-                                                                <li class="filterButtonShopPage"><input @checked(true) type="checkbox" name="category_id[]" value="{{$sub_cat_item->id}}"> {{$sub_cat_item->category_name}} </li>
-                                                            @else
-                                                                <li class="filterButtonShopPage"><input type="checkbox" name="category_id[]" value="{{$sub_cat_item->id}}"> {{$sub_cat_item->category_name}} </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                @endforeach
-                                            </ul>      
-                                        </div>
-                                        <!--end::Col-->   
-                                    </div>
-                                @endif    
-                                <!--end::Input group--> --}}
-
                                 <!--begin::Input group-->
-                                @if (count($retailer_sector_cat_arr))
+                                @if (count($retailerSectorArr))
                                     <div class="row mb-6">
                                         <!--begin::Tags-->
                                         <label class="col-lg-4 col-form-label fw-semibold fs-6">
@@ -242,20 +207,20 @@
                                        
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row mt-4">
-                                            <ul class="list-style-none">
+                                            <ul class="list-style-none mt-4">
                                                 @foreach ($filter_category_array as $category)
                                                     <li class="filterButtonShopPage rootCat">
-                                                        @if(in_array($category[0]->id, $retailer_sector_cat_arr_selected))
-                                                            <input @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                        @if(in_array($category[0]->id, $outletSectorArr))
+                                                            <input class="form-check-input" @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                         @else
-                                                            <input type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                            <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                         @endif
                                                     </li>
                                                     <div class="subCategoryBtn">
-                                                        @include('retailer.outlets.layouts.edit-categories-group', ['categories' => $category[1]])
+                                                        @include('retailer.body.layouts.retailer_outlets.edit-categories-group', ['categories' => $category[1]])
                                                     </div>
                                                 @endforeach
-                                            </ul>      
+                                            </ul>   
                                         </div>
                                         <!--end::Col-->   
                                     </div>

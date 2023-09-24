@@ -240,7 +240,7 @@ $(document).ready(() => {
         if (typeof YelsuOtherUserId != "undefined") {
             fetchData();
         }
-    }, 5000);
+    }, 10000);
     // end of auto fetch for single chat item with long polling
 
    
@@ -365,7 +365,7 @@ $(document).ready(() => {
 
                 if(response.totalUnreadMessages == 0) {
                     $('.totalUnreadMessages').html("");
-                    console.log(response.totalUnreadMessages);
+                    
                 } else if(response.totalUnreadMessages > 99) {
                     $('.totalUnreadMessages').html("99+");
 

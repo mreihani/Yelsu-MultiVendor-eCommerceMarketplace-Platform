@@ -369,39 +369,18 @@ class RetailerController extends Controller
     {
         $user_id = Auth::user()->id;
         $retailerData = User::find($user_id);
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
-        $retailerSectorArr = Category::findRootCategoryArray($retailerSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $retailerSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($retailerSectorArr as $retailerSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($retailerSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
         $allAttributes = Attribute::get();
 
-        return view('retailer.backend.product.retailer_product_add', compact('retailerData', 'categories', 'allAttributes'));
+        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('retailer.backend.product.retailer_product_add', compact('retailerData', 'allAttributes', 'filter_category_array', 'retailerSectorArr'));
     }
 
     public function RetailerStoreProduct(Request $request)
@@ -516,58 +495,22 @@ class RetailerController extends Controller
 
     public function RetailerEditProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $retailerData = User::find($user_id);
-
-        $retailersName = User::where('role', 'retailer')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
-        $retailerSectorArr = Category::findRootCategoryArray($retailerSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $retailerSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($retailerSectorArr as $retailerSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($retailerSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
-        // these lines of code are all for category dropdown select form
-        $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-        $selected_retailer_id_array = explode(",", $products->retailer_id);
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-
+        
         $allAttributes = Attribute::get();
+        $products = Product::findOrFail(Purify::clean($id));
 
-        return view('retailer.backend.product.retailer_product_edit', compact('retailerData', 'categories', 'retailersName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('retailer.backend.product.retailer_product_edit', compact('retailerData', 'products', 'allAttributes', 'filter_category_array', 'retailerSectorArr'));
     }
 
     public function RetailerUpdateProduct(Request $request)
@@ -774,59 +717,22 @@ class RetailerController extends Controller
 
     public function RetailerCopyProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $retailerData = User::find($user_id);
 
-        $retailersName = User::where('role', 'retailer')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
-        $retailerSectorArr = Category::findRootCategoryArray($retailerSectorArr)->pluck("id")->toArray();
-
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-
-                if (in_array($root_catgory_obj->id, $retailerSectorArr)) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        foreach ($retailerSectorArr as $retailerSectorItem) {
-            array_push($category_hierarchy_arr, Category::find($retailerSectorItem));
-        }
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-        
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-
-        $selected_retailer_id_array = explode(",", $products->retailer_id);
-
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-
         $allAttributes = Attribute::get();
 
-        return view('retailer.backend.product.retailer_product_copy', compact('retailerData', 'categories', 'retailersName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
+
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('retailer.backend.product.retailer_product_copy', compact('retailerData', 'products', 'allAttributes', 'filter_category_array', 'retailerSectorArr'));
     }
 
     public function RetailerStoreCopyProduct(Request $request)
@@ -1002,23 +908,20 @@ class RetailerController extends Controller
         $id = Auth::user()->id;
         $retailerData = User::find($id);
 
-        $retailer_sector_arr = explode(",", $retailerData->vendor_sector);
-        $retailer_sector_cat_arr = Category::findRootCategoryArray($retailer_sector_arr);
-        
-        // category for filter
+        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
+
         $filter_category_array = [];
-        foreach ($retailer_sector_cat_arr as $parentCategory) {
+        foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
         }
-        // category for filter
 
-        return view('retailer.outlets.retailer_outlet_add', compact('retailerData', 'filter_category_array', 'retailer_sector_cat_arr'));
+        return view('retailer.outlets.retailer_outlet_add', compact('retailerData', 'filter_category_array', 'retailerSectorArr'));
     } //End method
 
     public function RetailerStoreOutlet(Request $request)
     {
-
         $incomingFields = $request->validate([
             'shop_name' => 'required',
             'shop_address' => 'required',
@@ -1033,26 +936,6 @@ class RetailerController extends Controller
             'category_id.required' => 'لطفا زیر دسته فعالیت را انتخاب نمایید.',
         ]);
 
-        // added recursive function to find root parent category
-        $root_catgory_id = [];
-        $categories = Category::latest()->get();
-        foreach (Purify::clean($incomingFields['category_id']) as $category_item) {
-            $category_by_id = Category::find($category_item);
-            foreach ($categories as $categoryItem) {
-                if ($category_by_id->parent == 0) {
-                    $root_catgory_id[] = $category_by_id->id;
-                    break;
-                } else {
-                    $category_by_id = Category::find($category_by_id->parent);
-                }
-            }
-        }
-        $root_catgory_id = array_unique($root_catgory_id);
-        // end of - recursive function to find root parent category
-
-        $selected_categories = array_merge($root_catgory_id, Purify::clean($incomingFields['category_id']));
-        $category_id = implode(',', $selected_categories);
-
         Retaileroutlet::insert([
             'shop_name' => Purify::clean($incomingFields['shop_name']),
             'shop_address' => Purify::clean($incomingFields['shop_address']),
@@ -1062,7 +945,7 @@ class RetailerController extends Controller
             'shop_phone' => Purify::clean($request->shop_phone) ? Purify::clean($request->shop_phone) : NULL,
             'shop_fax' => Purify::clean($request->shop_fax) ? Purify::clean($request->shop_fax) : NULL,
             'user_id' => Auth::user()->id,
-            'category_id' => $category_id,
+            'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -1085,35 +968,30 @@ class RetailerController extends Controller
         $id = Auth::user()->id;
         $retailerData = User::find($id);
 
-        $outlet = Retaileroutlet::find(Purify::clean($outlet_id));
+        $retailerSectorArr = explode(",", $retailerData->vendor_sector);
+        $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
 
-        $retailer_sector_arr = explode(",", $retailerData->vendor_sector);
-        $retailer_sector_cat_arr = Category::findRootCategoryArray($retailer_sector_arr);
-        
-        // category for filter
         $filter_category_array = [];
-        foreach ($retailer_sector_cat_arr as $parentCategory) {
+        foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
         }
-        // category for filter
 
         $outlet = Retaileroutlet::find(Purify::clean($outlet_id));
 
         if ($outlet->category_id) {
-            $retailer_sector_cat_arr_selected = explode(",", $outlet->category_id);
+            $outletSectorArr = explode(",", $outlet->category_id);
         } else {
-            $retailer_sector_cat_arr_selected = [];
+            $outletSectorArr = [];
         }
-
-        return view('retailer.outlets.retailer_outlet_edit', compact('retailerData', 'outlet', 'filter_category_array', 'retailer_sector_cat_arr', 'retailer_sector_cat_arr_selected'));
+        
+        return view('retailer.outlets.retailer_outlet_edit', compact('retailerData', 'outlet', 'filter_category_array', 'retailerSectorArr', 'outletSectorArr'));
     } //End method
 
     public function RetailerUpdateOutlet(Request $request)
     {
-
         $outlet_id = Purify::clean($request->outlet_id);
-
+        
         $incomingFields = $request->validate([
             'shop_name' => 'required',
             'shop_address' => 'required',
@@ -1123,26 +1001,6 @@ class RetailerController extends Controller
             'shop_address.required' => 'لطفا آدرس فروشگاه / شرکت را وارد نمایید.',
             'category_id.required' => 'لطفا زیر دسته فعالیت را انتخاب نمایید.',
         ]);
-
-        // added recursive function to find root parent category
-        $root_catgory_id = [];
-        $categories = Category::latest()->get();
-        foreach (Purify::clean($incomingFields['category_id']) as $category_item) {
-            $category_by_id = Category::find($category_item);
-            foreach ($categories as $categoryItem) {
-                if ($category_by_id->parent == 0) {
-                    $root_catgory_id[] = $category_by_id->id;
-                    break;
-                } else {
-                    $category_by_id = Category::find($category_by_id->parent);
-                }
-            }
-        }
-        $root_catgory_id = array_unique($root_catgory_id);
-        // end of - recursive function to find root parent category
-
-        $selected_categories = array_merge($root_catgory_id, Purify::clean($incomingFields['category_id']));
-        $category_id = implode(',', $selected_categories);
 
         if (Purify::clean($request->latitude) && Purify::clean($request->longitude)) {
             Retaileroutlet::findOrFail($outlet_id)->update([
@@ -1154,7 +1012,7 @@ class RetailerController extends Controller
                 'shop_phone' => Purify::clean($request->shop_phone) ? Purify::clean($request->shop_phone) : NULL,
                 'shop_fax' => Purify::clean($request->shop_fax) ? Purify::clean($request->shop_fax) : NULL,
                 'user_id' => Auth::user()->id,
-                'category_id' => $category_id,
+                'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -1166,7 +1024,7 @@ class RetailerController extends Controller
                 'shop_phone' => Purify::clean($request->shop_phone) ? Purify::clean($request->shop_phone) : NULL,
                 'shop_fax' => Purify::clean($request->shop_fax) ? Purify::clean($request->shop_fax) : NULL,
                 'user_id' => Auth::user()->id,
-                'category_id' => $category_id,
+                'category_id' => implode(",",Purify::clean($incomingFields['category_id'])),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

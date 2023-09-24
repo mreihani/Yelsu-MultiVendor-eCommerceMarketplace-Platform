@@ -3,17 +3,17 @@
     @if(in_array($category->id, $retailer_sector_cat_arr_selected))
         <li class="filterButtonShopPage list-style-none">
             @if($category->relatedChild->count()) 
-                <input @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
+                <input class="form-check-input" @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
             @else
-                <input @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> {{$category->category_name}} 
+                <input class="form-check-input" @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> {{$category->category_name}} 
             @endif
         </li>
     @else
         <li class="filterButtonShopPage list-style-none">
             @if($category->relatedChild->count()) 
-                <input type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
+                <input class="form-check-input" type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category->category_name}} {{"(".$category->relatedChild->count()." زیر دسته)"}}
             @else
-                <input type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> {{$category->category_name}} 
+                <input class="form-check-input" type="checkbox" name="vendor_sector[]" value="{{$category->id}}"> {{$category->category_name}} 
             @endif
         </li>
     @endif

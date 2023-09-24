@@ -195,7 +195,7 @@
                                 <!--end::Input group-->
 
                                 <!--begin::Input group-->
-                                @if (count($retailer_sector_cat_arr))
+                                @if (count($retailerSectorArr))
                                     <div class="row mb-6">
                                         <!--begin::Tags-->
                                         <label class="col-lg-4 col-form-label fw-semibold fs-6">
@@ -206,16 +206,16 @@
                                        
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row mt-4">
-                                            <ul class="list-style-none">
+                                            <ul class="list-style-none mt-4">
                                                 @foreach ($filter_category_array as $category)
                                                     <li class="filterButtonShopPage rootCat">
-                                                        <input type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                        <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}}
                                                     </li>
                                                     <div class="subCategoryBtn">
-                                                        @include('retailer.outlets.layouts.categories-group', ['categories' => $category[1]])
+                                                        @include('retailer.body.layouts.retailer_outlets.categories-group', ['categories' => $category[1]])
                                                     </div>
                                                 @endforeach
-                                            </ul>      
+                                            </ul>    
                                         </div>
                                         <!--end::Col-->   
                                     </div>
