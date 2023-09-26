@@ -30,6 +30,7 @@ Route::middleware(['vendoraccess'])->group(function () {
         Route::get('delete/product/{id}', 'VendorDeleteProduct')->name('vendor.delete.product');
         Route::get('copy/product/{id}', 'VendorCopyProduct')->name('vendor.copy.product');
         Route::post('storeCopy/product', 'VendorStoreCopyProduct')->name('vendor.storeCopy.product');
+        Route::post('load-attributes','LoadAttributes');
     });
 
     //Vendor Order All Route

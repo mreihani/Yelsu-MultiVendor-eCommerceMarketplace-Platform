@@ -201,10 +201,18 @@
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
+
+                            <input type="hidden" value={{$vendorData->role}} id="user-role">
+
+                            <div class="alert alert-warning no-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا حداقل یک دسته بندی انتخاب نمایید
+                            </div>
+
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title required">
                                     <h2>انتخاب دسته بندی</h2>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="در صورتی که دسته بندی مورد نظر در لیست زیر قرار ندارد، ابتدا آن را از بخش تنظیمات حساب کاربری انتخاب نمایید تا در لیست زیر فراخوانی گردد."></i>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
@@ -226,49 +234,27 @@
                                     @endforeach
                                 </ul>   
                                 <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-7">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
+                                <div class="text-muted fs-7 mb-5">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
                             </div>
                             <!--end::کارت body-->
+
+                            <div class="d-flex justify-content-center mb-5">
+                                <button type="button" class="btn btn-primary btn-sm" id="update-attributes">
+                                    دریافت ویژگی های مرتبط
+                                </button>
+                                
+                                <button type="button" class="btn btn-sm btn-primary spinner" style="display: none;" disabled>
+                                    در حال دریافت
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+
                         </div>
                         <!--end::دسته بندی & tags-->
-                        <!--begin::دسته بندی & tags-->
-                        <div class="card card-flush py-4">
-                            <!--begin::کارت header-->
-                            <div class="card-header">
-                                <!--begin::کارت title-->
-                                <div class="card-title required">
-                                    <h2>انتخاب دسته بندی</h2>
-                                </div>
-                                <!--end::کارت title-->
-                            </div>
-                            <!--end::کارت header-->
-                            <!--begin::کارت body-->
-                            <div class="card-body pt-0">
-                                <ul class="list-style-none mt-4">
-                                    @foreach ($filter_category_array as $category)
-                                        <li class="filterButtonShopPage rootCat">
-                                            @if(in_array($category[0]->id, $products->categories()->pluck('id')->toArray()))
-                                                <input class="form-check-input" @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                            @else
-                                                <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                            @endif
-                                        </li>
-                                        <div class="subCategoryBtn">
-                                            @include('vendor.body.layouts.vendor_product.edit-categories-group', ['categories' => $category[1]])
-                                        </div>
-                                    @endforeach
-                                </ul>   
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-7">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
-                            </div>
-                            <!--end::کارت body-->
-                        </div>
-                        <!--end::دسته بندی & tags-->
-                       
                         
                         <!--begin::لوپ ویژگی ها-->
-                        @foreach ($allAttributes as $attribute)
-                        @if(in_array($vendorData->role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($attribute->category_id, $vendorData->vendor_sector))
+                        <div id="attribute-loop">
+                            @foreach ($allAttributes as $attribute)
                                 <div class="card card-flush py-4">
                                     <!--begin::کارت header-->
                                     <div class="card-header">
@@ -311,8 +297,8 @@
                                     </div>
                                     <!--end::کارت body-->
                                 </div>
-                            @endif
-                        @endforeach
+                            @endforeach
+                        </div>    
                         <!--end::لوپ ویژگی ها-->
 
                         <!--begin::Template settings-->
@@ -933,5 +919,6 @@
 <!--end::سفارشی Javascript-->
 
 <script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
 
 @endsection

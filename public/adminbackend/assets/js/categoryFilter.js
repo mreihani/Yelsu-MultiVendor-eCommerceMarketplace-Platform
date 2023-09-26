@@ -35,6 +35,7 @@ $(document).on("click", ".filterButtonShopPage", function (e) {
     }
 });
 
+
 // این مربوط به عملکرد + و - برای باز و بسته کردن هست
 $(document).on("click", ".filterButtonShopPage .fa", function (e) {
     $(e.target).closest("li").next("div").toggle();

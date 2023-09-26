@@ -194,10 +194,18 @@
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
+
+                            <input type="hidden" value={{$vendorData->role}} id="user-role">
+
+                            <div class="alert alert-warning no-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا حداقل یک دسته بندی انتخاب نمایید
+                            </div>
+
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title required">
                                     <h2>انتخاب دسته بندی</h2>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="در صورتی که دسته بندی مورد نظر در لیست زیر قرار ندارد، ابتدا آن را از بخش تنظیمات حساب کاربری انتخاب نمایید تا در لیست زیر فراخوانی گردد."></i>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
@@ -215,60 +223,28 @@
                                     @endforeach
                                 </ul>   
                                 <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-7">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
+                                <div class="text-muted fs-7 mb-5">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
                             </div>
                             <!--end::کارت body-->
+
+                            <div class="d-flex justify-content-center mb-5">
+                                <button type="button" class="btn btn-primary btn-sm" id="update-attributes">
+                                    دریافت ویژگی های مرتبط
+                                </button>
+                                
+                                <button type="button" class="btn btn-sm btn-primary spinner" style="display: none;" disabled>
+                                    در حال دریافت
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+
                         </div>
                         <!--end::دسته بندی & tags-->
                         
                         <!--begin::لوپ ویژگی ها-->
-                        @foreach ($allAttributes as $attribute)
-                            @if(in_array($vendorData->role, explode(',',$attribute->role)) && App\Models\User::canVendorSeeAttribute($attribute->category_id, $vendorData->vendor_sector))
-                                <div class="card card-flush py-4">
-                                    <!--begin::کارت header-->
-                                    <div class="card-header">
-                                        <!--begin::کارت title-->
-                                        <div class="card-title {{$attribute->required == "true" ? "required" : ""}}">
-                                            <h2>{{$attribute->name}}</h2>
-                                        </div>
-                                        <!--end::کارت title-->
-                                    </div>
-                                    <!--end::کارت header-->
-                                    <!--begin::کارت body-->
-                                    <div class="card-body pt-0">
-                                        <div>
-                                            <!--begin::Input group-->
-                                            <!--begin::انتخاب2-->
-                                            @if($attribute->attribute_type == "dropdown")
-                                                <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
-                                                    @if($attribute->required == "false")
-                                                        <option value="none" selected="selected">هیچ کدام</option>
-                                                    @endif
-                                                    @foreach ($attribute->values as $item)
-                                                        <option value="{{$item->id}}">{{$item->value}}</option>
-                                                    @endforeach
-                                                </select>
-                                            @else
-                                                <input type="text" name="attribute[{{$attribute->id}}][value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
-                                                <input type="hidden" name="attribute[{{$attribute->id}}][value_id]" value="{{$attribute->values[0]->id}}">
-                                            @endif
-                                            <!--end::انتخاب2-->
-                                            <!--begin::توضیحات-->
-                                            {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}
-                                            <div class="text-muted fs-7 mb-7">{{$attribute->description}}</div>
-                                            <!--end::توضیحات-->
-                                            <!--end::Input group-->
-                                        </div>
-                                    </div>
-                                    <!--end::کارت body-->
-                                </div>
-                            @endif
-                        @endforeach
+                        <div id="attribute-loop"></div>
                         <!--end::لوپ ویژگی ها-->
 
-                        <!--begin::Template settings-->
-                        
-                        <!--end::Template settings-->
                     </div>
                     <!--end::کناری column-->
                     <!--begin::Main column-->
@@ -883,5 +859,6 @@
 <!--end::سفارشی Javascript-->
 
 <script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
     
 @endsection

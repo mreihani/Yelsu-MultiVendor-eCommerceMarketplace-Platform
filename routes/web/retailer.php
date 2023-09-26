@@ -26,6 +26,7 @@ Route::middleware(['retaileraccess'])->group(function () {
         Route::get('delete/product/{id}', 'RetailerDeleteProduct')->name('retailer.delete.product');
         Route::get('copy/product/{id}', 'RetailerCopyProduct')->name('retailer.copy.product');
         Route::post('storeCopy/product', 'RetailerStoreCopyProduct')->name('retailer.storeCopy.product');
+        Route::post('load-attributes','LoadAttributes');
 
         //Retailer Order All Route
         Route::get('orders', 'ViewRetailerOrders')->name('retailer.orders');

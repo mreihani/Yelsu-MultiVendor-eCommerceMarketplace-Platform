@@ -292,7 +292,6 @@ class RetailerController extends Controller
 
     public function RetailerMediaStoreFiles(Request $request)
     {
-
         $id = Auth::user()->id;
         $retailerData = User::find($id);
 
@@ -369,7 +368,6 @@ class RetailerController extends Controller
     {
         $user_id = Auth::user()->id;
         $retailerData = User::find($user_id);
-        $allAttributes = Attribute::get();
 
         $retailerSectorArr = explode(",", $retailerData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
@@ -380,7 +378,7 @@ class RetailerController extends Controller
             $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        return view('retailer.backend.product.retailer_product_add', compact('retailerData', 'allAttributes', 'filter_category_array', 'retailerSectorArr'));
+        return view('retailer.backend.product.retailer_product_add', compact('retailerData', 'filter_category_array', 'retailerSectorArr'));
     }
 
     public function RetailerStoreProduct(Request $request)
@@ -498,8 +496,8 @@ class RetailerController extends Controller
         $user_id = Auth::user()->id;
         $retailerData = User::find($user_id);
         
-        $allAttributes = Attribute::get();
         $products = Product::findOrFail(Purify::clean($id));
+        $allAttributes = $products->attributes;
 
         $retailerSectorArr = explode(",", $retailerData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
@@ -721,7 +719,7 @@ class RetailerController extends Controller
         $retailerData = User::find($user_id);
 
         $products = Product::findOrFail(Purify::clean($id));
-        $allAttributes = Attribute::get();
+        $allAttributes = $products->attributes;
 
         $retailerSectorArr = explode(",", $retailerData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($retailerSectorArr);
@@ -853,6 +851,24 @@ class RetailerController extends Controller
         // بخش مدیریت ویژگی ها
         
         return redirect()->route('retailer.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
+    }
+
+    public function LoadAttributes(Request $request) {
+        $user_id = Auth::user()->id;
+        $retailerData = User::find($user_id);
+
+        $selected_attributes_arr = [];
+        $selected_categories_arr = $request->id;
+
+        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
+        foreach ($allAttributes as $attribute) {
+            if(in_array($retailerData->role, explode(',', $attribute->role)) && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
+                $attribute->push(['values' => $attribute->values]);
+                $selected_attributes_arr[] = $attribute;
+            }
+        }
+        
+        return response(['attributes' => $selected_attributes_arr]);
     }
 
     public function ViewRetailerOrders()

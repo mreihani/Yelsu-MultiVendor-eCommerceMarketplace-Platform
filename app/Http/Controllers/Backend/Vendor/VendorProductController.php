@@ -42,8 +42,7 @@ class VendorProductController extends Controller
     {
         $user_id = Auth::user()->id;
         $vendorData = User::find($user_id);
-        $allAttributes = Attribute::get();
-
+        
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
 
@@ -53,7 +52,7 @@ class VendorProductController extends Controller
             $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
+        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'filter_category_array', 'vendorSectorArr'));
     }
 
     public function VendorStoreProduct(Request $request)
@@ -161,7 +160,6 @@ class VendorProductController extends Controller
                 $product->attributes()->attach($attributes);
             }
         }    
-        // بخش مدیریت ویژگی ها
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
@@ -171,8 +169,8 @@ class VendorProductController extends Controller
         $user_id = Auth::user()->id;
         $vendorData = User::find($user_id);
         
-        $allAttributes = Attribute::get();
         $products = Product::findOrFail(Purify::clean($id));
+        $allAttributes = $products->attributes;
 
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
@@ -394,7 +392,7 @@ class VendorProductController extends Controller
         $vendorData = User::find($user_id);
 
         $products = Product::findOrFail(Purify::clean($id));
-        $allAttributes = Attribute::get();
+        $allAttributes = $products->attributes;
 
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
@@ -526,4 +524,23 @@ class VendorProductController extends Controller
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
-}
+
+    public function LoadAttributes(Request $request) {
+        $user_id = Auth::user()->id;
+        $vendorData = User::find($user_id);
+
+        $selected_attributes_arr = [];
+        $selected_categories_arr = $request->id;
+
+        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
+        foreach ($allAttributes as $attribute) {
+            if(in_array($vendorData->role, explode(',', $attribute->role)) && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
+                $attribute->push(['values' => $attribute->values]);
+                $selected_attributes_arr[] = $attribute;
+            }
+        }
+        
+        return response(['attributes' => $selected_attributes_arr]);
+    }
+
+} 
