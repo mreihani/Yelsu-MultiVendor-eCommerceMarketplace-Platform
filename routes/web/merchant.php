@@ -26,6 +26,7 @@ Route::middleware('merchantaccess')->group(function () {
         Route::get('delete/product/{id}', 'MerchantDeleteProduct')->name('merchant.delete.product');
         Route::get('copy/product/{id}', 'MerchantCopyProduct')->name('merchant.copy.product');
         Route::post('storeCopy/product', 'MerchantStoreCopyProduct')->name('merchant.storeCopy.product');
+        Route::post('load-attributes', 'LoadAttributes');
     });
 
     //Merchant Order All Route

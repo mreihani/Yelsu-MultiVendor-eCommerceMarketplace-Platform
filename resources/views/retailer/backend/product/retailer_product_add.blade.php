@@ -200,6 +200,10 @@
                                 لطفا حداقل یک دسته بندی انتخاب نمایید
                             </div>
 
+                            <div class="alert alert-warning duplicated-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا فقط یک زیر دسته مرتبط با محصول انتخاب نمایید
+                            </div>
+
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title required">
@@ -222,7 +226,7 @@
                                     @endforeach
                                 </ul>   
                                 <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-5">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
+                                <div class="text-muted fs-7 mb-5">ابتدا محصول خود را در دسته بندی های مربوط قرار دهید. سپس بر روی دکمه زیر کلیک کنید.</div>
                             </div>
                             <!--end::کارت body-->
 
@@ -236,7 +240,6 @@
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </button>
                             </div>
-
                         </div>
                         <!--end::دسته بندی & tags-->
 

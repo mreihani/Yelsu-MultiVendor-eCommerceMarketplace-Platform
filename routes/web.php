@@ -1,7 +1,5 @@
 <?php
 
-
-use App\Models\Chat;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,4 +33,5 @@ Route::get('changeDatabase', function () {
     //     $value->save();
     // }
 
+       
 });

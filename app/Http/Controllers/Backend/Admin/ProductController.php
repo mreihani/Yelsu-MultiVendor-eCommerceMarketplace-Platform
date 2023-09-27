@@ -77,13 +77,17 @@ class ProductController extends Controller
     {
         $user_id = Auth::user()->id;
         $adminData = User::find($user_id);
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-
-        $categories = Category::latest()->get()->reverse();
 
         $allAttributes = Attribute::get();
 
-        return view('admin.backend.product.product_add', compact('adminData', 'categories', 'vendorsName', 'allAttributes'));
+        $parentCategories = Category::where('parent', 0)->get();
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('admin.backend.product.product_add', compact('adminData', 'filter_category_array', 'allAttributes'));
     }
 
     public function StoreProduct(Request $request)
@@ -192,39 +196,11 @@ class ProductController extends Controller
 
     public function EditProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
-        $selected_vendor_array = [];
-        $nonselected_vendor_array = [];
-
         $user_id = Auth::user()->id;
         $adminData = User::find($user_id);
-
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get()->reverse();
+        
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-
-        $selected_vendor_id_array = explode(",", $products->vendor_id);
-
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
-        }
-
-        foreach ($vendorsName as $vendor_item) {
-            if (in_array($vendor_item->id, $selected_vendor_id_array)) {
-                $selected_vendor_array[] = $vendor_item;
-            } else {
-                $nonselected_vendor_array[] = $vendor_item;
-            }
-        }
-
-        $allAttributes = Attribute::get();
+        $allAttributes = $products->attributes;
 
         // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
         if($products->vendor_id != NULL) {
@@ -240,9 +216,15 @@ class ProductController extends Controller
             $role = $adminData->role;
             $vendor_sector = NULL;
         }
-        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
+        
+        $parentCategories = $vendor_sector != NULL ? Category::findRootCategoryArray(explode(",", $vendor_sector)) : Category::where('parent', 0)->get();
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
 
-        return view('admin.backend.product.product_edit', compact('adminData', 'categories', 'vendorsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'selected_vendor_array', 'nonselected_vendor_array', 'allAttributes', 'role', 'vendor_sector'));
+        return view('admin.backend.product.product_edit', compact('adminData', 'products', 'allAttributes', 'role', 'vendor_sector', 'filter_category_array'));
     }
 
     public function UpdateProduct(Request $request)
@@ -431,5 +413,31 @@ class ProductController extends Controller
         Product::findOrFail(Purify::clean($id))->delete();
 
         return redirect(route('all.product'))->with('success', 'محصول مورد نظر با موفقیت حذف گردید.');
+    }
+
+    public function LoadAttributes(Request $request) {
+        $role = Purify::clean($request->role);
+
+        $selected_attributes_arr = [];
+        $selected_categories_arr = $request->id;
+
+        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
+        foreach ($allAttributes as $attribute) {
+
+            // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
+            $user_role_permission = true;
+            if(!in_array($role, explode(',', $attribute->role))) {
+                $user_role_permission = false;
+            } 
+            
+            if($user_role_permission && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
+                $attribute->push(['values' => $attribute->values]);
+                $selected_attributes_arr[] = $attribute;
+            }
+        }
+        
+        $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
+
+        return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);
     }
 }

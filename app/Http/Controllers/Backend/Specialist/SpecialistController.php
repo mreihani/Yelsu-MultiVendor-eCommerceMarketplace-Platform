@@ -304,7 +304,7 @@ class SpecialistController extends Controller
         // here check if maclicious user enters unrelated category ID to change its content
         $user_id = Auth::user()->id;
         $specialistData = User::find($user_id);
-        if (Category::find($cat_id)->findRootCategory($cat_id)->id != $specialistData->specialist_category_id) {
+        if (Category::findRootCategory($cat_id)->id != $specialistData->specialist_category_id) {
             return redirect(route('specialist.all.category'))->with('error', 'شما اجازه ویرایش این دسته بندی را ندارید!');
         }
 
@@ -350,7 +350,7 @@ class SpecialistController extends Controller
         // here check if maclicious user enters unrelated category ID to delete its content
         $user_id = Auth::user()->id;
         $specialistData = User::find($user_id);
-        if (Category::find(Purify::clean($id))->findRootCategory(Purify::clean($id))->id != $specialistData->specialist_category_id) {
+        if (Category::findRootCategory(Purify::clean($id))->id != $specialistData->specialist_category_id) {
             return redirect(route('specialist.all.category'))->with('error', 'شما اجازه حذف این دسته بندی را ندارید!');
         }
 
@@ -465,35 +465,15 @@ class SpecialistController extends Controller
     {
         $user_id = Auth::user()->id;
         $specialistData = User::find($user_id);
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-
-        $categories = Category::latest()->get();
-
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-                if ($root_catgory_obj->id == $specialistData->specialist_category_id) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        array_push($category_hierarchy_arr, Category::find($specialistData->specialist_category_id));
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
-
+        
         $allAttributes = Attribute::get();
+        $specialist_category_obj = Category::find($specialistData->specialist_category_id);
 
-        return view('specialist.product.product_add', compact('specialistData', 'categories', 'vendorsName', 'allAttributes'));
+        $filter_category_array = [];
+        $all_children = $specialist_category_obj->child;
+        $filter_category_array[] = array($specialist_category_obj, $all_children);
+       
+        return view('specialist.product.product_add', compact('specialistData', 'allAttributes', 'filter_category_array'));
     }
 
     public function SpecialistStoreProduct(Request $request)
@@ -606,44 +586,19 @@ class SpecialistController extends Controller
 
     public function SpecialistEditProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
-        $selected_vendor_array = [];
-        $nonselected_vendor_array = [];
-
         $user_id = Auth::user()->id;
         $specialistData = User::find($user_id);
 
-        $vendorsName = User::where('role', 'vendor')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
+        $specialist_category_obj = Category::find($specialistData->specialist_category_id);
 
-        // added recursive function to find all the categories related to specialist category
-        $category_hierarchy_arr = [];
-        foreach ($categories as $category_item) {
-            $category_by_id = Category::find($category_item->id);
-            if ($category_item->parentCategoryExists($category_item->id)) {
-                foreach ($categories as $categoryItem) {
-                    if ($category_by_id->parent == 0) {
-                        $root_catgory_obj = $category_by_id;
-                        break;
-                    } else {
-                        $category_by_id = Category::find($category_by_id->parent);
-                    }
-                }
-                if ($root_catgory_obj->id == $specialistData->specialist_category_id) {
-                    $category_hierarchy_arr[] = $category_item;
-                }
-            }
-        }
-        array_push($category_hierarchy_arr, Category::find($specialistData->specialist_category_id));
-        $categories = array_reverse($category_hierarchy_arr);
-        // end of - recursive function
+        $filter_category_array = [];
+        $all_children = $specialist_category_obj->child;
+        $filter_category_array[] = array($specialist_category_obj, $all_children);
 
         // these lines of code are all for category dropdown select form
         $products = Product::findOrFail(Purify::clean($id));
 
-        $allAttributes = Attribute::get();
+        $allAttributes = $products->attributes;
 
         // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
         if($products->vendor_id != NULL) {
@@ -659,9 +614,8 @@ class SpecialistController extends Controller
             $role = $specialistData->role;
             $vendor_sector = NULL;
         }
-        // با توجه به نوع هر کاربر میاد ویژگی رو نمایش میده
 
-        return view('specialist.product.product_edit', compact('specialistData', 'categories', 'vendorsName', 'products', 'allAttributes', 'role', 'vendor_sector'));
+        return view('specialist.product.product_edit', compact('specialistData', 'products', 'allAttributes', 'role', 'vendor_sector', 'filter_category_array'));
     }
 
     public function SpecialistUpdateProduct(Request $request)
@@ -859,6 +813,32 @@ class SpecialistController extends Controller
         Product::findOrFail($id)->delete();
 
         return redirect(route('specialist.all.product'))->with('success', 'محصول مورد نظر با موفقیت حذف گردید.');
+    }
+
+    public function LoadAttributes(Request $request) {
+        $role = Purify::clean($request->role);
+
+        $selected_attributes_arr = [];
+        $selected_categories_arr = $request->id;
+
+        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
+        foreach ($allAttributes as $attribute) {
+
+            // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
+            $user_role_permission = true;
+            if(!in_array($role, explode(',', $attribute->role))) {
+                $user_role_permission = false;
+            } 
+            
+            if($user_role_permission && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
+                $attribute->push(['values' => $attribute->values]);
+                $selected_attributes_arr[] = $attribute;
+            }
+        }
+        
+        $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
+
+        return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);
     }
 
     /**************************************

@@ -208,6 +208,9 @@
                                 لطفا حداقل یک دسته بندی انتخاب نمایید
                             </div>
 
+                            <div class="alert alert-warning duplicated-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا فقط یک زیر دسته مرتبط با محصول انتخاب نمایید
+                            </div>
 
                             <div class="card-header">
                                 <!--begin::کارت title-->
@@ -235,7 +238,7 @@
                                     @endforeach
                                 </ul>   
                                 <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-5">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
+                                <div class="text-muted fs-7 mb-5">ابتدا محصول خود را در دسته بندی های مربوط قرار دهید. سپس بر روی دکمه زیر کلیک کنید.</div>
                             </div>
                             <!--end::کارت body-->
 
@@ -256,7 +259,7 @@
                         <!--begin::لوپ ویژگی ها-->
                         <div id="attribute-loop">
                             @foreach ($allAttributes as $attribute)
-                                <div class="card card-flush py-4">
+                                <div class="card card-flush py-4 mt-10">
                                     <!--begin::کارت header-->
                                     <div class="card-header">
                                         <!--begin::کارت title-->

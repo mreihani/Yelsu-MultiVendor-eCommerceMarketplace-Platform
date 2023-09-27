@@ -28,6 +28,7 @@ Route::post('store/product', [SpecialistController::class, 'SpecialistStoreProdu
 Route::get('edit/product/{id}', [SpecialistController::class, 'SpecialistEditProduct'])->name('specialist.edit.product');
 Route::post('update/product', [SpecialistController::class, 'SpecialistUpdateProduct'])->name('specialist.update.product');
 Route::get('delete/product/{id}', [SpecialistController::class, 'SpecialistDeleteProduct'])->name('specialist.delete.product');
+Route::post('load-attributes', [SpecialistController::class, 'LoadAttributes']);
 
 //Vendor Active and Inactive All Route
 Route::get('vendor/status', [SpecialistController::class, 'SpecialistVendorStatus'])->name('specialist.vendor.status');

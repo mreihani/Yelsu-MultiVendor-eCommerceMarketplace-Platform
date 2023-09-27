@@ -540,7 +540,9 @@ class VendorProductController extends Controller
             }
         }
         
-        return response(['attributes' => $selected_attributes_arr]);
+        $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
+
+        return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);
     }
 
 } 

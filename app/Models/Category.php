@@ -51,6 +51,10 @@ class Category extends Model
     return ! ! $this->where('id', $parent_id)->exists();
   }
 
+  public function scopeCategoryExists($query, $id) {
+    return ! ! $this->where('id', $id)->exists();
+  }
+
   public function products()
   {
     return $this->belongsToMany(Product::class, 'category_products');
@@ -61,20 +65,11 @@ class Category extends Model
     return $this->belongsToMany(Product::class, 'category_products')->inRandomOrder();
   }
 
-  public function findRootCategory($id)
+  // این متد از متد پایینی استفاده می کنه برای برگردوندن یک آیدی کتگوری تکی، ورودیش حتما باید تک آیتم باشه نه آرایه
+  public function scopeFindRootCategory($query, $id)
   {
-    $categories = $this->latest()->get();
-    $category_by_id = $this->find($id);
-    foreach ($categories as $categoryItem) {
-      if ($category_by_id->parent == 0) {
-        $root_catgory_obj = $category_by_id;
-        break;
-      } else {
-        $category_by_id = $this->find($category_by_id->parent);
-      }
-    }
-
-    return $root_catgory_obj;
+    $id = array($id);
+    return $this->findRootCategoryArray($id)[0];
   }
 
   // با استفاده از این متد، اگر یک آرایه از ای دی دسته بندی بدی، بهت روت اش رو برمیگردونه، استاتیک هم هست
@@ -82,13 +77,18 @@ class Category extends Model
     $root_catgory_obj_array = [];
     $categories = $this->latest()->get();
     foreach ($category_id_array as $category_id) {
+
+        if(empty($this->find($category_id))) {
+            break;
+        }
+
         $category_by_id = $this->find($category_id);
         foreach ($categories as $categoryItem) {
             if ($category_by_id->parent == 0) {
               $root_catgory_obj = $category_by_id;
               break;
             } else {
-              $category_by_id = $this->find($category_by_id->parent);
+              $category_by_id = !empty($this->find($category_by_id->parent)) ? $this->find($category_by_id->parent) : $category_by_id;
             }
         }
         $root_catgory_obj_array[] = $root_catgory_obj;
@@ -96,6 +96,20 @@ class Category extends Model
     
     $root_catgory_obj_array = array_unique($root_catgory_obj_array);
     return $root_catgory_obj_collection = collect($root_catgory_obj_array);
+  }
+
+  // این متد استاتیک یک لیست دسته بندی دریافت میکنه و بررسی می کنه آیا دسته بندی والد این ها تکرار شده است یا خیر
+  public function scopeDuplicatedParentCategory($query, $category_id_array) {
+    $parent_id_arr = [];
+    foreach ($category_id_array as $category_item_id) {
+        $parent_id_arr[] = !empty($this->find($category_item_id)->parent) ? $this->find($category_item_id)->parent : NULL;
+    }
+
+    if(sizeof(array_unique($parent_id_arr)) != sizeof($parent_id_arr)) {
+        return true;
+    }
+
+    return false;
   }
 
 }

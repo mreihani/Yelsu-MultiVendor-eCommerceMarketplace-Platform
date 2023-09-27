@@ -200,92 +200,111 @@
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
+
+                            {{-- این رول برای اینه که چون فایل جاوا اسکریپت برای ایجکس یکسان است، باید مسیر کاربر کارشناس اول اش باشه که سیستم بتونه از طریق کنترلر کارشناس درخواست رو بگیره --}}
+                            <input type="hidden" value="merchant" id="user-role">
+
+                            <div class="alert alert-warning no-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا حداقل یک دسته بندی انتخاب نمایید
+                            </div>
+
+                            <div class="alert alert-warning duplicated-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
+                                لطفا فقط یک زیر دسته مرتبط با محصول انتخاب نمایید
+                            </div>
+
                             <div class="card-header">
                                 <!--begin::کارت title-->
-                                <div class="card-title">
+                                <div class="card-title required">
                                     <h2>انتخاب دسته بندی</h2>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
                             <!--end::کارت header-->
+                            
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
-
-                                <div>
-                                    <!--begin::Input group-->
-                                <!--begin::Tags-->
-                                <label class="form-label required">دسته بندی ها</label>
-                                <!--end::Tags-->
-                                <!--begin::انتخاب2-->
-                                <select name="category_id[]" class="form-select mb-2" data-control="select2" data-placeholder="انتخاب " data-allow-clear="true" multiple="multiple">
-                                    <option></option>
-                  
-                                    @foreach ($selected_category_array as $item)
-                                     <option value="{{$item->id}}" selected>{{$item->category_name}}</option>   
+                                <ul class="list-style-none mt-4">
+                                    @foreach ($filter_category_array as $category)
+                                        <li class="filterButtonShopPage rootCat">
+                                            @if(in_array($category[0]->id, $products->categories()->pluck('id')->toArray()))
+                                                <input class="form-check-input" @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                            @else
+                                                <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                            @endif
+                                        </li>
+                                        <div class="subCategoryBtn">
+                                            @include('merchant.body.layouts.merchant_product.edit-categories-group', ['categories' => $category[1]])
+                                        </div>
                                     @endforeach
-
-                                    @foreach ($nonselected_category_array as $item)
-                                     <option value="{{$item->id}}">{{$item->category_name}}</option>  
-                                    @endforeach
-                                                                 
-                                </select>
-                                <!--end::انتخاب2-->
+                                </ul>   
                                 <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-7">محصول خود را در دسته بندی های مربوط قرار دهید.</div>
-                                <!--end::توضیحات-->
-                                <!--end::Button-->
-                                </div>
+                                <div class="text-muted fs-7 mb-5">ابتدا محصول خود را در دسته بندی های مربوط قرار دهید. سپس بر روی دکمه زیر کلیک کنید.</div>
                             </div>
                             <!--end::کارت body-->
+
+                            <div class="d-flex justify-content-center mb-5">
+                                <button type="button" class="btn btn-primary btn-sm" id="update-attributes">
+                                    دریافت ویژگی های مرتبط
+                                </button>
+                                
+                                <button type="button" class="btn btn-sm btn-primary spinner" style="display: none;" disabled>
+                                    در حال دریافت
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+
                         </div>
                         <!--end::دسته بندی & tags-->
+
                         <!--begin::لوپ ویژگی ها-->
-                        @foreach ($allAttributes as $attribute)
-                            @if(in_array($merchantData->role, explode(',',$attribute->role)))
-                                <div class="card card-flush py-4">
-                                    <!--begin::کارت header-->
-                                    <div class="card-header">
-                                        <!--begin::کارت title-->
-                                        <div class="card-title {{$attribute->required == "true" ? "required" : ""}}">
-                                            <h2>{{$attribute->name}}</h2>
+                        <div id="attribute-loop">
+                            @foreach ($allAttributes as $attribute)
+                                @if(in_array($merchantData->role, explode(',',$attribute->role)))
+                                    <div class="card card-flush py-4 mt-10">
+                                        <!--begin::کارت header-->
+                                        <div class="card-header">
+                                            <!--begin::کارت title-->
+                                            <div class="card-title {{$attribute->required == "true" ? "required" : ""}}">
+                                                <h2>{{$attribute->name}}</h2>
+                                            </div>
+                                            <!--end::کارت title-->
                                         </div>
-                                        <!--end::کارت title-->
-                                    </div>
-                                    <!--end::کارت header-->
-                                    <!--begin::کارت body-->
-                                    <div class="card-body pt-0">
-                                        <div>
-                                            <!--begin::Input group-->
-                                            <!--begin::انتخاب2-->
-                                            @if($attribute->attribute_type == "dropdown")
-                                                <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
-                                                    @if($attribute->required == "false")
-                                                        <option value="none" selected="selected">هیچ کدام</option>
-                                                    @endif
-                                                    @foreach ($attribute->values as $item)
-                                                        @if(in_array($item->id, $products->attributes()->pluck('value_id')->toArray()))
-                                                            <option @selected(true) value="{{$item->id}}">{{$item->value}}</option>
-                                                        @else
-                                                            <option value="{{$item->id}}">{{$item->value}} </option>
+                                        <!--end::کارت header-->
+                                        <!--begin::کارت body-->
+                                        <div class="card-body pt-0">
+                                            <div>
+                                                <!--begin::Input group-->
+                                                <!--begin::انتخاب2-->
+                                                @if($attribute->attribute_type == "dropdown")
+                                                    <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->id}}][value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                                                        @if($attribute->required == "false")
+                                                            <option value="none" selected="selected">هیچ کدام</option>
                                                         @endif
-                                                    @endforeach
-                                                </select>
-                                            @else
-                                                <input type="text" name="attribute[{{$attribute->id}}][value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes->where('id', $attribute->id)) ? $products->attributes->where('id', $attribute->id)->first()->pivot->value : ""}}"/>
-                                                <input type="hidden" name="attribute[{{$attribute->id}}][value_id]" value="{{$attribute->values[0]->id}}">
-                                            @endif
-                                            <!--end::انتخاب2-->
-                                            <!--begin::توضیحات-->
-                                            {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}
-                                            <div class="text-muted fs-7 mb-7">{{$attribute->description}}</div>
-                                            <!--end::توضیحات-->
-                                            <!--end::Input group-->
+                                                        @foreach ($attribute->values as $item)
+                                                            @if(in_array($item->id, $products->attributes()->pluck('value_id')->toArray()))
+                                                                <option @selected(true) value="{{$item->id}}">{{$item->value}}</option>
+                                                            @else
+                                                                <option value="{{$item->id}}">{{$item->value}} </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <input type="text" name="attribute[{{$attribute->id}}][value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes->where('id', $attribute->id)) ? $products->attributes->where('id', $attribute->id)->first()->pivot->value : ""}}"/>
+                                                    <input type="hidden" name="attribute[{{$attribute->id}}][value_id]" value="{{$attribute->values[0]->id}}">
+                                                @endif
+                                                <!--end::انتخاب2-->
+                                                <!--begin::توضیحات-->
+                                                {{-- <div class="text-muted fs-7 mb-7">{{$attribute->name}} محصول را تعیین کنید.</div> --}}
+                                                <div class="text-muted fs-7 mb-7">{{$attribute->description}}</div>
+                                                <!--end::توضیحات-->
+                                                <!--end::Input group-->
+                                            </div>
                                         </div>
+                                        <!--end::کارت body-->
                                     </div>
-                                    <!--end::کارت body-->
-                                </div>
-                            @endif
-                        @endforeach
+                                @endif
+                            @endforeach
+                        </div>
                         <!--end::لوپ ویژگی ها-->
                         <!--begin::Template settings-->
                         
@@ -891,18 +910,20 @@
 </div>
 
 
-    <!--begin::Vendors Javascript(used for this page only)-->
-    <script src="{{asset('adminbackend/assets/plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
-    <!--end::Vendors Javascript-->
-    <!--begin::سفارشی Javascript(used for this page only)-->
-    <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/save-product.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script>
-    <!--end::سفارشی Javascript-->
+<!--begin::Vendors Javascript(used for this page only)-->
+{{-- <script src="{{asset('adminbackend/assets/plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script> --}}
+<!--end::Vendors Javascript-->
+<!--begin::سفارشی Javascript(used for this page only)-->
+{{-- <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/save-product.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
+<!--end::سفارشی Javascript-->
 
+<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
 
 @endsection

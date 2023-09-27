@@ -242,11 +242,17 @@ class MerchantController extends Controller
     {
         $user_id = Auth::user()->id;
         $merchantData = User::find($user_id);
-        $categories = Category::latest()->get()->reverse();
 
         $allAttributes = Attribute::get();
 
-        return view('merchant.backend.product.merchant_product_add', compact('merchantData', 'categories', 'allAttributes'));
+        $parentCategories = Category::where('parent', 0)->get();
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+
+        return view('merchant.backend.product.merchant_product_add', compact('merchantData', 'filter_category_array', 'allAttributes'));
     } //End method
 
     public function MerchantStoreProduct(Request $request)
@@ -361,30 +367,19 @@ class MerchantController extends Controller
 
     public function MerchantEditProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $merchantData = User::find($user_id);
-
-        $merchantsName = User::where('role', 'merchant')->where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get()->reverse();
-
-        // these lines of code are all for category dropdown select form
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
-        $selected_merchant_id_array = explode(",", $products->merchant_id);
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
+        $allAttributes = $products->attributes;
+
+        $parentCategories = Category::where('parent', 0)->get();
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        $allAttributes = Attribute::get();
-
-        return view('merchant.backend.product.merchant_product_edit', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        return view('merchant.backend.product.merchant_product_edit', compact('merchantData', 'products', 'allAttributes', 'filter_category_array'));
     } //End method
 
     public function MerchantUpdateProduct(Request $request)
@@ -591,35 +586,26 @@ class MerchantController extends Controller
 
     public function MerchantCopyProduct($id)
     {
-        $selected_category_array = [];
-        $nonselected_category_array = [];
-
         $user_id = Auth::user()->id;
         $merchantData = User::find($user_id);
 
-        $merchantsName = User::where('role', 'merchant')->where('status', 'active')->latest()->get();
         $categories = Category::latest()->get();
         $products = Product::findOrFail(Purify::clean($id));
-        $selected_cat_id_array = explode(",", $products->category_id);
+       
+        $allAttributes = $products->attributes;
 
-        $selected_merchant_id_array = explode(",", $products->merchant_id);
-
-        foreach ($categories as $category_item) {
-            if (in_array($category_item->id, $selected_cat_id_array)) {
-                $selected_category_array[] = $category_item;
-            } else {
-                $nonselected_category_array[] = $category_item;
-            }
+        $parentCategories = Category::where('parent', 0)->get();
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        $allAttributes = Attribute::get();
-
-        return view('merchant.backend.product.merchant_product_copy', compact('merchantData', 'categories', 'merchantsName', 'products', 'categories', 'selected_category_array', 'nonselected_category_array', 'allAttributes'));
+        return view('merchant.backend.product.merchant_product_copy', compact('merchantData', 'filter_category_array', 'products','allAttributes'));
     } //End method
 
     public function MerchantStoreCopyProduct(Request $request)
     {
-
         $incomingFields = $request->validate([
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
@@ -683,7 +669,6 @@ class MerchantController extends Controller
             $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
         }
 
-
         $product_id = Product::insertGetId([
             'category_id' => $category_id,
             'parent_category_id' => $parent_category_id ?? NULL,
@@ -736,6 +721,26 @@ class MerchantController extends Controller
 
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     } //End method
+
+    public function LoadAttributes(Request $request) {
+        $user_id = Auth::user()->id;
+        $vendorData = User::find($user_id);
+
+        $selected_attributes_arr = [];
+        $selected_categories_arr = $request->id;
+
+        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
+        foreach ($allAttributes as $attribute) {
+            if(in_array($vendorData->role, explode(',', $attribute->role)) && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
+                $attribute->push(['values' => $attribute->values]);
+                $selected_attributes_arr[] = $attribute;
+            }
+        }
+        
+        $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
+
+        return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);
+    }
 
     public function ViewMerchantOrders()
     {

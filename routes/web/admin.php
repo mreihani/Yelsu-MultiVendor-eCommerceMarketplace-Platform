@@ -160,6 +160,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/edit/product/{id}', 'EditProduct')->name('edit.product');
     Route::post('/update/product', 'UpdateProduct')->name('update.product');
     Route::get('/delete/product/{id}', 'DeleteProduct')->name('delete.product');
+    Route::post('load-attributes', 'LoadAttributes');
 });
 
 //Attribute All Route

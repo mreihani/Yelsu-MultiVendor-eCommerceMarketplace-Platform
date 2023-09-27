@@ -150,7 +150,7 @@
                                     <!--begin::دسته بندی اصلی=-->
                                     <td>
                                         <!--begin::Badges-->
-                                        <div class="badge badge-light-success"><a href="{{route('blog.category',$blogpost->blogcategory->id)}}">{{$blogpost->blogcategory->blog_category_name}}</a></div>
+                                        <div class="badge badge-light-success"><a href="{{!empty($blogpost->blogcategory->id) ? route('blog.category', $blogpost->blogcategory->id) : ""}}">{{!empty($blogpost->blogcategory->blog_category_name) ? $blogpost->blogcategory->blog_category_name : ""}}</a></div>
                                         <!--end::Badges-->
                                     </td>
                                     <!--end::دسته بندی اصلی=-->
