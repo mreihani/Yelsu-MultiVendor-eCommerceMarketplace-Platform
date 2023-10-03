@@ -187,7 +187,6 @@ class SpecialistAttributeController extends Controller
         if($specialistData->specialist_category_id != $root_category_id) {
             return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
         }
-
         return view('specialist.attribute.attribute_copy', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
     }
 
