@@ -123,5 +123,7 @@ Route::controller(SpecialistAttributeController::class)->group(function () {
     Route::post('/store/attribute', 'StoreAttribute')->name('specialist.store.attribute');
     Route::get('/edit/attribute/{id}', 'EditAttribute')->name('specialist.edit.attribute');
     Route::post('/update/attribute', 'UpdateAttribute')->name('specialist.update.attribute');
+    Route::get('/copy/attribute/{id}', 'CopyAttribute')->name('specialist.copy.attribute');
+    Route::post('/store-copy/attribute', 'StoreCopyAttribute')->name('specialist.store.copy.attribute');
     Route::get('/delete/attribute/{id}', 'DeleteAttribute')->name('specialist.delete.attribute');
 });

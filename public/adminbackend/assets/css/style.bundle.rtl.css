@@ -54132,3 +54132,7 @@ input[type="number"] {
 }
 /* custom css for specialist chat panel */
 
+
+/* slowly move down for anchor links in pages */
+html { scroll-behavior: smooth; }
+/* slowly move down for anchor links in pages */

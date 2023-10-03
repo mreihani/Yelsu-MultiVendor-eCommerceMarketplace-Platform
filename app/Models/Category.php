@@ -72,7 +72,7 @@ class Category extends Model
     return $this->findRootCategoryArray($id)[0];
   }
 
-  // با استفاده از این متد، اگر یک آرایه از ای دی دسته بندی بدی، بهت روت اش رو برمیگردونه، استاتیک هم هست
+  // با استفاده از این متد، اگر یک آرایه از ای دی دسته بندی بدی، بهت آرایه ای از روت ها اش رو برمیگردونه، استاتیک هم هست
   public function scopeFindRootCategoryArray($query, $category_id_array) {
     $root_catgory_obj_array = [];
     $categories = $this->latest()->get();

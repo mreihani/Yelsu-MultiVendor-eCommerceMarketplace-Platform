@@ -88,17 +88,94 @@
                 <form method="post" action="{{route('specialist.store.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 ">
-                        <!--begin::عمومی options-->
+
                         <div class="card card-flush py-5">
                             <!--begin::کارت body-->
-                            <div class="card-body pt-0">
+                            <div class="card-body py-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="required mb-1">نام دسته بندی مرتبط با ویژگی</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input @readonly(true) type="text" name="attribute_category_name" class="form-control mb-2" placeholder="" value="{{old('attribute_category_name')}}" />
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">نام دسته بندی به صورت خودکار پس از انتخاب دسته بندی بر اساس <a href="#goToCategoriesSection"><u>آخرین زیر دسته</u></a> در پایین صفحه تعیین می گردد.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                        </div>
+
+                        <div class="card card-flush py-5">
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0 pb-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="required mb-1">لیست ویژگی های انتخاب شده</label>
+                                    <!--end::Tags-->
+
+                                    <!--begin::list table-->
+                                    <div class="card-body pt-0 pb-0">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_category_table">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="">ردیف</th>
+                                                    <th class="text-center">نام ویژگی</th>
+                                                    <th class="min-w-250px text-center">مقادیر ویژگی</th>
+                                                    <th class="w-250px text-center">عملیات</th>
+                                                </tr>
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <!--end::Table head-->
+                                            <!--begin::Table body-->
+                                            <tbody class="fw-semibold text-gray-600 repeater" id="sortable">
+                                                <!--begin::Table row Parent-->
+                                                
+                                                <!--end::Table row Parent-->
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                    <!--end::list table-->
+
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                        </div>
+
+                        <!--begin::عمومی options-->
+                        <div class="card card-flush py-5">
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-name-empty-warning" role="alert" style="display: none;">
+                                نام ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-description-empty-warning" role="alert" style="display: none;">
+                                توضیحات ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-specification-empty-warning" role="alert" style="display: none;">
+                                مشخصات ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-5">
                                     <!--begin::Input group-->
                                     <div class="fv-row">
                                         <!--begin::Tags-->
                                         <label class="required mb-1">نام ویژگی</label>
                                         <!--end::Tags-->
                                         <!--begin::Input-->
-                                        <input type="text" name="name" class="form-control mb-2" placeholder="به عنوان مثال: رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('name')}}" />
+                                        <input type="text" name="attribute_item_name" class="form-control mb-2" placeholder="به عنوان مثال: رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('attribute_item_name')}}" />
                                         <!--end::Input-->
                                         <!--begin::توضیحات-->
                                         <div class="text-muted fs-7">نام ویژگی مورد نظر را وارد نمایید.</div>
@@ -116,7 +193,7 @@
                                     <label class="required mb-1">توضیحات ویژگی</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="description" class="form-control mb-2" placeholder="به عنوان مثال: این ویژگی فقط برای دسته بندی میلگرد آجدار استفاده می شود" value="{{old('description')}}" />
+                                    <input type="text" name="attribute_item_description" class="form-control mb-2" placeholder="به عنوان مثال: این ویژگی فقط برای دسته بندی میلگرد آجدار استفاده می شود" value="{{old('attribute_item_description')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">ارتباط ویژگی مورد نظر با دسته بندی مرتبط با آن را شرح دهید.</div>
@@ -133,11 +210,83 @@
                                     <!--begin::Tags-->
                                     <div class="form-check form-check-solid form-switch form-check-custom fv-row">
                                         <label style="margin-left:10px;" for="requiredAttribute">ویژگی اجباری</label>
-                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="requiredAttribute" name="required" {{old('required') == "on" ? "checked" : ""}} >
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="requiredAttribute" name="attribute_item_required" {{old('attribute_item_required') == "on" ? "checked" : ""}} >
                                     </div>
                                     <!--end::Tags-->
                                     <!--begin::توضیحات-->
                                     <div class="mt-2 text-muted fs-7">اگر ویژگی مورد نظر باید در صفحه افزودن آگهی حتما انتخاب شود گزینه اجباری را فعال نمایید. به عنوان مثال نوع واحد پولی یک ویژگی اجباری است که کاربر بایستی یکی از موارد را انتخاب نماید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="disabled_attribute">ویژگی غیر فعال</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="disabled_attribute" name="disabled_attribute" {{old('disabled_attribute') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">با غیر فعال شدن یک ویژگی، آن ویژگی در صفحه افزودن محصول برای سایر کاربران غیر قابل ویرایش خواهد بود و صرفا جنبه اطلاع رسانی به کاربر را دارد.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="show_in_product_page">نمایش ویژگی در صفحه محصول</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="show_in_product_page" name="show_in_product_page" {{old('show_in_product_page') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">اگر قصد نمایش ویژگی در صفحه محصول را دارید این گزینه را فعال نمایید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="show_in_table_page">نمایش ویژگی در جدول محصولات</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="show_in_table_page" name="show_in_table_page" {{old('show_in_table_page') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">اگر قصد نمایش ویژگی در جدول محصولات را دارید این گزینه را فعال نمایید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="multiple_selection_attribute">ویژگی چندگانه</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="multiple_selection_attribute" name="multiple_selection_attribute" {{old('multiple_selection_attribute') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">ویژگی هایی که در صفحه ایجاد و ثبت سفارش محصول قابلیت انتخاب توسط کاربر دارد. به عنوان مثال، تأمین کننده چند رنگ مختلف همزمان به محصول خود نسبت می دهد، کاربر خریدار یک رنگ را انتخاب و ثبت سفارش می نماید.</div>
                                     <!--end::توضیحات-->
                                 </div>
                                 <!--end::Input group-->
@@ -149,16 +298,16 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row">
                                     <!--begin::Tags-->
-                                    <label class="mb-2" for="requiredAttribute">نوع ویژگی</label>
+                                    <label class="mb-2">نوع ویژگی</label>
                                     <div class="form-check form-check-solid form-switch form-check-custom fv-row">
                                         <div class="d-flex">
                                             <!--begin::رادیو-->
                                             <div class="form-check form-check-custom form-check-solid me-5">
-                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_type" id="attribute_type_dropdown" checked="checked">
+                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_item_type" id="attribute_type_dropdown" checked="checked">
                                                 <label class="form-check-label" for="attribute_type_dropdown">از پیش تعریف شده</label>
                                             </div>
                                             <div class="form-check form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_type" id="attribute_type_input_field">
+                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_item_type" id="attribute_type_input_field">
                                                 <label class="form-check-label" for="attribute_type_input_field">ورودی دلخواه</label>
                                             </div>
                                             <!--end::رادیو-->
@@ -178,34 +327,68 @@
                                 <!--begin::Form group-->
                                 <div class="form-group card-body">
                                     <label class="required">لطفا جزئیات ویژگی را مشخص نمایید. به عنوان مثال اگر رنگ را مد نظر دارید، به ترتیب آبی، قرمز، زرد و ... را از طریق دکمه افزودن جزئیات ویژگی وارد کنید.</label>
-                                    <div data-repeater-list="kt_docs_repeater_basic">
-                                        <div data-repeater-item>
-                                            <div class="form-group row mt-4">
-                                                <div class="col-md-10">
-                                                    <input type="text" name="value" class="form-control mb-2 mb-md-0" placeholder="مشخصات یا جزئیات ویژگی مورد نظر" />
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div data-repeater-list="kt_docs_repeater_basic">
+                                                <div data-repeater-item>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-8">
+                                                            <input type="text" name="value" class="form-control mb-2 mb-md-0" placeholder="مشخصات ویژگی مورد نظر" />
+                                                        </div>
+                                                        <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
+                                                                <i class="bi bi-patch-minus-fill"></i>
+                                                                حذف
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-2 d-flex justify-content-end align-items-center">
-                                                    <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
-                                                        حذف
-                                                    </a>
-                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 d-flex justify-content-center mt-5">
+                                            <div class="form-group" style="direction: ltr;">
+                                                <a href="javascript:;" data-repeater-create class="btn btn-sm btn-light-primary">
+                                                افزودن جزئیات ویژگی
+                                                <i class="bi bi-patch-plus-fill"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!--end::Form group-->
-        
-                                <!--begin::Form group-->
-                                <div class="form-group card-body" style="direction: ltr;">
-                                    <a href="javascript:;" data-repeater-create class="btn btn-sm btn-light-primary">
-                                    <i class="ki-duotone ki-plus fs-3"></i>
-                                    افزودن جزئیات ویژگی
-                                    </a>
-                                </div>
-                                <!--end::Form group-->
                             </div>
                             <!--end::Repeater-->
 
+                            <div class="separator separator-dashed my-6"></div>
+                            
+                            <!--begin::Form group-->
+                            <div class="form-group card-body pt-5">
+
+                                <button type="button" class="btn btn-sm btn-primary" id="repeater-btn">
+                                <i class="bi bi-plus-square"></i>
+                                افزودن به لیست ویژگی ها
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-success mx-1" id="repeater-btn-save-changes" style="display: none;">
+                                <i class="bi bi-save"></i>
+                                ذخیره تغییرات
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-dark mx-1" id="repeater-btn-discard-changes" style="display: none;">
+                                <i class="bi bi-x-square"></i>
+                                انصراف
+                                </button>
+
+                                <!--begin::توضیحات-->
+                                <div class="mt-2 text-muted fs-7">با کلیک روی این دکمه می توانید ویژگی تعریف شده را در "لیست ویژگی های انتخاب شده" قرار داده و در نهایت در سامانه ذخیره نمایید.</div>
+                                <!--end::توضیحات-->
+                            </div>
+                            <!--end::Form group-->
+
+                        </div>
+                        <!--end::عمومی options-->
+
+                        <div class="card card-flush py-5">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group card-body ">
@@ -247,30 +430,27 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="goToCategoriesSection">
                                     <div class="form-group card-body ">
                                         <label class="required">لطفا ارتباط ویژگی با زمینه فعالیت حساب کاربری مدنظر (کارشناس، تأمین کننده، عمده یا خرده فروش) را انتخاب نمایید.</label>
                                         <ul class="list-style-none mt-4">
                                             @foreach ($filter_category_array as $category)
                                                 <li class="filterButtonShopPage rootCat">
-                                                    <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                 </li>
                                                 <div class="subCategoryBtn">
-                                                    @include('specialist.body.layouts.categories-group', ['categories' => $category[1]])
+                                                    @include('specialist.body.layouts.specialist_attributes.categories-group', ['categories' => $category[1]])
                                                 </div>
                                             @endforeach
                                         </ul>      
                                     </div>
                                 </div>
                             </div>
-                                
-
                         </div>
-                        <!--end::عمومی options-->
 
                         <div class="d-flex justify-content-end">
                             <!--begin::Button-->
-                            <a href="{{route('all.attribute')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
+                            <a href="{{route('specialist.all.attribute')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
                             <!--end::Button-->
                             <!--begin::Button-->
                             <button type="submit" id="kt_ecommerce_add_category_submit" class="btn btn-primary">
@@ -296,18 +476,15 @@
 </div>
 <!--end:::Main-->
 
-<script>
-    $("input[name='attribute_type']").on('change', function(e) {
-        if(e.target.value == "dropdown") {
-            $("#kt_docs_repeater_basic").toggle();
-        } else {
-            $("#kt_docs_repeater_basic").toggle();
-        }
-    });
-</script>
 
-<script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/categoryFilterAttribute.js')}}"></script>
 
+{{-- تمام فایل های جاوااسکریپتی مربوط به بخش ویژگی ها --}}
+<script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/attributeFormFunctions.js')}}"></script>
+
+
 @endsection
+

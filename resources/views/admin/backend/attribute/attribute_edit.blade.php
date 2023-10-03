@@ -29,7 +29,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">ویرایش ویژگی </h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">افزودن ویژگی </h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -52,7 +52,7 @@
                         </li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
-                        <li class="breadcrumb-item text-muted">ویرایش ویژگی </li>
+                        <li class="breadcrumb-item text-muted">افزودن ویژگی </li>
                         <!--end::آیتم-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -87,25 +87,151 @@
             <div id="kt_app_content_container" class="app-container container-xxl col-xl-8">
                 <form method="post" action="{{route('update.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" value="{{$attribute->id}}">
+                    <input type="hidden" name="id" value={{$attribute->id}}>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 ">
-                        <!--begin::عمومی options-->
+
                         <div class="card card-flush py-5">
                             <!--begin::کارت body-->
-                            <div class="card-body pt-0">
+                            <div class="card-body py-0">
                                 <!--begin::Input group-->
                                 <div class="fv-row">
                                     <!--begin::Tags-->
-                                    <label class="required mb-1">نام ویژگی</label>
+                                    <label class="required mb-1">نام دسته بندی مرتبط با ویژگی</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="name" class="form-control mb-2" placeholder="نام ویژگی مورد نظر را وارد نمایید. به عنوان مثال رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('name', $attribute->name)}}" />
+                                    <input @readonly(true) type="text" name="attribute_category_name" class="form-control mb-2" placeholder="" value="{{old('attribute_category_name', $attribute->attribute_category_name)}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">نام ویژگی مورد نیاز است و توصیه می شود منحصر به فرد باشد.</div>
+                                    <div class="text-muted fs-7">نام دسته بندی به صورت خودکار پس از انتخاب دسته بندی بر اساس <a href="#goToCategoriesSection"><u>آخرین زیر دسته</u></a> در پایین صفحه تعیین می گردد.</div>
                                     <!--end::توضیحات-->
                                 </div>
                                 <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                        </div>
+
+                        <div class="card card-flush py-5">
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0 pb-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="required mb-1">لیست ویژگی های انتخاب شده</label>
+                                    <!--end::Tags-->
+
+                                    <!--begin::list table-->
+                                    <div class="card-body pt-0 pb-0">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_category_table">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="">ردیف</th>
+                                                    <th class="text-center">نام ویژگی</th>
+                                                    <th class="min-w-250px text-center">مقادیر ویژگی</th>
+                                                    <th class="w-250px text-center">عملیات</th>
+                                                </tr>
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <!--end::Table head-->
+                                            <!--begin::Table body-->
+                                            <tbody class="fw-semibold text-gray-600 repeater" id="sortable">
+                                                <!--begin::Table row Parent-->
+                                                @foreach ($attribute->items()->get() as $key => $item)
+                                                <tr data-repeatable="" class="repeater-tr">
+                                                    <!--begin::Checkbox-->
+                                                    <td>
+                                                        <div class="fw-bold">
+                                                            {{$key + 1}}
+                                                        </div>
+                                                    </td>
+                                                    <!--end::Checkbox-->
+                                        
+                                                    <!--begin::دسته بندی=-->
+                                                    <td>
+                                                        <div class="ms-5 text-center fw-bold">
+                                                            <!--begin::Title-->
+                                                            {{$item->attribute_item_name}}
+                                                            <!--end::Title-->
+                                                        </div>
+                                                    </td>
+                                                    <!--end::دسته بندی=-->
+                                        
+                                                    <!--begin::دسته بندی=-->
+                                                    <td>
+                                                        <div class="ms-5 text-center fw-bold">
+                                                            <!--begin::Title-->
+                                                            {{$item->values->pluck('value')->join('، ')}}
+                                                            <!--end::Title-->
+                                                        </div>
+                                                    </td>
+                                                    <!--end::دسته بندی=-->
+                                        
+                                                    <!--begin::عملیات=-->
+                                                    <td class="text-center">
+                                                        <div class="menu-item px-3">
+                                                            <button type="button" class="btn btn-sm btn-info m-1 edit-button-attribute">
+                                                                <i class="bi bi-pencil-fill"></i>
+                                                                ویرایش
+                                                            </button>
+                                                            <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute" onclick="return confirm('آیا برای انجام این کار اطمینان دارید؟')">
+                                                                <i class="bi bi-trash-fill"></i>
+                                                                حذف
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <!--end::عملیات=-->
+                                        
+                                                    <!--begin::فرم مخفی=-->
+                                                    <input type="hidden" value="{{$item->attribute_list_array}}" name="attribute_list_array[]">
+                                                    <!--end::فرم مخفی=-->
+                                                </tr>
+                                                @endforeach
+                                                <!--end::Table row Parent-->
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                    <!--end::list table-->
+
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                        </div>
+
+                        <!--begin::عمومی options-->
+                        <div class="card card-flush py-5">
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-name-empty-warning" role="alert" style="display: none;">
+                                نام ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-description-empty-warning" role="alert" style="display: none;">
+                                توضیحات ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <div class="alert alert-warning mx-5 mt-5" id="attribute-item-specification-empty-warning" role="alert" style="display: none;">
+                                مشخصات ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.
+                            </div>
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-5">
+                                    <!--begin::Input group-->
+                                    <div class="fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="required mb-1">نام ویژگی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="text" name="attribute_item_name" class="form-control mb-2" placeholder="به عنوان مثال: رنگ، واحد اندازه گیری، نوع بسته بندی و ..." value="{{old('attribute_item_name')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">نام ویژگی مورد نظر را وارد نمایید.</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+                                    <!--end::Input group-->
                             </div>
                             <!--end::کارت header-->
 
@@ -117,7 +243,7 @@
                                     <label class="required mb-1">توضیحات ویژگی</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="description" class="form-control mb-2" placeholder="به عنوان مثال: این ویژگی فقط برای دسته بندی میلگرد آجدار استفاده می شود" value="{{$attribute->description}}" />
+                                    <input type="text" name="attribute_item_description" class="form-control mb-2" placeholder="به عنوان مثال: این ویژگی فقط برای دسته بندی میلگرد آجدار استفاده می شود" value="{{old('attribute_item_description')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">ارتباط ویژگی مورد نظر با دسته بندی مرتبط با آن را شرح دهید.</div>
@@ -127,14 +253,14 @@
                             </div>
                             <!--end::کارت header-->
 
-                             <!--begin::کارت body-->
+                            <!--begin::کارت body-->
                              <div class="card-body pt-0">
                                 <!--begin::Input group-->
                                 <div class="fv-row">
                                     <!--begin::Tags-->
                                     <div class="form-check form-check-solid form-switch form-check-custom fv-row">
                                         <label style="margin-left:10px;" for="requiredAttribute">ویژگی اجباری</label>
-                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="requiredAttribute" name="required" {{$attribute->required == "true" ? "checked" : ""}}>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="requiredAttribute" name="attribute_item_required" {{old('attribute_item_required') == "on" ? "checked" : ""}} >
                                     </div>
                                     <!--end::Tags-->
                                     <!--begin::توضیحات-->
@@ -150,16 +276,88 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row">
                                     <!--begin::Tags-->
-                                    <label class="mb-2" for="requiredAttribute">نوع ویژگی</label>
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="disabled_attribute">ویژگی غیر فعال</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="disabled_attribute" name="disabled_attribute" {{old('disabled_attribute') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">با غیر فعال شدن یک ویژگی، آن ویژگی در صفحه افزودن محصول برای سایر کاربران غیر قابل ویرایش خواهد بود و صرفا جنبه اطلاع رسانی به کاربر را دارد.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="show_in_product_page">نمایش ویژگی در صفحه محصول</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="show_in_product_page" name="show_in_product_page" {{old('show_in_product_page') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">اگر قصد نمایش ویژگی در صفحه محصول را دارید این گزینه را فعال نمایید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="show_in_table_page">نمایش ویژگی در جدول محصولات</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="show_in_table_page" name="show_in_table_page" {{old('show_in_table_page') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">اگر قصد نمایش ویژگی در جدول محصولات را دارید این گزینه را فعال نمایید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="multiple_selection_attribute">ویژگی چندگانه</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="multiple_selection_attribute" name="multiple_selection_attribute" {{old('multiple_selection_attribute') == "on" ? "checked" : ""}} >
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="mt-2 text-muted fs-7">ویژگی هایی که در صفحه ایجاد و ثبت سفارش محصول قابلیت انتخاب توسط کاربر دارد. به عنوان مثال، تأمین کننده چند رنگ مختلف همزمان به محصول خود نسبت می دهد، کاربر خریدار یک رنگ را انتخاب و ثبت سفارش می نماید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                            
+                            <!--begin::کارت body-->
+                             <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="mb-2">نوع ویژگی</label>
                                     <div class="form-check form-check-solid form-switch form-check-custom fv-row">
                                         <div class="d-flex">
                                             <!--begin::رادیو-->
                                             <div class="form-check form-check-custom form-check-solid me-5">
-                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_type" id="attribute_type_dropdown" {{$attribute->attribute_type == "dropdown" ? "checked" : ""}} @disabled(true)>
+                                                <input class="form-check-input" type="radio" value="dropdown" name="attribute_item_type" id="attribute_type_dropdown" checked="checked">
                                                 <label class="form-check-label" for="attribute_type_dropdown">از پیش تعریف شده</label>
                                             </div>
                                             <div class="form-check form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_type" id="attribute_type_input_field" {{$attribute->attribute_type == "input_field" ? "checked" : ""}} @disabled(true)>
+                                                <input class="form-check-input" type="radio" value="input_field" name="attribute_item_type" id="attribute_type_input_field">
                                                 <label class="form-check-label" for="attribute_type_input_field">ورودی دلخواه</label>
                                             </div>
                                             <!--end::رادیو-->
@@ -167,7 +365,7 @@
                                     </div>
                                     <!--end::Tags-->
                                     <!--begin::توضیحات-->
-                                    
+                                    <div class="mt-2 text-muted fs-7">با انتخاب گزینه از پیش تعریف شده، کاربر فقط می تواند یکی از مواردی که در سامانه ثبت شده را انتخاب کند. با انتخاب ورودی دلخواه، کاربر هر مقداری که در نظر دارد را می تواند از طریق یک فرم ورودی به سامانه وارد نماید.</div>
                                     <!--end::توضیحات-->
                                 </div>
                                 <!--end::Input group-->
@@ -175,43 +373,75 @@
                             <!--end::کارت header-->
 
                             <!--begin::Repeater-->
-                            <div id="kt_docs_repeater_basic" style="{{$attribute->attribute_type == "input_field" ? "display:none" : ""}}">
+                            <div id="kt_docs_repeater_basic">
                                 <!--begin::Form group-->
                                 <div class="form-group card-body">
                                     <label class="required">لطفا جزئیات ویژگی را مشخص نمایید. به عنوان مثال اگر رنگ را مد نظر دارید، به ترتیب آبی، قرمز، زرد و ... را از طریق دکمه افزودن جزئیات ویژگی وارد کنید.</label>
-                                    <div data-repeater-list="kt_docs_repeater_basic">
-                                        @foreach ($attribute->values as $value)
-                                            <div data-repeater-item>
-                                                <div class="form-group row mt-4">
-                                                    <div class="col-md-10">
-                                                        <input type="text" name="value" value="{{$attribute->attribute_type == "dropdown" ? $value->value : ''}}" class="form-control mb-2 mb-md-0" placeholder="مشخصات یا جزئیات ویژگی مورد نظر" />
-                                                    </div>
-                                                    <div class="col-md-2 d-flex justify-content-end align-items-center">
-                                                        <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
-                                                            حذف
-                                                        </a>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div data-repeater-list="kt_docs_repeater_basic">
+                                                <div data-repeater-item>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-8">
+                                                            <input type="text" name="value" class="form-control mb-2 mb-md-0" placeholder="مشخصات ویژگی مورد نظر" />
+                                                        </div>
+                                                        <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
+                                                                <i class="bi bi-patch-minus-fill"></i>
+                                                                حذف
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                        </div>
+                                        <div class="col-md-4 d-flex justify-content-center mt-5">
+                                            <div class="form-group" style="direction: ltr;">
+                                                <a href="javascript:;" data-repeater-create class="btn btn-sm btn-light-primary">
+                                                افزودن جزئیات ویژگی
+                                                <i class="bi bi-patch-plus-fill"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <!--end::Form group-->
-        
-                                <!--begin::Form group-->
-                                <div class="form-group card-body" style="direction: ltr;">
-                                    <a href="javascript:;" data-repeater-create class="btn btn-sm btn-light-primary">
-                                    <i class="ki-duotone ki-plus fs-3"></i>
-                                    ویرایش جزئیات ویژگی
-                                    </a>
                                 </div>
                                 <!--end::Form group-->
                             </div>
                             <!--end::Repeater-->
 
+                            <div class="separator separator-dashed my-6"></div>
+                            
+                            <!--begin::Form group-->
+                            <div class="form-group card-body pt-5">
+
+                                <button type="button" class="btn btn-sm btn-primary" id="repeater-btn">
+                                <i class="bi bi-plus-square"></i>
+                                افزودن به لیست ویژگی ها
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-success mx-1" id="repeater-btn-save-changes" style="display: none;">
+                                <i class="bi bi-save"></i>
+                                ذخیره تغییرات
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-dark mx-1" id="repeater-btn-discard-changes" style="display: none;">
+                                <i class="bi bi-x-square"></i>
+                                انصراف
+                                </button>
+
+                                <!--begin::توضیحات-->
+                                <div class="mt-2 text-muted fs-7">با کلیک روی این دکمه می توانید ویژگی تعریف شده را در "لیست ویژگی های انتخاب شده" قرار داده و در نهایت در سامانه ذخیره نمایید.</div>
+                                <!--end::توضیحات-->
+                            </div>
+                            <!--end::Form group-->
+
+                        </div>
+                        <!--end::عمومی options-->
+
+                        <div class="card card-flush py-5">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group card-body "> 
+                                    <div class="form-group card-body ">
                                         <label class="required">ویژگی مورد نظر برای کدام یک از حساب های کاربری زیر فعال شود؟</label>
                                         <div class="form-check form-check-custom form-check-solid mt-2">
                                             <input name="role[]" class="form-check-input" type="checkbox" value="admin" id="form_checkbox" {{in_array('admin', explode(',',$attribute->role)) ? 'checked' : ''}} />
@@ -250,29 +480,23 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="goToCategoriesSection">
                                     <div class="form-group card-body ">
                                         <label class="required">لطفا ارتباط ویژگی با زمینه فعالیت حساب کاربری مدنظر (کارشناس، تأمین کننده، عمده یا خرده فروش) را انتخاب نمایید.</label>
                                         <ul class="list-style-none mt-4">
                                             @foreach ($filter_category_array as $category)
                                                 <li class="filterButtonShopPage rootCat">
-                                                    @if(in_array($category[0]->id, explode(",",$attribute->category_id)))
-                                                        <input class="form-check-input" @checked(true) type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus" style="display: none;"></i><i class="fa fa-minus"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                                    @else
-                                                        <input class="form-check-input" type="checkbox" name="category_id[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                                    @endif
+                                                    <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                 </li>
                                                 <div class="subCategoryBtn">
-                                                    @include('admin.body.layouts.edit-categories-group', ['categories' => $category[1]])
+                                                    @include('admin.body.layouts.admin_attributes.edit-categories-group', ['categories' => $category[1]])
                                                 </div>
                                             @endforeach
-                                        </ul>    
+                                        </ul>      
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <!--end::عمومی options-->
 
                         <div class="d-flex justify-content-end">
                             <!--begin::Button-->
@@ -302,18 +526,15 @@
 </div>
 <!--end:::Main-->
 
-<script>
-    $("input[name='attribute_type']").on('change', function(e) {
-        if(e.target.value == "dropdown") {
-            $("#kt_docs_repeater_basic").toggle();
-        } else {
-            $("#kt_docs_repeater_basic").toggle();
-        }
-    });
-</script>
 
-<script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/categoryFilterAttribute.js')}}"></script>
 
+{{-- تمام فایل های جاوااسکریپتی مربوط به بخش ویژگی ها --}}
+<script src="{{asset('adminbackend/assets/js/attributeFormRepeater.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/formrepeater.bundle.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/attributeFormFunctions.js')}}"></script>
+
+
 @endsection
+

@@ -1,5 +1,5 @@
-@extends('specialist.specialist_dashboard')
-@section('specialist')
+@extends('admin.admin_dashboard')
+@section('admin')
 
 <!--begin:: (SELECT2 search module)-->
 
@@ -85,7 +85,7 @@
             @endif
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl col-xl-8">
-                <form method="post" action="{{route('specialist.update.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
+                <form method="post" action="{{route('store.copy.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value={{$attribute->id}}>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 ">
@@ -489,7 +489,7 @@
                                                     <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
                                                 </li>
                                                 <div class="subCategoryBtn">
-                                                    @include('specialist.body.layouts.specialist_attributes.edit-categories-group', ['categories' => $category[1]])
+                                                    @include('admin.body.layouts.admin_attributes.edit-categories-group', ['categories' => $category[1]])
                                                 </div>
                                             @endforeach
                                         </ul>      
@@ -500,7 +500,7 @@
 
                         <div class="d-flex justify-content-end">
                             <!--begin::Button-->
-                            <a href="{{route('specialist.all.attribute')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
+                            <a href="{{route('all.attribute')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
                             <!--end::Button-->
                             <!--begin::Button-->
                             <button type="submit" id="kt_ecommerce_add_category_submit" class="btn btn-primary">

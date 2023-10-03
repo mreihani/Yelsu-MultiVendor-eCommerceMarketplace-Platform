@@ -42,7 +42,7 @@ class Product extends Model
 
     public function attribute_items()
     {
-        return $this->belongsToMany(AttributeItem::class)->withPivot('attribute_value_id','attribute_value_id');
+        return $this->belongsToMany(AttributeItem::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
     }
 
     public function ScopeCheckIfAttributeHasChanged($query, $incoming_attributes, $product_id) {

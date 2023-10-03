@@ -53,6 +53,7 @@
                     <h4 class="alert-title"></h4><i style="color:#50cd89" class="fas fa-check"></i> {{session('success')}}
                 </div>
             @endif
+            
             @if(session()->has('error'))
                 <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
                     <h4 class="alert-title" style="color:#ffa800">
@@ -60,13 +61,7 @@
                         {{session('error')}}
                 </div>
             @endif
-            @foreach($errors->all() as $error)
-                <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
-                    <h4 class="alert-title" style="color:#ffa800">
-                        <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
-                        {{$error}}
-                </div>
-            @endforeach
+
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <!--begin::دسته بندی-->
@@ -106,15 +101,13 @@
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
-                                <th class="">ردیف</th>
-                                <th class="min-w-150px text-center">نام ویژگی</th>
-                                <th class="text-center">توضیحات ویژگی</th>
-                                <th class="text-center">مقادیر ویژگی</th>
-                                <th class="">حساب کاربری مرتبط</th>
-                                {{-- <th class="min-w-350px">زمینه فعالیت حساب کاربری</th> --}}
-                                <th class="">نوع ویژگی</th>
-                                <th class="">اجباری یا اختیاری</th>
-                                <th class="text-end min-w-70px">عملیات</th>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="w-50px">ردیف</th>
+                                    <th class="text-center w-250px">نام دسته بندی مرتبط با ویژگی</th>
+                                    <th class="text-start w-200px">حساب کاربری مرتبط</th>
+                                    <th class="text-start">ویژگی های تعیین شده</th>
+                                    <th class="text-center w-100px">عملیات</th>
+                                </tr>
                                 <!--end::Table row-->
                             </thead>
                             <!--end::Table head-->
@@ -123,6 +116,7 @@
                                 @foreach ($attributes as $key => $attribute)
                                 <!--begin::Table row Parent-->
                                 <tr>
+
                                     <!--begin::Checkbox-->
                                     <td>
                                         <div class="fw-bold">
@@ -130,39 +124,22 @@
                                         </div>
                                     </td>
                                     <!--end::Checkbox-->
-                                    <!--begin::دسته بندی=-->
-                                    <td>
-                                        <div class="ms-5 text-center fw-bold">
-                                            <!--begin::Title-->
-                                            {{$attribute->name}}
-                                            <!--end::Title-->
-                                        </div>
-                                    </td>
-                                    <!--end::دسته بندی=-->
 
                                     <!--begin::دسته بندی=-->
                                     <td>
                                         <div class="ms-5 text-center fw-bold">
                                             <!--begin::Title-->
-                                            {{$attribute->description}}
+                                            {{$attribute->attribute_category_name}}
                                             <!--end::Title-->
                                         </div>
                                     </td>
                                     <!--end::دسته بندی=-->
 
-                                    <!--begin:: نام نویسنده =-->
-                                     <td>
-                                        <!--begin::Badges-->
-                                        <div class="text-center fw-bold">{{$attribute->values->pluck('value')->join('، ')}}</div>
-                                        <!--end::Badges-->
-                                    </td>
-                                    <!--end:: نام نویسنده =-->
-                                    
                                     <!--begin::دسته بندی اصلی=-->
                                     <td>
                                         <!--begin::Badges-->
                                         @foreach (explode(',', $attribute->role) as $role)
-                                        <div class="text-center badge badge-light-primary">
+                                        <div class="text-start badge badge-light-primary">
                                             @if($role == 'admin')
                                                 مدیر
                                             @elseif($role == 'specialist')
@@ -180,52 +157,22 @@
                                     </td>
                                     <!--end::دسته بندی اصلی=-->
 
-                                    <!--begin:: وضعیت انتشار =-->
-                                    {{-- <td class="pe-0" data-order="در حال بازبینی">
-                                        <!--begin::Badges-->
-                                        @foreach (explode(',', $attribute->category_id) as $category_id)
-                                        <div class="badge badge-light-primary">
-                                            {{App\Models\Category::find($category_id)->category_name}}
+                                    <!--begin::دسته بندی=-->
+                                    <td>
+                                        <div class="ms-5 text-start fw-bold">
+                                            <!--begin::Title-->
+                                            @foreach($attribute->items()->pluck('attribute_item_name') as $attribute_item_name)
+                                            <span class="badge badge-light-primary">
+                                                {{$attribute_item_name}}
+                                            </span>
+                                            @endforeach
+                                            <!--end::Title-->
                                         </div>
-                                        @endforeach
-                                        <!--end::Badges-->
-                                    </td> --}}
-                                    <!--end:: وضعیت انتشار =-->
-
-                                    <!--begin:: وضعیت انتشار =-->
-                                    <td class="pe-0" data-order="در حال بازبینی">
-                                        <!--begin::Badges-->
-                                        @if($attribute->attribute_type == "dropdown")
-                                            <div class="badge badge-light-success">
-                                                از پیش تعریف شده
-                                            </div>
-                                        @else
-                                            <div class="badge badge-light-primary">
-                                                ورودی دلخواه
-                                            </div>
-                                        @endif
-                                        <!--end::Badges-->
                                     </td>
-                                    <!--end:: وضعیت انتشار =-->
-
-                                    <!--begin:: وضعیت انتشار =-->
-                                    <td class="pe-0" data-order="در حال بازبینی">
-                                        <!--begin::Badges-->
-                                        @if($attribute->required == "true")
-                                            <div class="badge badge-light-success">
-                                                اجباری
-                                            </div>
-                                        @else
-                                            <div class="badge badge-light-dark">
-                                                اختیاری
-                                            </div>
-                                        @endif
-                                        <!--end::Badges-->
-                                    </td>
-                                    <!--end:: وضعیت انتشار =-->
+                                    <!--end::دسته بندی=-->
 
                                     <!--begin::عملیات=-->
-                                    <td class="text-end">
+                                    <td class="text-center">
                                         <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">عملیات
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                         <span class="svg-icon svg-icon-5 m-0">
@@ -244,6 +191,11 @@
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <a href="{{route('specialist.delete.attribute', $attribute->id)}}" class="menu-link px-3" onclick ="return confirm('آیا برای انجام این کار اطمینان دارید؟')">حذف</a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="{{route('specialist.copy.attribute', $attribute->id)}}" class="menu-link px-3">رونوشت</a>
                                             </div>
                                             <!--end::Menu item-->
                                         </div>
@@ -271,14 +223,8 @@
     
 </div>
 
-    <!--begin::سفارشی Javascript(used for this page only)-->
-    <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script>
-    <!--end::سفارشی Javascript-->
+<!--begin::سفارشی Javascript(used for this page only)-->
+<script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
+<!--end::سفارشی Javascript-->
 
 @endsection

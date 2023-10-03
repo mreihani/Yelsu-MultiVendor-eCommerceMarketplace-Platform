@@ -85,7 +85,7 @@
             @endif
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl col-xl-8">
-                <form method="post" action="{{route('specialist.update.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
+                <form method="post" action="{{route('specialist.store.copy.attribute')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value={{$attribute->id}}>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 ">

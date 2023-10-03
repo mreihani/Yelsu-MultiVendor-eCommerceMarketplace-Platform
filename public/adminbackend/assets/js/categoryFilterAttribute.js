@@ -6,42 +6,16 @@ $(document).on("click", ".filterButtonShopPage", function (e) {
 
     $(e.target).next("div").find(".subCategoryBtn").toggle();
 
+    // این بخش رفتار چک باکس رو مثل رادیو می کنه
     if (e.target.checked && $(e.target).is("input")) {
-        $(e.target)
-            .closest("li.filterButtonShopPage")
-            .next("div")
-            .find("li.filterButtonShopPage")
-            .children()
-            .each(function (index, element) {
-                element.checked = true;
-            });
+        $(".filterButtonShopPage input").each(function (index, element) {
+            element.checked = false;
+        });
+        $(e.target)[0].checked = true;
 
-        $(e.target)
-            .parents("div")
-            .prev()
-            .children()
-            .each(function (index, element) {
-                element.checked = false;
-            });
-    } else if (!e.target.checked && $(e.target).is("input")) {
-        $(e.target)
-            .closest("li.filterButtonShopPage")
-            .next("div")
-            .find("li.filterButtonShopPage")
-            .children()
-            .each(function (index, element) {
-                element.checked = false;
-            });
-
-        //این مورد رو برای چک باکس های ویژگی درست کردم که پایین ترین رو اگر زده بشه، تا بالا رو برمیداره
-        $(e.target)
-            .parents("div")
-            .prev()
-            .children()
-            .each(function (index, element) {
-                element.checked = false;
-            });
+        $('input[name="attribute_category_name"]').val($(e.target).next('span')[0].innerHTML);
     }
+
 });
 
 // این مربوط به عملکرد + و - برای باز و بسته کردن هست

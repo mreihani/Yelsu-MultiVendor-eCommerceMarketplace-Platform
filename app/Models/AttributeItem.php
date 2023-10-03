@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\AttributeValue;
-use App\Models\AttributeCategory;
+use App\Models\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,8 +17,8 @@ class AttributeItem extends Model
         return $this->hasMany(AttributeValue::class);
     }
 
-    public function attribute_categories()
+    public function attributes()
     {
-        return $this->belongsTo(AttributeCategory::class);
+        return $this->belongsTo(Attribute::class);
     }
 }

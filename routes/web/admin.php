@@ -170,6 +170,8 @@ Route::controller(AdminAttributeController::class)->group(function () {
     Route::post('/store/attribute', 'StoreAttribute')->name('store.attribute');
     Route::get('/edit/attribute/{id}', 'EditAttribute')->name('edit.attribute');
     Route::post('/update/attribute', 'UpdateAttribute')->name('update.attribute');
+    Route::get('/copy/attribute/{id}', 'CopyAttribute')->name('copy.attribute');
+    Route::post('/store-copy/attribute', 'StoreCopyAttribute')->name('store.copy.attribute');
     Route::get('/delete/attribute/{id}', 'DeleteAttribute')->name('delete.attribute');
 });
 

@@ -52,6 +52,14 @@
                     </div>
                 </div>
 
+                <div class="container mb-5">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 text-center">
+                            <img width="700px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="tab tab-vertical tab-nav-outline3 ">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">

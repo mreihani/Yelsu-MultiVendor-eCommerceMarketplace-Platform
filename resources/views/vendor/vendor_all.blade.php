@@ -102,10 +102,7 @@
 
                         @php
                             $vendor_sector_arr = explode(",", $vendor->vendor_sector);
-                            $vendor_sector_cat_arr = [];
-                            foreach ($vendor_sector_arr as $vendor_sector_item) {
-                                $vendor_sector_cat_arr[] = App\Models\Category::find($vendor_sector_item);
-                            }
+                            $vendor_sector_cat_arr = App\Models\Category::findRootCategoryArray($vendor_sector_arr)
                         @endphp
 
                         <div class="store-content">

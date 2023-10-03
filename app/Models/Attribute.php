@@ -6,7 +6,7 @@ use App\Models\AttributeItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AttributeCategory extends Model
+class Attribute extends Model
 {
     use HasFactory;
     protected $guarded = [];

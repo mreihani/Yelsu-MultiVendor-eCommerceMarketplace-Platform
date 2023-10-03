@@ -18,11 +18,11 @@ class SpecialistAttributeController extends Controller
     {
         $specialistData = auth()->user();
         $rawAttributes = Attribute::get();
+
         $attributes = [];
         foreach ($rawAttributes as $attribute) {
-            $root_categories_array = Category::findRootCategoryArray(explode(",", $attribute->category_id));
-           
-            if(in_array($specialistData->specialist_category_id, $root_categories_array->pluck("id")->toArray())) {
+            $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+            if($specialistData->specialist_category_id == $root_category_id) {
                 $attributes[] = $attribute;
             }
         }
@@ -38,7 +38,6 @@ class SpecialistAttributeController extends Controller
         $parentCategories = $specialistData->specialist_category;
         $all_children = Category::find($parentCategories->id)->child;
         $filter_category_array[] = array($parentCategories, $all_children);
-        // category for filter
 
         return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories', 'filter_category_array'));
     }
@@ -46,44 +45,51 @@ class SpecialistAttributeController extends Controller
     public function StoreAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
             'role' => ['required', 'array'],
-            'category_id' => ['required', 'array'],
-            'attribute_type' => 'required',
+            'attribute_category_name' => 'required',
+            'category_id' => 'required',
+            'attribute_list_array' => 'required',
         ], [
-            'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
-            'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
             'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
+            'attribute_category_name.required' => 'لطفا نام دسته بندی را انتخاب نمایید.',
             'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
-            'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
-            'attribute_type.required' => 'لطفا نوع ویژگی را وارد نمایید.',
+            'attribute_list_array.required' => 'لیست ویژگی ها نمی تواند خالی باشد!',
         ]);
 
-        if($request->kt_docs_repeater_basic[0]["value"] == null && $request->attribute_type == "dropdown") {
-            return back()->with('error','لطفا مشخصات یا جزئیات ویژگی مورد نظر را وارد نمایید.')->withInput();
-        }
-        
         $attribute = Attribute::firstOrCreate([
-            'name' => Purify::clean($incomingFields['name']),
-            'description' => Purify::clean($incomingFields['description']),
-            'required' => Purify::clean($request->required) == "on" ? "true" : "false",
+            'attribute_category_name' => Purify::clean($incomingFields['attribute_category_name']),
             'role' => implode(',', Purify::clean($incomingFields['role'])),
-            'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
-            'attribute_type' =>  Purify::clean($incomingFields['attribute_type']),
+            'category_id' => (int) Purify::clean($incomingFields['category_id']),
         ]);
+        
+        foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
+            $attribute_item = $attribute->items()->create([
+                'attribute_id' => $attribute->id,
+                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
+                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
+                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
+                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
+                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
+                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
+                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
+                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+            ]);
 
-        if($incomingFields['attribute_type'] == "dropdown") {
-            foreach ($request->kt_docs_repeater_basic as $value) {
-                $attribute->values()->firstOrCreate([
-                    'value' => Purify::clean($value['value'])
+            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
+                foreach (json_decode($attribute_list_item)[0]->value as $value) {
+                    $attribute_item->values()->firstOrCreate([
+                        'attribute_item_id' => $attribute_item->id,
+                        'value' => $value
+                    ]);
+                }
+            } else {
+                $attribute_item->values()->firstOrCreate([
+                    'attribute_item_id' => $attribute_item->id,
+                    'value' => "دلخواه"
                 ]);
             }
-        } else {
-            $attribute->values()->firstOrCreate([
-                'value' => "دلخواه"
-            ]);
         }
 
         return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت ایجاد گردید.');
@@ -99,11 +105,10 @@ class SpecialistAttributeController extends Controller
         $parentCategories = $specialistData->specialist_category;
         $all_children = Category::find($parentCategories->id)->child;
         $filter_category_array[] = array($parentCategories, $all_children);
-        // category for filter
 
         // عدم دسترسی به ویژگی غیر مرتبط با کارشناس غیر مرتبط
-        $root_categories_array = Category::findRootCategoryArray(explode(",", $attribute->category_id));
-        if(!in_array($specialistData->specialist_category_id, $root_categories_array->pluck("id")->toArray())) {
+        $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+        if($specialistData->specialist_category_id != $root_category_id) {
             return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
         }
 
@@ -113,44 +118,129 @@ class SpecialistAttributeController extends Controller
     public function UpdateAttribute(Request $request)
     {
         $incomingFields = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
             'role' => ['required', 'array'],
-            'category_id' => ['required', 'array'],
+            'attribute_category_name' => 'required',
+            'category_id' => 'required',
+            'attribute_list_array' => 'required',
         ], [
-            'name.required' => 'لطفا نام ویژگی را وارد نمایید.',
-            'description.required' => 'لطفا توضیحات ویژگی را وارد نمایید.',
             'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
             'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
+            'attribute_category_name.required' => 'لطفا نام دسته بندی را انتخاب نمایید.',
             'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
-            'category_id.array' => 'لطفا زمینه فعالیت صحیح را وارد نمایید.',
+            'attribute_list_array.required' => 'لیست ویژگی ها نمی تواند خالی باشد!',
         ]);
 
         $attribute = Attribute::find(Purify::clean(($request->id)));
 
         $attribute->update([
-            'name' => Purify::clean($incomingFields['name']),
-            'description' => Purify::clean($incomingFields['description']),
-            'required' => Purify::clean($request->required) == "on" ? "true" : "false",
+            'attribute_category_name' => Purify::clean($incomingFields['attribute_category_name']),
             'role' => implode(',', Purify::clean($incomingFields['role'])),
-            'category_id' => implode(',', Purify::clean($incomingFields['category_id'])),
+            'category_id' => (int) Purify::clean($incomingFields['category_id']),
         ]);
 
-        $attribute->values()->delete();
+        $attribute->items()->delete();
 
-        if($attribute->attribute_type == "dropdown") {
-            foreach ($request->kt_docs_repeater_basic as $value) {
-                $attribute->values()->firstOrCreate([
-                    'value' => Purify::clean($value['value'])
+        foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
+            $attribute_item = $attribute->items()->create([
+                'attribute_id' => $attribute->id,
+                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
+                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
+                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
+                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
+                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
+                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
+                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
+                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+            ]);
+
+            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
+                foreach (json_decode($attribute_list_item)[0]->value as $value) {
+                    $attribute_item->values()->firstOrCreate([
+                        'attribute_item_id' => $attribute_item->id,
+                        'value' => $value
+                    ]);
+                }
+            } else {
+                $attribute_item->values()->firstOrCreate([
+                    'attribute_item_id' => $attribute_item->id,
+                    'value' => "دلخواه"
                 ]);
             }
-        } else {
-            $attribute->values()->firstOrCreate([
-                'value' => "دلخواه"
-            ]);
         }
 
         return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت بروزرسانی گردید.');
+    }
+
+    public function CopyAttribute($id) {
+        $specialistData = auth()->user();
+        $parentCategories = Category::where('parent', 0)->get();
+        $attribute = Attribute::find(Purify::clean($id));
+
+        // category for filter
+        $parentCategories = $specialistData->specialist_category;
+        $all_children = Category::find($parentCategories->id)->child;
+        $filter_category_array[] = array($parentCategories, $all_children);
+
+        // عدم دسترسی به ویژگی غیر مرتبط با کارشناس غیر مرتبط
+        $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+        if($specialistData->specialist_category_id != $root_category_id) {
+            return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
+        }
+
+        return view('specialist.attribute.attribute_copy', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
+    }
+
+    public function StoreCopyAttribute(Request $request) {
+        $incomingFields = $request->validate([
+            'role' => ['required', 'array'],
+            'attribute_category_name' => 'required',
+            'category_id' => 'required',
+            'attribute_list_array' => 'required',
+        ], [
+            'role.required' => 'لطفا حساب کاربری مرتبط با ویژگی را انتخاب نمایید.',
+            'role.array' => 'لطفا حساب کاربری صحیح را وارد نمایید.',
+            'attribute_category_name.required' => 'لطفا نام دسته بندی را انتخاب نمایید.',
+            'category_id.required' => 'لطفا زمینه فعالیت مرتبط با حساب کاربری را انتخاب نمایید.',
+            'attribute_list_array.required' => 'لیست ویژگی ها نمی تواند خالی باشد!',
+        ]);
+
+        $attribute = Attribute::firstOrCreate([
+            'attribute_category_name' => Purify::clean($incomingFields['attribute_category_name']),
+            'role' => implode(',', Purify::clean($incomingFields['role'])),
+            'category_id' => (int) Purify::clean($incomingFields['category_id']),
+        ]);
+        
+        foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
+            $attribute_item = $attribute->items()->create([
+                'attribute_id' => $attribute->id,
+                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
+                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
+                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
+                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
+                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
+                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
+                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
+                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+            ]);
+
+            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
+                foreach (json_decode($attribute_list_item)[0]->value as $value) {
+                    $attribute_item->values()->firstOrCreate([
+                        'attribute_item_id' => $attribute_item->id,
+                        'value' => $value
+                    ]);
+                }
+            } else {
+                $attribute_item->values()->firstOrCreate([
+                    'attribute_item_id' => $attribute_item->id,
+                    'value' => "دلخواه"
+                ]);
+            }
+        }
+
+        return redirect(route('specialist.all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت ایجاد گردید.');
     }
 
     public function DeleteAttribute($id)

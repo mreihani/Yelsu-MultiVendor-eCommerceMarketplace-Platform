@@ -86,6 +86,14 @@
                     </div>
                 </div>
 
+                <div class="container mb-5 mt-5 pt-5">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 text-center">
+                            <img width="700px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="our-recent-projects pt-10">
                     <h4>
                         پروژه های انجام شده

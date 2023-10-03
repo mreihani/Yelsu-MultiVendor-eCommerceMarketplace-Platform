@@ -13,13 +13,7 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		
 		<link rel="shortcut icon" href="{{asset('adminbackend/assets/media/logos/favicon.ico')}}" />
-		<!--begin::Fonts(mوatory for all pages)-->
-		{{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" /> --}}
-		<!--end::Fonts-->
-		<!--begin::Vendor Stylesheets(used for this page only)-->
-		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" /> --}}
-		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.rtl.css')}}" rel="stylesheet" type="text/css" /> --}}
-		<!--end::Vendor Stylesheets-->
+		
 		<!--begin::Global Stylesheets Bundle(mوatory for all pages)-->
 		<link href="{{asset('adminbackend/assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('adminbackend/assets/css/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
@@ -35,19 +29,7 @@
 		<script src="{{asset('adminbackend/assets/plugins/global/plugins.bundle.js')}}"></script>
 		<script src="{{asset('adminbackend/assets/js/scripts.bundle.js')}}"></script>
 		<!--end::Global Javascript Bundle-->
-		
-		{{-- <script src="{{asset('adminbackend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/index.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/xy.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/percent.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/radar.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/map.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/geodata/continentsLow.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script> --}}
-		{{-- <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script> --}}
+	
 		<script src="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
 		
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>

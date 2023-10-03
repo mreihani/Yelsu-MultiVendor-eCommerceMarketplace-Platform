@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attribute_categories', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->id();
             $table->string('attribute_category_name');
             $table->string('role')->nullable();
@@ -22,13 +22,17 @@ return new class extends Migration
 
         Schema::create('attribute_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('attribute_category_id');
-            $table->foreign('attribute_category_id')->references('id')->on('attribute_categories')->onDelete('cascade');
+            $table->unsignedBigInteger('attribute_id');
+            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->string('attribute_item_name');
             $table->string('attribute_item_description')->nullable();
-            $table->enum('attribute_item_required', ['true', 'false'])->default('false');
+            $table->boolean('attribute_item_required')->default(false);
             $table->enum('attribute_item_type', ['input_field', 'dropdown'])->default('dropdown');
-            $table->unsignedBigInteger('attribute_item_order')->nullable();
+            $table->boolean('show_in_table_page')->default(false);
+            $table->boolean('show_in_product_page')->default(false);
+            $table->boolean('disabled_attribute')->default(false);
+            $table->boolean('multiple_selection_attribute')->default(false);
+            $table->text('attribute_list_array')->nullable();
             $table->timestamps();
         });
 
@@ -41,8 +45,8 @@ return new class extends Migration
         });
 
         Schema::create('attribute_product', function (Blueprint $table) {
-            $table->unsignedBigInteger('attribute_category_id');
-            $table->foreign('attribute_category_id')->references('id')->on('attribute_categories')->onDelete('cascade');
+            $table->unsignedBigInteger('attribute_id');
+            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->unsignedBigInteger('attribute_item_id');
@@ -50,7 +54,7 @@ return new class extends Migration
             $table->unsignedBigInteger('attribute_value_id');
             $table->foreign('attribute_value_id')->references('id')->on('attribute_values')->onDelete('cascade');
             $table->text('attribute_value')->nullable();
-            $table->primary(['attribute_category_id', 'product_id', 'attribute_item_id', 'attribute_value_id']);
+            $table->primary(['attribute_id', 'product_id', 'attribute_item_id', 'attribute_value_id']);
         });
     }
 
@@ -62,6 +66,6 @@ return new class extends Migration
         Schema::dropIfExists('attribute_product');
         Schema::dropIfExists('attribute_values');
         Schema::dropIfExists('attribute_items');
-        Schema::dropIfExists('attribute_categories');
+        Schema::dropIfExists('attributes');
     }
 };
