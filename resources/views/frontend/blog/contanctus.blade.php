@@ -66,7 +66,7 @@
                                     </span>
                                     <div class="icon-box-content">
                                         <h4 class="icon-box-title">شماره تلفن </h4>
-                                        <p class="mb-1">تلفن دفتر مرکزی: 2-<a href="tel:02126402540">02126402540-49</a></p>
+                                        <p class="mb-1">تلفن دفتر مرکزی: <a href="tel:02126402540">49-02126402540</a></p>
                                         <p>تلفن گویا: <a href="tel:02191692471">02191692471</a></p>
                                     </div>
                                 </div>
