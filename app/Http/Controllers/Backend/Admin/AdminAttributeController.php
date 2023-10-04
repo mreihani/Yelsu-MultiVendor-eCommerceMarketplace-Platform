@@ -35,8 +35,8 @@ class AdminAttributeController extends Controller
         
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
         
@@ -102,7 +102,7 @@ class AdminAttributeController extends Controller
         $adminData = auth()->user();
         $parentCategories = Category::where('parent', 0)->get();
         $attribute = Attribute::find(Purify::clean($id));
-
+        
         // category for filter
         $filter_category_array = [];
         foreach ($parentCategories as $parentCategory) {
@@ -113,11 +113,11 @@ class AdminAttributeController extends Controller
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
-
+       
         return view('admin.backend.attribute.attribute_edit', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
@@ -194,8 +194,8 @@ class AdminAttributeController extends Controller
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
 

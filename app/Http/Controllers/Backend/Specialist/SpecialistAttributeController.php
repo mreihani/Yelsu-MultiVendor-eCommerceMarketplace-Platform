@@ -41,8 +41,8 @@ class SpecialistAttributeController extends Controller
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
 
@@ -122,8 +122,8 @@ class SpecialistAttributeController extends Controller
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
 
@@ -206,8 +206,8 @@ class SpecialistAttributeController extends Controller
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
-        foreach (Attribute::with('items')->get() as $attribute) {
-            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
+            $attribute_item_keyword_list->push($attribute_item_keyword->items->pluck('attribute_item_keyword'));
         }
         $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
 
