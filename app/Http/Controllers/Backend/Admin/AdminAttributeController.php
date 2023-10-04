@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Attribute;
 use App\Models\User;
-
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -33,8 +32,15 @@ class AdminAttributeController extends Controller
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
         }
-
-        return view('admin.backend.attribute.attribute_add', compact('adminData', 'parentCategories', 'filter_category_array'));
+        
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+        
+        return view('admin.backend.attribute.attribute_add', compact('adminData', 'parentCategories', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function StoreAttribute(Request $request)
@@ -63,6 +69,7 @@ class AdminAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
@@ -104,7 +111,14 @@ class AdminAttributeController extends Controller
 
         }
 
-        return view('admin.backend.attribute.attribute_edit', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array'));
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+
+        return view('admin.backend.attribute.attribute_edit', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function UpdateAttribute(Request $request)
@@ -137,6 +151,7 @@ class AdminAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
@@ -177,7 +192,14 @@ class AdminAttributeController extends Controller
 
         }
 
-        return view('admin.backend.attribute.attribute_copy', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array'));
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+
+        return view('admin.backend.attribute.attribute_copy', compact('adminData', 'parentCategories', 'attribute', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function StoreCopyAttribute(Request $request) {
@@ -205,6 +227,7 @@ class AdminAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,

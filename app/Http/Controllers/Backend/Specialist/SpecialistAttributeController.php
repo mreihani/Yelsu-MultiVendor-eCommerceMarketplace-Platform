@@ -39,7 +39,14 @@ class SpecialistAttributeController extends Controller
         $all_children = Category::find($parentCategories->id)->child;
         $filter_category_array[] = array($parentCategories, $all_children);
 
-        return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories', 'filter_category_array'));
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+
+        return view('specialist.attribute.attribute_add', compact('specialistData', 'parentCategories', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function StoreAttribute(Request $request)
@@ -68,6 +75,7 @@ class SpecialistAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
@@ -112,7 +120,14 @@ class SpecialistAttributeController extends Controller
             return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
         }
 
-        return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+
+        return view('specialist.attribute.attribute_edit', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function UpdateAttribute(Request $request)
@@ -145,6 +160,7 @@ class SpecialistAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
@@ -187,7 +203,15 @@ class SpecialistAttributeController extends Controller
         if($specialistData->specialist_category_id != $root_category_id) {
             return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
         }
-        return view('specialist.attribute.attribute_copy', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array'));
+
+        // دریافت لیستی از کلمات کلیدی
+        $attribute_item_keyword_list = collect();
+        foreach (Attribute::with('items')->get() as $attribute) {
+            $attribute_item_keyword_list->push($attribute->items->pluck('attribute_item_keyword'));
+        }
+        $attribute_item_keyword_list = $attribute_item_keyword_list->flatten()->unique();
+
+        return view('specialist.attribute.attribute_copy', compact('specialistData', 'parentCategories', 'attribute', 'filter_category_array', 'attribute_item_keyword_list'));
     }
 
     public function StoreCopyAttribute(Request $request) {
@@ -215,6 +239,7 @@ class SpecialistAttributeController extends Controller
                 'attribute_id' => $attribute->id,
                 'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
                 'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
                 'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
                 'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
                 'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,

@@ -7,6 +7,7 @@ $(document).on('click', '#repeater-btn', function(e) {
     // stringify function
     let attribute_item_name = $('input[name="attribute_item_name"]').val();
     let attribute_item_description = $('input[name="attribute_item_description"]').val();
+    let attribute_item_keyword = $('input[name="attribute_item_keyword"]').val();
     let specification = $('input[name="kt_docs_repeater_basic[0][value]"]').val();
     let specification_input_array = $('#kt_docs_repeater_basic input');
     let attribute_item_required = $('input[name="attribute_item_required"]')[0].checked;
@@ -42,6 +43,7 @@ $(document).on('click', '#repeater-btn', function(e) {
     attribute_list_array.push({
         'attribute_item_name': attribute_item_name, 
         'attribute_item_description': attribute_item_description, 
+        'attribute_item_keyword': attribute_item_keyword, 
         'value': specification_input_mapped, 
         'attribute_item_required': attribute_item_required, 
         'disabled_attribute': disabled_attribute, 
@@ -150,6 +152,7 @@ $("#kt_ecommerce_category_table").on('click',".edit-button-attribute", function(
 
     $('input[name="attribute_item_name"]').val(attribute_list_obj[0].attribute_item_name);
     $('input[name="attribute_item_description"]').val(attribute_list_obj[0].attribute_item_description);
+    $('input[name="attribute_item_keyword"]').val(attribute_list_obj[0].attribute_item_keyword);
 
     if(attribute_list_obj[0].attribute_item_required) {
         $('input[name="attribute_item_required"]')[0].checked = true;
@@ -252,6 +255,7 @@ $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function
     // stringify function
     let attribute_item_name = $('input[name="attribute_item_name"]').val();
     let attribute_item_description = $('input[name="attribute_item_description"]').val();
+    let attribute_item_keyword = $('input[name="attribute_item_keyword"]').val();
     let specification = $('input[name="kt_docs_repeater_basic[0][value]"]').val();
     let specification_input_array = $('#kt_docs_repeater_basic input');
     let attribute_item_required = $('input[name="attribute_item_required"]')[0].checked;
@@ -304,6 +308,7 @@ $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function
     attribute_list_array.push({
         'attribute_item_name': attribute_item_name, 
         'attribute_item_description': attribute_item_description, 
+        'attribute_item_keyword': attribute_item_keyword, 
         'value': specification_input_mapped, 
         'attribute_item_required': attribute_item_required, 
         'disabled_attribute': disabled_attribute, 
@@ -365,6 +370,7 @@ $("input[name='attribute_item_type']").on('change', function(e) {
 function clear_input_forms() {
     $('input[name="attribute_item_name"]').val("");
     $('input[name="attribute_item_description"]').val("");
+    $('input[name="attribute_item_keyword"]').val("");
     $('#kt_docs_repeater_basic input').val("");
     $('input[name="attribute_item_required"]')[0].checked = false;
     $('input[name="disabled_attribute"]')[0].checked = false;

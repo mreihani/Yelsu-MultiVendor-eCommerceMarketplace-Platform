@@ -204,6 +204,29 @@
                             <!--end::کارت header-->
 
                             <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="mb-1">کلمه کلیدی ویژگی (به انگلیسی وارد شود)</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input list="attribute_item_keyword_list" name="attribute_item_keyword" class="form-control mb-2" placeholder="به عنوان مثال: color برای رنگ" value="{{old('attribute_item_keyword')}}" />
+                                    <datalist id="attribute_item_keyword_list">
+                                        @foreach ($attribute_item_keyword_list as $attribute_item_keyword_item)
+                                        <option value="{{$attribute_item_keyword_item}}">
+                                        @endforeach
+                                    </datalist>
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">برای ویژگی هایی که نیاز به قرارگیری در یک مکان خاصی در صفحات وبسایت نیاز دارند، بایستی یک کلمه کلیدی به انگلیسی تعیین گردد.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+
+                            <!--begin::کارت body-->
                              <div class="card-body pt-0">
                                 <!--begin::Input group-->
                                 <div class="fv-row">

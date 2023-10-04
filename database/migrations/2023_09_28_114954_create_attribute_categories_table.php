@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->string('attribute_item_name');
             $table->string('attribute_item_description')->nullable();
+            $table->string('attribute_item_keyword')->nullable();
             $table->boolean('attribute_item_required')->default(false);
             $table->enum('attribute_item_type', ['input_field', 'dropdown'])->default('dropdown');
             $table->boolean('show_in_table_page')->default(false);
