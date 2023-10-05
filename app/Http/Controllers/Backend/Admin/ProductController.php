@@ -420,22 +420,27 @@ class ProductController extends Controller
 
         $selected_attributes_arr = [];
         $selected_categories_arr = $request->id;
+        $selected_categories_last_item = $selected_categories_arr[count($selected_categories_arr)-1];
+        $attributes = Category::find($selected_categories_last_item)->attributes()->get();
+        $attribute_items = Category::find($selected_categories_last_item)->attributes()->with('items')->get()->pluck('items')->flatten();
 
-        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
-        foreach ($allAttributes as $attribute) {
-
-            // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
-            $user_role_permission = true;
-            if(!in_array($role, explode(',', $attribute->role))) {
-                $user_role_permission = false;
-            } 
-            
-            if($user_role_permission && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
-                $attribute->push(['values' => $attribute->values]);
-                $selected_attributes_arr[] = $attribute;
-            }
+        // اینجا چک میکند که آیا موردی پیدا می شود یا خیر، اگر نشد روی ایجکس قفل نکند
+        if(!sizeof($attributes)) {
+            return response(['attributes' => null, 'duplicated_parent' => false]);
         }
-        
+
+        // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
+        $user_role_permission = true;
+        if(!in_array($role, explode(',', $attributes[0]->role))) {
+            $user_role_permission = false;
+        } 
+        foreach ($attribute_items as $attribute_item) {
+            if($user_role_permission && User::canVendorSeeAttribute($attributes[0]->category_id, implode(',', $selected_categories_arr))){
+                $attribute_item->push(['values' => $attribute_item->values]);
+                $selected_attributes_arr[] = $attribute_item;
+            }
+        }    
+
         $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
 
         return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);

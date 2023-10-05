@@ -106,10 +106,10 @@ $(document).on('click', '#repeater-btn', function(e) {
             <!--begin::عملیات=-->
             <td class="text-center">
                 <div class="menu-item px-3">
-                    <button type="button" class="btn btn-sm btn-info m-1 edit-button-attribute">
+                    <a class="btn btn-sm btn-info m-1 edit-button-attribute" href="#goToAttributeItemNameSection">
                         <i class="bi bi-pencil-fill"></i>
                         ویرایش
-                    </button>
+                    </a>
                     <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute" onclick="return confirm('آیا برای انجام این کار اطمینان دارید؟')">
                         <i class="bi bi-trash-fill"></i>
                         حذف

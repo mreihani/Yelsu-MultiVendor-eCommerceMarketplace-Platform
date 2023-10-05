@@ -171,10 +171,10 @@
                                                     <!--begin::عملیات=-->
                                                     <td class="text-center">
                                                         <div class="menu-item px-3">
-                                                            <button type="button" class="btn btn-sm btn-info m-1 edit-button-attribute">
+                                                            <a class="btn btn-sm btn-info m-1 edit-button-attribute" href="#goToAttributeItemNameSection">
                                                                 <i class="bi bi-pencil-fill"></i>
                                                                 ویرایش
-                                                            </button>
+                                                            </a>
                                                             <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute" onclick="return confirm('آیا برای انجام این کار اطمینان دارید؟')">
                                                                 <i class="bi bi-trash-fill"></i>
                                                                 حذف
@@ -203,7 +203,7 @@
                         </div>
 
                         <!--begin::عمومی options-->
-                        <div class="card card-flush py-5">
+                        <div class="card card-flush py-5" id="goToAttributeItemNameSection">
 
                             <div class="alert alert-warning mx-5 mt-5" id="attribute-item-name-empty-warning" role="alert" style="display: none;">
                                 نام ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.

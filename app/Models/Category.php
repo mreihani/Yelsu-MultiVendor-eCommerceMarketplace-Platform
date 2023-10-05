@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Product;
+use App\Models\Attribute;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,6 +64,11 @@ class Category extends Model
   public function productsRandom()
   {
     return $this->belongsToMany(Product::class, 'category_products')->inRandomOrder();
+  }
+
+  public function attributes()
+  {
+    return $this->hasMany(Attribute::class);
   }
 
   // این متد از متد پایینی استفاده می کنه برای برگردوندن یک آیدی کتگوری تکی، ورودیش حتما باید تک آیتم باشه نه آرایه

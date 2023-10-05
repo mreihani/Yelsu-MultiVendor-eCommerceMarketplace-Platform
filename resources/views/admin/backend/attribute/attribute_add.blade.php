@@ -153,7 +153,7 @@
                         </div>
 
                         <!--begin::عمومی options-->
-                        <div class="card card-flush py-5">
+                        <div class="card card-flush py-5" id="goToAttributeItemNameSection">
 
                             <div class="alert alert-warning mx-5 mt-5" id="attribute-item-name-empty-warning" role="alert" style="display: none;">
                                 نام ویژگی نمی تواند خالی باشد. لطفا آن را تعیین نمایید.

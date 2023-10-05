@@ -31,6 +31,7 @@ $('#update-attributes').on('click', function(e) {
                 role: $('#product-user-role').val()
             }),
             success: function (data) {
+
                 spinnerButton.toggle();    
                 attributeButton.toggle();   
             
@@ -51,11 +52,11 @@ function updateDOM(data) {
     let attributeBodyElement = "";
 
     data.attributes.forEach(function(attributeItem) {
-        let attributeRequired = attributeItem.required == "true" ? 'required' : '';
-        let attributeName = attributeItem.name;
-        let attributeType = attributeItem.attribute_type;
-        let attributeDescription = attributeItem.description;
-        let attributeId = attributeItem.id;
+        let attributeRequired = attributeItem.attribute_item_required == 1 ? 'required' : '';
+        let attributeName = attributeItem.attribute_item_name;
+        let attributeType = attributeItem.attribute_item_type;
+        let attributeDescription = attributeItem.attribute_item_description;
+        let attributeId = attributeItem.attribute_id;
         let attributeValueLoop = "";
         let nonOfThem = "";
         let attributeSelectDropdown = "";
