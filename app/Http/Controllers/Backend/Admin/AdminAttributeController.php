@@ -78,7 +78,8 @@ class AdminAttributeController extends Controller
                 'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
                 'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
                 'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
-                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key]),
+                'attribute_item_order' => $key + 1,
             ]);
 
             if(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "dropdown") {
@@ -163,7 +164,8 @@ class AdminAttributeController extends Controller
                     'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
                     'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
                     'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
-                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key]),
+                    'attribute_item_order' => $key + 1,
                 ]);
 
                 // این بخش مربوط به آیتم ویژگی هایی هست که جدیدا به لیست وارد شدند و شماره شناسایی ندارند
@@ -179,7 +181,8 @@ class AdminAttributeController extends Controller
                     'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
                     'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
                     'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
-                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key]),
+                    'attribute_item_order' => $key + 1,
                 ]);
             }
 
@@ -284,7 +287,8 @@ class AdminAttributeController extends Controller
                 'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
                 'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
                 'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
-                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key]),
+                'attribute_item_order' => $key + 1,
             ]);
 
             if(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "dropdown") {
