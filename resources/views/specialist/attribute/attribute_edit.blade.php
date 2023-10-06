@@ -138,7 +138,7 @@
                                             <!--begin::Table body-->
                                             <tbody class="fw-semibold text-gray-600 repeater" id="sortable">
                                                 <!--begin::Table row Parent-->
-                                                @foreach ($attribute->items()->get() as $key => $item)
+                                                @foreach ($attribute->items()->orderBy('attribute_item_order')->get() as $key => $item)
 
                                                 @php
                                                     $attribute_list_array = [
