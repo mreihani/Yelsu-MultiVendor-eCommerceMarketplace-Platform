@@ -139,6 +139,25 @@
                                             <tbody class="fw-semibold text-gray-600 repeater" id="sortable">
                                                 <!--begin::Table row Parent-->
                                                 @foreach ($attribute->items()->get() as $key => $item)
+
+                                                @php
+                                                    $attribute_list_array = [
+                                                        'id' => $item->id,
+                                                        'attribute_item_name' => $item->attribute_item_name,
+                                                        'attribute_item_description' => $item->attribute_item_description,
+                                                        'attribute_item_keyword' => $item->attribute_item_keyword,
+                                                        'value' => $item->values()->get()->pluck('value','id'),
+                                                        'attribute_item_required' => $item->attribute_item_required,
+                                                        'disabled_attribute' => $item->disabled_attribute,
+                                                        'show_in_product_page' => $item->show_in_product_page,
+                                                        'show_in_table_page' => $item->show_in_table_page,
+                                                        'multiple_selection_attribute' => $item->multiple_selection_attribute,
+                                                        'attribute_item_type' => $item->attribute_item_type,
+                                                    ];
+                                                    
+                                                    $attribute_list_array = json_encode($attribute_list_array);
+                                                @endphp
+
                                                 <tr data-repeatable="" class="repeater-tr">
                                                     <!--begin::Checkbox-->
                                                     <td>
@@ -162,7 +181,7 @@
                                                     <td>
                                                         <div class="ms-5 text-center fw-bold">
                                                             <!--begin::Title-->
-                                                            {{$item->values->pluck('value')->join('، ')}}
+                                                            {{$item->attribute_item_type == "dropdown" ? $item->values->pluck('value')->join('، ') : 'ورودی دلخواه'}}
                                                             <!--end::Title-->
                                                         </div>
                                                     </td>
@@ -175,7 +194,7 @@
                                                                 <i class="bi bi-pencil-fill"></i>
                                                                 ویرایش
                                                             </a>
-                                                            <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute" onclick="return confirm('آیا برای انجام این کار اطمینان دارید؟')">
+                                                            <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute">
                                                                 <i class="bi bi-trash-fill"></i>
                                                                 حذف
                                                             </button>
@@ -184,7 +203,7 @@
                                                     <!--end::عملیات=-->
                                         
                                                     <!--begin::فرم مخفی=-->
-                                                    <input type="hidden" value="{{$item->attribute_list_array}}" name="attribute_list_array[]">
+                                                    <input type="hidden" value="{{$attribute_list_array}}" name="attribute_list_array[]">
                                                     <!--end::فرم مخفی=-->
                                                 </tr>
                                                 @endforeach

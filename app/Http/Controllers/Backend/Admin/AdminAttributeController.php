@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
-use App\Models\Attribute;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Models\AttributeItem;
+use App\Models\AttributeValue;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -67,20 +69,20 @@ class AdminAttributeController extends Controller
         foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
             $attribute_item = $attribute->items()->create([
                 'attribute_id' => $attribute->id,
-                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
-                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
-                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
-                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
-                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
-                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
-                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
-                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
-                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
+                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)->attribute_item_name),
+                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)->attribute_item_keyword),
+                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)->attribute_item_required) ? 1 : 0,
+                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)->attribute_item_type),
+                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)->show_in_table_page) ? 1 : 0,
+                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
+                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
+                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
                 'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
             ]);
 
-            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
-                foreach (json_decode($attribute_list_item)[0]->value as $value) {
+            if(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "dropdown") {
+                foreach (json_decode($attribute_list_item)->value as $value) {
                     $attribute_item->values()->firstOrCreate([
                         'attribute_item_id' => $attribute_item->id,
                         'value' => $value
@@ -108,9 +110,8 @@ class AdminAttributeController extends Controller
         foreach ($parentCategories as $parentCategory) {
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
-
         }
-
+        
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
         foreach (Attribute::with('items')->get() as $attribute_item_keyword) {
@@ -144,37 +145,86 @@ class AdminAttributeController extends Controller
             'category_id' => (int) Purify::clean($incomingFields['category_id']),
         ]);
 
-        $attribute->items()->delete();
-
+        $ignore_delete_attribute_item_array = [];
         foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
-            $attribute_item = $attribute->items()->create([
-                'attribute_id' => $attribute->id,
-                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
-                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
-                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
-                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
-                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
-                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
-                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
-                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
-                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
-                'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
-            ]);
+            $id = (int) json_decode($attribute_list_item)->id;
 
-            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
-                foreach (json_decode($attribute_list_item)[0]->value as $value) {
-                    $attribute_item->values()->firstOrCreate([
+            // اگر آیتم ویژگی از قبل وجود داشته باشد یک شماره شناسایی دارد که از فرانت به اینجا ارسال می شود، در صورت وجود مقایر آن آیتم ویژگی فقط بروز رسانی می شوند و چیزی حذف نمی گردد
+            if($id) {
+                $attribute_item = AttributeItem::find($id);
+                $attribute_item->update([
+                    'attribute_id' => $attribute->id,
+                    'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)->attribute_item_name),
+                    'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)->attribute_item_description),
+                    'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)->attribute_item_keyword),
+                    'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)->attribute_item_required) ? 1 : 0,
+                    'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)->attribute_item_type),
+                    'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)->show_in_table_page) ? 1 : 0,
+                    'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
+                    'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
+                    'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
+                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                ]);
+
+                // این بخش مربوط به آیتم ویژگی هایی هست که جدیدا به لیست وارد شدند و شماره شناسایی ندارند
+            } else {
+                $attribute_item = $attribute->items()->updateOrCreate([
+                    'attribute_id' => $attribute->id,
+                    'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)->attribute_item_name),
+                    'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)->attribute_item_description),
+                    'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)->attribute_item_keyword),
+                    'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)->attribute_item_required) ? 1 : 0,
+                    'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)->attribute_item_type),
+                    'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)->show_in_table_page) ? 1 : 0,
+                    'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
+                    'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
+                    'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
+                    'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
+                ]);
+            }
+
+            if(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "dropdown") {
+
+                $ignore_delete_attribute_value_array = [];
+
+                // تهیه یک لیست از مقادیر ویژگی ها
+                $attibute_value_collection = !empty(AttributeItem::find($id)) ? AttributeItem::find($id)->values()->pluck('value')->toArray() : [];
+
+                foreach (json_decode($attribute_list_item)->value as $value) {
+                   
+                    // مقادیر ویژگی که برابر باشند را نادیده میگیرد، به جای حذف آن ها
+                    if(in_array($value, $attibute_value_collection)) {
+                        $ignore_delete_attribute_value_array[] = $attribute_item->values()->where('value', $value)->get()->first()->id;
+                        continue;
+                    }
+
+                    // مقادیر ویژگی هایی که جدیدا ثبت شده اند را اضافه می کند
+                    $attribute_value_item_id = $attribute_item->values()->insertGetId([
                         'attribute_item_id' => $attribute_item->id,
                         'value' => $value
                     ]);
+
+                    // لیستی از ویژگی هایی که نباید پاک شوند تهیه می شود، که شامل جدید ها و موارد قدیمی می شود
+                    $ignore_delete_attribute_value_array[] = $attribute_value_item_id;
                 }
+
+                // پاک کردن مقادیر ویژگی ها
+                $attribute_item->values()->whereNotIn('id', $ignore_delete_attribute_value_array)->delete();
+                
             } else {
-                $attribute_item->values()->firstOrCreate([
+                // موارد ورودی دلخواه را ایجاد می کند
+                $attribute_item->values()->updateOrCreate([
                     'attribute_item_id' => $attribute_item->id,
                     'value' => "دلخواه"
                 ]);
             }
+
+            // تهیه لیستی از آیتم ویژگی هایی که نباید پاک شوند
+            $ignore_delete_attribute_item_array[] = $attribute_item->id;
         }
+
+        // آیتم ویژگی های اضافه را پاک می کند
+        $attribute->items()->whereNotIn('id', $ignore_delete_attribute_item_array)->delete();
 
         return redirect(route('all.attribute'))->with('success', 'ویژگی مورد نظر با موفقیت بروزرسانی گردید.');
     }
@@ -225,20 +275,20 @@ class AdminAttributeController extends Controller
         foreach ($incomingFields['attribute_list_array'] as $key => $attribute_list_item) {
             $attribute_item = $attribute->items()->create([
                 'attribute_id' => $attribute->id,
-                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_name),
-                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_description),
-                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_keyword),
-                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_required) ? 1 : 0,
-                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type),
-                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_table_page) ? 1 : 0,
-                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)[0]->show_in_product_page) ? 1 : 0,
-                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->disabled_attribute) ? 1 : 0,
-                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)[0]->multiple_selection_attribute) ? 1 : 0,
+                'attribute_item_name' => Purify::clean(json_decode($attribute_list_item)->attribute_item_name),
+                'attribute_item_description' => Purify::clean(json_decode($attribute_list_item)->attribute_item_description),
+                'attribute_item_keyword' => Purify::clean(json_decode($attribute_list_item)->attribute_item_keyword),
+                'attribute_item_required' => Purify::clean(json_decode($attribute_list_item)->attribute_item_required) ? 1 : 0,
+                'attribute_item_type' => Purify::clean(json_decode($attribute_list_item)->attribute_item_type),
+                'show_in_table_page' => Purify::clean(json_decode($attribute_list_item)->show_in_table_page) ? 1 : 0,
+                'show_in_product_page' => Purify::clean(json_decode($attribute_list_item)->show_in_product_page) ? 1 : 0,
+                'disabled_attribute' => Purify::clean(json_decode($attribute_list_item)->disabled_attribute) ? 1 : 0,
+                'multiple_selection_attribute' => Purify::clean(json_decode($attribute_list_item)->multiple_selection_attribute) ? 1 : 0,
                 'attribute_list_array' => Purify::clean($request->attribute_list_array[$key])
             ]);
 
-            if(Purify::clean(json_decode($attribute_list_item)[0]->attribute_item_type) == "dropdown") {
-                foreach (json_decode($attribute_list_item)[0]->value as $value) {
+            if(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "dropdown") {
+                foreach (json_decode($attribute_list_item)->value as $value) {
                     $attribute_item->values()->firstOrCreate([
                         'attribute_item_id' => $attribute_item->id,
                         'value' => $value

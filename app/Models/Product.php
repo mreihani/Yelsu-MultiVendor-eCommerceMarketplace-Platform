@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
-use App\Models\AttributeItem;
+use App\Models\Attribute;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,9 +40,9 @@ class Product extends Model
         return $this->belongsToMany(Order::class);
     }
 
-    public function attribute_items()
+    public function attributes()
     {
-        return $this->belongsToMany(AttributeItem::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
+        return $this->belongsToMany(Attribute::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
     }
 
     public function ScopeCheckIfAttributeHasChanged($query, $incoming_attributes, $product_id) {

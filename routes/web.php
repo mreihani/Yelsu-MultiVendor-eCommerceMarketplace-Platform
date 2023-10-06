@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-Route::get('changeDatabase', function () {
+// Route::get('changeDatabase', function () {
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
     //     // FIX - ISSUE in USERNAME
@@ -34,26 +34,4 @@ Route::get('changeDatabase', function () {
     // }
 
 
-    // $role = "admin";
-    // $selected_categories_arr = [1,662];
-    // $attributes = App\Models\Category::find(662)->attributes()->get();
-    // $attribute_items = $attributes[0]->items;
-
-    // // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
-    // $user_role_permission = true;
-    // if(!in_array($role, explode(',', $attributes[0]->role))) {
-    //     $user_role_permission = false;
-    // } 
-    // foreach ($attribute_items as $attribute_item) {
-    //     if($user_role_permission && App\Models\User::canVendorSeeAttribute($attributes[0]->category_id, implode(',', $selected_categories_arr))){
-    //         $attribute_item->push(['values' => $attribute_item->values]);
-    //         $selected_attributes_arr[] = $attribute_item;
-    //     }
-    // }    
-
-    // $duplicated_parent = App\Models\Category::duplicatedParentCategory($selected_categories_arr);
-    // dd($selected_attributes_arr);   
-
-
-
-});
+// });

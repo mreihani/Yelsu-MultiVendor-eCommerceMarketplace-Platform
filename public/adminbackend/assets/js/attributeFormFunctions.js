@@ -41,6 +41,7 @@ $(document).on('click', '#repeater-btn', function(e) {
     // اینجا از مشخصات ویژگی ها میاد یک رشته درمیاره که داخل ورودی مخفی ذخیره میشه برای ارسال به سرور
     let attribute_list_array = new Array();
     attribute_list_array.push({
+        'id' : null,
         'attribute_item_name': attribute_item_name, 
         'attribute_item_description': attribute_item_description, 
         'attribute_item_keyword': attribute_item_keyword, 
@@ -53,7 +54,7 @@ $(document).on('click', '#repeater-btn', function(e) {
         'attribute_item_type': attribute_item_type
     })
 
-    let attribute_list_stringified = JSON.stringify(attribute_list_array);
+    let attribute_list_stringified = JSON.stringify(attribute_list_array[0]);
     // end of - stringify function
     
     // بخش اعتبار سنجی
@@ -110,7 +111,7 @@ $(document).on('click', '#repeater-btn', function(e) {
                         <i class="bi bi-pencil-fill"></i>
                         ویرایش
                     </a>
-                    <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute" onclick="return confirm('آیا برای انجام این کار اطمینان دارید؟')">
+                    <button type="button" class="btn btn-sm btn-danger m-1 delete-button-attribute">
                         <i class="bi bi-trash-fill"></i>
                         حذف
                     </button>
@@ -150,24 +151,24 @@ $("#kt_ecommerce_category_table").on('click',".edit-button-attribute", function(
     $('#repeater-btn-save-changes').show();
     $('#repeater-btn-discard-changes').show();
 
-    $('input[name="attribute_item_name"]').val(attribute_list_obj[0].attribute_item_name);
-    $('input[name="attribute_item_description"]').val(attribute_list_obj[0].attribute_item_description);
-    $('input[name="attribute_item_keyword"]').val(attribute_list_obj[0].attribute_item_keyword);
+    $('input[name="attribute_item_name"]').val(attribute_list_obj.attribute_item_name);
+    $('input[name="attribute_item_description"]').val(attribute_list_obj.attribute_item_description);
+    $('input[name="attribute_item_keyword"]').val(attribute_list_obj.attribute_item_keyword);
 
-    if(attribute_list_obj[0].attribute_item_required) {
+    if(attribute_list_obj.attribute_item_required) {
         $('input[name="attribute_item_required"]')[0].checked = true;
     } else {
         $('input[name="attribute_item_required"]')[0].checked = false;
     }
 
-    if(attribute_list_obj[0].attribute_item_type == "dropdown") {
+    if(attribute_list_obj.attribute_item_type == "dropdown") {
         let repeater_html_items = "";
-        for (const key in attribute_list_obj[0].value) {
+        for (const key in attribute_list_obj.value) {
             repeater_html_items += `
             <div data-repeater-item="" style="">
                 <div class="row mt-4">
                     <div class="col-md-8">
-                        <input value="${attribute_list_obj[0].value[key]}" type="text" name="kt_docs_repeater_basic[${key}][value]" class="form-control mb-2 mb-md-0" placeholder="مشخصات ویژگی مورد نظر">
+                        <input value="${attribute_list_obj.value[key]}" type="text" name="kt_docs_repeater_basic[${key}][value]" class="form-control mb-2 mb-md-0" placeholder="مشخصات ویژگی مورد نظر">
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center">
                         <a href="javascript:;" data-repeater-delete="" class="btn btn-sm btn-light-danger">
@@ -217,25 +218,25 @@ $("#kt_ecommerce_category_table").on('click',".edit-button-attribute", function(
         $("#kt_docs_repeater_basic").hide();
     }
 
-    if(attribute_list_obj[0].disabled_attribute) {
+    if(attribute_list_obj.disabled_attribute) {
         $('input[name="disabled_attribute"]')[0].checked = true;
     } else {
         $('input[name="disabled_attribute"]')[0].checked = false;
     }
 
-    if(attribute_list_obj[0].show_in_product_page) {
+    if(attribute_list_obj.show_in_product_page) {
         $('input[name="show_in_product_page"]')[0].checked = true;
     } else {
         $('input[name="show_in_product_page"]')[0].checked = false;
     }
 
-    if(attribute_list_obj[0].show_in_table_page) {
+    if(attribute_list_obj.show_in_table_page) {
         $('input[name="show_in_table_page"]')[0].checked = true;
     } else {
         $('input[name="show_in_table_page"]')[0].checked = false;
     }
     
-    if(attribute_list_obj[0].multiple_selection_attribute) {
+    if(attribute_list_obj.multiple_selection_attribute) {
         $('input[name="multiple_selection_attribute"]')[0].checked = true;
     } else {
         $('input[name="multiple_selection_attribute"]')[0].checked = false;
@@ -246,8 +247,12 @@ $("#kt_ecommerce_category_table").on('click',".edit-button-attribute", function(
 // تابع حذف آیتم ویژگی از لیست ویژگی های انتخاب شده
 $("#kt_ecommerce_category_table").on('click',".delete-button-attribute", function(e) {
     let attribute_list_item = $(e.target).closest('.repeater-tr');
-    attribute_list_item.remove();
+    if(confirm('آیا برای انجام این کار اطمینان دارید؟')) {
+        attribute_list_item.remove();
+    } 
 });
+
+
     
 // مربوط به دکمه ذخیره تغییرات
 $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function() {
@@ -275,6 +280,7 @@ $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function
     
     // اینجا داده های ورودی جزئیات ویژگی رو مپ می کنی مقادیر اش رو خروجی میگیری
     var objMap = new Map(Object.entries(specification_input_array));
+  
     let specification_input_mapped = new Array();
     objMap.forEach((item, key) => {
         if(item.value) {
@@ -306,6 +312,7 @@ $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function
     // اینجا از مشخصات ویژگی ها میاد یک رشته درمیاره که داخل ورودی مخفی ذخیره میشه برای ارسال به سرور
     let attribute_list_array = new Array();
     attribute_list_array.push({
+        'id': JSON.parse(clicked_target.closest('td').next('input').val()).id,
         'attribute_item_name': attribute_item_name, 
         'attribute_item_description': attribute_item_description, 
         'attribute_item_keyword': attribute_item_keyword, 
@@ -321,7 +328,7 @@ $("#kt_app_content_container").on('click',"#repeater-btn-save-changes", function
 
     if(attribute_item_name.length && attribute_item_description.length && ((attribute_item_type == "dropdown" ? specification.length : true))) {
 
-        let attribute_list_stringified = JSON.stringify(attribute_list_array);
+        let attribute_list_stringified = JSON.stringify(attribute_list_array[0]);
         let attribute_list_array_input = clicked_target.closest('td').next('input');
         clicked_target.closest('td').prev('td').find('div')[0].innerHTML = specification_input_mapped ? specification_input_mapped.join('، ') : "ورودی دلخواه";
         clicked_target.closest('td').prev('td').prev('td').find('div')[0].innerHTML = attribute_item_name;

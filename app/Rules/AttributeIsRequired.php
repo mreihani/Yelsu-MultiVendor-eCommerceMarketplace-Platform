@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use Closure;
 use App\Models\Attribute;
+use App\Models\AttributeItem;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -16,12 +17,16 @@ class AttributeIsRequired implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        foreach (Purify::clean($value) as $key => $attribute) {
-            $attribute_in_loop = Attribute::find($key);
-            if($attribute_in_loop->attribute_type == "dropdown" && $attribute_in_loop->required == 'true' && $attribute["value_id"] == 'none') {
-                $fail("$attribute_in_loop->name ضروری است");
-            } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute_in_loop->required == 'true' && $attribute["value"] == null) {
-                $fail("$attribute_in_loop->name ضروری است");
+        foreach (Purify::clean(collect($value)->first()) as $key => $attribute_item) {
+            $attribute_in_loop = AttributeItem::find($key);
+            if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_in_loop->attribute_item_required && $attribute_item["attribute_value_id"] == 'none' && !$attribute_in_loop->multiple_selection_attribute) {
+                $fail("$attribute_in_loop->attribute_item_name ضروری است");
+
+            } elseif($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_in_loop->attribute_item_required && count(collect($attribute_item["attribute_value_id"])) == 1 && $attribute_in_loop->multiple_selection_attribute) {
+                $fail("$attribute_in_loop->attribute_item_name ضروری است");
+
+            } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_in_loop->attribute_item_required && $attribute_item["attribute_value"] == null && !$attribute_in_loop->multiple_selection_attribute) {
+                $fail("$attribute_in_loop->attribute_item_name ضروری است");
             }
         }
     }
