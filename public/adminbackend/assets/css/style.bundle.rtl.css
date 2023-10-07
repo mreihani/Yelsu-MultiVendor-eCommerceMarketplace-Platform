@@ -54136,3 +54136,11 @@ input[type="number"] {
 /* slowly move down for anchor links in pages */
 html { scroll-behavior: smooth; }
 /* slowly move down for anchor links in pages */
+
+
+/* add border to any image css */
+.add-border-to-images-yelsu {
+    border: 3px solid #ffffff;
+    box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
+}
+/* add border to any image css */

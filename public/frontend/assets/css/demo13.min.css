@@ -19489,3 +19489,11 @@ body .product-popup {
 /* تنظیمات واکنش گرا موبایل */
 
 /* END OF - custom css for banner 1 in home page */
+
+
+/* add border to any image css */
+.add-border-to-images-yelsu {
+    border: 3px solid #ffffff;
+    box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
+}
+/* add border to any image css */

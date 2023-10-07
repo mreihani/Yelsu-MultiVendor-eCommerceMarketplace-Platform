@@ -46,19 +46,51 @@
                         </div>
                         <div class="col-lg-4 col-sm-12 text-center">
                             <a href="https://encomgalaxy.com/">
-                                <img width="290" src="{{asset('frontend/assets/images/pages/encom_galaxy/encomgalaxyimage.jpeg')}}" alt="">
+                                <img class="add-border-to-images-yelsu" width="290" src="{{asset('frontend/assets/images/pages/encom_galaxy/encomgalaxyimage.jpeg')}}" alt="">
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="container mb-5">
+                <div class="container mt-10 mb-10">
                     <div class="row">
-                        <div class="col-lg-12 col-sm-12 text-center">
-                            <img width="700px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        <div class="col-lg-6 col-sm-6 text-start">
+                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/Haydar_Al_Behadili.jpeg')}}" alt="">
+                        </div>
+                        <div class="col-lg-6 col-sm-6 text-center d-flex flex-column justify-content-center">
+                            <p>
+                                مدیر عامل: جناب آقای حیدر البهادلی
+                            </p>
+                            <p>
+                                آدرس دفتر مرکزی: 
+                                <a href="https://maps.app.goo.gl/rw9ui5kemS8QBp7D6">
+                                    Kayabaşı, 4Q8F+VP, 34494 Başakşehir/İstanbul, Türkiye
+                                </a>
+                            </p>
+                            <p>
+                                شماره تلفن: 
+                                <a href="tel:05366975547">
+                                    05366975547
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="container mt-10 mb-10">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 text-center d-flex flex-column justify-content-center">
+                            <p>
+                                آغاز همکاری تجاری یلسو با شرکت بین المللی Encompassing Trade
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-sm-6" style="text-align: end;">
+                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="tab tab-vertical tab-nav-outline3 ">
                     <ul class="nav nav-tabs" role="tablist">

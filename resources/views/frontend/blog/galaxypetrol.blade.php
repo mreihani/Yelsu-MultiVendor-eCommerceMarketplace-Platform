@@ -80,16 +80,21 @@
                         </div>
                         <div class="col-lg-4 col-sm-12 text-center">
                             <a href="https://galaxypetrol.com/">
-                                <img width="290" src="{{asset('frontend/assets/images/pages/galaxy_petrol/galaxypetrolimage.jpg')}}" alt="">
+                                <img class="add-border-to-images-yelsu" width="290" src="{{asset('frontend/assets/images/pages/galaxy_petrol/galaxypetrolimage.jpg')}}" alt="">
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="container mb-5 mt-5 pt-5">
+                <div class="container mt-10 mb-10">
                     <div class="row">
-                        <div class="col-lg-12 col-sm-12 text-center">
-                            <img width="700px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        <div class="col-lg-6 col-sm-6" style="text-align: start;">
+                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                        </div>
+                        <div class="col-lg-6 col-sm-6 d-flex flex-column justify-content-center">
+                            <p style="text-align: end;">
+                                آغاز همکاری تجاری یلسو با شرکت بین المللی Encompassing Trade
+                            </p>
                         </div>
                     </div>
                 </div>
