@@ -8,12 +8,13 @@ use App\Models\Category;
 use App\Models\MultiImg;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Models\AttributeItem;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
 use App\Rules\AttributeIsRequired;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
@@ -63,7 +64,7 @@ class VendorProductController extends Controller
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
             'selling_price' => ['required', 'numeric'],
-            'attribute' => new AttributeIsRequired()
+            'attribute' => ['required', new AttributeIsRequired()],
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'product_thumbnail.image' => 'لطفا فایل JPG یا PNG بارگذاری نمایید.',
@@ -75,6 +76,7 @@ class VendorProductController extends Controller
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
             'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
             'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
+            'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
 
         // create string of category id which is array, to store the string into DB
@@ -147,19 +149,34 @@ class VendorProductController extends Controller
         // بخش مدیریت ویژگی ها
         if($request->attribute) {
             $product = Product::find($product_id);
+
             $attributes = [];
-            foreach (Purify::clean($request->attribute) as $key => $attribute) {
-                $attribute_in_loop = Attribute::find($key);
-                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
-                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
+            $attribute_id = collect($request->attribute)->keys()->first();
+            foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
+                $attribute_in_loop = AttributeItem::find($key);
+                if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
+                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
+                } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
+                    // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
+                    foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
+                        if($attribute_value_id_key == 0) {
+                            continue;
+                        }
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL);
+                    }
+
+                } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
+                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
                 }
             }
+
             if (count($attributes) ) {
-                $product->attributes()->attach($attributes);
+                foreach ($attributes as $attribute_item) {
+                    $product->attributes()->attach($attribute_item);
+                }
             }
         }    
+        // بخش مدیریت ویژگی ها
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
@@ -170,8 +187,8 @@ class VendorProductController extends Controller
         $vendorData = User::find($user_id);
         
         $products = Product::findOrFail(Purify::clean($id));
-        $allAttributes = $products->attributes;
-
+        $allAttributes = AttributeItem::find($products->attributes()->pluck('attribute_item_id'));
+        
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
 
@@ -187,13 +204,13 @@ class VendorProductController extends Controller
     public function VendorUpdateProduct(Request $request)
     {
         $product_id = Purify::clean($request->id);
-
+        
         $incomingFields = $request->validate([
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')->ignore($product_id)],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
             'selling_price' => ['required', 'numeric'],
-            'attribute' => new AttributeIsRequired()
+            'attribute' => ['required', new AttributeIsRequired()],
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -202,8 +219,9 @@ class VendorProductController extends Controller
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
             'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
             'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
+            'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
-
+        dd(Product::checkIfAttributeHasChanged($request->attribute, $product_id));
         // create string of category id which is array, to store the string into DB
         if (Purify::clean($incomingFields['category_id'])) {
             $category_id = implode(',', Purify::clean($incomingFields['category_id']));
@@ -346,18 +364,32 @@ class VendorProductController extends Controller
         // بخش مدیریت ویژگی ها
         if($request->attribute) {
             $product = Product::find($product_id);
+
             $attributes = [];
-            foreach (Purify::clean($request->attribute) as $key => $attribute) {
-                $attribute_in_loop = Attribute::find($key);
-                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
-                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
+            $attribute_id = collect($request->attribute)->keys()->first();
+            foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
+                $attribute_in_loop = AttributeItem::find($key);
+                if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
+                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
+                } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
+                    // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
+                    foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
+                        if($attribute_value_id_key == 0) {
+                            continue;
+                        }
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL);
+                    }
+
+                } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
+                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
                 }
             }
+
             $product->attributes()->detach();
             if (count($attributes) ) {
-                $product->attributes()->sync($attributes);
+                foreach ($attributes as $attribute_item) {
+                    $product->attributes()->attach($attribute_item);
+                }
             }
         }    
         // بخش مدیریت ویژگی ها
@@ -414,7 +446,7 @@ class VendorProductController extends Controller
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
             'selling_price' => ['required', 'numeric'],
-            'attribute' => new AttributeIsRequired()
+            'attribute' => ['required', new AttributeIsRequired()],
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -423,6 +455,7 @@ class VendorProductController extends Controller
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
             'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
             'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
+            'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
 
         // create string of category id which is array, to store the string into DB
@@ -526,23 +559,30 @@ class VendorProductController extends Controller
     }
 
     public function LoadAttributes(Request $request) {
-        $user_id = Auth::user()->id;
-        $vendorData = User::find($user_id);
+        $role = Purify::clean($request->role);
 
-        $selected_attributes_arr = [];
-        $selected_categories_arr = $request->id;
+        $selected_categories_id = (int) Purify::clean($request->id);
+        $attributes = Category::find($selected_categories_id)->attributes()->get();
+        $attribute_items = Category::find($selected_categories_id)->attributes()->with('items')->get()->pluck('items')->flatten();
 
-        $allAttributes = Attribute::all(['attribute_type', 'description', 'id', 'name', 'required', 'role', 'category_id']);
-        foreach ($allAttributes as $attribute) {
-            if(in_array($vendorData->role, explode(',', $attribute->role)) && User::canVendorSeeAttribute($attribute->category_id, implode(',', $selected_categories_arr))){
-                $attribute->push(['values' => $attribute->values]);
-                $selected_attributes_arr[] = $attribute;
-            }
+        // اینجا چک میکند که آیا موردی پیدا می شود یا خیر، اگر نشد روی ایجکس قفل نکند
+        if(!sizeof($attributes)) {
+            return response(['attributes' => null]);
         }
-        
-        $duplicated_parent = Category::duplicatedParentCategory($selected_categories_arr);
 
-        return response(['attributes' => $selected_attributes_arr, 'duplicated_parent' => $duplicated_parent]);
+        // اینجا برای هر ویژگی چک کن که آیا مجاز به استفاده از اون ویژگی هست یا خیر
+        $user_role_permission = true;
+        if(!in_array($role, explode(',', $attributes[0]->role))) {
+            $user_role_permission = false;
+        } 
+        foreach ($attribute_items as $attribute_item) {
+            if($user_role_permission && ($attributes[0]->category_id == $selected_categories_id)){
+                $attribute_item->push(['values' => $attribute_item->values]);
+                $selected_attributes_arr[] = $attribute_item;
+            }
+        }    
+
+        return response(['attributes' => $selected_attributes_arr]);
     }
 
 } 

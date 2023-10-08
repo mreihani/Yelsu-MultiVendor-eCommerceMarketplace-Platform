@@ -201,14 +201,6 @@
                             {{-- این رول خود کاربر محصول است که از تابع کنترلر میاد میشینه و بعد میره روی ایجکس و مشخص میشه این رو آیا تامین کننده زده یا هر کسی --}}
                             <input type="hidden" value="specialist" id="product-user-role">
 
-                            <div class="alert alert-warning no-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
-                                لطفا حداقل یک دسته بندی انتخاب نمایید
-                            </div>
-
-                            <div class="alert alert-warning duplicated-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
-                                لطفا فقط یک زیر دسته مرتبط با محصول انتخاب نمایید
-                            </div>
-
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title required">
@@ -235,16 +227,6 @@
                             </div>
                             <!--end::کارت body-->
 
-                            <div class="d-flex justify-content-center mb-5">
-                                <button type="button" class="btn btn-primary btn-sm" id="update-attributes">
-                                    دریافت ویژگی های مرتبط
-                                </button>
-                                
-                                <button type="button" class="btn btn-sm btn-primary spinner" style="display: none;" disabled>
-                                    در حال دریافت
-                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                </button>
-                            </div>
                         </div>
                         <!--end::دسته بندی & tags-->
 
@@ -252,9 +234,6 @@
                         <div id="attribute-loop"></div>
                         <!--end::لوپ ویژگی ها-->
 
-                        <!--begin::Template settings-->
-                        
-                        <!--end::Template settings-->
                     </div>
                     <!--end::کناری column-->
                     <!--begin::Main column-->
@@ -868,7 +847,7 @@
 <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
 <!--end::سفارشی Javascript-->
 
-<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
 
 @endsection

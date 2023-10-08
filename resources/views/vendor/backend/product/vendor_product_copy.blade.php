@@ -922,7 +922,7 @@
 <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
 <!--end::سفارشی Javascript-->
 
-<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
 
 @endsection

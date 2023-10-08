@@ -77,12 +77,12 @@
                                     Kayabaşı, 4Q8F+VP, 34494 Başakşehir/İstanbul, Türkiye
                                 </a>
                             </p>
-                            <p>
+                            {{-- <p>
                                 شماره تلفن: 
                                 <a href="tel:05366975547">
                                     05366975547
                                 </a>
-                            </p>
+                            </p> --}}
                         </div>
                         <div class="col-lg-6 col-sm-6" style="text-align: end;">
                             <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/Haydar_Al_Behadili.jpeg')}}" alt="">

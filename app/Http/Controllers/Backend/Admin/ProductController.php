@@ -93,29 +93,6 @@ class ProductController extends Controller
 
     public function StoreProduct(Request $request)
     {
-        //dd((collect($request->attribute)->first()[81]["attribute_value"]));
-        // $attributes = [];
-        // $attribute_id = collect($request->attribute)->keys()->first();
-        // foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
-        //     $attribute_in_loop = AttributeItem::find($key);
-        //     if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
-        //         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
-        //     } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
-        //         // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
-        //         foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
-        //             if($attribute_value_id_key == 0) {
-        //                 continue;
-        //             }
-        //             $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL);
-        //         }
-
-        //     } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
-        //         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
-        //     }
-        // }
-        // dd(($attributes));
-
-
         $incomingFields = $request->validate([
             'product_thumbnail' => 'required',
             'category_id' => 'required',

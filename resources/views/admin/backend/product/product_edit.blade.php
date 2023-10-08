@@ -239,64 +239,61 @@
                         <!--begin::لوپ ویژگی ها-->
                         <div id="attribute-loop">
                             @foreach ($allAttributes as $attributeKey => $attribute)
-                                                                                
-                                @if(in_array($role, explode(',', $attribute->attributes->role)) && ($vendor_sector != NULL ? in_array($attribute->attributes->category_id, explode(',', $vendor_sector)) : true))
-                                    <div class="card card-flush py-4 mt-10">
-                                        <!--begin::کارت header-->
-                                        <div class="card-header">
-                                            <!--begin::کارت title-->
-                                            <div class="card-title {{$attribute->attribute_item_required == true ? "required" : ""}}">
-                                                <h2>{{$attribute->attribute_item_name}}</h2>
-                                            </div>
-                                            <!--end::کارت title-->
+                                <div class="card card-flush py-4 mt-10">
+                                    <!--begin::کارت header-->
+                                    <div class="card-header">
+                                        <!--begin::کارت title-->
+                                        <div class="card-title {{$attribute->attribute_item_required == true ? "required" : ""}}">
+                                            <h2>{{$attribute->attribute_item_name}}</h2>
                                         </div>
-                                        <!--end::کارت header-->
+                                        <!--end::کارت title-->
+                                    </div>
+                                    <!--end::کارت header-->
 
-                                        <!--begin::کارت body-->
-                                        <div class="card-body pt-0">
-                                            <div>
-                                                <!--begin::Input group-->
-                                                <!--begin::انتخاب2-->
-                                                @if($attribute->attribute_item_type == "dropdown" && !$attribute->multiple_selection_attribute)
-                                                    <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
-                                                        @if($attribute->attribute_item_required == false)
-                                                            <option value="none" selected="selected">هیچ کدام</option>
-                                                        @endif
-                                                        @foreach ($attribute->values as $item)
-                                                            @if(in_array($item->id, $products->attributes()->pluck('attribute_value_id')->toArray()))
-                                                                <option @selected(true) value="{{$item->id}}">{{$item->value}}</option>
-                                                            @else
-                                                                <option value="{{$item->id}}">{{$item->value}} </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                @elseif($attribute->attribute_item_type == "dropdown" && $attribute->multiple_selection_attribute)    
-                                                    <input type="hidden" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="none" checked="true">
+                                    <!--begin::کارت body-->
+                                    <div class="card-body pt-0">
+                                        <div>
+                                            <!--begin::Input group-->
+                                            <!--begin::انتخاب2-->
+                                            @if($attribute->attribute_item_type == "dropdown" && !$attribute->multiple_selection_attribute)
+                                                <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                                                    @if($attribute->attribute_item_required == false)
+                                                        <option value="none" selected="selected">هیچ کدام</option>
+                                                    @endif
                                                     @foreach ($attribute->values as $item)
                                                         @if(in_array($item->id, $products->attributes()->pluck('attribute_value_id')->toArray()))
-                                                            <li class="list-style-none mt-4">
-                                                                <input @checked(true) class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
-                                                            </li>
+                                                            <option @selected(true) value="{{$item->id}}">{{$item->value}}</option>
                                                         @else
-                                                            <li class="list-style-none mt-4">
-                                                                <input class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
-                                                            </li>
+                                                            <option value="{{$item->id}}">{{$item->value}} </option>
                                                         @endif
                                                     @endforeach
-                                                @elseif($attribute->attribute_item_type == "input_field")
-                                                    <input type="text" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes()->where('attribute_item_id', $attribute->id)->get()) ? $products->attributes()->where('attribute_item_id', $attribute->id)->get()->first()->pivot->attribute_value : ""}}"/>
-                                                    <input type="hidden" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" value="{{$attribute->values[0]->id}}">
-                                                @endif
-                                                <!--end::انتخاب2-->
-                                                <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7 mt-5">{{$attribute->attribute_item_description}}</div>
-                                                <!--end::توضیحات-->
-                                                <!--end::Input group-->
-                                            </div>
+                                                </select>
+                                            @elseif($attribute->attribute_item_type == "dropdown" && $attribute->multiple_selection_attribute)    
+                                                <input type="hidden" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="none" checked="true">
+                                                @foreach ($attribute->values as $item)
+                                                    @if(in_array($item->id, $products->attributes()->pluck('attribute_value_id')->toArray()))
+                                                        <li class="list-style-none mt-4">
+                                                            <input @checked(true) class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
+                                                        </li>
+                                                    @else
+                                                        <li class="list-style-none mt-4">
+                                                            <input class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @elseif($attribute->attribute_item_type == "input_field")
+                                                <input type="text" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes()->where('attribute_item_id', $attribute->id)->get()) ? $products->attributes()->where('attribute_item_id', $attribute->id)->get()->first()->pivot->attribute_value : ""}}"/>
+                                                <input type="hidden" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" value="{{$attribute->values[0]->id}}">
+                                            @endif
+                                            <!--end::انتخاب2-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7 mt-5">{{$attribute->attribute_item_description}}</div>
+                                            <!--end::توضیحات-->
+                                            <!--end::Input group-->
                                         </div>
-                                        <!--end::کارت body-->
                                     </div>
-                                @endif
+                                    <!--end::کارت body-->
+                                </div>
                             @endforeach
                         </div>
                         <!--end::لوپ ویژگی ها-->
