@@ -54,12 +54,22 @@
 
                 <div class="container mt-10 mb-10">
                     <div class="row">
-                        <div class="col-lg-6 col-sm-6 text-start">
-                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/Haydar_Al_Behadili.jpeg')}}" alt="">
+                        <div class="col-lg-5 col-sm-6" style="text-align: start;">
+                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
                         </div>
+                        <div class="col-lg-7 col-sm-6 text-center d-flex flex-column justify-content-center">
+                            <p>
+                                عقد تفاهم نامه مشترک یلسو با آقای حسین الخفاجی مدیرعامل هلدینگ بین المللی Encompassing Trade
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mt-10 mb-10">
+                    <div class="row">
                         <div class="col-lg-6 col-sm-6 text-center d-flex flex-column justify-content-center">
                             <p>
-                                مدیر عامل: جناب آقای حیدر البهادلی
+                                مدیر عامل: آقای حیدر البهادیلی
                             </p>
                             <p>
                                 آدرس دفتر مرکزی: 
@@ -74,23 +84,11 @@
                                 </a>
                             </p>
                         </div>
-                    </div>
-                </div>
-
-
-                <div class="container mt-10 mb-10">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-6 text-center d-flex flex-column justify-content-center">
-                            <p>
-                                آغاز همکاری تجاری یلسو با شرکت بین المللی Encompassing Trade
-                            </p>
-                        </div>
                         <div class="col-lg-6 col-sm-6" style="text-align: end;">
-                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
+                            <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/Haydar_Al_Behadili.jpeg')}}" alt="">
                         </div>
                     </div>
                 </div>
-
 
                 <div class="tab tab-vertical tab-nav-outline3 ">
                     <ul class="nav nav-tabs" role="tablist">

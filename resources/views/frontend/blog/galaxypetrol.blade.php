@@ -88,12 +88,12 @@
 
                 <div class="container mt-10 mb-10">
                     <div class="row">
-                        <div class="col-lg-6 col-sm-6" style="text-align: start;">
+                        <div class="col-lg-5 col-sm-6" style="text-align: start;">
                             <img class="add-border-to-images-yelsu" width="400px" src="{{asset('frontend/assets/images/pages/encom_galaxy/yelsu_encom.jpg')}}" alt="">
                         </div>
-                        <div class="col-lg-6 col-sm-6 d-flex flex-column justify-content-center">
-                            <p style="text-align: end;">
-                                آغاز همکاری تجاری یلسو با شرکت بین المللی Encompassing Trade
+                        <div class="col-lg-7 col-sm-6 d-flex flex-column justify-content-center">
+                            <p>
+                                عقد تفاهم نامه مشترک یلسو با آقای حسین الخفاجی مدیرعامل هلدینگ بین المللی  Encompassing Trade
                             </p>
                         </div>
                     </div>
