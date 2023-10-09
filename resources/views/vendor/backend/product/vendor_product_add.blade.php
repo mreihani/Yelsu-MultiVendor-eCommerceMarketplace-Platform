@@ -846,6 +846,6 @@
 <!--end::سفارشی Javascript-->
 
 <script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
     
 @endsection

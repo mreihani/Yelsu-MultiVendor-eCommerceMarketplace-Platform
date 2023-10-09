@@ -52,6 +52,8 @@ function updateDOM(data) {
             let attributeId = attributeItem.attribute_id;
             let attributeItemId = attributeItem.id;
             let multiple_selection_attribute = attributeItem.multiple_selection_attribute;
+            let disabled_attribute_style = attributeItem.disabled_attribute ? "pointer-events: none; background-color:#eff2f5;" : "";
+            
             let attributeValueLoop = "";
             let nonOfThem = "";
             let attributeSelectDropdown = "";
@@ -75,7 +77,7 @@ function updateDOM(data) {
                 });
     
                 attributeSelectDropdown = `
-                <select class="form-select mb-2" data-control="select2" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                <select style="${disabled_attribute_style}" class="form-select mb-2" data-control="select2" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
                     ${nonOfThem}
                     ${attributeValueLoop}
                 </select>
@@ -84,7 +86,7 @@ function updateDOM(data) {
                 let attributeValue0 = attributeItem.values[0].id;
     
                 attributeSelectDropdown = `
-                    <input type="text" name="attribute[${attributeId}][${attributeItemId}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
+                    <input style="${disabled_attribute_style}" type="text" name="attribute[${attributeId}][${attributeItemId}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
                     <input type="hidden" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id]" value="${attributeValue0}">
                 `;
             }
@@ -96,7 +98,7 @@ function updateDOM(data) {
     
                     attributeMultipleSelection += `
                     <li class="list-style-none mt-4">
-                        <input class="form-check-input" type="checkbox" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id][]" value="${attributeValueId}"> ${attributeValue} 
+                        <input style="${disabled_attribute_style}" class="form-check-input" type="checkbox" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id][]" value="${attributeValueId}"> ${attributeValue} 
                     </li>
                     `; 
                 });

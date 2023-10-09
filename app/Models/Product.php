@@ -96,11 +96,14 @@ class Product extends Model
                 }
              
                 // تهیه یک لیست از مواردی که دریافت می شود برای بررسی آیتم های جدید
-                if(!AttributeItem::find($attr_key)->multiple_selection_attribute) {
-                    if($attribute_item["attribute_value_id"] != 'none') {
-                        $incomingValueArray[] = $attr_key;
-                    }
-                } else {
+                if(AttributeItem::find($attr_key)->attribute_item_type == "dropdown" && !AttributeItem::find($attr_key)->multiple_selection_attribute && $attribute_item["attribute_value_id"] != 'none') {
+                    // برای فرم های از پیش تعریف شده که نباید در صورت هیچکدام خوردن محاسبه شود
+                    $incomingValueArray[] = $attr_key;
+                } elseif(AttributeItem::find($attr_key)->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != null) {
+                    // جهت بررسی مواردی که در فرم دلخواه به صورت جدید وارد می شوند و نباید در صورت خالی ارسال شدن محاسبه شوند
+                    $incomingValueArray[] = $attr_key;
+                } elseif(AttributeItem::find($attr_key)->multiple_selection_attribute && count($attribute_item["attribute_value_id"]) > 1) {
+                    // بررسی شود که اگر نوع ویژگی چندگانه است و یکی از موارد آن فرم تیک زده شده است
                     $incomingValueArray[] = $attr_key;
                 } 
 

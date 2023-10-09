@@ -19,6 +19,12 @@ class AttributeIsRequired implements ValidationRule
     {
         foreach (Purify::clean(collect($value)->first()) as $key => $attribute_item) {
             $attribute_in_loop = AttributeItem::find($key);
+
+            if((auth()->user()->role == 'vendor' && $attribute_in_loop->disabled_attribute) || (auth()->user()->role == 'merchant' && $attribute_in_loop->disabled_attribute) || (auth()->user()->role == 'retailer' && $attribute_in_loop->disabled_attribute)) {
+                // مستثنی کردن ویژگی هایی که از سمت کاربران تامین کننده، عمده فروش و بازرگان میاد اما ویژگی غیر فعال شده است
+                continue;
+            }
+
             if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_in_loop->attribute_item_required && $attribute_item["attribute_value_id"] == 'none' && !$attribute_in_loop->multiple_selection_attribute) {
                 $fail("$attribute_in_loop->attribute_item_name ضروری است");
 

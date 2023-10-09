@@ -258,7 +258,7 @@
                                             <!--begin::Input group-->
                                             <!--begin::انتخاب2-->
                                             @if($attribute->attribute_item_type == "dropdown" && !$attribute->multiple_selection_attribute)
-                                                <select class="form-select mb-2" data-control="select2" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
+                                                <select style="{{$attribute->disabled_attribute ? 'pointer-events: none; background-color:#eff2f5;' : ''}}" class="form-select mb-2" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" data-hide-search="true" data-placeholder="انتخاب" >
                                                     @if($attribute->attribute_item_required == false)
                                                         <option value="none" selected="selected">هیچ کدام</option>
                                                     @endif
@@ -275,16 +275,16 @@
                                                 @foreach ($attribute->values as $item)
                                                     @if(in_array($item->id, $products->attributes()->pluck('attribute_value_id')->toArray()))
                                                         <li class="list-style-none mt-4">
-                                                            <input @checked(true) class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
+                                                            <input style="{{$attribute->disabled_attribute ? 'pointer-events: none; background-color:#eff2f5; border-color:#eff2f5;' : ''}}" @checked(true) class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
                                                         </li>
                                                     @else
                                                         <li class="list-style-none mt-4">
-                                                            <input class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
+                                                            <input style="{{$attribute->disabled_attribute ? 'pointer-events: none; background-color:#eff2f5; border-color:#eff2f5;' : ''}}" class="form-check-input" type="checkbox" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id][]" value="{{$item->id}}"> {{$item->value}} 
                                                         </li>
                                                     @endif
                                                 @endforeach
                                             @elseif($attribute->attribute_item_type == "input_field")
-                                                <input type="text" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes()->where('attribute_item_id', $attribute->id)->get()) ? $products->attributes()->where('attribute_item_id', $attribute->id)->get()->first()->pivot->attribute_value : ""}}"/>
+                                                <input style="{{$attribute->disabled_attribute ? 'pointer-events: none; background-color:#eff2f5;' : ''}}" type="text" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید" value="{{count($products->attributes()->where('attribute_item_id', $attribute->id)->get()) ? $products->attributes()->where('attribute_item_id', $attribute->id)->get()->first()->pivot->attribute_value : ""}}"/>
                                                 <input type="hidden" name="attribute[{{$attribute->attributes->id}}][{{$attribute->id}}][attribute_value_id]" value="{{$attribute->values[0]->id}}">
                                             @endif
                                             <!--end::انتخاب2-->
@@ -918,6 +918,6 @@
     <!--end::سفارشی Javascript-->
 
     <script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
 
 @endsection

@@ -154,9 +154,10 @@ class VendorProductController extends Controller
             $attribute_id = collect($request->attribute)->keys()->first();
             foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
                 $attribute_in_loop = AttributeItem::find($key);
-                if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
+                if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute && !$attribute_in_loop->disabled_attribute) {
                     $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
-                } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
+                    
+                } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute && !$attribute_in_loop->disabled_attribute) {
                     // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
                     foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
                         if($attribute_value_id_key == 0) {
@@ -165,7 +166,7 @@ class VendorProductController extends Controller
                         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL);
                     }
 
-                } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
+                } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute && !$attribute_in_loop->disabled_attribute) {
                     $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
                 }
             }
@@ -221,7 +222,7 @@ class VendorProductController extends Controller
             'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
             'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
-        dd(Product::checkIfAttributeHasChanged($request->attribute, $product_id));
+        
         // create string of category id which is array, to store the string into DB
         if (Purify::clean($incomingFields['category_id'])) {
             $category_id = implode(',', Purify::clean($incomingFields['category_id']));
@@ -257,6 +258,7 @@ class VendorProductController extends Controller
 
         // specialist verification section
         $category_id_arr_db = explode(",", $product->category_id);
+        
         if ($category_id_arr_db != Purify::clean($request->category_id)
             || $product->product_name != Purify::clean($request->product_name)
             || $product->product_slug != Purify::clean($request->product_slug)
@@ -370,18 +372,55 @@ class VendorProductController extends Controller
             foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
                 $attribute_in_loop = AttributeItem::find($key);
                 if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
-                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        $attributes[][$attribute_id] = array(
+                            // چون ویژگی غیر فعال شده میاد از دیتابیس اون مورد رو جایگزین می کنه
+                            "attribute_item_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id,
+                            "attribute_value_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value_id,
+                            "attribute_value" => NULL
+                        );
+                    }
                 } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
                     // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
-                    foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
-                        if($attribute_value_id_key == 0) {
-                            continue;
+
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
+                            if($attribute_value_id_key == 0) {
+                                continue;
+                            }
+                            $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL
+                            );
                         }
-                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL);
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        foreach ($product->attributes()->where('attribute_item_id', $key)->pluck('attribute_value_id') as $attribute_value_id_key => $attribute_value_id_item) {
+                            
+                            $attributes[][$attribute_id] = array(
+                                "attribute_item_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 
+                                "attribute_value_id" => (int) $attribute_value_id_item, 
+                                "attribute_value" => NULL
+                            );
+                        }
+                        
                     }
 
                 } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
-                    $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        $attributes[][$attribute_id] = array(
+                            "attribute_item_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 
+                            "attribute_value_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value_id,
+                            "attribute_value" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value
+                        );
+                    }
                 }
             }
 
@@ -424,7 +463,7 @@ class VendorProductController extends Controller
         $vendorData = User::find($user_id);
 
         $products = Product::findOrFail(Purify::clean($id));
-        $allAttributes = $products->attributes;
+        $allAttributes = AttributeItem::find($products->attributes()->pluck('attribute_item_id'));
 
         $vendorSectorArr = explode(",", $vendorData->vendor_sector);
         $parentCategories = Category::findRootCategoryArray($vendorSectorArr);
@@ -440,7 +479,7 @@ class VendorProductController extends Controller
 
     public function VendorStoreCopyProduct(Request $request)
     {
-
+        
         $incomingFields = $request->validate([
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
@@ -539,18 +578,72 @@ class VendorProductController extends Controller
 
         // بخش مدیریت ویژگی ها
         if($request->attribute) {
+
+            $host_product = Product::find(Purify::clean((int) $request->id));
             $product = Product::find($product_id);
+
             $attributes = [];
-            foreach (Purify::clean($request->attribute) as $key => $attribute) {
-                $attribute_in_loop = Attribute::find($key);
-                if($attribute_in_loop->attribute_type == "dropdown" && $attribute["value_id"] != 'none') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => NULL);
-                } elseif($attribute_in_loop->attribute_type == "input_field" && $attribute["value"] != '') {
-                    $attributes[$key] = array("value_id" => (int) $attribute["value_id"], "value" => Purify::clean($attribute["value"]));
+            $attribute_id = collect($request->attribute)->keys()->first();
+            foreach (Purify::clean(collect($request->attribute)->first()) as $key => $attribute_item) {
+                $attribute_in_loop = AttributeItem::find($key);
+                if($attribute_in_loop->attribute_item_type == "dropdown" && $attribute_item["attribute_value_id"] != 'none' && !$attribute_in_loop->multiple_selection_attribute) {
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        $attributes[][$attribute_id] = array(
+                            // چون ویژگی غیر فعال شده میاد از دیتابیس اون مورد رو جایگزین می کنه
+                            "attribute_item_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id,
+                            "attribute_value_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value_id,
+                            "attribute_value" => NULL
+                        );
+                    }
+                } elseif($attribute_in_loop->attribute_item_type == "dropdown" && count(collect($attribute_item["attribute_value_id"])) > 1 && $attribute_in_loop->multiple_selection_attribute) {
+                    // به خاطر گزینه چندگانه باید همه مقادیر وارد گردد
+
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        foreach ($attribute_item["attribute_value_id"] as $attribute_value_id_key => $attribute_value_id_item) {
+                            if($attribute_value_id_key == 0) {
+                                continue;
+                            }
+                            $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL
+                            );
+                        }
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        foreach ($host_product->attributes()->where('attribute_item_id', $key)->pluck('attribute_value_id') as $attribute_value_id_key => $attribute_value_id_item) {
+                            
+                            $attributes[][$attribute_id] = array(
+                                "attribute_item_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 
+                                "attribute_value_id" => (int) $attribute_value_id_item, 
+                                "attribute_value" => NULL
+                            );
+                        }
+                        
+                    }
+
+                } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {
+                    if(!$attribute_in_loop->disabled_attribute) {
+                        // برای ویژگی هایی که غیر فعال نیستن
+                        $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
+                    } else {
+                        // برای ویژگی هایی که غیر فعال شده اند
+                        $attributes[][$attribute_id] = array(
+                            "attribute_item_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 
+                            "attribute_value_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value_id,
+                            "attribute_value" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_value
+                        );
+                    }
                 }
             }
+
+            $product->attributes()->detach();
             if (count($attributes) ) {
-                $product->attributes()->attach($attributes);
+                foreach ($attributes as $attribute_item) {
+                    $product->attributes()->attach($attribute_item);
+                }
             }
         }    
         // بخش مدیریت ویژگی ها
