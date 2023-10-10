@@ -375,7 +375,7 @@ class VendorProductController extends Controller
                     if(!$attribute_in_loop->disabled_attribute) {
                         // برای ویژگی هایی که غیر فعال نیستن
                         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         $attributes[][$attribute_id] = array(
                             // چون ویژگی غیر فعال شده میاد از دیتابیس اون مورد رو جایگزین می کنه
@@ -396,7 +396,7 @@ class VendorProductController extends Controller
                             $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL
                             );
                         }
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         foreach ($product->attributes()->where('attribute_item_id', $key)->pluck('attribute_value_id') as $attribute_value_id_key => $attribute_value_id_item) {
                             
@@ -413,7 +413,7 @@ class VendorProductController extends Controller
                     if(!$attribute_in_loop->disabled_attribute) {
                         // برای ویژگی هایی که غیر فعال نیستن
                         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         $attributes[][$attribute_id] = array(
                             "attribute_item_id" => (int) $product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 
@@ -479,7 +479,6 @@ class VendorProductController extends Controller
 
     public function VendorStoreCopyProduct(Request $request)
     {
-        
         $incomingFields = $request->validate([
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
@@ -590,7 +589,7 @@ class VendorProductController extends Controller
                     if(!$attribute_in_loop->disabled_attribute) {
                         // برای ویژگی هایی که غیر فعال نیستن
                         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => NULL);
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         $attributes[][$attribute_id] = array(
                             // چون ویژگی غیر فعال شده میاد از دیتابیس اون مورد رو جایگزین می کنه
@@ -611,7 +610,7 @@ class VendorProductController extends Controller
                             $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_value_id_item, "attribute_value" => NULL
                             );
                         }
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         foreach ($host_product->attributes()->where('attribute_item_id', $key)->pluck('attribute_value_id') as $attribute_value_id_key => $attribute_value_id_item) {
                             
@@ -628,7 +627,7 @@ class VendorProductController extends Controller
                     if(!$attribute_in_loop->disabled_attribute) {
                         // برای ویژگی هایی که غیر فعال نیستن
                         $attributes[][$attribute_id] = array("attribute_item_id" => $key, "attribute_value_id" => (int) $attribute_item["attribute_value_id"], "attribute_value" => Purify::clean($attribute_item["attribute_value"]));
-                    } else {
+                    } elseif($attribute_in_loop->disabled_attribute && $product->attributes()->where('attribute_item_id', $key)->first() != null) {
                         // برای ویژگی هایی که غیر فعال شده اند
                         $attributes[][$attribute_id] = array(
                             "attribute_item_id" => (int) $host_product->attributes()->where('attribute_item_id', $key)->first()->pivot->attribute_item_id, 

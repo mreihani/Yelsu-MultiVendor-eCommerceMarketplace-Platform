@@ -194,15 +194,11 @@
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
 
-                            <input type="hidden" value={{$retailerData->role}} id="user-role">
+                            {{-- این رول برای اینه که چون فایل جاوا اسکریپت برای ایجکس یکسان است، باید مسیر کاربر کارشناس اول اش باشه که سیستم بتونه از طریق کنترلر کارشناس درخواست رو بگیره --}}
+                           <input type="hidden" value="retailer" id="user-role">
 
-                            <div class="alert alert-warning no-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
-                                لطفا حداقل یک دسته بندی انتخاب نمایید
-                            </div>
-
-                            <div class="alert alert-warning duplicated-category-warning" style="margin-left: 15px; margin-right:15px; text-align:center; display:none;">
-                                لطفا فقط یک زیر دسته مرتبط با محصول انتخاب نمایید
-                            </div>
+                           {{-- این رول خود کاربر محصول است که از تابع کنترلر میاد میشینه و بعد میره روی ایجکس و مشخص میشه این رو آیا تامین کننده زده یا هر کسی --}}
+                           <input type="hidden" value="retailer" id="product-user-role">
 
                             <div class="card-header">
                                 <!--begin::کارت title-->
@@ -225,21 +221,10 @@
                                         </div>
                                     @endforeach
                                 </ul>   
-                                <!--begin::توضیحات-->
-                                <div class="text-muted fs-7 mb-5">ابتدا محصول خود را در دسته بندی های مربوط قرار دهید. سپس بر روی دکمه زیر کلیک کنید.</div>
+                                
                             </div>
                             <!--end::کارت body-->
 
-                            <div class="d-flex justify-content-center mb-5">
-                                <button type="button" class="btn btn-primary btn-sm" id="update-attributes">
-                                    دریافت ویژگی های مرتبط
-                                </button>
-                                
-                                <button type="button" class="btn btn-sm btn-primary spinner" style="display: none;" disabled>
-                                    در حال دریافت
-                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                </button>
-                            </div>
                         </div>
                         <!--end::دسته بندی & tags-->
 
@@ -247,9 +232,6 @@
                         <div id="attribute-loop"></div>
                         <!--end::لوپ ویژگی ها-->
 
-                        <!--begin::Template settings-->
-                        
-                        <!--end::Template settings-->
                     </div>
                     <!--end::کناری column-->
                     <!--begin::Main column-->
@@ -863,7 +845,7 @@
 <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
 <!--end::سفارشی Javascript-->
 
-<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/loadAttributesAjax.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
 
 @endsection

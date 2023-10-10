@@ -300,9 +300,6 @@
                         </div>
                         <!--end::لوپ ویژگی ها-->
 
-                        <!--begin::Template settings-->
-                        
-                        <!--end::Template settings-->
                     </div>
                     <!--end::کناری column-->
                     <!--begin::Main column-->
