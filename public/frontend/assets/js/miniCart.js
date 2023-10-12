@@ -9,18 +9,10 @@ $(".cart-toggle").click(function () {
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr("content");
             let currency;
 
-            
-
             if (response.length > 0) {
+                
                 $.each(response, function (key, value) {
-                    if(value.products.currency == 'toman') {
-                        currency = 'تومان'
-                    } else if(value.products.currency == 'dollar') {
-                        currency = 'دلار'
-                    } else if(value.products.currency == 'euro') {
-                        currency = 'یورو'
-                    }
-
+                    
                     miniCartTotalPrice +=
                         value.products.selling_price * value.cart.quantity;
 
@@ -31,7 +23,7 @@ $(".cart-toggle").click(function () {
                             <a href="" class="product-name">${value.products.product_name}</a>
                             <div class="price-box">
                                 <span class="product-quantity">${value.cart.quantity}</span>
-                                <span class="product-price">${value.products.selling_price} ${currency}</span>
+                                <span class="product-price">${value.products.selling_price} ${value.currency}</span>
                             </div>
                         </div>
                         <figure class="product-media">

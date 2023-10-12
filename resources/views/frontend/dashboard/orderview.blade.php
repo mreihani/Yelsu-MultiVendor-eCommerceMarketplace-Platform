@@ -66,14 +66,9 @@
                                                 فروشنده :  یلسو
                                                 @endif
                                             </td>
+                                                                                     
+                                            <td>{{$product->pivot->quantity * $product->pivot->price}} {{$product->determine_product_currency()}} </td>
                                             
-                                            @if ($product->currency == 'toman')
-                                                <td>{{$product->pivot->quantity * $product->pivot->price}} تومان </td>
-                                            @elseif($product->currency == 'dollar')
-                                                <td>{{$product->pivot->quantity * $product->pivot->price}} دلار </td>
-                                            @elseif($product->currency == 'euro')
-                                                <td>{{$product->pivot->quantity * $product->pivot->price}} یورو </td>
-                                            @endif
                                         </tr>
                                     @endforeach
                                     
@@ -81,7 +76,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>مجموع: </th>
-                                        <td>{{$order->price}} تومان</td>
+                                        <td>{{$order->price}} {{$product->determine_product_currency()}}</td>
                                     </tr>
                                     <tr>
                                         <th>حمل و نقل:</th>
@@ -93,7 +88,7 @@
                                     </tr>
                                     <tr class="total">
                                         <th class="border-no">مجموع:</th>
-                                        <td class="border-no">100000 تومان</td>
+                                        <td class="border-no">100000 {{$product->determine_product_currency()}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -113,7 +108,7 @@
                             
                         </div>
                         <!-- End of Sub Orders-->
-    
+                        
                         <div id="billing-account-addresses">
                             <div class="row">       
                                 <div class="col-12">
@@ -123,20 +118,24 @@
                                             <table class="address-table">
                                                 <tbody>
                                                     <tr>
-                                                        <th style="text-align:right">استان:</th>
-                                                        <td>{{$userData->shipping_province}} </td>
+                                                        <th style="text-align:right; font-style: normal;">کشور:</th>
+                                                        <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->country) ? $order->addresses->country : 'ناموجود'}} </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="text-align:right">شهر:</th>
-                                                        <td>{{$userData->shipping_city}} </td>
+                                                        <th style="text-align:right; font-style: normal;">استان:</th>
+                                                        <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->province) ? $order->addresses->province : 'ناموجود'}} </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="text-align:right">آدرس: </th>
-                                                        <td>{{$userData->shipping_address}}</td>
+                                                        <th style="text-align:right; font-style: normal;">شهر:</th>
+                                                        <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->city) ? $order->addresses->city : 'ناموجود'}} </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="text-align:right">کد پستی :</th>
-                                                        <td>{{$userData->shipping_postalcode}}</td>
+                                                        <th style="text-align:right; font-style: normal;">آدرس: </th>
+                                                        <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->address) ? $order->addresses->address : 'ناموجود'}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="text-align:right; font-style: normal;">کد پستی :</th>
+                                                        <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->postalcode) ? $order->addresses->postalcode : 'ناموجود'}}</td>
                                                     </tr>
 
                                                 </tbody>

@@ -59,13 +59,7 @@
                                             </a>
                                         </td>
 
-                                        @if ($product->currency == 'toman')
-                                            <td class="product-price"><span class="amount">{{$product->selling_price}} تومان </span></td>
-                                        @elseif($product->currency == 'dollar')
-                                            <td class="product-price"><span class="amount">{{$product->selling_price}} دلار </span></td>
-                                        @elseif($product->currency == 'euro')
-                                            <td class="product-price"><span class="amount">{{$product->selling_price}} یورو </span></td>
-                                        @endif
+                                        <td class="product-price"><span class="amount">{{$product->selling_price}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
                                             <div class="input-group">
@@ -75,15 +69,9 @@
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            @if ($product->currency == 'toman')
-                                                <span class="amount"><span class="itemSumPrice">{{$product->selling_price * $cart['quantity']}}</span> تومان </span>
-                                            @elseif($product->currency == 'dollar')
-                                                <span class="amount"><span class="itemSumPrice">{{$product->selling_price * $cart['quantity']}}</span> دلار </span>
-                                            @elseif($product->currency == 'euro')
-                                                <span class="amount"><span class="itemSumPrice">{{$product->selling_price * $cart['quantity']}}</span> یورو </span>
-                                            @endif
+                                            <span class="amount"><span class="itemSumPrice">{{$product->selling_price * $cart['quantity']}}</span> {{$product->determine_product_currency()}} </span>
                                         </td>
-                                        </tr>
+                                    </tr>
                                     @endif
                                 @endforeach
                             </tbody>

@@ -293,13 +293,13 @@
                                         <div class="product-details">
                                             <div class="product-cat">
                                                 @if($product->parent_category_name)
-                                                    <a href="{{route('shop.category',['id'=> $product->parent_category_id])}}">{{$product->parent_category_name}}</a>
+                                                    <a href="{{route('shop.category', ['id'=> $product->parent_category_id])}}">{{$product->parent_category_name}}</a>
                                                 @else
                                                     <a href="">{{'بدون دسته بندی'}}</a>
                                                 @endif
                                             </div>
                                             <h3 class="product-name">
-                                                @if ($product->currency == 'toman')
+                                                @if ($product->determine_product_currency() == 'تومان')
                                                     <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}}</a>
                                                 @else
                                                     <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></a>
@@ -322,13 +322,9 @@
                                                             </a>
                                                         </div>
                                                     @else
-                                                        @if ($product->currency == 'toman')
-                                                            {{$product->selling_price}} تومان
-                                                        @elseif($product->currency == 'dollar')
-                                                            {{$product->selling_price}} دلار
-                                                        @elseif($product->currency == 'euro')
-                                                            {{$product->selling_price}} یورو
-                                                        @endif
+                                                        <div class="d-flex align-items-center pt-2 pb-2">
+                                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </div>

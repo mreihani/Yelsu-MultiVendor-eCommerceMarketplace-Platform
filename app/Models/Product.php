@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeItem;
+use App\Models\AttributeValue;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +45,39 @@ class Product extends Model
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
+    }
+
+    public function attribute_items_obj_array() {
+
+        $product_attributes_array = $this->attributes()->pluck('attribute_item_id')->unique();
+        $product_attributes_array_pivot = [];
+        $attribute_loop_array = [];
+
+        foreach ($product_attributes_array as $product_attributes_item) {
+
+            foreach ($this->attributes()->where('attribute_item_id', $product_attributes_item)->get() as $attribute_item) {
+                $attribute_loop_array[$product_attributes_item]['attribute_value_obj'][] = AttributeValue::find($attribute_item->pivot->attribute_value_id);
+                $attribute_loop_array[$product_attributes_item]['attribute_value'] = $attribute_item->pivot->attribute_value;
+            }
+            
+        }
+       
+        return $attribute_loop_array;
+    }
+    
+    public function determine_product_currency() {
+        $currency_type = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "currency") {
+                foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item) {
+                    if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                        $currency_type = $attribute_value_item->value;
+                    }
+                }
+            }
+        }
+        return $currency_type;
     }
 
     public function ScopeCheckIfAttributeHasChanged($query, $incoming_attributes, $product_id) {

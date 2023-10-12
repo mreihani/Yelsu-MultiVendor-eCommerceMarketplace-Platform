@@ -16,7 +16,6 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-
         $data = $request->validate([
             'quantity' => 'required',
             'id' => 'required',
@@ -50,7 +49,7 @@ class CartController extends Controller
         foreach (Cart::all() as $cart) {
             if (isset($cart['product'])) {
                 $product = $cart['product'];
-                $productsArray[] = ['products' => $product, 'cart' => $cart];
+                $productsArray[] = ['products' => $product, 'cart' => $cart, 'currency' => $product->determine_product_currency()];
             }
         }
         return $productsArray;

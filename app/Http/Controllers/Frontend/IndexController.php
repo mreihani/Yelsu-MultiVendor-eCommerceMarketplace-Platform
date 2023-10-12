@@ -264,7 +264,6 @@ class IndexController extends Controller
         }
         // end of - show recent viewd section
 
-
         return view('frontend.product.product_details', compact('product', 'category', 'relatedProducts', 'root_catgory_obj', 'recently_viewed_product_arr'));
     } //End method
 

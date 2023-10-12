@@ -21,7 +21,6 @@ class PaymentController extends Controller
 {
     public function payment(Request $request)
     {
-
         $incomingFields = $request->validate([
             'home_phone' => 'required',
             'address_title' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
@@ -121,7 +120,6 @@ class PaymentController extends Controller
             ]);
 
             $order->products()->attach($orderItems);
-
 
             // Create new invoice.
             $invoice = (new Invoice)->amount(1000);

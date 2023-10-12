@@ -73,11 +73,13 @@
                                     <label class="product-label label-discount">عدم موجودی</label>
                                 @endif
 
-                                @if ($product->currency == 'toman')
-                                    <h1 class="product-title">{{$product->product_name}}</h1>
-                                @else
-                                    <h1 class="product-title">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></h1>
-                                @endif
+                                <div class="d-flex align-items-center pt-2 pb-2">
+                                    @if ($product->determine_product_currency() == 'تومان')
+                                        <h1 class="product-title">{{$product->product_name}}</h1>
+                                    @else
+                                        <h1 class="product-title">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></h1>
+                                    @endif
+                                </div>
 
                                 <div class="product-bm-wrapper">
                                     <figure class="brand">
@@ -95,76 +97,6 @@
                                             دسته بندی: 
                                             <span class="product-category"><a href="{{route('shop.category',['id'=> $product->parent_category_id])}}">{{!empty($category->category_name) ? $category->category_name : 'بدون دسته بندی'}} </a></span>
                                         </div>
-                                        {{-- @if ($product->measurement != 'none')
-                                            <div class="product-categories">
-                                                واحد اندازه گیری:
-                                                @if ($product->measurement == 'number')
-                                                    <span class="product-category">
-                                                        عدد
-                                                    </span>
-                                                @elseif($product->measurement == 'ton')    
-                                                    <span class="product-category">
-                                                        تن
-                                                    </span>
-                                                @elseif($product->measurement == 'barrel')    
-                                                    <span class="product-category">
-                                                        بشکه
-                                                    </span>
-                                                @elseif($product->measurement == 'kg')    
-                                                    <span class="product-category">
-                                                        کیلوگرم
-                                                    </span>
-                                                @elseif($product->measurement == 'gr')    
-                                                    <span class="product-category">
-                                                        گرم
-                                                    </span>
-                                                @elseif($product->measurement == 'carat')    
-                                                    <span class="product-category">
-                                                        قیراط
-                                                    </span>
-                                                @elseif($product->measurement == 'sot')    
-                                                    <span class="product-category">
-                                                        سوت
-                                                    </span>
-                                                @elseif($product->measurement == 'property')    
-                                                    <span class="product-category">
-                                                        باب
-                                                    </span>
-                                                @elseif($product->measurement == 'unit')    
-                                                    <span class="product-category">
-                                                        واحد
-                                                    </span>
-                                                @elseif($product->measurement == 'piece')    
-                                                    <span class="product-category">
-                                                        قطعه
-                                                    </span>
-                                                @elseif($product->measurement == 'device')    
-                                                    <span class="product-category">
-                                                        دستگاه
-                                                    </span>
-                                                @elseif($product->measurement == 'branch')    
-                                                    <span class="product-category">
-                                                        شاخه
-                                                    </span>
-                                                @elseif($product->measurement == 'roll')    
-                                                    <span class="product-category">
-                                                        رل
-                                                    </span>
-                                                @elseif($product->measurement == 'gallon')    
-                                                    <span class="product-category">
-                                                        گالن
-                                                    </span>
-                                                @elseif($product->measurement == 'lit')    
-                                                    <span class="product-category">
-                                                        لیتر
-                                                    </span>
-                                                @elseif($product->measurement == 'm3')    
-                                                    <span class="product-category">
-                                                        متر مکعب
-                                                    </span>    
-                                                @endif
-                                            </div>
-                                        @endif --}}
                                         {{-- <div class="product-sku">
                                            کد:  <span>MS46891340</span>
                                         </div> --}}
@@ -181,14 +113,11 @@
                                         </a>
                                     </div>
                                 @else
-                                    @if ($product->currency == 'toman')
-                                        <div class="product-price"><ins class="new-price">{{$product->selling_price}} تومان </ins></div>
-                                    @elseif($product->currency == 'dollar')
-                                        <div class="product-price"><ins class="new-price">{{$product->selling_price}} دلار </ins></div>
-                                    @elseif($product->currency == 'euro')
-                                        <div class="product-price"><ins class="new-price">{{$product->selling_price}} یورو </ins></div>
-                                    @endif
+                                    <div class="d-flex align-items-center pt-2 pb-2">
+                                        <div class="product-price"><ins class="new-price">{{$product->selling_price}} {{$product->determine_product_currency()}} </ins></div>
+                                    </div>
                                 @endif
+
 
                                 {{-- <div class="ratings-container">
                                     <div class="ratings-full">
@@ -216,69 +145,6 @@
                                     </div>
                                 @endif
 
-                                {{-- @if ($product->measurement != 'none')
-                                <div class="single-page-product-variation mb-2">
-                                    <div>
-                                        <span class="measurement-color-static">
-                                            واحد اندازه گیری:
-                                        </span>
-                                        @if ($product->measurement == 'number')
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                عدد
-                                            </span>
-                                        @elseif($product->measurement == 'ton')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                تن
-                                            </span>
-                                        @elseif($product->measurement == 'barrel')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                بشکه
-                                            </span>
-                                        @elseif($product->measurement == 'kg')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                کیلوگرم
-                                            </span>
-                                        @elseif($product->measurement == 'gr')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                گرم
-                                            </span>
-                                        @elseif($product->measurement == 'carat')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                قیراط
-                                            </span>
-                                        @elseif($product->measurement == 'sot')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                سوت
-                                            </span>
-                                        @elseif($product->measurement == 'property')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                باب
-                                            </span>
-                                        @elseif($product->measurement == 'unit')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                واحد
-                                            </span>
-                                        @elseif($product->measurement == 'piece')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                قطعه
-                                            </span>
-                                        @elseif($product->measurement == 'device')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                دستگاه
-                                            </span>
-                                        @elseif($product->measurement == 'branch')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                شاخه
-                                            </span>
-                                        @elseif($product->measurement == 'roll')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                رل
-                                            </span>
-                                        @endif
-                                    </div>   
-                                </div>
-                                @endif --}}
-
                                 {{-- @if ($product->packing != 'none')
                                 <div class="single-page-product-variation mb-2">
                                     <div>
@@ -293,34 +159,6 @@
                                             <span class="btn btn-dark measurement-color-dynamic">
                                                 مخزن
                                             </span>
-                                        @elseif($product->packing == 'container')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                کانتینر
-                                            </span>
-                                        @elseif($product->packing == 'jambobag')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                جامبوبگ
-                                            </span>
-                                        @elseif($product->packing == 'bulk')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                فله
-                                            </span>
-                                        @elseif($product->packing == 'pocket')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                پاکتی
-                                            </span>
-                                        @elseif($product->packing == 'bandil')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                بندیل
-                                            </span>   
-                                        @elseif($product->packing == 'barrel')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                بشکه
-                                            </span>   
-                                        @elseif($product->packing == 'gallon')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                گالن
-                                            </span>    
                                         @endif
                                     </div>   
                                 </div>
@@ -337,25 +175,49 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="product-form product-variation-form product-size-swatch">
-                                    <label class="mb-1">سایز :</label>
-                                    <div class="flex-wrap d-flex align-items-center product-variations">
-                                        <a href="#" class="size">کوچک </a>
-                                        <a href="#" class="size">متوسط </a>
-                                        <a href="#" class="size">بزرگ </a>
-                                        <a href="#" class="size">خبلی بزرگ </a>
-                                    </div>
-                                    <a href="#" class="product-variation-clean">پاک کردن همه </a>
-                                </div> --}}
-
                                 {{-- <div class="product-variation-price">
                                     <span></span>
                                 </div> --}}
 
-                                <div class="fix-bottom product-sticky-content sticky-content">
+                                {{-- برای ویژگی های غیر چندگانه --}}
+                                @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
+                                    @if(count($attribute_value_array['attribute_value_obj']) == 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
+                                        <div class="d-flex align-items-center pt-2 pb-2">
+                                            <div style="font-size:15px;">{{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}:&nbsp;</div>
+                                            @foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item)
+                                                @if(App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown')
+                                                    <p class="mb-0"> {{$attribute_value_item->value}}</p>
+                                                @else
+                                                    <p class="mb-0"> {{$attribute_value_array['attribute_value']}}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endforeach    
+
+                                {{-- برای ویژگی های چندگانه --}}
+                                @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
+                                    @if(count($attribute_value_array['attribute_value_obj']) > 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
+                                        <div class="product-form product-variation-form product-size-swatch pt-2 pb-2">
+                                            <div style="font-size:15px;">{{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}:&nbsp;</div>
+
+                                            <div class="flex-wrap d-flex align-items-center product-variations">
+                                                @foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item)
+                                                    <a href="#" class="size">{{$attribute_value_item->value}} </a>
+                                                @endforeach
+                                            </div>
+                                            
+                                        </div>
+                                    @endif
+                                @endforeach    
+                                
+                                {{-- <a href="#" class="product-variation-clean">پاک کردن همه </a> --}}
+
+
+                                <div class="fix-bottom product-sticky-content sticky-content mt-4">
                                     <div class="product-form container">
             
-                                        @if ($product->currency == 'toman')
+                                        @if ($product->determine_product_currency() == 'تومان')
                                             <div class="product-qty-form">
                                                 <div class="input-group">
                                                     <input id="quantityInputvalue" class="quantity form-control" type="number" min="1" max="10000000">

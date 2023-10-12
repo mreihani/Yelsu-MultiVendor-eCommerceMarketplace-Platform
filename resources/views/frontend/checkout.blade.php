@@ -1,11 +1,6 @@
 @extends('frontend.main_theme')
 @section('main')
 
-{{-- <script>
-    let shippingProvinceDB = {!! json_encode($userData->shipping_province) !!};
-    shippingProvinceDB = shippingProvinceDB  == 'empty' ? '' : shippingProvinceDB;
-    let shippingCityDB = {!! json_encode($userData->shipping_city) !!};
-</script> --}}
 
 <script>
     let latitudeVal = {!! json_encode(old('latitude',$latitudeVal)) !!};
@@ -232,16 +227,16 @@
                                                 $totalPrice = $cart['quantity']*$product->selling_price;
                                             @endphp
                                                 <tr class="bb-no">
-                                                    <td class="product-name">{{$product->product_name}}<i
-                                                            class="fas fa-times"></i> <span
-                                                            class="product-quantity">{{$cart['quantity']}}</span></td>
-                                                    @if ($product->currency == 'toman')
-                                                        <td class="product-total">{{$cart['quantity']*$product->selling_price}} تومان </td>
-                                                    @elseif($product->currency == 'dollar')
-                                                        <td class="product-total">{{$cart['quantity']*$product->selling_price}} دلار </td>
-                                                    @elseif($product->currency == 'euro')
-                                                        <td class="product-total">{{$cart['quantity']*$product->selling_price}} یورو </td>
-                                                    @endif
+                                                    <td class="product-name" style="text-align: start;">
+                                                        {{$product->product_name}}
+                                                        <i class="fas fa-times"></i> 
+                                                        <span class="product-quantity">
+                                                            {{$cart['quantity']}}
+                                                        </span>
+                                                    </td>
+                                                   <td class="product-total">
+                                                        {{$cart['quantity']*$product->selling_price}} {{$product->determine_product_currency()}} 
+                                                    </td>
                                                 </tr>
                                             @endif    
                                         @endforeach
@@ -253,7 +248,7 @@
                                         @endphp
                                
                                         <tr class="cart-subtotal bb-no">
-                                            <td>
+                                            <td style="text-align: start;">
                                                 <b>مجموع</b>
                                             </td>
                                             <td>
