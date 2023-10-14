@@ -365,8 +365,8 @@
                             <table class="shop-table account-orders-table mb-6">
                                 <thead>
                                     <tr>
-                                        <th class="order-id text-center">سفارش </th>
-                                        <th class="order-date text-center">تاریخ </th>
+                                        <th class="order-id text-center">شماره سفارش </th>
+                                        <th class="order-date text-center">تاریخ ثبت سفارش </th>
                                         <th class="order-status text-center">وضعیت </th>
                                         <th class="order-total text-center">مجموع </th>
                                         <th class="order-actions text-center">اقدامات </th>
@@ -377,7 +377,7 @@
                                     @foreach ($orders as $order)
                                         <tr>
                                             <td class="order-id text-center">{{$order->id}}</td>
-                                            <td class="order-date text-center">{{$order->created_at}}</td>
+                                            <td class="order-date text-center">{{jdate($order->created_at)->format('Y/m/d')}}</td>
                                             <td class="order-status text-center">
                                                 {{$order->status == 'paid' ? 'پرداخت موفق' : ''}} 
                                                 {{$order->status == 'unpaid' ? 'پرداخت ناموفق' : ''}} 
@@ -391,7 +391,7 @@
                                                 {{-- <span class="order-quantity"> {{$order->products->count()}}</span> آیتم --}}
                                             </td>
                                             <td class="order-action text-center">
-                                                <a href="{{route('orderview',$order->id)}}"
+                                                <a href="{{route('orderview', $order->id)}}"
                                                     class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
                                             </td>
                                         </tr>

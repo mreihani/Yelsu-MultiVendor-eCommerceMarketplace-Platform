@@ -104,6 +104,8 @@ class PaymentController extends Controller
                 ]);
             }
 
+            $useroutlet_obj = Useroutlets::find($useroutlet_id);
+
             $order = auth()->user()->order()->create([
                 'status' => 'unpaid',
                 'price' => $price,
@@ -117,6 +119,16 @@ class PaymentController extends Controller
                 'order_note' => Purify::clean($request->order_note),
                 'home_phone' => Purify::clean($incomingFields['home_phone']),
                 'useroutlet_id' => $useroutlet_id,
+                'order_shipping_location_name' => $useroutlet_obj->name,
+                'order_shipping_country' => $useroutlet_obj->country,
+                'order_shipping_province' => $useroutlet_obj->province,
+                'order_shipping_city' => $useroutlet_obj->city,
+                'order_shipping_address' => $useroutlet_obj->address,
+                'order_shipping_postalcode' => $useroutlet_obj->postalcode,
+                'order_shipping_phone' => $useroutlet_obj->phone,
+                'order_shipping_fax' => $useroutlet_obj->fax,
+                'order_shipping_latitude' => $useroutlet_obj->latitude,
+                'order_shipping_longitude' => $useroutlet_obj->longitude,
             ]);
 
             $order->products()->attach($orderItems);

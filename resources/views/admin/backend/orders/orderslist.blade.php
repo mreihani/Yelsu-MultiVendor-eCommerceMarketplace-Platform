@@ -103,7 +103,7 @@
                                     <th class="text-center min-w-70px">وضعیت سفارش</th>
                                     <th class="text-center min-w-100px">مبلغ کل سفارش</th>
                                     <th class="text-center min-w-100px">تاریخ ثبت سفارش</th>
-                                    <th class="text-center min-w-100px">تاریخ بروزرسانی</th>
+                                    {{-- <th class="text-center min-w-100px">تاریخ بروزرسانی</th> --}}
                                     <th class="text-center min-w-100px">عملیات</th>
                                 </tr>
                                 <!--end::Table row-->
@@ -216,7 +216,7 @@
                                     <!--end::وضعیت=-->
                                     <!--begin::کل=-->
                                     <td class="text-end pe-0">
-                                        <span class="fw-bold">{{$order->price}} تومان</span>
+                                        <span class="fw-bold">{{$order->price}} {{$order->products[0]->determine_product_currency()}}</span>
                                     </td>
                                     <!--end::کل=-->
                                     <!--begin::تاریخ افزودن=-->
@@ -225,9 +225,9 @@
                                     </td>
                                     <!--end::تاریخ افزودن=-->
                                     <!--begin::تاریخ اصلاح شد=-->
-                                    <td class="text-end" data-order="{{$order->updated_at}}">
+                                    {{-- <td class="text-end" data-order="{{$order->updated_at}}">
                                         <span class="fw-bold">{{jdate($order->updated_at)->format('Y/m/d')}}</span>
-                                    </td>
+                                    </td> --}}
                                     <!--end::تاریخ اصلاح شد=-->
                                     <!--begin::عملیات=-->
                                     <td class="text-end">

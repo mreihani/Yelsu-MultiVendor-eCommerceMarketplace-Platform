@@ -219,7 +219,7 @@
                                                     </span>
                                                     <!--end::Svg Icon-->تاریخ افزودن</div>
                                                 </td>
-                                                <td class="fw-bold text-end">{{jdate($order->created_at)->format('Y/m/d')}}</td>
+                                                <td class="fw-bold text-end">{{jdate($order->created_at)->format('Y/m/d H:i:s')}}</td>
                                             </tr>
                                             <!--end::تاریخ-->
                                             <!--begin::روش پرداخت-->
@@ -410,7 +410,8 @@
                         <div class="tab-pane fade show active" id="kt_ecommerce_sales_order_summary" role="tab-panel">
                             <!--begin::سفارشات-->
                             <div class="d-flex flex-column gap-7 gap-lg-10">
-                                <div class="d-flex flex-column flex-xl-row gap-7 gap-lg-10">
+                                
+                                {{-- <div class="d-flex flex-column flex-xl-row gap-7 gap-lg-10">
                                     <!--begin::پرداخت address-->
                                     @if ($order->user->home_city)
                                         <div class="card card-flush py-4 flex-row-fluid overflow-hidden">
@@ -503,7 +504,7 @@
                                         </div>
                                     @endif  
                                     <!--end::حمل دریایی address-->
-                                </div>
+                                </div> --}}
 
 
 
@@ -518,55 +519,88 @@
                                     <!--end::کارت header-->
                                     <!--begin::کارت body-->
                                     <div class="card-body pt-0">
-                                        <div class="table-responsive">
+                                        <div class="">
                                             <!--begin::Table-->
-                                            <table class="address-table">
-                                                <tbody>
-                                                    @if($order->person_type == "haghighi")
-                                                        <tr>
-                                                            <th>شخص حقیقی</th>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>نام:</th>
-                                                            <td>{{$order->firstname}} </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>نام خانوادگی:</th>
-                                                            <td>{{$order->lastname}} </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>کد ملی: </th>
-                                                            <td>{{$order->national_code}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>یادداشت سفارش: </th>
-                                                            <td>{{$order->order_note}}</td>
-                                                        </tr>
-                                                    @elseif($order->person_type == "hoghoghi")
-                                                    <tr>
-                                                        <th>شخص حقوقی</th>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>نام شرکت:</th>
-                                                        <td>{{$order->company_name}} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>شماره شناسه شرکت:</th>
-                                                        <td>{{$order->company_number}} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>نام نماینده: </th>
-                                                        <td>{{$order->agent_name}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>یادداشت سفارش: </th>
-                                                        <td>{{$order->order_note}}</td>
-                                                    </tr>
-                                                    @endif
-                                                </tbody>
-                                            </table>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <!--begin::Table-->
+                                                    <table class="address-table">
+                                                        <tbody>
+                                                            @if($order->person_type == "haghighi")
+                                                                <tr>
+                                                                    <th>شخص حقیقی</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>نام:</th>
+                                                                    <td>{{$order->firstname}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>نام خانوادگی:</th>
+                                                                    <td>{{$order->lastname}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>کد ملی: </th>
+                                                                    <td>{{$order->national_code}}</td>
+                                                                </tr>
+                                                            @elseif($order->person_type == "hoghoghi")
+                                                                <tr>
+                                                                    <th>شخص حقوقی</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>نام شرکت:</th>
+                                                                    <td>{{$order->company_name}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>شماره شناسه شرکت:</th>
+                                                                    <td>{{$order->company_number}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>نام نماینده: </th>
+                                                                    <td>{{$order->agent_name}}</td>
+                                                                </tr>
+                                                            @endif
+
+                                                                <tr>
+                                                                    <th>یادداشت سفارش: </th>
+                                                                    <td>{{$order->order_note}}</td>
+                                                                </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <!--end::Table-->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <!--begin::Table-->
+                                                    <table class="address-table">
+                                                        <tbody>
+                                                                <tr>
+                                                                    <th> آدرس سفارش: </th>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="text-align:right; font-style: normal;">کشور:</th>
+                                                                    <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->country) ? $order->addresses->country : $order->order_shipping_country}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="text-align:right; font-style: normal;">استان:</th>
+                                                                    <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->province) ? $order->addresses->province : $order->order_shipping_province}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="text-align:right; font-style: normal;">شهر:</th>
+                                                                    <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->city) ? $order->addresses->city : $order->order_shipping_city}} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="text-align:right; font-style: normal;">آدرس: </th>
+                                                                    <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->address) ? $order->addresses->address : $order->order_shipping_address}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="text-align:right; font-style: normal;">کد پستی :</th>
+                                                                    <td style="text-align:right; font-style: normal;">{{!empty($order->addresses->postalcode) ? $order->addresses->postalcode : $order->order_shipping_postalcode}}</td>
+                                                                </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <!--end::Table-->
+                                                </div>
+                                            </div>
                                             <!--end::Table-->
                                         </div>
                                     </div>
@@ -642,22 +676,10 @@
                                                         <td class="text-end">{{$product->pivot->quantity}}</td>
                                                         <!--end::Quantity-->
                                                         <!--begin::قیمت-->
-                                                        @if ($product->currency == 'toman')
-                                                            <td class="text-end">{{$product->pivot->price}} تومان</td>
-                                                        @elseif($product->currency == 'dollar')
-                                                            <td class="text-end">{{$product->pivot->price}} دلار</td>
-                                                        @elseif($product->currency == 'euro')
-                                                            <td class="text-end">{{$product->pivot->price}} یورو</td>
-                                                        @endif
+                                                        <td class="text-end">{{$product->pivot->price}} {{$order->products[0]->determine_product_currency()}}</td>
                                                         <!--end::قیمت-->
                                                         <!--begin::کل-->
-                                                        @if ($product->currency == 'toman')
-                                                            <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} تومان</td>
-                                                        @elseif($product->currency == 'dollar')
-                                                            <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} دلار</td>
-                                                        @elseif($product->currency == 'euro')
-                                                            <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} یورو</td>
-                                                        @endif
+                                                        <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} {{$order->products[0]->determine_product_currency()}}</td>
                                                         <!--end::کل-->
                                                     </tr>
                                                     @endforeach

@@ -231,7 +231,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->currency != 'toman' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -249,13 +249,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($item->currency == 'toman')
-                                                    <ins class="new-price">{{$item->selling_price}} تومان</ins>
-                                                @elseif($item->currency == 'dollar')
-                                                    <ins class="new-price">{{$item->selling_price}} دلار</ins>
-                                                @elseif($item->currency == 'euro')
-                                                    <ins class="new-price">{{$item->selling_price}} یورو</ins>
-                                                @endif
+                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -310,7 +304,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->currency != 'toman' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -328,13 +322,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($item->currency == 'toman')
-                                                    <ins class="new-price">{{$item->selling_price}} تومان</ins>
-                                                @elseif($item->currency == 'dollar')
-                                                    <ins class="new-price">{{$item->selling_price}} دلار</ins>
-                                                @elseif($item->currency == 'euro')
-                                                    <ins class="new-price">{{$item->selling_price}} یورو</ins>
-                                                @endif
+                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -417,7 +405,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">                                  
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->currency != 'toman' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -435,13 +423,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($item->currency == 'toman')
-                                                    <ins class="new-price">{{$item->selling_price}} تومان</ins>
-                                                @elseif($item->currency == 'dollar')
-                                                    <ins class="new-price">{{$item->selling_price}} دلار</ins>
-                                                @elseif($item->currency == 'euro')
-                                                    <ins class="new-price">{{$item->selling_price}} یورو</ins>
-                                                @endif
+                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -526,7 +508,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->currency != 'toman' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -544,13 +526,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($item->currency == 'toman')
-                                                    <ins class="new-price">{{$item->selling_price}} تومان</ins>
-                                                @elseif($item->currency == 'dollar')
-                                                    <ins class="new-price">{{$item->selling_price}} دلار</ins>
-                                                @elseif($item->currency == 'euro')
-                                                    <ins class="new-price">{{$item->selling_price}} یورو</ins>
-                                                @endif
+                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>

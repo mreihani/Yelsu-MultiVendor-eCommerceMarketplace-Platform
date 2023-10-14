@@ -34,8 +34,42 @@ class UserController extends Controller
         $user_id = Auth::user()->id;
         $userData = User::find($user_id);
         $order = Order::findOrFail(Purify::clean($id));
+        $useroutlet = Useroutlets::where('user_id', $user_id)->latest()->get();
 
-        return view('frontend.dashboard.orderview', compact('userData', 'order'));
+        return view('frontend.dashboard.orderview', compact('userData', 'order', 'useroutlet'));
+    }
+
+    public function OrderViewChangeAddress(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'shipment' => 'required',
+        ], [
+            'shipment.required' => 'لطفا یک آدرس از لیست انتخاب نمایید.',
+        ]);
+
+        $order_id = (int) Purify::clean($request->order_id);
+        $order_obj = Order::find($order_id);
+        
+        $useroutlet_id = (int) Purify::clean($incomingFields['shipment']);
+        $useroutlet_obj = Useroutlets::find($useroutlet_id);
+
+        if($useroutlet_obj) {
+            $order_obj->update([
+                'useroutlet_id' => $useroutlet_id,
+                'order_shipping_location_name' => $useroutlet_obj->name,
+                'order_shipping_country' => $useroutlet_obj->country,
+                'order_shipping_province' => $useroutlet_obj->province,
+                'order_shipping_city' => $useroutlet_obj->city,
+                'order_shipping_address' => $useroutlet_obj->address,
+                'order_shipping_postalcode' => $useroutlet_obj->postalcode,
+                'order_shipping_phone' => $useroutlet_obj->phone,
+                'order_shipping_fax' => $useroutlet_obj->fax,
+                'order_shipping_latitude' => $useroutlet_obj->latitude,
+                'order_shipping_longitude' => $useroutlet_obj->longitude,
+            ]);
+        }
+
+        return back()->with('success', 'آدرس سفارش با موفقیت تغییر یافت.');
     }
 
     public function UserProfileStore(Request $request)
