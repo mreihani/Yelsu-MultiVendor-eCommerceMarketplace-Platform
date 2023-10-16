@@ -47,6 +47,7 @@ class Product extends Model
         return $this->belongsToMany(Attribute::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
     }
 
+    // این تابع برای برگرداندن کلیه ویژگی های یک محصول است
     public function attribute_items_obj_array() {
 
         $product_attributes_array = $this->attributes()->pluck('attribute_item_id')->unique();
@@ -62,6 +63,53 @@ class Product extends Model
             
         }
        
+        return $attribute_loop_array;
+    }
+
+    // تابعی که لیستی از محصولات را دریافت و آن ها را بر اساس دسته بندی خروجی میدهد
+    public function ScopeSort_products_by_last_category($query, $product_object_collection) {
+        $last_category_id_array = [];
+        $product_object_array = [];
+
+        // ایجاد یک لیست از شماره دسته بندی آخر موجود در تمام محصولات فروشنده
+        foreach ($product_object_collection as $product_object_key => $product_object) {
+            $last_category_id_array[] = (int) collect(explode(",", $product_object->category_id))->last();
+        }
+
+        // تهیه لیست نهایی از محصولاتی که مرتبط با لیست دسته بندی هستند
+        foreach ($product_object_collection as $product_object_key => $product_object) {
+            foreach ($last_category_id_array as $last_category_id) {
+                if(in_array($last_category_id, explode(",", $product_object->category_id))) {
+                    $product_object_array[$last_category_id][] = $product_object;
+                    break;
+                }
+            }
+        }
+
+        return $product_object_array;
+    }
+
+    // این تابع برای برگرداندن ویژگی هایی که گزینه جدول ثبت شده باشد
+    public function table_attribute_items_obj_array() {
+
+        $product_attributes_array = $this->attributes()->pluck('attribute_item_id')->unique();
+        $product_attributes_array_pivot = [];
+        $attribute_loop_array = [];
+
+        foreach ($product_attributes_array as $product_attributes_item) {
+            if(AttributeItem::find($product_attributes_item)->show_in_table_page) {
+                foreach ($this->attributes()->where('attribute_item_id', $product_attributes_item)->get() as $attribute_item) {
+                    $attribute_loop_array[$product_attributes_item]['attribute_value_obj'][] = AttributeValue::find($attribute_item->pivot->attribute_value_id);
+                    $attribute_loop_array[$product_attributes_item]['attribute_value'] = $attribute_item->pivot->attribute_value;
+                    $attribute_loop_array[$product_attributes_item]['attribute_item_order'] = AttributeItem::find($product_attributes_item)->attribute_item_order;
+                }
+            }
+        }
+
+        $attribute_loop_array = collect($attribute_loop_array)->sortBy([
+            ['attribute_item_order', 'asc'],
+        ]);
+
         return $attribute_loop_array;
     }
     

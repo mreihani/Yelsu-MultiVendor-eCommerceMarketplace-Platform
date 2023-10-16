@@ -281,9 +281,9 @@ class IndexController extends Controller
         }
         // end of - check if vendor is inactive to disable shop single page
 
-        $vendor_product = Product::where('vendor_id', $id)->where('status', 'active')->where('product_verification', 'active')->get();
-
-
+        $vendor_product = Product::where('vendor_id', $id)->where('status', 'active')->where('product_verification', 'active')->orderBy('created_at','asc')->get();
+        $sort_products_by_last_category = Product::sort_products_by_last_category($vendor_product);
+        
         // افزودن نقاط تامین کنندگان
         $outletsArr = [];
         $outlets = Outlet::where('user_id', $id)->get();
@@ -331,9 +331,9 @@ class IndexController extends Controller
             }
         }
         // افزودن موقعیت مکانی کاربر وارد شده
-
-
-        return view('vendor.vendor_details', compact('outlets', 'outletsArr', 'vendor', 'vendor_product'));
+        
+        
+        return view('vendor.vendor_details', compact('outlets', 'outletsArr', 'vendor', 'vendor_product', 'sort_products_by_last_category'));
     } //End method
 
     public function VendorAll()

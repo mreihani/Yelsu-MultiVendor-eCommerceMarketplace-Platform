@@ -68,6 +68,7 @@
                                         <h4 class="icon-box-title">شماره تلفن </h4>
                                         <p class="mb-1">تلفن دفتر مرکزی: <a href="tel:02126402540">49-02126402540</a></p>
                                         <p>تلفن گویا: <a href="tel:02191692471">02191692471</a></p>
+                                        <p>فکس: <a href="tel:02126402550">02126402550</a></p>
                                     </div>
                                 </div>
                                 <div class="swiper-slide icon-box text-center icon-box-primary">

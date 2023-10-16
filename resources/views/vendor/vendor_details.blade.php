@@ -5,6 +5,7 @@
     let outletsArr =  {!! json_encode($outletsArr) !!};
 </script>
 
+
 <main class="main">
     <!-- Start of Breadcrumb -->
     <nav class="breadcrumb-nav">
@@ -288,6 +289,74 @@
                             {!! $vendor->vendor_description !!}
                         </div>
                     @endif
+                    
+                   
+                    <!-- بخش مربوط به جدول محصولات --> 
+                    @if(count($sort_products_by_last_category))
+                        @foreach ($sort_products_by_last_category as $category_id => $product_object_array)
+                            <div class="yelsuDataTablesHead mt-5 pt-5">
+                                <h2 class="title vendor-product-title">
+                                    @if(!empty($vendor->photo))
+                                        <img alt="Logo" src="{{url('storage/upload/vendor_images/'.$vendor->photo)}}"/>
+                                    @else
+                                        <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                    @endif
+                                    <a href="{{route('shop.category', ['id'=> $category_id])}}"> جدول محصولات {{App\Models\Category::find($category_id)->category_name}} </a>
+                                </h2>
+                            </div>
+                            <div class="product-wrapper row">
+                                <div class="product-wrap">
+                                    <div class="product text-center">
+                                        <table class="display yelsuDataTables" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">ردیف</th>
+                                                    <th class="all text-center">نام محصول</th>
+                                                    @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
+                                                        <th class="text-center">
+                                                            {{$attribute_header_items->attribute_item_name}} 
+                                                        </th> 
+                                                    @endforeach
+                                                    <th class="all text-center">قیمت</th>
+                                                    <th class="text-center">اطلاعات بیشتر</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($product_object_array as $product_key => $product_item)
+                                                    <tr>
+                                                        <td>{{ $product_key + 1}}</td>
+                                                        <td>
+                                                            <a href="{{route('product.details', $product_item->product_slug)}}">
+                                                                {{ $product_item->product_name}}
+                                                            </a>
+                                                        </td>
+                                                        @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
+                                                            <td>
+                                                                @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
+                                                                    @if ($attribute_row_items->attribute_item_type == "dropdown")
+                                                                        {{-- {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'][0]->value}}  --}}
+                                                                        {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
+                                                                    @else
+                                                                        {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
+                                                                    @endif
+                                                                @else 
+                                                                    ناموجود
+                                                                @endif
+                                                            </td> 
+                                                        @endforeach
+                                                        <td>{{$product_item->selling_price}} {{$product_item->determine_product_currency()}}</td>
+                                                        <td></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                    <!-- پایان بخش مربوط به جدول محصولات --> 
+
 
                     @if($vendor_product->count())
                     <h2 class="title vendor-product-title mb-4"><a href="#">محصولات </a></h2>
@@ -325,20 +394,9 @@
                                         <a href="{{route('product.details',$product->product_slug)}}" class="rating-reviews">(3 نظر )</a>
                                     </div> --}}
                                     <div class="product-pa-wrapper">
-                                        
-                                        @if ($product->currency == 'toman')
                                         <div class="product-price">
-                                            {{$product->selling_price}} تومان
+                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
                                         </div>
-                                        @elseif($product->currency == 'dollar')
-                                        <div class="product-price">
-                                            {{$product->selling_price}} دلار
-                                        </div>
-                                        @elseif($product->currency == 'euro')
-                                        <div class="product-price">
-                                            {{$product->selling_price}} یورو
-                                        </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -356,6 +414,30 @@
     <!-- End of Page Content -->
 </main>
 
+
+<script>
+    new DataTable('.yelsuDataTables', {
+    responsive: true,
+    searching: false,
+    "ordering": false,
+    "dom": 'rt',
+    columnDefs: [ {
+        className: 'dtr-control',
+        orderable: false,
+        targets: -1
+    }],
+    responsive: {
+        details: {
+            type: 'column',
+            target: 'tr'
+        }
+    }
+});
+</script>
+
+
+
 <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuDetailPage.js')}}"></script>
+
 
 @endsection

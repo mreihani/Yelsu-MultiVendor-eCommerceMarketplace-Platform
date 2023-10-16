@@ -29,10 +29,10 @@
 		{{-- <link href="{{asset('frontend/assets/plugins/leaflet/leaflet.css')}}" rel="stylesheet" type="text/css" /> --}}
 		<link href="{{asset('frontend/assets/plugins/leaflet/neshan.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('frontend/assets/plugins/leaflet/Control.Geocoder.css')}}" rel="stylesheet" type="text/css"/>
-		
-		
+
 		<script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>      
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
+
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

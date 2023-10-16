@@ -343,7 +343,16 @@
                                                 <input type="text" name="product_name" class="form-control mb-2" placeholder="نام محصول" value="{{$products->product_name}}"/>
                                                 <!--end::Input-->
                                                 <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">نام محصول مورد نیاز است و توصیه می شود منحصر به فرد باشد.</div>
+                                                <div class="text-muted fs-7"> 
+                                                    نام محصول مورد نیاز است و توصیه می شود منحصر به فرد باشد.
+                                                    نحوه نوشتن نام محصول به شرح زیر است:
+                                                </div>
+                                                <br>
+                                                <div class="text-muted fs-7">
+                                                    نام زیر دسته+نام کارخانه یا تأمین کننده+شماره یا مشخصات محصول
+                                                    به عنوان مثال:
+                                                    میلگرد آجدار ذوب آهن اصفهان شماره 12
+                                                </div>
                                                 <!--end::توضیحات-->
                                             </div>
                                             <!--end::Input group-->
@@ -357,6 +366,13 @@
                                                 <!--end::Input-->
                                                 <!--begin::توضیحات-->
                                                 <div class="text-muted fs-7">اسلاگ URL مورد نیاز است و توصیه می شود منحصر به فرد و انگلیسی باشد.</div>
+                                                <br>
+                                                <div class="text-muted fs-7">
+                                                    این عبارت بایستی به ترتیب از نام زیر دسته محصول به انگلیسی، نام کارخانه یا تأمین کننده و شماره یا مشخصات محصول تشکیل شود. به عنوان مثال برای میلگرد آجدار ذوب آهن اصفهان شماره 12 می توان از ترکیب زیر استفاده کرد:
+                                                </div>
+                                                <div class="text-muted fs-7" style="text-align: left;">
+                                                    ribbed-rebar-zob-ahan-esfehan-12
+                                                </div>
                                                 <!--end::توضیحات-->
                                             </div>
                                             <!--end::Input group-->

@@ -179,16 +179,27 @@
                                     <span></span>
                                 </div> --}}
 
+
+                                <!-- Start of Attributes -->
+                                <h4>مشخصات</h4>
                                 {{-- برای ویژگی های غیر چندگانه --}}
                                 @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
                                     @if(count($attribute_value_array['attribute_value_obj']) == 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
-                                        <div class="d-flex align-items-center pt-2 pb-2">
-                                            <div style="font-size:15px;">{{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}:&nbsp;</div>
+                                        <div class="d-flex align-items-center details-page-attribute-list">
+
+                                            <span>
+                                                {{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}
+                                            </span>
+
                                             @foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item)
                                                 @if(App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown')
-                                                    <p class="mb-0"> {{$attribute_value_item->value}}</p>
+                                                    <span>
+                                                        {{$attribute_value_item->value}}
+                                                    </span>
                                                 @else
-                                                    <p class="mb-0"> {{$attribute_value_array['attribute_value']}}</p>
+                                                    <span>
+                                                        {{$attribute_value_array['attribute_value']}}
+                                                    </span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -198,21 +209,24 @@
                                 {{-- برای ویژگی های چندگانه --}}
                                 @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
                                     @if(count($attribute_value_array['attribute_value_obj']) > 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
-                                        <div class="product-form product-variation-form product-size-swatch pt-2 pb-2">
-                                            <div style="font-size:15px;">{{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}:&nbsp;</div>
+                                        <div class="product-form product-variation-form product-size-swatch details-page-attribute-list-multiple">
 
-                                            <div class="flex-wrap d-flex align-items-center product-variations">
+                                            <span>
+                                                {{App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_name}}
+                                            </span>
+
+                                            <span class="flex-wrap d-flex align-items-center justify-content-center product-variations">
                                                 @foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item)
                                                     <a href="#" class="size">{{$attribute_value_item->value}} </a>
                                                 @endforeach
-                                            </div>
+                                            </span>
                                             
                                         </div>
                                     @endif
                                 @endforeach    
                                 
                                 {{-- <a href="#" class="product-variation-clean">پاک کردن همه </a> --}}
-
+                                <!-- End of Attributes -->
 
                                 <div class="fix-bottom product-sticky-content sticky-content mt-4">
                                     <div class="product-form container">
@@ -1105,13 +1119,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($relatedProduct->currency == 'toman')
-                                                    <div class="product-price">{{$relatedProduct->selling_price}} تومان</div>
-                                                @elseif($relatedProduct->currency == 'dollar')
-                                                    <div class="product-price">{{$relatedProduct->selling_price}} دلار</div>
-                                                @elseif($relatedProduct->currency == 'euro')
-                                                    <div class="product-price">{{$relatedProduct->selling_price}} ریال</div>
-                                                @endif
+                                                <div class="product-price">{{$relatedProduct->selling_price}} {{$relatedProduct->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -1182,13 +1190,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($recently_viewed_product_item->currency == 'toman')
-                                                    <div class="product-price">{{$recently_viewed_product_item->selling_price}} تومان</div>
-                                                @elseif($recently_viewed_product_item->currency == 'dollar')
-                                                    <div class="product-price">{{$recently_viewed_product_item->selling_price}} دلار</div>
-                                                @elseif($recently_viewed_product_item->currency == 'euro')
-                                                    <div class="product-price">{{$recently_viewed_product_item->selling_price}} ریال</div>
-                                                @endif
+                                                <div class="product-price">{{$recently_viewed_product_item->selling_price}} {{$recently_viewed_product_item->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>

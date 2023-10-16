@@ -325,20 +325,9 @@
                                         <a href="{{route('product.details',$product->product_slug)}}" class="rating-reviews">(3 نظر )</a>
                                     </div> --}}
                                     <div class="product-pa-wrapper">
-                                        
-                                        @if ($product->currency == 'toman')
                                         <div class="product-price">
-                                            {{$product->selling_price}} تومان
+                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
                                         </div>
-                                        @elseif($product->currency == 'dollar')
-                                        <div class="product-price">
-                                            {{$product->selling_price}} دلار
-                                        </div>
-                                        @elseif($product->currency == 'euro')
-                                        <div class="product-price">
-                                            {{$product->selling_price}} یورو
-                                        </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
