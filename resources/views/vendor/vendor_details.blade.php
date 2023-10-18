@@ -294,15 +294,21 @@
                     <!-- بخش مربوط به جدول محصولات --> 
                     @if(count($sort_products_by_last_category))
                         @foreach ($sort_products_by_last_category as $category_id => $product_object_array)
-                            <div class="yelsuDataTablesHead mt-5 pt-5">
-                                <h2 class="title vendor-product-title">
+                            <div class="yelsuDataTablesHead d-flex align-items-center">
+                                <div class="vendor-image-div">
                                     @if(!empty($vendor->photo))
                                         <img alt="Logo" src="{{url('storage/upload/vendor_images/'.$vendor->photo)}}"/>
                                     @else
                                         <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
                                     @endif
-                                    <a href="{{route('shop.category', ['id'=> $category_id])}}"> جدول محصولات {{App\Models\Category::find($category_id)->category_name}} </a>
-                                </h2>
+
+                                    <a href="{{route('shop.category', ['id'=> $category_id])}}"> لیست قیمت {{App\Models\Category::find($category_id)->category_name}} </a>
+                                </div>
+
+                                <div class="value-added-tax-div">
+                                    <input type="checkbox" class="value_added_tax_btn">
+                                    <label for="value_added_tax">نمایش قیمت با ارزش افزوده</label>
+                                </div>
                             </div>
                             <div class="product-wrapper row">
                                 <div class="product-wrap">
@@ -327,14 +333,13 @@
                                                         <td>{{ $product_key + 1}}</td>
                                                         <td>
                                                             <a href="{{route('product.details', $product_item->product_slug)}}">
-                                                                {{ $product_item->product_name}}
+                                                                {{$product_item->product_name}}
                                                             </a>
                                                         </td>
                                                         @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
                                                             <td>
                                                                 @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
                                                                     @if ($attribute_row_items->attribute_item_type == "dropdown")
-                                                                        {{-- {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'][0]->value}}  --}}
                                                                         {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
                                                                     @else
                                                                         {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
@@ -344,7 +349,19 @@
                                                                 @endif
                                                             </td> 
                                                         @endforeach
-                                                        <td>{{$product_item->selling_price}} {{$product_item->determine_product_currency()}}</td>
+                                                        @if($product_item->selling_price != 0)
+                                                            <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
+                                                            <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                            <td>
+                                                                <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
+                                                            </td>
+                                                        @else
+                                                            <td>
+                                                                <a href="tel:02191692471">
+                                                                    تماس بگیرید
+                                                                </a>
+                                                            </td>
+                                                        @endif
                                                         <td></td>
                                                     </tr>
                                                 @endforeach
@@ -360,14 +377,14 @@
 
                     @if($vendor_product->count())
                     <h2 class="title vendor-product-title mb-4"><a href="#">محصولات </a></h2>
-                    <div class="product-wrapper row cols-md-3 cols-sm-2 cols-2">
+                    <div class="product-wrapper row cols-md-6 cols-sm-2 cols-2">
 
                         @foreach ($vendor_product as $product)
                             
                         <div class="product-wrap">
                             <div class="product text-center">
                                 <figure class="product-media">
-                                    <a href="{{route('product.details',$product->product_slug)}}">
+                                    <a href="{{route('product.details', $product->product_slug)}}">
                                         <img src="{{(!empty($product->product_thumbnail)) ? url($product->product_thumbnail) : url('storage/upload/no_image_product.jpg')}}" alt="Product" width="300"
                                             height="338" />
                                     </a>
@@ -384,7 +401,7 @@
                                 </figure>
                                 <div class="product-details">
                                     <h3 class="product-name">
-                                        <a href="{{route('product.details',$product->product_slug)}}">{{$product->product_name}}</a>
+                                        <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}}</a>
                                     </h3>
                                     {{-- <div class="ratings-container">
                                         <div class="ratings-full">
@@ -395,7 +412,15 @@
                                     </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-price">
-                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
+                                            @if($product->selling_price != 0)
+                                                <td>{{$product->selling_price}} {{$product->determine_product_currency()}}</td>
+                                            @else
+                                                <td>
+                                                    <a href="tel:02191692471">
+                                                        تماس بگیرید
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -414,29 +439,7 @@
     <!-- End of Page Content -->
 </main>
 
-
-<script>
-    new DataTable('.yelsuDataTables', {
-    responsive: true,
-    searching: false,
-    "ordering": false,
-    "dom": 'rt',
-    columnDefs: [ {
-        className: 'dtr-control',
-        orderable: false,
-        targets: -1
-    }],
-    responsive: {
-        details: {
-            type: 'column',
-            target: 'tr'
-        }
-    }
-});
-</script>
-
-
-
+<script src="{{asset('frontend/assets/plugins/datatables/yelsuProductTables.js')}}"></script>
 <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuDetailPage.js')}}"></script>
 
 

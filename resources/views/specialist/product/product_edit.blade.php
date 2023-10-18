@@ -104,7 +104,7 @@
 
                     <input type="hidden" name="old_image" value="{{$products->product_thumbnail}}">
                     <input type="hidden" name="old_image_sm" value="{{$products->product_thumbnail_sm}}">
-                    <input type="hidden" name="id" value={{$products->id}}>
+                    <input type="hidden" name="id" value={{$products->id}} id="product_id">
 
                     <!--begin::کناری column-->
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">

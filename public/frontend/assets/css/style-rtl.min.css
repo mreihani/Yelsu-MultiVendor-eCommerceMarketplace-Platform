@@ -23458,9 +23458,18 @@ td {
 
 
 /* datatables custom css */
-.yelsuDataTablesHead h2 {
+.yelsuDataTablesHead {
     background-color: #0e47a1;
     margin-bottom: 5px;
+    padding: 10px 10px;
+}
+
+.yelsuDataTablesHead .vendor-image-div {
+    width: 80%;
+}
+
+.yelsuDataTablesHead .value-added-tax-div {
+    width: 20%;
 }
 
 .yelsuDataTablesHead img {
@@ -23469,7 +23478,11 @@ td {
     border-radius: 50%;
 }
 
-.yelsuDataTablesHead h2 a {
+.yelsuDataTablesHead div label {
+    color: white;
+}
+
+.yelsuDataTablesHead a {
     color: white;
     margin-right: 10px;
 }
@@ -23488,9 +23501,12 @@ td {
 
 
 /* details page attribute list custom css */
+.details-page-attribute-list span:first-child {
+    background-color: #f5f5f5;
+}
+
 .details-page-attribute-list span {
     font-size: 15px;
-    background-color: #f5f5f5;
     padding: 5px;
     margin-left: 5px;
     width: 50%;

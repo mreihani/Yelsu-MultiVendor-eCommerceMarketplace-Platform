@@ -113,6 +113,7 @@ class Product extends Model
         return $attribute_loop_array;
     }
     
+    // تابع برای تعیین واحد پولی یک محصول
     public function determine_product_currency() {
         $currency_type = null;
 
@@ -128,6 +129,24 @@ class Product extends Model
         return $currency_type;
     }
 
+    // تابع برای تعیین مالیات بر ارزش افزوده به درصد
+    public function determine_product_value_added_tax_by_percent() {
+        $added_value_tax = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "value_added_tax") {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                    $added_value_tax = $attribute_value_array['attribute_value_obj'][0]->value;
+                } else {
+                    $added_value_tax = $attribute_value_array["attribute_value"];
+                }
+            }
+        }
+
+        return floor($this->selling_price * ($added_value_tax / 100 + 1));
+    }
+
+    // تابع برای بررسی تغییر یک ویژگی که برای تاییدیه ارسال بشه
     public function ScopeCheckIfAttributeHasChanged($query, $incoming_attributes, $product_id) {
 
         // آرایه برای بررسی موارد جدیدی که اضافه می شود
@@ -200,4 +219,5 @@ class Product extends Model
 
         return false;
     }
+    
 }

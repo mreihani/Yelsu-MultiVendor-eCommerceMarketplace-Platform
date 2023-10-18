@@ -326,7 +326,15 @@
                                     </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-price">
-                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
+                                            @if($product->selling_price != 0)
+                                                <td>{{$product->selling_price}} {{$product->determine_product_currency()}}</td>
+                                            @else
+                                                <td>
+                                                    <a href="tel:02191692471">
+                                                        تماس بگیرید
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

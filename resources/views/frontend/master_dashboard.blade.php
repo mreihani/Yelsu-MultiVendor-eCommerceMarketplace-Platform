@@ -51,7 +51,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/demo13.min.css')}}">
 
     <script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>      
-    {{-- <script src="{{asset('frontend/assets/vendor/jquery/jquery2.min.js')}}"></script>       --}}
     
     <!-- Lightbox CSS -->
     <link href="{{asset('frontend/assets/lightbox/src/css/lightbox.css')}}" rel="stylesheet" />

@@ -863,11 +863,28 @@ class MerchantController extends Controller
         foreach ($attribute_items as $attribute_item) {
             if($user_role_permission && ($attributes[0]->category_id == $selected_categories_id)){
                 $attribute_item->push(['values' => $attribute_item->values]);
-                $selected_attributes_arr[] = $attribute_item;
+                $category_related_attributes_arr[] = $attribute_item;
             }
         }    
 
-        return response(['attributes' => $selected_attributes_arr]);
+        // این بخش مربوط به برگشت مقادیر ست شده روی هر اتریبیوت است
+        if($request->product_id) {
+            // پیدا کردن اتریبیوت های ست شده روی یک محصول
+            $product_id = (int) Purify::clean($request->product_id);
+            $product_selected_attribute_array = Product::find($product_id)->attribute_items_obj_array();
+            // ایجاد یک آرایه از آی دی مقادیر انتخاب شده برای هر اتریبیوت
+            $product_selected_attribute_value_id_array = [];
+            foreach ($product_selected_attribute_array as $product_selected_attribute_item) {
+                foreach ($product_selected_attribute_item['attribute_value_obj'] as $key => $value_item) {
+                    $product_selected_attribute_value_id_array[] = $product_selected_attribute_item['attribute_value_obj'][$key]['id'];
+                }
+            }
+        } else {
+            $product_selected_attribute_array = [];
+            $product_selected_attribute_value_id_array = [];
+        }
+        
+        return response(['attributes' => $category_related_attributes_arr, 'product_selected_attribute_array' => $product_selected_attribute_array, 'product_selected_attribute_value_id_array' => $product_selected_attribute_value_id_array]);
     }
 
     public function ViewMerchantOrders()

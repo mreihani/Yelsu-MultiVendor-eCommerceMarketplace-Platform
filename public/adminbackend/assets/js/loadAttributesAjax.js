@@ -22,10 +22,10 @@ category_id_input.on('click', function(e) {
         method: "post",
         data: ({
             id: selected_categories_id,
+            product_id: $("#product_id").val(),
             role: $('#product-user-role').val()
         }),
         success: function (data) {
-
             spinnerButton.toggle();    
             attributeButton.toggle();   
         
@@ -56,6 +56,7 @@ function updateDOM(data) {
             let nonOfThem = "";
             let attributeSelectDropdown = "";
             let attributeMultipleSelection = "";
+            let selected_attribute_value;
             
             if(attributeType == "dropdown") {
                 
@@ -68,9 +69,10 @@ function updateDOM(data) {
                 attributeItem.values.forEach(function(attributeValueItem) {
                     let attributeValueId = attributeValueItem.id;
                     let attributeValue = attributeValueItem.value;
-    
+                    selected_attribute_value = data.product_selected_attribute_value_id_array.includes(attributeValueId) ? "selected" : "";
+                    
                     attributeValueLoop += `
-                        <option value="${attributeValueId}">${attributeValue}</option>
+                        <option ${selected_attribute_value} value="${attributeValueId}">${attributeValue}</option>
                     `;
                 });
     
@@ -82,9 +84,12 @@ function updateDOM(data) {
                 `;
             } else {
                 let attributeValue0 = attributeItem.values[0].id;
-    
+
+                // This is the part I had error
+                let custom_field_value = data.product_selected_attribute_array[attributeItemId] ? data.product_selected_attribute_array[attributeItemId]['attribute_value'] : "";
+
                 attributeSelectDropdown = `
-                    <input type="text" name="attribute[${attributeId}][${attributeItemId}][attribute_value]" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
+                    <input type="text" name="attribute[${attributeId}][${attributeItemId}][attribute_value]" value="${custom_field_value}" class="form-control mb-2" placeholder="مقدار ویژگی مورد نظر را وارد نمایید"/>
                     <input type="hidden" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id]" value="${attributeValue0}">
                 `;
             }
@@ -93,10 +98,12 @@ function updateDOM(data) {
                 attributeItem.values.forEach(function(attributeValueItem) {
                     let attributeValueId = attributeValueItem.id;
                     let attributeValue = attributeValueItem.value;
-    
+
+                    selected_attribute_value = data.product_selected_attribute_value_id_array.includes(attributeValueId) ? "checked" : "";
+
                     attributeMultipleSelection += `
                     <li class="list-style-none mt-4">
-                        <input class="form-check-input" type="checkbox" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id][]" value="${attributeValueId}"> ${attributeValue} 
+                        <input ${selected_attribute_value} class="form-check-input" type="checkbox" name="attribute[${attributeId}][${attributeItemId}][attribute_value_id][]" value="${attributeValueId}"> ${attributeValue} 
                     </li>
                     `; 
                 });
