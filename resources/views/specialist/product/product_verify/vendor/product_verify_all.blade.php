@@ -105,12 +105,12 @@
                                             <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_محصولات_table .form-check-input" value="1" />
                                         </div>
                                     </th>
-                                    <th class="min-w-200px">محصولات</th>
-                                    <th class="text-center min-w-100px">نام فروشنده</th>
-                                    <th class="text-center min-w-100px">نام کاربری فروشنده</th>
-                                    <th class="text-center min-w-200px">کدینگ محصول</th>
-                                    <th class="text-center min-w-200px">ایمیل فروشنده</th>
-                                    <th class="text-center min-w-200px">تلفن فروشنده</th>
+                                    <<th class="">محصولات</th>
+                                    <th class="text-center">نام فروشنده</th>
+                                    <th class="text-center">نام کاربری فروشنده</th>
+                                    <th class="text-center">کدینگ محصول</th>
+                                    <th class="text-center">ایمیل فروشنده</th>
+                                    <th class="text-center">تلفن فروشنده</th>
                                     {{-- <th class="min-w-100px">SKU</th> --}}
                                     {{-- <th class="text-end min-w-70px">موجودی انبار</th> --}}
                                     {{-- <th class="text-end min-w-100px">قیمت</th> --}}
