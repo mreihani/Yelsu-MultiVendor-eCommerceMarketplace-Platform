@@ -297,7 +297,7 @@
                             <div class="yelsuDataTablesHead d-flex align-items-center">
                                 <div class="vendor-image-div">
                                     @if(!empty($vendor->photo))
-                                        <img alt="Logo" src="{{url('storage/upload/vendor_images/'.$vendor->photo)}}"/>
+                                        <img alt="Logo" src="{{url('storage/upload/vendor_images/' . $vendor->photo)}}"/>
                                     @else
                                         <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
                                     @endif

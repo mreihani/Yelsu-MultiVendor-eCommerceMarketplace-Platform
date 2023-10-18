@@ -947,7 +947,6 @@ class IndexController extends Controller
 
     public function ViewShop()
     {
-
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
         SEOMeta::setDescription('قیمت سیمان قیمت بتن قیمت فولاد خرید اینترنتی محصولات معدنی و ماشین آلات کشاورزی');
         SEOMeta::setKeywords(['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'ارمغان تجارت مغان', 'یل سو']);
@@ -1107,8 +1106,9 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
+        $sort_products_by_last_vendor = [];
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
     } //End method
 
     public function ViewShopFiltered(Request $request)
@@ -1116,6 +1116,7 @@ class IndexController extends Controller
         $products = [];
         $cat_id_arr = [];
         $category_hierarchy_arr = [];
+        $sort_products_by_last_vendor = [];
 
         $query_str = parse_url(Purify::clean($request->getRequestUri()), PHP_URL_QUERY);
         parse_str($query_str, $output);
@@ -1223,7 +1224,7 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
     } //End method
 
     public function ViewShopCategoryFiltered(Request $request)
@@ -1235,7 +1236,7 @@ class IndexController extends Controller
         // exclude products which store has been disabled
         $category = Category::where('id', $id)->first();
         $products = $category->products()->where('status', 'active')->latest()->get();
-
+        
         $products_arr = [];
 
         foreach ($products as $product) {
@@ -1268,13 +1269,13 @@ class IndexController extends Controller
 
             $products_arr[] = $product;
         }
-        $products = new Collection($products_arr);
+        $products_without_pagination = new Collection($products_arr);
 
-        $totalGroup = count($products);
+        $totalGroup = count($products_without_pagination);
         $perPage = 40;
         $page = Paginator::resolveCurrentPage('page');
 
-        $products = new LengthAwarePaginator($products->forPage($page, $perPage), $totalGroup, $perPage, $page, [
+        $products = new LengthAwarePaginator($products_without_pagination->forPage($page, $perPage), $totalGroup, $perPage, $page, [
             'path' => 'https://www.yelsu.com/shop/category?id=' . $id,
             'pageName' => 'page',
         ]);
@@ -1360,21 +1361,17 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
-
-        // if(strlen(strip_tags($category->category_description)) > 1500) {
-        //     $category_description_truncated = substr(strip_tags($category->category_description), 0, 1500);
-        //     $category_description_truncated = substr($category_description_truncated, 0, -20);
-        // } else {
-        //     $category_description_truncated = NULL;
-        // }
+        $sort_products_by_last_vendor = Product::sort_products_by_last_vendor($products_without_pagination);
+        // dd($sort_products_by_last_vendor);
         
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
     }
 
     public function ViewSearchProducts(Request $request)
     {
         $category_id = Purify::clean($request->cat_id);
         $parentCategories = Category::where('parent', 0)->latest()->get();
+        $sort_products_by_last_vendor = [];
 
         if (Purify::clean($request->q) == NULL) {
             return back();
@@ -1451,7 +1448,7 @@ class IndexController extends Controller
 
             $inputArray = [];
 
-            return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+            return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
         } elseif ($category_id == "v") {
             return $this->VendorAllSearch($request);
         } elseif ($category_id == "m") {

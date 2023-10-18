@@ -221,43 +221,22 @@
         <div class="shop-content">
             <!-- Start of Shop Main Content -->
             <div class="main-content">
-                <nav class="toolbox sticky-toolbox sticky-content fix-top">
-                    <div class="toolbox-left">
-                        <a href="#" class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle 
-                            btn-icon-left"><i class="w-icon-category"></i><span>فیلتر ها </span></a>
-                        {{-- <div class="toolbox-item toolbox-sort select-box text-dark">
-                            <label>مرتب سازی با اساس :</label>
-                            <select name="orderby" class="form-control">
-                                <option value="default" selected="selected">مرتب سازی پیش فرض </option>
-                                <option value="popularity">مرتب سازی با اساس محبوبیت </option>
-                                <option value="rating">مرتب سازی با اساس میانگین امتیاز </option>
-                                <option value="date">مرتب سازی با اساس اخیر </option>
-                                <option value="price-low">مرتب سازی با اساس قیمت پایین به بالا</option>
-                                <option value="price-high">مرتب سازی با اساس قیمت بالا به پایین</option>
-                            </select>
-                        </div> --}}
-                    </div>
-                    {{-- <div class="toolbox-right">
-                        <div class="toolbox-item toolbox-show select-box">
-                            <select name="count" class="form-control">
-                                <option value="9">نمایش 9</option>
-                                <option value="12" selected="selected">نمایش 12</option>
-                                <option value="24">نمایش 24</option>
-                                <option value="36">نمایش 36</option>
-                            </select>
-                        </div>
-                        <div class="toolbox-item toolbox-layout">
-                            <a href="shop-fullwidth-banner.html" class="icon-mode-grid btn-layout active">
-                                <i class="w-icon-grid"></i>
-                            </a>
-                            <a href="shop-list.html" class="icon-mode-list btn-layout">
-                                <i class="w-icon-list"></i>
+               
+                @if(Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
+                    {{-- برای حذف دکمه فیلتر در صفحه آخرین دسته بندی --}}
+                @else
+                    <nav class="toolbox sticky-toolbox sticky-content fix-top">
+                        <div class="toolbox-left">
+                            <a href="#" class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle btn-icon-left">
+                                <i class="w-icon-category"></i>
+                                <span>فیلتر ها </span>
                             </a>
                         </div>
-                    </div> --}}
-                </nav>
-            
-                @if(count($products))
+                    </nav>
+                @endif
+                
+                {{-- برای حذف تایل محصولات در دسته بندی آخر صفحه دسته بندی ها --}}
+                @if(count($products) && (Route::currentRouteName() == "shop.category" ? $category->child()->get()->count() : true))
                     <div class="product-wrapper row cols-xl-8 cols-lg-5 cols-md-4 cols-sm-3 cols-2">
                         @foreach ($products as $product)
 
@@ -336,17 +315,150 @@
 
                         @endforeach
                     </div>     
-                @else
+
+                @elseif(Route::currentRouteName() != "shop.category")
                     <div class="text-center">
                         <h2>هیچ محصولی یافت نشد</h2>
                     </div>
                 @endif
-                @if(Route::currentRouteName() == 'shop' || Route::currentRouteName() == "shop.category")    
+
+                @if((Route::currentRouteName() == 'shop'))    
+                <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
+                    {{$products->links('vendor.pagination.custom')}}
+                </div>
+                {{-- برای حذف صفحه گذاری روی صفحه دسته بندی آخر که جدول میاد --}}
+                @elseif(Route::currentRouteName() == "shop.category" && $category->child()->get()->count())
                     <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
                         {{$products->links('vendor.pagination.custom')}}
                     </div>
                 @endif
-                
+
+                <!-- بخش مربوط به جدول محصولات --> 
+                @if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
+                    @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
+                        <div style="max-width: 950px; margin-left: auto; margin-right: auto;">
+                            <div class="yelsuDataTablesHead d-flex align-items-center">
+                                <div class="vendor-image-div">
+
+                                    {{-- جدول مربوط به کاربر تامین کننده --}}
+                                    @if($user_id != 0 && App\Models\User::find($user_id)->role == "vendor")
+
+                                        @if(!empty(App\Models\User::find($user_id)->photo))
+                                            <a href="{{route('vendor.details', $user_id)}}">
+                                                <img alt="Logo" src="{{url('storage/upload/vendor_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                            </a>
+                                        @else
+                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                        @endif
+
+                                        <a href="{{route('vendor.details', $user_id)}}"> لیست قیمت {{App\Models\Category::find((int) request('id'))->category_name}} {{App\Models\User::find($user_id)->shop_name}}</a>
+
+                                    {{-- جدول مربوط به کاربر بازرگان --}}
+                                    @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "merchant")
+
+                                        @if(!empty(App\Models\User::find($user_id)->photo))
+                                            <a href="{{route('merchant.details', $user_id)}}">
+                                                <img alt="Logo" src="{{url('storage/upload/merchant_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                            </a>
+                                        @else
+                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                        @endif
+
+                                        <a href="{{route('merchant.details', $user_id)}}"> لیست قیمت {{App\Models\Category::find((int) request('id'))->category_name}} {{App\Models\User::find($user_id)->shop_name}}</a>
+
+                                    {{-- جدول مربوط به کاربر عمده / خرده فروش     --}}
+                                    @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "retailer")
+
+                                        @if(!empty(App\Models\User::find($user_id)->photo))
+                                            <a href="{{route('retailer.details', $user_id)}}">
+                                                <img alt="Logo" src="{{url('storage/upload/retailer_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                            </a>
+                                        @else
+                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                        @endif
+
+                                        <a href="{{route('retailer.details', $user_id)}}"> لیست قیمت {{App\Models\Category::find((int) request('id'))->category_name}} {{App\Models\User::find($user_id)->shop_name}}</a>
+
+                                    {{-- جدول مربوط به محصولات خود یلسو --}}
+                                    @elseif($user_id == 0)
+
+                                        <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>  
+
+                                        <a href=""> لیست قیمت {{App\Models\Category::find((int) request('id'))->category_name}} (یلسو)</a>
+
+                                    @endif
+
+                                </div>
+    
+                                <div class="value-added-tax-div">
+                                    <input type="checkbox" class="value_added_tax_btn">
+                                    <label for="value_added_tax">نمایش قیمت با ارزش افزوده</label>
+                                </div>
+                            </div>
+                            <div class="product-wrapper row">
+                                <div class="product-wrap">
+                                    <div class="product text-center">
+                                        <table class="display yelsuDataTables" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">ردیف</th>
+                                                    <th class="all text-center">نام محصول</th>
+                                                    @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
+                                                        <th class="text-center">
+                                                            {{$attribute_header_items->attribute_item_name}} 
+                                                        </th> 
+                                                    @endforeach
+                                                    <th class="all text-center">قیمت</th>
+                                                    <th class="text-center">اطلاعات بیشتر</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($product_object_array as $product_key => $product_item)
+                                                    <tr>
+                                                        <td>{{ $product_key + 1}}</td>
+                                                        <td>
+                                                            <a href="{{route('product.details', $product_item->product_slug)}}">
+                                                                {{$product_item->product_name}}
+                                                            </a>
+                                                        </td>
+                                                        @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
+                                                            <td>
+                                                                @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
+                                                                    @if ($attribute_row_items->attribute_item_type == "dropdown")
+                                                                        {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
+                                                                    @else
+                                                                        {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
+                                                                    @endif
+                                                                @else 
+                                                                    ناموجود
+                                                                @endif
+                                                            </td> 
+                                                        @endforeach
+                                                        @if($product_item->selling_price != 0)
+                                                            <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
+                                                            <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                            <td>
+                                                                <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
+                                                            </td>
+                                                        @else
+                                                            <td>
+                                                                <a href="tel:02191692471">
+                                                                    تماس بگیرید
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                        <td></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+                <!-- پایان بخش مربوط به جدول محصولات --> 
                 
             </div>
             <!-- End of Shop Main Content -->
@@ -357,7 +469,7 @@
                 <div class="sidebar-overlay"></div>
                 <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
 
-            <form action="{{route('shop.search')}}" method="GET">
+                <form action="{{route('shop.search')}}" method="GET">
                 <!-- Start of Sidebar Content -->
                     <div class="sidebar-content scrollable">
                         <div class="filter-actions">
@@ -454,7 +566,7 @@
                     
                 </form>            
                 <!-- End of Sidebar Content -->
-            </aside>
+            </aside>    
             <!-- End of Shop Sidebar -->
         </div>
         <!-- End of Shop Content -->
@@ -463,13 +575,12 @@
     <!-- End of Page Content -->
 </main>
 
-
 <script src="{{asset('frontend/assets/js/shopQuickView.js')}}"></script>
 <script src="{{asset('frontend/assets/js/shopDetailAjaxCard.js')}}"></script>
 <script src="{{asset('frontend/assets/js/shopFilter.js')}}"></script>
 <script src="{{asset('frontend/assets/js/categoryPageDescription.js')}}"></script>
 
 <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuFrontend.js')}}"></script>
-
+<script src="{{asset('frontend/assets/plugins/datatables/yelsuProductTables.js')}}"></script>
 
 @endsection

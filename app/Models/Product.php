@@ -89,6 +89,29 @@ class Product extends Model
         return $product_object_array;
     }
 
+    // تابعی که  محصولات را برای جدول بر اساس فروشندگان خروجی می دهد
+    public function ScopeSort_products_by_last_vendor($query, $product_object_collection) {
+        $product_related_user_id_array = [];
+        $product_object_array = [];
+
+        // ایجاد یک لیست از کاربران موجود در محصولات ورودی
+        foreach ($product_object_collection as $product_object_item) {
+            $product_related_user_id_array[] = $product_object_item->determine_product_related_user_object();
+        }
+
+        // تهیه یک لیست از محصولات بر اساس هر کاربر مرتبط
+        foreach ($product_object_collection as $product_object_key => $product_object) {
+            foreach ($product_related_user_id_array as $product_related_user_id_item) {
+                if($product_related_user_id_item == $product_object->determine_product_related_user_object()) {
+                    $product_object_array[$product_related_user_id_item][] = $product_object;
+                    break;
+                }
+            }
+        }
+       
+        return $product_object_array;
+    }
+
     // این تابع برای برگرداندن ویژگی هایی که گزینه جدول ثبت شده باشد
     public function table_attribute_items_obj_array() {
 
@@ -218,6 +241,21 @@ class Product extends Model
         }
 
         return false;
+    }
+
+    // ورودی را محصول میگیرد و در نهایت شیء کاربر مرتبط را تحویل می دهد
+    public function determine_product_related_user_object() {
+        if($this->vendor_id != NULL) {
+            $user_id = (int) $this->vendor_id;
+        } elseif($this->merchant_id != NULL) {
+            $user_id = (int) $this->merchant_id;
+        } elseif($this->retailer_id != NULL) {
+            $user_id = (int) $this->retailer_id;
+        } else {
+            $user_id = 0;
+        }
+
+        return $user_id;
     }
     
 }
