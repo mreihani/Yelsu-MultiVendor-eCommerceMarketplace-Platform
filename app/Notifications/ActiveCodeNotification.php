@@ -3,7 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use App\Notifications\Channels\SmsChannel;
+use App\Notifications\Channels\SmsChannelAuth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -31,13 +31,13 @@ class ActiveCodeNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [SmsChannel::class];
+        return [SmsChannelAuth::class];
     }
 
     public function toFarazSms($notifiable) {
         return[
             "text" => $this->code,
-            "number" => $this->phoneNumber
+            "number" => $this->phoneNumber,
         ];
     }    
 

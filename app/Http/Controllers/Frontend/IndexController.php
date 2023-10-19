@@ -1362,7 +1362,7 @@ class IndexController extends Controller
 
         $inputArray = [];
         $sort_products_by_last_vendor = Product::sort_products_by_last_vendor($products_without_pagination);
-        // dd($sort_products_by_last_vendor);
+       
         
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
     }

@@ -13,6 +13,7 @@ use Stevebauman\Purify\Facades\Purify;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\UserAuthNotification;
 use App\Notifications\ActiveCodeNotification;
 
 class AuthenticatedSessionController extends Controller
@@ -52,16 +53,15 @@ class AuthenticatedSessionController extends Controller
                 'remember' => $request->has('remember')
             ]);
 
-            $code = ActiveCode::generateCode(Purify::clean($request->user()));
+            $code = ActiveCode::generateCode($request->user());
             $home_phone = Purify::clean($request->user()->home_phone);
-            $current_user = Purify::clean($request->user());
+            $current_user = $request->user();
 
             Auth::guard('web')->logout();
             $current_user->notify(new ActiveCodeNotification($code, $home_phone));
 
             return redirect(route('2fa.token'));
         }
-
 
         $url = '';
         if (Purify::clean($request->user()->role) === 'admin') {
@@ -77,6 +77,9 @@ class AuthenticatedSessionController extends Controller
         } else {
             $url = '/dashboard';
         }
+
+        // اطلاع رسانی در مورد ورود کاربر به سامانه
+        auth()->user()->notify(new UserAuthNotification(auth()->user()));
 
         return redirect()->intended($url);
     }

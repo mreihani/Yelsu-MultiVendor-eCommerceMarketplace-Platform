@@ -1,6 +1,11 @@
 <?php
 
+
+
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
+use App\Notifications\UserAuthNotification;
 
 
 /*
@@ -17,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
     //     // FIX - ISSUE in USERNAME
@@ -35,5 +40,9 @@ require __DIR__ . '/auth.php';
     
     
    
+    
+    // auth()->user()->notify(new UserAuthNotification(auth()->user()));
+    
+   
 
-// });
+});

@@ -32,7 +32,12 @@ return [
     ],
 
     'farazsms' => [
-        'key' => env('FARAZSMS_API_KEY')
+        'key' => env('FARAZSMS_API_KEY'),
+        'pid' => [
+            'auth_token' => '8cme5bzgpkesx37',
+            'order' => '25vns2farjemm3k',
+            'auth' => 'g96xk3ulka6qda5'
+        ]
     ],
 
     'ahanmelal' => [

@@ -6,16 +6,17 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Events\OrderEvent;
 use App\Helpers\Cart\Cart;
 use App\Models\Useroutlets;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Purify\Facades\Purify;
+
 use Shetabit\Payment\Facade\Payment as ShetabitPayment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
-
-use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
@@ -175,7 +176,9 @@ class PaymentController extends Controller
             }
 
             $cart->flush();
-            //return redirect('shop');
+            
+            // ارسال پیامک دریافت سفارش
+            event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
 
             return redirect(route('dashboard', ['type' => 'orders']))->with('success', 'سفارش شما با موفقیت ثبت گردید.');
 

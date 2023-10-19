@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Purify\Facades\Purify;
+use App\Notifications\UserAuthNotification;
 use App\Notifications\ActiveCodeNotification;
 
 class AuthTokenController extends Controller
@@ -28,7 +29,6 @@ class AuthTokenController extends Controller
 
     public function postToken(Request $request)
     {
-
         $code_1 = Purify::clean($request->code_1);
         $code_2 = Purify::clean($request->code_2);
         $code_3 = Purify::clean($request->code_3);
@@ -58,6 +58,10 @@ class AuthTokenController extends Controller
 
         if (auth()->loginUsingId($user->id, $request->session()->get('auth.remember'))) {
             $user->activeCode()->delete();
+
+            // اطلاع رسانی در مورد ورود کاربر به سامانه
+            //auth()->user()->notify(new UserAuthNotification(auth()->user()));
+
             return redirect('/');
         }
 
@@ -68,7 +72,7 @@ class AuthTokenController extends Controller
     {
         $request->session()->reflash();
 
-        $user = User::findOrFail(Purify::clean($request->session()->get('auth.user_id')));
+        $user = User::findOrFail($request->session()->get('auth.user_id'));
         $home_phone = $user->home_phone;
 
         $code = ActiveCode::generateCode($user);
