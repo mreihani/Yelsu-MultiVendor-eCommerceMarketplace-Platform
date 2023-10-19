@@ -79,7 +79,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // اطلاع رسانی در مورد ورود کاربر به سامانه
-        auth()->user()->notify(new UserAuthNotification(auth()->user()));
+        //auth()->user()->notify(new UserAuthNotification(auth()->user()));
 
         return redirect()->intended($url);
     }
