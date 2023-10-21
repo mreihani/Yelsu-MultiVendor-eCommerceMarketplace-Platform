@@ -1229,6 +1229,8 @@ class IndexController extends Controller
 
     public function ViewShopCategoryFiltered(Request $request)
     {
+        set_time_limit(0);
+        
         $category_hierarchy_arr = [];
 
         $id = Purify::clean(request('id'));

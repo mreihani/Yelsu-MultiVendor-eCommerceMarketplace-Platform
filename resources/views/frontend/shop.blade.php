@@ -334,7 +334,7 @@
                 @endif
 
                 <!-- بخش مربوط به جدول محصولات --> 
-                @if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
+                @if(count(App\Models\Category::find((int) request('id'))->attributes) && count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
                     @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
                         <div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
                             <div class="yelsuDataTablesHead d-flex align-items-center">

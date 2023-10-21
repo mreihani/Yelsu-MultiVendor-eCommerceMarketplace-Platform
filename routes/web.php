@@ -39,9 +39,7 @@ Route::get('changeDatabase', function () {
     // }
     
     
-   
-    
-    // auth()->user()->notify(new UserAuthNotification(auth()->user()));
+  
     
    
 
