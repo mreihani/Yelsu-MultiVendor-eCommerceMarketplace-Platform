@@ -334,129 +334,131 @@
                 @endif
 
                 <!-- بخش مربوط به جدول محصولات --> 
-                @if(count(App\Models\Category::find((int) request('id'))->attributes) && count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
-                    @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
-                        <div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
-                            <div class="yelsuDataTablesHead d-flex align-items-center">
-                                <div class="vendor-image-div">
+                @if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
+                    @if(count(App\Models\Category::find((int) request('id'))->attributes))
+                        @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
+                            <div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
+                                <div class="yelsuDataTablesHead d-flex align-items-center">
+                                    <div class="vendor-image-div">
 
-                                    {{-- جدول مربوط به کاربر تامین کننده --}}
-                                    @if($user_id != 0 && App\Models\User::find($user_id)->role == "vendor")
+                                        {{-- جدول مربوط به کاربر تامین کننده --}}
+                                        @if($user_id != 0 && App\Models\User::find($user_id)->role == "vendor")
 
-                                        @if(!empty(App\Models\User::find($user_id)->photo))
-                                            <a href="{{route('vendor.details', $user_id)}}">
-                                                <img alt="Logo" src="{{url('storage/upload/vendor_images/' . App\Models\User::find($user_id)->photo)}}"/>
-                                            </a>
-                                        @else
-                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                            @if(!empty(App\Models\User::find($user_id)->photo))
+                                                <a href="{{route('vendor.details', $user_id)}}">
+                                                    <img alt="Logo" src="{{url('storage/upload/vendor_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                                </a>
+                                            @else
+                                                <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                            @endif
+
+                                            <a href="{{route('vendor.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
+
+                                        {{-- جدول مربوط به کاربر بازرگان --}}
+                                        @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "merchant")
+
+                                            @if(!empty(App\Models\User::find($user_id)->photo))
+                                                <a href="{{route('merchant.details', $user_id)}}">
+                                                    <img alt="Logo" src="{{url('storage/upload/merchant_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                                </a>
+                                            @else
+                                                <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                            @endif
+
+                                            <a href="{{route('merchant.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
+
+                                        {{-- جدول مربوط به کاربر عمده / خرده فروش     --}}
+                                        @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "retailer")
+
+                                            @if(!empty(App\Models\User::find($user_id)->photo))
+                                                <a href="{{route('retailer.details', $user_id)}}">
+                                                    <img alt="Logo" src="{{url('storage/upload/retailer_images/' . App\Models\User::find($user_id)->photo)}}"/>
+                                                </a>
+                                            @else
+                                                <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
+                                            @endif
+
+                                            <a href="{{route('retailer.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
+
+                                        {{-- جدول مربوط به محصولات خود یلسو --}}
+                                        @elseif($user_id == 0)
+
+                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>  
+
+                                            <a href="">یلسو - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
+
                                         @endif
 
-                                        <a href="{{route('vendor.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
+                                    </div>
 
-                                    {{-- جدول مربوط به کاربر بازرگان --}}
-                                    @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "merchant")
-
-                                        @if(!empty(App\Models\User::find($user_id)->photo))
-                                            <a href="{{route('merchant.details', $user_id)}}">
-                                                <img alt="Logo" src="{{url('storage/upload/merchant_images/' . App\Models\User::find($user_id)->photo)}}"/>
-                                            </a>
-                                        @else
-                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
-                                        @endif
-
-                                        <a href="{{route('merchant.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
-
-                                    {{-- جدول مربوط به کاربر عمده / خرده فروش     --}}
-                                    @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "retailer")
-
-                                        @if(!empty(App\Models\User::find($user_id)->photo))
-                                            <a href="{{route('retailer.details', $user_id)}}">
-                                                <img alt="Logo" src="{{url('storage/upload/retailer_images/' . App\Models\User::find($user_id)->photo)}}"/>
-                                            </a>
-                                        @else
-                                            <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>
-                                        @endif
-
-                                        <a href="{{route('retailer.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
-
-                                    {{-- جدول مربوط به محصولات خود یلسو --}}
-                                    @elseif($user_id == 0)
-
-                                        <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>  
-
-                                        <a href="">یلسو - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
-
-                                    @endif
-
+                                    <div class="value-added-tax-div">
+                                        <input type="checkbox" class="value_added_tax_btn">
+                                        <label for="value_added_tax">نمایش قیمت با ارزش افزوده</label>
+                                    </div>
                                 </div>
-    
-                                <div class="value-added-tax-div">
-                                    <input type="checkbox" class="value_added_tax_btn">
-                                    <label for="value_added_tax">نمایش قیمت با ارزش افزوده</label>
-                                </div>
-                            </div>
-                            <div class="product-wrapper row">
-                                <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <table class="display yelsuDataTables" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center">ردیف</th>
-                                                    <th class="all text-center">نام محصول</th>
-                                                    @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
-                                                        <th class="text-center">
-                                                            {{$attribute_header_items->attribute_item_name}} 
-                                                        </th> 
-                                                    @endforeach
-                                                    <th class="all text-center">قیمت</th>
-                                                    <th class="text-center">اطلاعات بیشتر</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($product_object_array as $product_key => $product_item)
+                                <div class="product-wrapper row">
+                                    <div class="product-wrap">
+                                        <div class="product text-center">
+                                            <table class="display yelsuDataTables" style="width:100%">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ $product_key + 1}}</td>
-                                                        <td>
-                                                            <a href="{{route('product.details', $product_item->product_slug)}}">
-                                                                {{$product_item->product_name}}
-                                                            </a>
-                                                        </td>
-                                                        @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
-                                                            <td>
-                                                                @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
-                                                                    @if ($attribute_row_items->attribute_item_type == "dropdown")
-                                                                        {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
-                                                                    @else
-                                                                        {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
-                                                                    @endif
-                                                                @else 
-                                                                    ناموجود
-                                                                @endif
-                                                            </td> 
+                                                        <th class="text-center">ردیف</th>
+                                                        <th class="all text-center">نام محصول</th>
+                                                        @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
+                                                            <th class="text-center">
+                                                                {{$attribute_header_items->attribute_item_name}} 
+                                                            </th> 
                                                         @endforeach
-                                                        @if($product_item->selling_price != 0)
-                                                            <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
-                                                            <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                        <th class="all text-center">قیمت</th>
+                                                        <th class="text-center">اطلاعات بیشتر</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($product_object_array as $product_key => $product_item)
+                                                        <tr>
+                                                            <td>{{ $product_key + 1}}</td>
                                                             <td>
-                                                                <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
-                                                            </td>
-                                                        @else
-                                                            <td>
-                                                                <a href="tel:02191692471">
-                                                                    تماس بگیرید
+                                                                <a href="{{route('product.details', $product_item->product_slug)}}">
+                                                                    {{$product_item->product_name}}
                                                                 </a>
                                                             </td>
-                                                        @endif
-                                                        <td></td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                            @foreach (App\Models\Category::find((int) request('id'))->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
+                                                                <td>
+                                                                    @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
+                                                                        @if ($attribute_row_items->attribute_item_type == "dropdown")
+                                                                            {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
+                                                                        @else
+                                                                            {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
+                                                                        @endif
+                                                                    @else 
+                                                                        ناموجود
+                                                                    @endif
+                                                                </td> 
+                                                            @endforeach
+                                                            @if($product_item->selling_price != 0)
+                                                                <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
+                                                                <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                                <td>
+                                                                    <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
+                                                                </td>
+                                                            @else
+                                                                <td>
+                                                                    <a href="tel:02191692471">
+                                                                        تماس بگیرید
+                                                                    </a>
+                                                                </td>
+                                                            @endif
+                                                            <td></td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 @endif
                 <!-- پایان بخش مربوط به جدول محصولات --> 
                 
