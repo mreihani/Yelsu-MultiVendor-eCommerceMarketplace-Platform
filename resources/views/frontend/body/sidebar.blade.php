@@ -40,7 +40,7 @@
                                 <li><a href="{{route('shop')}}">Marketplace Platform</a></li>
                                 <li><a href="{{route('vendor.all')}}">تولید کنندگان / تأمین کنندگان</a></li>
                                 <li><a href="{{route('merchant.all')}}">بازرگانان / ترخیص کاران</a></li>
-                                <li><a href="{{route('retailer.all')}}">عمده فروشان / خرده فروشان</a></li>
+                                <li><a href="{{route('retailer.all')}}">خرده فروشان</a></li>
                                 <li><a href="{{route('customs.all')}}">گمرک / بنادر / مناطق اقتصادی</a></li>
                                 <li><a href="{{route('freightage.all')}}">شرکت های حمل و نقل / باربری</a></li>
                                 <li><a href="{{route('driver.all')}}">رانندگان</a></li>

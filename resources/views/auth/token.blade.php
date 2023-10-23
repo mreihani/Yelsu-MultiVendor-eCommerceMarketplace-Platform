@@ -38,7 +38,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">						
 							<!--begin::Form-->
-							<form method="POST" action="{{route('2fa.token')}}" class="form w-100 mb-13">
+							<form method="POST" action="{{route('2fa.token.send')}}" class="form w-100 mb-13">
                                 @csrf
 								<!--begin::Icon-->
 								<div class="text-center mb-10">

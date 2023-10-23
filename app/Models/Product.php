@@ -70,12 +70,12 @@ class Product extends Model
     public function ScopeSort_products_by_last_category($query, $product_object_collection) {
         $last_category_id_array = [];
         $product_object_array = [];
-
+        
         // ایجاد یک لیست از شماره دسته بندی آخر موجود در تمام محصولات فروشنده
         foreach ($product_object_collection as $product_object_key => $product_object) {
             $last_category_id_array[] = (int) collect(explode(",", $product_object->category_id))->last();
         }
-
+        
         // تهیه لیست نهایی از محصولاتی که مرتبط با لیست دسته بندی هستند
         foreach ($product_object_collection as $product_object_key => $product_object) {
             foreach ($last_category_id_array as $last_category_id) {
@@ -85,7 +85,7 @@ class Product extends Model
                 }
             }
         }
-
+        
         return $product_object_array;
     }
 

@@ -447,7 +447,7 @@
                                         <div class="form-check form-check-custom form-check-solid mt-2">
                                             <input name="role[]" class="form-check-input" type="checkbox" value="retailer" id="form_checkbox" />
                                             <label class="form-check-label" for="form_checkbox">
-                                                عمده / خرده فروش
+                                                خرده فروش
                                             </label>
                                         </div>
 
@@ -455,7 +455,7 @@
                                 </div>
                                 <div class="col-md-6" id="goToCategoriesSection">
                                     <div class="form-group card-body ">
-                                        <label class="required">لطفا ارتباط ویژگی با زمینه فعالیت حساب کاربری مدنظر (کارشناس، تأمین کننده، عمده یا خرده فروش) را انتخاب نمایید.</label>
+                                        <label class="required">لطفا ارتباط ویژگی با زمینه فعالیت حساب کاربری مدنظر (کارشناس، تأمین کننده، خرده فروش) را انتخاب نمایید.</label>
                                         <ul class="list-style-none mt-4">
                                             @foreach ($filter_category_array as $category)
                                                 <li class="filterButtonShopPage rootCat">

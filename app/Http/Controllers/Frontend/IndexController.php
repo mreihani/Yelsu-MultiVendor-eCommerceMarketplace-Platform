@@ -1054,7 +1054,7 @@ class IndexController extends Controller
         // افزودن نقاط بازرگانان
 
 
-        // افزودن نقاط عمده / خررده فروشان
+        // افزودن نقاط خرده فروشان
         $outlets = Retaileroutlet::all();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
@@ -1068,7 +1068,7 @@ class IndexController extends Controller
                 $outletsArr[] = array($shop_name, $shop_address, $shop_coords, $shop_link, $shop_logo, $marker_class);
             }
         }
-        // افزودن نقاط عمده / خرده فروشان
+        // افزودن نقاط خرده فروشان
 
 
         // افزودن نقاط گمرک ها
@@ -1469,6 +1469,140 @@ class IndexController extends Controller
         return NULL;
     }
 
+    // متد برای بارگذاری جدول قیمت صفحه دسته بندی
+    public function CategoryFetchPriceTables(Request $request) {
+        $category_id = Purify::clean($request->category_id);
 
+        $category = Category::where('id', $category_id)->first();
+        $products = $category->products()->where('status', 'active')->latest()->get();
+        
+        $products_arr = [];
 
+        foreach ($products as $product) {
+            if ($product->vendor_id != NULL) {
+                $vendor_id = (int) $product->vendor_id;
+                $vendor_user = User::where('id', $vendor_id)->first();
+
+                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+                    continue;
+                }
+            }
+
+            if ($product->merchant_id != NULL) {
+                $merchant_id = (int) $product->merchant_id;
+                $merchant_user = User::where('id', $merchant_id)->first();
+
+                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+                    continue;
+                }
+            }
+
+            if ($product->retailer_id != NULL) {
+                $retailer_id = (int) $product->retailer_id;
+                $retailer_user = User::where('id', $retailer_id)->first();
+
+                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+                    continue;
+                }
+            }
+
+            $products_arr[] = $product;
+        }
+
+        $products_without_pagination = new Collection($products_arr);
+        $sort_products_by_last_vendor = Product::sort_products_by_last_vendor($products_without_pagination);
+
+        $table = [];
+        $table_header_arr = [];
+        $thead_arr = [];
+
+        // تهیه یک لیست از موارد هدر جدول
+        foreach($category->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items) {
+            $thead_arr[] = $attribute_header_items->attribute_item_name;
+        }
+
+        foreach ($sort_products_by_last_vendor as $user_id => $product_object_array) {
+
+            // اگر جدول مربوط به کاربر تأمین کننده باشد
+            if($user_id != 0 && User::find($user_id)->role == "vendor") {
+
+                if(!empty(User::find($user_id)->photo)) {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/vendor_images/' . User::find($user_id)->photo);
+                } else {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = asset('frontend/assets/images/demos/demo13/logo_cropped.png');
+                }
+
+                $table[$user_id]['table_header_arr']['anchor_link'] = route('vendor.details', $user_id);
+                $table[$user_id]['table_header_arr']['shop_name'] = User::find($user_id)->shop_name;
+                $table[$user_id]['table_header_arr']['category_name'] = $category->category_name;
+                $table[$user_id]['table_header_arr']['user_role'] = "vendor";
+
+            // اگر جدول مربوط به کاربر بازرگان باشد
+            } elseif($user_id != 0 && User::find($user_id)->role == "merchant") {
+
+                if(!empty(User::find($user_id)->photo)) {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/merchant_images/' . User::find($user_id)->photo);
+                } else {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = asset('frontend/assets/images/demos/demo13/logo_cropped.png');
+                }
+
+                $table[$user_id]['table_header_arr']['anchor_link'] = route('merchant.details', $user_id);
+                $table[$user_id]['table_header_arr']['shop_name'] = User::find($user_id)->shop_name;
+                $table[$user_id]['table_header_arr']['category_name'] = $category->category_name;
+                $table[$user_id]['table_header_arr']['user_role'] = "merchant";
+
+            // اگر جدول مربوط به کاربر خرده فروش باشد
+            } elseif($user_id != 0 && User::find($user_id)->role == "retailer") {
+
+                if(!empty(User::find($user_id)->photo)) {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/retailer_images/' . User::find($user_id)->photo);
+                } else {
+                    $table[$user_id]['table_header_arr']['img_src_url'] = asset('frontend/assets/images/demos/demo13/logo_cropped.png');
+                }
+
+                $table[$user_id]['table_header_arr']['anchor_link'] = route('retailer.details', $user_id);
+                $table[$user_id]['table_header_arr']['shop_name'] = User::find($user_id)->shop_name;
+                $table[$user_id]['table_header_arr']['category_name'] = $category->category_name;
+                $table[$user_id]['table_header_arr']['user_role'] = "retailer";
+
+            // اگر جدول مربوط به خود یلسو باشد
+            } elseif($user_id == 0) {
+
+                $table[$user_id]['table_header_arr']['img_src_url'] = asset('frontend/assets/images/demos/demo13/logo_cropped.png');
+                $table[$user_id]['table_header_arr']['anchor_link'] = "";
+                $table[$user_id]['table_header_arr']['shop_name'] = "یلسو";
+                $table[$user_id]['table_header_arr']['category_name'] = $category->category_name;
+                $table[$user_id]['table_header_arr']['user_role'] = "admin";
+
+            }
+
+            // ایجاد آرایه ای از محصولات مرتبط
+            foreach ($product_object_array as $product_key => $product_item) {
+                $table[$user_id]['products_array'][$product_key]['anchor_link'] = route('product.details', $product_item->product_slug);
+                $table[$user_id]['products_array'][$product_key]['product_name'] = $product_item->product_name;
+
+                // تهیه یک لیست از مقادیر ویژگی ها
+                foreach ($category->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items) {
+                    if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
+                        if($attribute_row_items->attribute_item_type == "dropdown") {
+                            $table[$user_id]['products_array'][$product_key]['attribute_value_array'][] = collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ');
+                        } else {
+                            $table[$user_id]['products_array'][$product_key]['attribute_value_array'][] = $product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value'];
+                        }
+                    else {
+                        $table[$user_id]['products_array'][$product_key]['attribute_value_array'][] = "ناموجود";
+                    }
+                }
+
+                // بخش قیمت محصول    
+                $table[$user_id]['products_array'][$product_key]['selling_price'] = $product_item->selling_price;
+                $table[$user_id]['products_array'][$product_key]['selling_price_formatted'] = number_format($product_item->selling_price, 0, '', ',');
+                $table[$user_id]['products_array'][$product_key]['product_value_added_tax_by_percent'] = $product_item->determine_product_value_added_tax_by_percent();
+                $table[$user_id]['products_array'][$product_key]['product_currency'] = $product_item->determine_product_currency();
+            }
+
+        }
+
+        return response(['table' => $table, 'thead_arr' => $thead_arr]);
+    }
 }

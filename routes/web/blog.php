@@ -9,9 +9,9 @@ Route::get('/galaxy-petrol', [BlogController::class, 'getGalaxyPetrolPage'])->na
 Route::get('/privacy-policy', [BlogController::class, 'getPrivacyPolicyPage'])->name('blog.privacyPolicy');
 Route::get('/about-us', [BlogController::class, 'getAboutusPage'])->name('blog.aboutus');
 Route::get('/contact-us', [BlogController::class, 'getContactusPage'])->name('blog.contactus');
-Route::post('/contact-us', [BlogController::class, 'emailContactusPage'])->name('blog.contactus');
+Route::post('/contact-us-send', [BlogController::class, 'emailContactusPage'])->name('blog.contactus.send');
 Route::get('/credit-purchase', [BlogController::class, 'getCreditPurchasePage'])->name('blog.creditPurchase');
-Route::post('/credit-purchase', [BlogController::class, 'emailCreditPurchasePage'])->name('blog.creditPurchase');
+Route::post('/credit-purchase-send', [BlogController::class, 'emailCreditPurchasePage'])->name('blog.creditPurchase.send');
 Route::get('/anti-money-laundering-law', [BlogController::class, 'getMoneyLaundringPage'])->name('blog.moneyLaundering');
 
 // Blog pages all route

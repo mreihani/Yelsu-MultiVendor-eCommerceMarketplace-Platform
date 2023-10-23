@@ -23,7 +23,7 @@
                     <div class="mb-10">
                         <!--begin::Title-->
                         <div class="fs-2hx fw-bold text-gray-800 text-center mb-13">
-                        <span class="me-2">به پیشخوان عمده فروش / خرده فروش خوش آمدید 
+                        <span class="me-2">به پیشخوان خرده فروش خوش آمدید 
                     </div>
                         <!--end::Title-->
                        

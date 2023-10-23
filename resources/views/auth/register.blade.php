@@ -190,7 +190,7 @@
 
                                             <div class="d-flex">
                                                 <input class="form-check-input" type="radio" name="check_user_type" id="check-retailer" {{old('check_user_type') == 4 ? 'checked' : ''}} value="4"/>
-                                                <label class="form-check-label ml-1" for="check-retailer">من عمده فروش / خرده فروش هستم</label>
+                                                <label class="form-check-label ml-1" for="check-retailer">من خرده فروش هستم</label>
                                             </div>
 
                                             <div class="d-flex">

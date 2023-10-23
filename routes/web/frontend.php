@@ -8,6 +8,7 @@ Route::get('/', [IndexController::class, 'HomePage']);
 Route::get('shop', [IndexController::class, 'ViewShop'])->name('shop');
 Route::get('shop/search', [IndexController::class, 'ViewShopFiltered'])->name('shop.search');
 Route::get('shop/category', [IndexController::class, 'ViewShopCategoryFiltered'])->name('shop.category');
+Route::get('shop/category/fetch-price-tables', [IndexController::class, 'CategoryFetchPriceTables']);
 
 // Frontend Product details all route
 Route::get('/product/{slug}', [IndexController::class, 'ProductDetails'])->name('product.details');

@@ -21,7 +21,7 @@ class AttributeIsRequired implements ValidationRule
             $attribute_in_loop = AttributeItem::find($key);
 
             if((auth()->user()->role == 'vendor' && $attribute_in_loop->disabled_attribute) || (auth()->user()->role == 'merchant' && $attribute_in_loop->disabled_attribute) || (auth()->user()->role == 'retailer' && $attribute_in_loop->disabled_attribute)) {
-                // مستثنی کردن ویژگی هایی که از سمت کاربران تامین کننده، عمده فروش و بازرگان میاد اما ویژگی غیر فعال شده است
+                // مستثنی کردن ویژگی هایی که از سمت کاربران تامین کننده، خرده فروش و بازرگان میاد اما ویژگی غیر فعال شده است
                 continue;
             }
 

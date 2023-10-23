@@ -57,7 +57,7 @@
                                 <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
                             </svg>
                             <span style="margin-right:4px;">
-                                پیشخوان عمده فروش / خرده فروش
+                                پیشخوان خرده فروش
                             </span>
                         </a>
                     </div>
@@ -450,7 +450,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">اطلاعات عمده فروش / خرده فروش</span>
+                        <span class="menu-title">اطلاعات خرده فروش</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -463,7 +463,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">درباره عمده فروش / خرده فروش</span>
+                                <span class="menu-title">درباره خرده فروش</span>
                             </a>
                             <!--end:Menu link-->
                         </div>

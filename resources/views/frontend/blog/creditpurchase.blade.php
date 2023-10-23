@@ -180,7 +180,7 @@
                     درخواست خود را می توانید از طریق فرم زیر برای ما ارسال نمایید:
                 </p>
 
-                <form class="form contact-us-form" action="{{route('blog.creditPurchase')}}" method="post">
+                <form class="form contact-us-form" action="{{route('blog.creditPurchase.send')}}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="username">نام و نام خانوادگی *</label>

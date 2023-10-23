@@ -360,7 +360,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">عمده / خرده فروش</span>
+                                            <span class="menu-title">خرده فروش</span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
@@ -719,7 +719,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">عمده / خرده فروشان</span>
+                                            <span class="menu-title">خرده فروشان</span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
@@ -810,7 +810,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">عمده / خرده فروشان</span>
+                                            <span class="menu-title">خرده فروشان</span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>

@@ -336,12 +336,17 @@
                 <!-- بخش مربوط به جدول محصولات --> 
                 @if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
                     @if(count(App\Models\Category::find((int) request('id'))->attributes))
-                        @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
+
+                        <input type="hidden" id="page_category_id" value={{((int) request('id'))}}>
+
+                        <div id="yelsuProductPriceTables"></div>
+
+                        {{-- @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
                             <div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
                                 <div class="yelsuDataTablesHead d-flex align-items-center">
                                     <div class="vendor-image-div">
 
-                                        {{-- جدول مربوط به کاربر تامین کننده --}}
+                                        <!-- جدول مربوط به کاربر تامین کننده --> 
                                         @if($user_id != 0 && App\Models\User::find($user_id)->role == "vendor")
 
                                             @if(!empty(App\Models\User::find($user_id)->photo))
@@ -354,7 +359,7 @@
 
                                             <a href="{{route('vendor.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
 
-                                        {{-- جدول مربوط به کاربر بازرگان --}}
+                                        <!-- جدول مربوط به کاربر بازرگان --> 
                                         @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "merchant")
 
                                             @if(!empty(App\Models\User::find($user_id)->photo))
@@ -367,7 +372,7 @@
 
                                             <a href="{{route('merchant.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
 
-                                        {{-- جدول مربوط به کاربر عمده / خرده فروش     --}}
+                                        <!-- جدول مربوط به کاربر خرده فروش --> 
                                         @elseif($user_id != 0 && App\Models\User::find($user_id)->role == "retailer")
 
                                             @if(!empty(App\Models\User::find($user_id)->photo))
@@ -380,7 +385,7 @@
 
                                             <a href="{{route('retailer.details', $user_id)}}">{{App\Models\User::find($user_id)->shop_name}} - قیمت {{App\Models\Category::find((int) request('id'))->category_name}}</a>
 
-                                        {{-- جدول مربوط به محصولات خود یلسو --}}
+                                        <!-- جدول مربوط به محصولات خود یلسو --> 
                                         @elseif($user_id == 0)
 
                                             <img alt="Logo" src="{{asset('frontend/assets/images/demos/demo13/logo_cropped.png')}}"/>  
@@ -457,7 +462,8 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
+                        
                     @endif
                 @endif
                 <!-- پایان بخش مربوط به جدول محصولات --> 
@@ -583,6 +589,13 @@
 <script src="{{asset('frontend/assets/js/categoryPageDescription.js')}}"></script>
 
 <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuFrontend.js')}}"></script>
-<script src="{{asset('frontend/assets/plugins/datatables/yelsuProductTables.js')}}"></script>
+
+{{-- بارگذاری فایل ایجکس برای لودینگ جداول در صفحه دسته بندی آخر --}}
+@if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category")
+    @if(count(App\Models\Category::find((int) request('id'))->attributes) && !App\Models\Category::find((int) request('id'))->child()->get()->count())
+        <script src="{{asset('frontend/assets/plugins/datatables/yelsuFetchTablesAjax.js')}}"></script>
+    @endif
+@endif      
+
 
 @endsection

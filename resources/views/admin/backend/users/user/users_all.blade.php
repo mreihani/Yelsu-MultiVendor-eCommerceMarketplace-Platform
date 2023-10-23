@@ -193,7 +193,7 @@
                                         @elseif($user->role == 'merchant')
                                             <td>بازرگان</td>         
                                         @elseif($user->role == 'retailer')
-                                            <td>عمده فروش / خرده فروش</td>                      
+                                            <td>خرده فروش</td>                      
                                         @elseif($user->role == 'freightage')
                                             <td>باربری</td>                      
                                         @elseif($user->role == 'driver')

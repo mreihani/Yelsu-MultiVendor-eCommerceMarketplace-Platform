@@ -67,7 +67,7 @@
                         @endforeach
                         <option value="v">جستجو تأمین کنندگان</option>
                         <option value="m">جستجو بازرگانان</option>
-                        <option value="r">جستجو عمده / خرده فروشان</option>
+                        <option value="r">جستجو خرده فروشان</option>
                         <option value="c">جستجو گمرک / بنادر / مناطق اقتصادی</option>
                         <option value="f">جستجو شرکت های باربری</option>
                         <option value="d">جستجو رانندگان</option>
@@ -95,7 +95,7 @@
                         {{-- <a href="mailto:#" class="text-capitalize text-dark">چت زنده</a> <span
                             class="text-dark ls-normal">یا: </span> --}}
                     </h4>
-                    <a href="tel:02191692471" class="phone-number font-weight-bolder ls-50">تلفن گویا: 02191692471</a>
+                    <a href="tel:02126402540" class="phone-number font-weight-bolder ls-50">تلفن دفتر مرکزی: 9-02126402540</a>
                 </div>
             </div>
             {{-- <a class="wishlist label-down link d-lg-show" href="wishlist.html">

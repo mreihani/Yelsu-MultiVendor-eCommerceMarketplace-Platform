@@ -334,8 +334,8 @@
                                             <!--end::Input-->
                                             <!--begin::Tags-->
                                             <label class="form-check-label" for="kt_modal_update_role_option_6">
-                                                <div class="fw-bold text-gray-800">عمده فروش / خرده فروش</div>
-                                                <div class="text-gray-600">می تواند اقدام به ایجاد محصول و فعالیت به عنوان عمده فروش / خرده فروش نماید</div>
+                                                <div class="fw-bold text-gray-800">خرده فروش</div>
+                                                <div class="text-gray-600">می تواند اقدام به ایجاد محصول و فعالیت به عنوان خرده فروش نماید</div>
                                             </label>
                                             <!--end::Tags-->
                                         </div>

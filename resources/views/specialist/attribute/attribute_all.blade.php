@@ -149,7 +149,7 @@
                                             @elseif($role == 'merchant')
                                                 بازرگان
                                             @elseif($role == 'retailer')
-                                                عمده / خرده فروش
+                                                خرده فروش
                                             @endif
                                         </div>
                                         @endforeach

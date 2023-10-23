@@ -294,6 +294,7 @@
                     <!-- بخش مربوط به جدول محصولات --> 
                     @if(count($sort_products_by_last_category))
                         @foreach ($sort_products_by_last_category as $category_id => $product_object_array)
+                       
                             <div class="yelsuDataTablesHead d-flex align-items-center">
                                 <div class="vendor-image-div">
                                     @if(!empty($vendor->photo))
@@ -318,11 +319,13 @@
                                                 <tr>
                                                     <th class="text-center">ردیف</th>
                                                     <th class="all text-center">نام محصول</th>
-                                                    @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
-                                                        <th class="text-center">
-                                                            {{$attribute_header_items->attribute_item_name}} 
-                                                        </th> 
-                                                    @endforeach
+                                                    @if(count(App\Models\Category::find($category_id)->attributes))
+                                                        @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items)
+                                                            <th class="text-center">
+                                                                {{$attribute_header_items->attribute_item_name}} 
+                                                            </th> 
+                                                        @endforeach
+                                                    @endif
                                                     <th class="all text-center">قیمت</th>
                                                     <th class="text-center">اطلاعات بیشتر</th>
                                                 </tr>
@@ -336,19 +339,21 @@
                                                                 {{$product_item->product_name}}
                                                             </a>
                                                         </td>
-                                                        @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
-                                                            <td>
-                                                                @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
-                                                                    @if ($attribute_row_items->attribute_item_type == "dropdown")
-                                                                        {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
-                                                                    @else
-                                                                        {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
+                                                        @if(count(App\Models\Category::find($category_id)->attributes))
+                                                            @foreach (App\Models\Category::find($category_id)->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_row_key => $attribute_row_items)
+                                                                <td>
+                                                                    @if(in_array($attribute_row_items->id, $product_item->table_attribute_items_obj_array()->keys()->toArray()))
+                                                                        @if ($attribute_row_items->attribute_item_type == "dropdown")
+                                                                            {{collect($product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value_obj'])->pluck('value')->join('، ')}} 
+                                                                        @else
+                                                                            {{$product_item->table_attribute_items_obj_array()[$attribute_row_items->id]['attribute_value']}} 
+                                                                        @endif
+                                                                    @else 
+                                                                        ناموجود
                                                                     @endif
-                                                                @else 
-                                                                    ناموجود
-                                                                @endif
-                                                            </td> 
-                                                        @endforeach
+                                                                </td> 
+                                                            @endforeach
+                                                        @endif    
                                                         @if($product_item->selling_price != 0)
                                                             <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
                                                             <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">

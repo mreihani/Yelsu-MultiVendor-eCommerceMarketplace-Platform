@@ -164,7 +164,7 @@
                                 @endforeach
                    
                                 <h4 class="title mb-3">تماس با ما</h4>
-                                <form class="form contact-us-form" action="{{route('blog.contactus')}}" method="post">
+                                <form class="form contact-us-form" action="{{route('blog.contactus.send')}}" method="post">
                                     @csrf
                                     <div class="form-group">
                                         <label for="username">نام و نام خانوادگی *</label>

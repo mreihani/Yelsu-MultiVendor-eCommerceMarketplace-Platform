@@ -6,7 +6,7 @@
 <html direction="rtl" dir="rtl" style="direction: rtl" >
 	<!--begin::Head-->
 	<head><base href=""/>
-		<title>پیشخوان عمده فروش / خرده فروش</title>
+		<title>پیشخوان خرده فروش</title>
 		<meta charset="utf-8" />
 		{!! SEO::generate() !!}
 		<meta name="csrf-token" content="{{ csrf_token() }}">

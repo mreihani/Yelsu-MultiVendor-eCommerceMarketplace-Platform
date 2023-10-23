@@ -24,7 +24,7 @@
     <a href="{{route('retailer.all')}}" target="_blank" class="platform-marker-retailer-a">
         <figure class="platform-marker-retailer">
             <img src="{{asset('frontend/assets/images/demos/demo13/banner/placeholder_684908.png')}}" alt="Marker">
-            <h5>عمده / خرده فروشان</h5>
+            <h5>خرده فروشان</h5>
         </figure>
     </a>
     <a href="{{route('customs.all')}}" target="_blank" class="platform-marker-customs-a">

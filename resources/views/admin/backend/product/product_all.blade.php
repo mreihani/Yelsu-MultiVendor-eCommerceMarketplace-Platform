@@ -224,7 +224,7 @@
                                             </div>
                                         @elseif($item->retailer_id != NULL)
                                             <div class="badge badge-secondary">
-                                                <span class="fw-bold">عمده/خرده فروش</span>
+                                                <span class="fw-bold">خرده فروش</span>
                                             </div>
                                         @endif
                                     </td>

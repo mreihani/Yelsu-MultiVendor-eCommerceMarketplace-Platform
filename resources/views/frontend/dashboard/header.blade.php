@@ -30,7 +30,7 @@
                             @endforeach
                             <option value="v">جستجو تأمین کنندگان</option>
                             <option value="m">جستجو بازرگانان</option>
-                            <option value="r">جستجو عمده / خرده فروشان</option>
+                            <option value="r">خرده فروشان</option>
                             <option value="c">جستجو گمرک / بنادر / مناطق اقتصادی</option>
                             <option value="f">جستجو شرکت های باربری</option>
                             <option value="d">جستجو رانندگان</option>
@@ -48,7 +48,7 @@
                     <div class="call-info d-lg-show">
                         <h4 class="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
                             {{-- <a href="mailto:#" class="text-capitalize">تلفن گویا</a> تومان :</h4> --}}
-                        <a href="tel:02191692471" class="phone-number font-weight-bolder ls-50">تلفن گویا: 02191692471</a>
+                        <a href="tel:02126402540" class="phone-number font-weight-bolder ls-50">تلفن دفتر مرکزی: 9-02126402540</a>
                     </div>
                 </div>
                 
@@ -175,7 +175,7 @@
                                     <li><a href="{{route('shop')}}">Marketplace Platform</a></li>
                                     <li><a href="{{route('vendor.all')}}">تولید کنندگان / تأمین کنندگان</a></li>
                                     <li><a href="{{route('merchant.all')}}">بازرگانان / ترخیص کاران</a></li>
-                                    <li><a href="{{route('retailer.all')}}">عمده فروشان / خرده فروشان</a></li>
+                                    <li><a href="{{route('retailer.all')}}">خرده فروشان</a></li>
                                     <li><a href="{{route('customs.all')}}">گمرک / بنادر / مناطق اقتصادی </a></li>
                                     <li><a href="{{route('freightage.all')}}">شرکت های حمل و نقل / باربری</a></li>
                                     <li><a href="{{route('driver.all')}}">رانندگان</a></li>

@@ -14,7 +14,8 @@ new DataTable('.yelsuDataTables', {
             type: 'column',
             target: 'tr'
         }
-    }
+    },
+    "pageLength": -1 
 });
 
 // added value tax button functions
