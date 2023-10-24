@@ -100,7 +100,7 @@ class Product extends Model
         }
         
         // تهیه یک لیست از محصولات بر اساس هر کاربر مرتبط
-        foreach ($product_object_collection->reverse()->values() as $product_object_key => $product_object) {
+        foreach ($product_object_collection as $product_object_key => $product_object) {
             foreach ($product_related_user_id_array as $product_related_user_id_item) {
                 if($product_related_user_id_item == $product_object->determine_product_related_user_object()) {
                     $product_object_array[$product_related_user_id_item][] = $product_object;

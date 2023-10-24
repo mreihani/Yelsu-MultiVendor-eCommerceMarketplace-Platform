@@ -1361,9 +1361,6 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        
-        
-
         $inputArray = [];
         
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
@@ -1469,13 +1466,24 @@ class IndexController extends Controller
 
     // متد برای بارگذاری جدول قیمت صفحه دسته بندی
     public function CategoryFetchPriceTables(Request $request) {
+        $products_arr = [];
+
         $category_id = Purify::clean($request->category_id);
         $pagination_vendor_id = Purify::clean($request->pagination_vendor_id);
 
         $category = Category::where('id', $category_id)->first();
-        $products = $category->products()->where('status', 'active')->latest()->get();
-
-        $products_arr = [];
+        $products = $category->products()->where('status', 'active')->select([
+        "id",
+        "products.category_id", 
+        "product_name", 
+        "product_slug", 
+        "selling_price", 
+        "vendor_id", 
+        "product_verification", 
+        "merchant_id", 
+        "retailer_id"
+        ])->get();
+        
 
         foreach ($products as $product) {
             if ($product->vendor_id != NULL) {
@@ -1602,9 +1610,18 @@ class IndexController extends Controller
                 $table[$user_id]['products_array'][$product_key]['product_value_added_tax_by_percent'] = $product_item->determine_product_value_added_tax_by_percent();
                 $table[$user_id]['products_array'][$product_key]['product_currency'] = $product_item->determine_product_currency();
             }
-
         }
 
-        return response(['table' => $table, 'thead_arr' => $thead_arr, 'sort_products_by_last_vendor' => $sort_products_by_last_vendor_total]);
+        $vendor_name_array = [];
+        foreach ($sort_products_by_last_vendor_total as $user_id_total => $vendor_product_total) {
+            // ایجاد یک لیست از نام تامین کنندگان بر اساس شماره آن ها
+            if($user_id_total == 0) {
+                $vendor_name_array[$user_id_total] = "یلسو";
+            } else {
+                $vendor_name_array[$user_id_total] = User::find($user_id_total)->shop_name;
+            }
+        }
+
+        return response(['table' => $table, 'thead_arr' => $thead_arr, 'vendor_name_array' => $vendor_name_array]);
     }
 }

@@ -340,8 +340,8 @@
                         <input type="hidden" id="page_category_id" value={{((int) request('id'))}}>
 
                         <div id="tables-loading-spinner">
+                            <h4 class="mt-0 mb-0">&nbsp;&nbsp;در حال بارگذاری جدول&nbsp;&nbsp;</h4>
                             <span class="loader"></span>
-                            <h4 class="mt-0 mb-0">&nbsp;&nbsp;در حال بارگذاری جدول</h4>
                         </div>
                         
                         <div id="yelsuProductPriceTables"></div>

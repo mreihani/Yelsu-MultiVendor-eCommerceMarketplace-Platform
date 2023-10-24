@@ -21,22 +21,25 @@ function loadTables(pagination_vendor_id) {
         let pageNumberClassname = "";
     
         if (response) {
-            
+           
             $("#tables-loading-spinner").hide();
 
             let currentPageNum = parseInt(Object.keys(response.table));
+            let numberOfTotalPages = Object.keys(response.vendor_name_array).length;
             
-            $.each(response.sort_products_by_last_vendor, function($vendorKey, $vendorProdctItem){
+            $.each(response.vendor_name_array, function(vendorKey, vendorProdctItem){
 
-                if(currentPageNum == $vendorKey) {
+                if(currentPageNum == vendorKey) {
                     pageNumberClassname = "btn btn-primary light btn-ellipse btn-sm table-pagination-element";
                 } else {
                     pageNumberClassname = "btn btn-primary btn-outline light btn-ellipse btn-sm table-pagination-element";
                 }
 
                 paginationElements += `
-                    <li class="ml-1 mr-1">
-                        <button class="${pageNumberClassname}" data-tableid=${$vendorKey}>${pageNum}</button>
+                    <li class="ml-1 mr-1 mt-1 mb-1">
+                        <button class="${pageNumberClassname}" data-tableid=${vendorKey} data-toggle="tooltip" data-placement="top" title="${response.vendor_name_array[vendorKey]}">
+                            ${response.vendor_name_array[vendorKey]}
+                        </button>
                     </li>
                 `;
                 pageNum++;
@@ -57,7 +60,7 @@ function loadTables(pagination_vendor_id) {
                             </tr>`;
             
             
-            $.each(response.table, function( vendorId, tableItem ) {
+            $.each(response.table, function(vendorId, tableItem) {
     
                 productRowElement = "";
     
@@ -114,10 +117,12 @@ function loadTables(pagination_vendor_id) {
                 tableBody +=    `<div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
                                     <div class="mb-5">
                                         <h4>
-                                            <i class="w-icon-verification"></i>
-
-                                            تعداد جداول بارگذاری شده: ${Object.keys(response.sort_products_by_last_vendor).length} 
+                                            تعداد جداول بارگذاری شده: ${numberOfTotalPages} 
                                         </h4>
+                                        <p>
+                                            <i class="w-icon-exclamation-circle"></i>
+                                            برای نمایش جدول مورد نظر روی نام آن شرکت کلیک کنید
+                                        </p>
                                     </div>
                                     <div class="yelsuDataTablesHead d-flex align-items-center">
                                         <div class="vendor-image-div">

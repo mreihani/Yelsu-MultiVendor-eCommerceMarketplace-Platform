@@ -184,7 +184,7 @@
                                 <h4>مشخصات</h4>
                                 {{-- برای ویژگی های غیر چندگانه --}}
                                 @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
-                                    @if(count($attribute_value_array['attribute_value_obj']) == 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
+                                    @if(count($attribute_value_array['attribute_value_obj']) == 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword != "currency")
                                         <div class="d-flex align-items-center details-page-attribute-list">
 
                                             <span>
@@ -208,7 +208,7 @@
 
                                 {{-- برای ویژگی های چندگانه --}}
                                 @foreach ($product->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array)
-                                    @if(count($attribute_value_array['attribute_value_obj']) > 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && !App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword)
+                                    @if(count($attribute_value_array['attribute_value_obj']) > 1 && App\Models\AttributeItem::find($attribute_value_item_key)->show_in_product_page && App\Models\AttributeItem::find($attribute_value_item_key)->attribute_item_keyword != "currency")
                                         <div class="product-form product-variation-form product-size-swatch details-page-attribute-list-multiple">
 
                                             <span>
