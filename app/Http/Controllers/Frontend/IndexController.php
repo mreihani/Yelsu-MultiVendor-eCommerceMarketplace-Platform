@@ -1106,9 +1106,8 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
-        $sort_products_by_last_vendor = [];
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
     } //End method
 
     public function ViewShopFiltered(Request $request)
@@ -1116,7 +1115,6 @@ class IndexController extends Controller
         $products = [];
         $cat_id_arr = [];
         $category_hierarchy_arr = [];
-        $sort_products_by_last_vendor = [];
 
         $query_str = parse_url(Purify::clean($request->getRequestUri()), PHP_URL_QUERY);
         parse_str($query_str, $output);
@@ -1224,7 +1222,7 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
     } //End method
 
     public function ViewShopCategoryFiltered(Request $request)
@@ -1363,19 +1361,19 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        $inputArray = [];
-        $sort_products_by_last_vendor = Product::sort_products_by_last_vendor($products_without_pagination);
-       
         
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
+        
+
+        $inputArray = [];
+        
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
     }
 
     public function ViewSearchProducts(Request $request)
     {
         $category_id = Purify::clean($request->cat_id);
         $parentCategories = Category::where('parent', 0)->latest()->get();
-        $sort_products_by_last_vendor = [];
-
+       
         if (Purify::clean($request->q) == NULL) {
             return back();
         }
@@ -1451,7 +1449,7 @@ class IndexController extends Controller
 
             $inputArray = [];
 
-            return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray', 'sort_products_by_last_vendor'));
+            return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
         } elseif ($category_id == "v") {
             return $this->VendorAllSearch($request);
         } elseif ($category_id == "m") {
@@ -1472,10 +1470,11 @@ class IndexController extends Controller
     // متد برای بارگذاری جدول قیمت صفحه دسته بندی
     public function CategoryFetchPriceTables(Request $request) {
         $category_id = Purify::clean($request->category_id);
+        $pagination_vendor_id = Purify::clean($request->pagination_vendor_id);
 
         $category = Category::where('id', $category_id)->first();
         $products = $category->products()->where('status', 'active')->latest()->get();
-        
+
         $products_arr = [];
 
         foreach ($products as $product) {
@@ -1510,7 +1509,7 @@ class IndexController extends Controller
         }
 
         $products_without_pagination = new Collection($products_arr);
-        $sort_products_by_last_vendor = Product::sort_products_by_last_vendor($products_without_pagination);
+        $sort_products_by_last_vendor_total = Product::sort_products_by_last_vendor($products_without_pagination);
 
         $table = [];
         $table_header_arr = [];
@@ -1520,6 +1519,9 @@ class IndexController extends Controller
         foreach($category->attributes->first()->items->where('show_in_table_page', 1)->sortBy('attribute_item_order', SORT_NUMERIC) as $attribute_header_key => $attribute_header_items) {
             $thead_arr[] = $attribute_header_items->attribute_item_name;
         }
+        
+        // اینجا برای صفحه گذاری استفاده می شود
+        $sort_products_by_last_vendor = $pagination_vendor_id != null ? array($pagination_vendor_id => $sort_products_by_last_vendor_total[$pagination_vendor_id]) : array(key($sort_products_by_last_vendor_total) => reset($sort_products_by_last_vendor_total));
 
         foreach ($sort_products_by_last_vendor as $user_id => $product_object_array) {
 
@@ -1603,6 +1605,6 @@ class IndexController extends Controller
 
         }
 
-        return response(['table' => $table, 'thead_arr' => $thead_arr]);
+        return response(['table' => $table, 'thead_arr' => $thead_arr, 'sort_products_by_last_vendor' => $sort_products_by_last_vendor_total]);
     }
 }

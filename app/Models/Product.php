@@ -98,7 +98,7 @@ class Product extends Model
         foreach ($product_object_collection as $product_object_item) {
             $product_related_user_id_array[] = $product_object_item->determine_product_related_user_object();
         }
-
+        
         // تهیه یک لیست از محصولات بر اساس هر کاربر مرتبط
         foreach ($product_object_collection->reverse()->values() as $product_object_key => $product_object) {
             foreach ($product_related_user_id_array as $product_related_user_id_item) {
@@ -108,6 +108,9 @@ class Product extends Model
                 }
             }
         }
+
+        // اینجا به ترتیب اندیس آرایه می چیند
+        ksort($product_object_array);
        
         return $product_object_array;
     }

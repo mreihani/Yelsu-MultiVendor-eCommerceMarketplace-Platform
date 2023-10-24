@@ -334,11 +334,16 @@
                 @endif
 
                 <!-- بخش مربوط به جدول محصولات --> 
-                @if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
+                @if(Route::currentRouteName() == "shop.category" && !$category->child()->get()->count())
                     @if(count(App\Models\Category::find((int) request('id'))->attributes))
 
                         <input type="hidden" id="page_category_id" value={{((int) request('id'))}}>
 
+                        <div id="tables-loading-spinner">
+                            <span class="loader"></span>
+                            <h4 class="mt-0 mb-0">&nbsp;&nbsp;در حال بارگذاری جدول</h4>
+                        </div>
+                        
                         <div id="yelsuProductPriceTables"></div>
 
                         {{-- @foreach ($sort_products_by_last_vendor as $user_id => $product_object_array)
@@ -591,7 +596,7 @@
 <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuFrontend.js')}}"></script>
 
 {{-- بارگذاری فایل ایجکس برای لودینگ جداول در صفحه دسته بندی آخر --}}
-@if(count($sort_products_by_last_vendor) && Route::currentRouteName() == "shop.category")
+@if(Route::currentRouteName() == "shop.category")
     @if(count(App\Models\Category::find((int) request('id'))->attributes) && !App\Models\Category::find((int) request('id'))->child()->get()->count())
         <script src="{{asset('frontend/assets/plugins/datatables/yelsuFetchTablesAjax.js')}}"></script>
     @endif

@@ -23525,3 +23525,34 @@ td {
     width: 100%;
 }
 /* details page attribute list custom css */
+
+
+/* shop.blade table page loader custom css */
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid;
+    border-color: #0e47a1 transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+} 
+
+#tables-loading-spinner { 
+    max-width:1200px; 
+    display:flex; 
+    justify-content:center;
+    align-items: center;
+    margin-right:auto; 
+    margin-left:auto;    
+}
+/* shop.blade table page loader custom css */
