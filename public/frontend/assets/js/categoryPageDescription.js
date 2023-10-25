@@ -1,7 +1,8 @@
-let descriptionBody = $("#category_description_full p");
+let descriptionBody = $("#category_description_full").children();
+
 let category_description_full_btn = $("#category_description_full_btn");
 let category_description_short_btn = $("#category_description_short_btn");
-let numberOfElementsToShow = 1;
+let numberOfElementsToShow = 2;
 
 if (descriptionBody.length > numberOfElementsToShow) {
     descriptionBody.each(function (index, element) {

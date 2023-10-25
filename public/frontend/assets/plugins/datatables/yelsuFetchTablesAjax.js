@@ -119,10 +119,7 @@ function loadTables(pagination_vendor_id) {
                                         <h4>
                                             تعداد جداول بارگذاری شده: ${numberOfTotalPages} 
                                         </h4>
-                                        <p>
-                                            <i class="w-icon-exclamation-circle"></i>
-                                            برای نمایش جدول مورد نظر روی نام آن شرکت کلیک کنید
-                                        </p>
+                                        
                                     </div>
                                     <div class="yelsuDataTablesHead d-flex align-items-center">
                                         <div class="vendor-image-div">
@@ -134,8 +131,11 @@ function loadTables(pagination_vendor_id) {
                                         </div>
                                     </div>
                                     <div class="product-wrapper row">
+                                    
+
                                         <div class="product-wrap">
                                             <div class="product text-center">
+
                                                 <table class="display yelsuDataTables" style="width:100%">
                                                     <thead>
                                                         ${theadElement}
@@ -145,6 +145,11 @@ function loadTables(pagination_vendor_id) {
                                                     </tbody>
                                                 </table> 
     
+                                                <p class="mt-2">
+                                                    <i class="w-icon-exclamation-circle"></i>
+                                                    برای نمایش مشخصات محصول مورد نظر و خرید آن روی آن کلیک کنید
+                                                </p>
+
                                                 <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
                                                     <ul class="pagination justify-content-center pb-2">
                                                         ${paginationElements}
