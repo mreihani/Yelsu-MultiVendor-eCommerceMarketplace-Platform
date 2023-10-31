@@ -54109,7 +54109,7 @@ input[type="number"] {
     font-size: 1.1rem;
 }
 .select2-container--bootstrap5 .select2-selection__clear {
-    right: 0.25rem;
+    right: 1.25rem;
 }
 /* select2 box custom css placeholder */
 
@@ -54151,3 +54151,54 @@ html { scroll-behavior: smooth; }
     border: 1px solid #e4e6ef !important;
 }
 /* add border color for vendor product edit page for multiple attribute form checkbox button */
+
+
+/* datatables custom css */
+.yelsuDataTablesHead {
+  background-color: #1e1e2d;
+  margin-bottom: 5px;
+  padding: 10px 10px;
+}
+
+.yelsuDataTablesHead .vendor-image-div {
+  width: 80%;
+}
+
+.yelsuDataTablesHead .value-added-tax-div {
+  width: 20%;
+}
+
+.yelsuDataTablesHead img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.yelsuDataTablesHead div label {
+  color: white;
+}
+
+.yelsuDataTablesHead a {
+  color: white;
+  margin-right: 10px;
+}
+
+.yelsuDataTables thead th {
+  border: none;
+  background-color: #1e1e2d;
+  color: white;
+}
+
+.yelsuDataTables tbody tr.odd {
+ background-color: #f5f8fa;
+ border: none;
+}
+
+.yelsuDataTables tbody td input {
+    border-color: #48486c;
+}
+
+.yelsuDataTables tbody td input:focus {
+    border-color: #48486c;
+}
+/* datatables custom css */

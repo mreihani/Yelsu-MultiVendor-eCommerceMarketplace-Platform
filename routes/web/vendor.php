@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Backend\Vendor\OutletController;
 use App\Http\Controllers\Backend\Vendor\VendorController;
-use App\Http\Controllers\Backend\Vendor\VendorProductController;
 use App\Http\Controllers\Backend\Vendor\VendorOrderController;
+use App\Http\Controllers\Backend\Vendor\VendorProductController;
+use App\Http\Controllers\Backend\Vendor\VendorRepresentativeController;
 
 //Vendor Dashboard
 
@@ -56,6 +57,14 @@ Route::middleware(['vendoraccess'])->group(function () {
     Route::get('media/addfiles', [VendorController::class, 'VendorMediaAddFiles'])->name('vendor.media.add');
     Route::post('media/storefiles', [VendorController::class, 'VendorMediaStoreFiles'])->name('vendor.media.store');
     Route::get('media/delete/{id}', [VendorController::class, 'VendorDeleteFile'])->name('vendor.media.delete');
+
+    // Vendor Representative management all route
+    Route::get('add/representative', [VendorRepresentativeController::class, 'VendorAddRepresentative'])->name('vendor.add.representative');
+    Route::post('store/representative', [VendorRepresentativeController::class, 'VendorStoreRepresentative'])->name('vendor.store.representative');
+    Route::get('edit/representative/{id}', [VendorRepresentativeController::class, 'VendorEditRepresentative'])->name('vendor.edit.representative');
+    Route::post('update/representative', [VendorRepresentativeController::class, 'VendorUpdateRepresentative'])->name('vendor.update.representative');
+    Route::get('delete/representative/{id}', [VendorRepresentativeController::class, 'VendorDeleteRepresentative'])->name('vendor.delete.representative');
+    Route::get('all/representative', [VendorRepresentativeController::class, 'VendorAllRepresentative'])->name('vendor.all.representative');
 });
 
 //Vendor Login

@@ -339,7 +339,7 @@
 
                         <input type="hidden" id="page_category_id" value={{((int) request('id'))}}>
 
-                        <div id="tables-loading-spinner">
+                        <div id="tables-loading-spinner" style="display:none;">
                             <h4 class="mt-0 mb-0">&nbsp;&nbsp;در حال بارگذاری جدول&nbsp;&nbsp;</h4>
                             <span class="loader"></span>
                         </div>

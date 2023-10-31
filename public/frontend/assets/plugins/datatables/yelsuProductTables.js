@@ -38,3 +38,4 @@ $(".value_added_tax_btn").click(function(e){
         }  
     }
 });
+

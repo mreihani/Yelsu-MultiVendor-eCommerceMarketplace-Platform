@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeItem;
 use App\Models\AttributeValue;
+use App\Models\Representative;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -259,6 +260,11 @@ class Product extends Model
         }
 
         return $user_id;
+    }
+
+    public function representative()
+    {
+        return $this->belongsToMany(Representative::class)->withPivot('product_in_stock', 'change_price_permission', 'product_geolocation_permission_province', 'product_geolocation_permission_city', 'product_geolocation_permission_export_country', 'product_specific_geolocation');
     }
     
 }

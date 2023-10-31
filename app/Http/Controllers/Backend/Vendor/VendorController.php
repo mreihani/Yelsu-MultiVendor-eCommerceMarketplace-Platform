@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend\Vendor;
 
-
 use App\Models\File;
 use App\Models\User;
 use App\Models\Category;

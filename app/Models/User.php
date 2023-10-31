@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Merchant;
 use App\Models\Attribute;
 use App\Models\ActiveCode;
 use App\Models\Useroutlets;
+use App\Models\Representative;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -107,6 +109,15 @@ class User extends Authenticatable
             }
         }
         return false;
+    }
+
+    public function representative()
+    {
+        return $this->hasOne(Representative::class);
+    }
+
+    public function vendorProducts() {
+        return $this->hasMany(Product::class, 'vendor_id');
     }
 
 }

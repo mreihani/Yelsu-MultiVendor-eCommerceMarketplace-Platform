@@ -34,7 +34,7 @@ return new class extends Migration {
             $table->text('shipping_address')->nullable();
             $table->text('shipping_postalcode')->nullable();
 
-            $table->enum('role', ['admin', 'vendor', 'user', 'editor', 'specialist', 'financial', 'merchant', 'clearing_agent', 'freightage', 'retailer', 'driver'])->default('user');
+            $table->enum('role', ['admin', 'vendor', 'user', 'editor', 'specialist', 'financial', 'merchant', 'clearing_agent', 'freightage', 'retailer', 'driver', 'representative'])->default('user');
             $table->integer('specialist_category_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 

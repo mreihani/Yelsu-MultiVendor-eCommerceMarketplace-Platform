@@ -23,7 +23,7 @@
                     <div class="mb-10">
                         <!--begin::Title-->
                         <div class="fs-2hx fw-bold text-gray-800 text-center mb-13">
-                        <span class="me-2">به پیشخوان فروشنده خوش آمدید 
+                        <span class="me-2">به پیشخوان تأمین کننده خوش آمدید 
                     </div>
                         <!--end::Title-->
                        
@@ -66,6 +66,16 @@
                                 <span class="position-absolute opacity-15 bottom-0 start-0 border-4 border-danger border-bottom w-100"></span>
                                 <!--end::Separator-->
                             </span></span>تماس حاصل فرمایید
+                            <br><br>
+                            <div>
+                                <p>
+                                    با شماره تلفن های 02126402540 الی 9 تماس بگیرید
+                                </p>
+                                <br>
+                                <p>
+                                    و یا با تلفن گویای 02191692471 تماس حاصل فرمایید
+                                </p>
+                            </div>
                         </div>
                             <!--end::Title-->
                             <!--begin::Actions-->

@@ -6,7 +6,7 @@
 <html direction="rtl" dir="rtl" style="direction: rtl" >
 	<!--begin::Head-->
 	<head><base href=""/>
-		<title>پیشخوان فروشنده</title>
+		<title>پیشخوان تأمین کننده</title>
 		<meta charset="utf-8" />
 		{!! SEO::generate() !!}
 		<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -33,6 +33,14 @@
 		<script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>      
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
 
+		<!--begin::DataTables Plugin CSS -->
+		<link href="{{asset('frontend/assets/plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
+		<link href="{{asset('frontend/assets/plugins/datatables/responsive.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
+	
+		<!--begin::DataTables Plugin JS -->
+		<script src="{{asset('frontend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+		<script src="{{asset('frontend/assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
+		
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

@@ -40,7 +40,7 @@
                             <rect x="7" y="6" width="4" height="4" rx="2" fill="currentColor" />
                         </svg>
                     </span>
-                    <!--end::Svg Icon-->فروشنده</a>
+                    <!--end::Svg Icon-->تأمین کننده</a>
                     {{-- <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen018.svg-->
                     <span class="svg-icon svg-icon-4 me-1">

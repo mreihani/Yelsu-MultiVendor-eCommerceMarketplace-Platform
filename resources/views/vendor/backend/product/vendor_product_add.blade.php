@@ -294,7 +294,7 @@
                                             <!--begin::Input group-->
                                             <div class="mb-10 fv-row">
                                                 <!--begin::Tags-->
-                                                <label class="required form-label">آدرس URL یا اسلاگ </label> (به عنوان مثال: steel-product)
+                                                <label class="required form-label">آدرس URL یا اسلاگ </label>
                                                 <!--end::Tags-->
                                                 <!--begin::Input-->
                                                 <input type="text" name="product_slug" class="form-control mb-2" placeholder="اسلاگ URL" value="{{old('product_slug')}}"/>

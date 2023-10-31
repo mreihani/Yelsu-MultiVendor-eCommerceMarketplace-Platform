@@ -57,7 +57,7 @@
                                 <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
                             </svg>
                             <span style="margin-right:4px;">
-                                پیشخوان فروشنده
+                                پیشخوان تأمین کننده
                             </span>
                         </a>
                     </div>
@@ -451,7 +451,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">اطلاعات فروشنده</span>
+                        <span class="menu-title">اطلاعات تأمین کننده</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -464,7 +464,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">درباره فروشنده</span>
+                                <span class="menu-title">درباره تأمین کننده</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -639,7 +639,6 @@
                 </div>
                 <!--end:Menu item-->
 
-
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.media.add' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.media.files' ? 'show' : ''}}">
                     <!--begin:Menu link-->
@@ -696,7 +695,73 @@
                 </div>
                 <!--end:Menu item-->
 
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">تنظیمات عاملیت / شعب</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
 
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 33V15" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="10" y="9" width="28" height="6" fill="#fff" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 32L14 25H33.9743L40 32" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="4" y="33" width="8" height="8" fill="#fff" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="20" y="33" width="8" height="8" fill="#fff" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="36" y="33" width="8" height="8" fill="#fff" stroke="#9d9da699" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت عاملیت / شعب</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="{{route("vendor.add.representative")}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن کاربر جدید</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت کاربران</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
 
             </div>
             <!--end::Menu-->

@@ -287,13 +287,13 @@
                                     <!--end::Col-->
                                 </div>
 
-                                 <!--begin::Input group-->
+                                <!--begin::Input group-->
                                  <div class="row mb-6">
                                     <!--begin::Tags-->
                                     <label class="col-lg-4 col-form-label fw-semibold fs-6">شخص حقیقی یا حقوقی</label>
                                     <!--end::Tags-->
                                     <div class="col-lg-8 fv-row">
-                                        <select id="person" name="person_type" class="form-control form-control-lg form-control-solid">
+                                        <select id="person" name="person_type" class="form-select form-select-lg form-control-solid">
                                             <option {{$vendorData->person_type == "haghighi" ? "selected" : ""}} value="haghighi">شخص حقیقی</option>
                                             <option {{$vendorData->person_type == "hoghoghi" ? "selected" : ""}} value="hoghoghi">شخص حقوقی</option>
                                         </select>
@@ -312,7 +312,7 @@
                                     <!--end::Col-->
                                 </div> --}}
 
-                                 <!--begin::Input group-->
+                                <!--begin::Input group-->
                                  <div class="row mb-6">
                                     <!--begin::Tags-->
                                     <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام فروشگاه / شرکت</label>

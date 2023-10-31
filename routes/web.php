@@ -22,7 +22,7 @@ use App\Notifications\UserAuthNotification;
 require __DIR__ . '/auth.php';
 
 
-Route::get('changeDatabase', function () {
+// Route::get('changeDatabase', function () {
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
     //     // FIX - ISSUE in USERNAME
@@ -43,4 +43,4 @@ Route::get('changeDatabase', function () {
     
    
 
-});
+// });
