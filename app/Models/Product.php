@@ -262,9 +262,142 @@ class Product extends Model
         return $user_id;
     }
 
+    // یک متد برای ایجاد آرایه مربوط به استان ها با توجه به لیست کامل استان ها و موارد انتخاب شده
+    public function create_province_array_based_on_representative_product() {
+        
+        $province_list = config("yelsu_location_array.provinces");
+
+        $selected_provinces = explode(",", $this->representative()->pluck('product_geolocation_permission_province')->first());
+
+        $province_name_array = [];
+        foreach ($selected_provinces as $selected_province_key => $selected_province_item) {
+            foreach ($province_list as $province_list_item) {
+                if($selected_province_item == $province_list_item) {
+                    $selected = true;
+                } else {
+                    $selected = false;
+                }
+                $province_name_array[$selected_province_key][] = array(
+                    'selected' => $selected,
+                    'value' => $province_list_item
+                );
+            }
+        }
+        return $province_name_array;
+    }
+
+    // یک متد برای ایجاد آرایه مربوط به شهر ها با توجه به لیست کامل شهر ها و موارد انتخاب شده
+    public function create_city_array_based_on_representative_product() {
+        
+        $selected_cities = explode(",", $this->representative()->pluck('product_geolocation_permission_city')->first());
+
+        $city_name_array = [];
+        foreach ($selected_cities as $selected_city_key => $selected_city_item) {
+            $city_name_array[][] = array(
+                "selected" => true,
+                "value" => $selected_city_item
+            );
+        }
+        
+        return $city_name_array;
+    }
+
+    // یک متد برای ایجاد آرایه مربوط به کشور ها با توجه به لیست کامل کشور ها و موارد انتخاب شده
+    public function create_country_array_based_on_representative_product() {
+        
+        $country_list = config("yelsu_location_array.countries");
+
+        $selected_countries = explode(",", $this->representative()->pluck('product_geolocation_permission_export_country')->first());
+
+        $country_name_array = [];
+        foreach ($country_list as $country_item) {
+
+            if(in_array($country_item, $selected_countries)) {
+                $selected = true;
+            } else {
+                $selected = false;
+            }
+
+            $country_name_array[] = array(
+                "selected" => $selected,
+                "value" => $country_item
+            );
+        }
+        
+        return $country_name_array;
+    }
+
+    // برای بارگذاری آرایه مربوط به هر محصول در کاربر عامل
+    public function determine_representative_product_array() {
+        
+        if($this->representative->first()) {
+            $product_array = array(
+                "product_id" => $this->representative->first()->pivot->product_id,
+                "product_in_stock" => $this->representative->first()->pivot->product_in_stock ?: "",
+                "change_price_permission" => $this->representative->first()->pivot->change_price_permission ? true : false,
+                "product_specific_geolocation_internal" => $this->representative->first()->pivot->product_specific_geolocation_internal ? true : false,
+                "product_specific_geolocation_external" => $this->representative->first()->pivot->product_specific_geolocation_external ? true : false,
+                "product_geolocation_permission_city" => $this->create_city_array_based_on_representative_product() ?: [],
+                "product_geolocation_permission_export_country" => $this->create_country_array_based_on_representative_product() ?: [],
+                "product_geolocation_permission_province" => $this->create_province_array_based_on_representative_product() ?: [],
+            );
+        } else {
+            $product_array = array(
+                "product_id" => $this->id, 
+                "product_in_stock" => "نامحدود", 
+                "change_price_permission" => false, 
+                "product_specific_geolocation_internal" => false, 
+                "product_specific_geolocation_external" => false, 
+                "product_geolocation_permission_city" => [], 
+                "product_geolocation_permission_export_country" => [], 
+                "product_geolocation_permission_province" => [] 
+            );
+        }
+
+        return $product_array;
+    }
+
+    // برای ایجاد آرایه ای از محصولات نسبت داده شده به کاربر عامل
+    public function determine_representative_selected_product_server_array() {
+
+        if($this->representative->first()) {
+            $product_array = array(
+                "product_id" => $this->representative->first()->pivot->product_id,
+                "product_in_stock" => $this->representative->first()->pivot->product_in_stock ?: "",
+                "change_price_permission" => $this->representative->first()->pivot->change_price_permission ? true : false,
+                "product_specific_geolocation_internal" => $this->representative->first()->pivot->product_specific_geolocation_internal ? true : false,
+                "product_specific_geolocation_external" => $this->representative->first()->pivot->product_specific_geolocation_external ? true : false,
+                "product_geolocation_permission_city" => $this->representative->first()->pivot->product_geolocation_permission_city ?: [],
+                "product_geolocation_permission_export_country" => $this->representative->first()->pivot->product_geolocation_permission_export_country ?: [],
+                "product_geolocation_permission_province" => $this->representative->first()->pivot->product_geolocation_permission_province ?: [],
+            );
+        } else {
+            $product_array = array(
+                "product_id" => $this->id, 
+                "product_in_stock" => "نامحدود", 
+                "change_price_permission" => false, 
+                "product_specific_geolocation_internal" => false, 
+                "product_specific_geolocation_external" => false, 
+                "product_geolocation_permission_city" => [], 
+                "product_geolocation_permission_export_country" => [], 
+                "product_geolocation_permission_province" => [] 
+            );
+        }
+
+        return $product_array;
+    }
+
     public function representative()
     {
-        return $this->belongsToMany(Representative::class)->withPivot('product_in_stock', 'change_price_permission', 'product_geolocation_permission_province', 'product_geolocation_permission_city', 'product_geolocation_permission_export_country', 'product_specific_geolocation');
+        return $this->belongsToMany(Representative::class)->withPivot(
+            'product_in_stock',
+            'change_price_permission', 
+            'product_geolocation_permission_province', 
+            'product_geolocation_permission_city', 
+            'product_geolocation_permission_export_country', 
+            'product_specific_geolocation_internal', 
+            'product_specific_geolocation_external'
+        );
     }
     
 }

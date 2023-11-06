@@ -116,6 +116,11 @@ class User extends Authenticatable
         return $this->hasOne(Representative::class);
     }
 
+    public function vendor_representatives()
+    {
+        return $this->hasmany(Representative::class, 'vendor_id');
+    }
+
     public function vendorProducts() {
         return $this->hasMany(Product::class, 'vendor_id');
     }

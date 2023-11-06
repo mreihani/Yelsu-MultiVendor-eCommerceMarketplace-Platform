@@ -27,21 +27,24 @@ return new class extends Migration
             $table->string('verification_company_establishment_announcement')->nullable();
             $table->boolean('identity_verification_status')->default(false);
             $table->boolean('new_changes_verification_status')->default(false);
+            $table->boolean('specific_geolocation_internal')->default(false);
+            $table->boolean('specific_geolocation_external')->default(false);
             $table->timestamps();
         });
 
-        Schema::create('representative_product', function (Blueprint $table) {
-            $table->unsignedBigInteger('representative_id');
-            $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('cascade');
+        Schema::create('product_representative', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->unsignedBigInteger('representative_id');
+            $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('cascade');
             $table->unsignedBigInteger('product_in_stock')->nullable();
             $table->boolean('change_price_permission')->default(false);
             $table->text('product_geolocation_permission_province')->nullable();
             $table->text('product_geolocation_permission_city')->nullable();
             $table->text('product_geolocation_permission_export_country')->nullable();
-            $table->boolean('product_specific_geolocation')->default(false);
-            $table->primary(['representative_id', 'product_id']);
+            $table->boolean('product_specific_geolocation_internal')->default(false);
+            $table->boolean('product_specific_geolocation_external')->default(false);
+            $table->primary(['product_id','representative_id']);
         });
     }
 

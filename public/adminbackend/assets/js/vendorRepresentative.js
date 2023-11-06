@@ -1,8 +1,3 @@
-// start select2 countries dropdown
-$(document).ready(function() {
-    $('.export-countries-dropdown').select2();
-});
-
 // repeater form function
 $('.repeater-body').on('click', '.add-repeater-btn', function(e) {
     e.preventDefault();
@@ -22,21 +17,54 @@ $(".repeater").click(function(e) {
         $(e.target).closest('[data-repeatable]').remove();
     }
 });
+$(".repeater-product").click(function(e) {
+    if($(e.target).hasClass("del-repeater-btn") && $(e.target).closest(".repeater-body").find($("[data-repeatable]")).length > 1) {
+        $(e.target).closest('[data-repeatable]').remove();
+    }
+});
 
-// product specific geolocation checkbox function
-$("#product_specific_geolocation").on('click', $("#product_specific_geolocation"), (function(e){
-    let product_specific_geolocation_body = $(".product_specific_geolocation_body");
+// specific geolocation checkbox function
+$("#specific_geolocation_internal").on('click', $("#specific_geolocation_internal"), (function(e){
+    let specific_geolocation_internal_body = $(".specific_geolocation_internal_body");
    
     if(e.target.checked) {
-        product_specific_geolocation_body.slideDown();
+        specific_geolocation_internal_body.slideDown();
     } else {
-        product_specific_geolocation_body.slideUp();
+        specific_geolocation_internal_body.slideUp();
+    }
+}));
+$("#specific_geolocation_external").on('click', $("#specific_geolocation_external"), (function(e){
+    let specific_geolocation_external_body = $(".specific_geolocation_external_body");
+   
+    if(e.target.checked) {
+        specific_geolocation_external_body.slideDown();
+    } else {
+        specific_geolocation_external_body.slideUp();
+    }
+}));
+
+// product specific geolocation checkbox function
+$("#product_specific_geolocation_internal").on('click', $("#product_specific_geolocation_internal"), (function(e){
+    let product_specific_geolocation_internal_body = $(".product_specific_geolocation_internal_body");
+   
+    if(e.target.checked) {
+        product_specific_geolocation_internal_body.slideDown();
+    } else {
+        product_specific_geolocation_internal_body.slideUp();
+    }
+}));
+$("#product_specific_geolocation_external").on('click', $("#product_specific_geolocation_external"), (function(e){
+    let product_specific_geolocation_external_body = $(".product_specific_geolocation_external_body");
+   
+    if(e.target.checked) {
+        product_specific_geolocation_external_body.slideDown();
+    } else {
+        product_specific_geolocation_external_body.slideUp();
     }
 }));
 
 
 // person type     
-let person_type = null;
 if(person_type == null) {
     $(".hoghoghi").hide();
 } else if(person_type == 'haghighi') {

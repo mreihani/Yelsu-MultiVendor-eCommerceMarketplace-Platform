@@ -18,12 +18,15 @@
 		<!--end::Fonts-->
 		<!--begin::Vendor Stylesheets(used for this page only)-->
 		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" /> --}}
-		<link href="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" /> --}}
 		<!--end::Vendor Stylesheets-->
 		<!--begin::Global Stylesheets Bundle(mوatory for all pages)-->
 		<link href="{{asset('adminbackend/assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('adminbackend/assets/css/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
+
+		<script src="{{asset('adminbackend/assets/plugins/global/plugins.bundle.js')}}"></script>
+		<script src="{{asset('adminbackend/assets/js/scripts.bundle.js')}}"></script>
 
 		<!--leaflet CSS-->
 		{{-- <link href="{{asset('frontend/assets/plugins/leaflet/leaflet.css')}}" rel="stylesheet" type="text/css" /> --}}
@@ -34,7 +37,6 @@
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
 
 		<!--begin::DataTables Plugin CSS -->
-		<link href="{{asset('frontend/assets/plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('frontend/assets/plugins/datatables/responsive.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
 	
 		<!--begin::DataTables Plugin JS -->
@@ -5635,27 +5637,9 @@
 		</div> --}}
 		<!--end::Modal - دعوت دوست-->
 		<!--end::Modals-->
-		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
-		<!--begin::Global Javascript Bundle(mوatory for all pages)-->
-		<script src="{{asset('adminbackend/assets/plugins/global/plugins.bundle.js')}}"></script>
-		<script src="{{asset('adminbackend/assets/js/scripts.bundle.js')}}"></script>
-		<!--end::Global Javascript Bundle-->
+
 
 		<!--begin::Vendors Javascript(used for this page only)-->
-		{{-- <script src="{{asset('adminbackend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script> --}}
-
-		{{-- <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/map.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/geodata/continentsLow.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script> --}}
 
 		<script src="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
 		<!--end::Vendors Javascript-->

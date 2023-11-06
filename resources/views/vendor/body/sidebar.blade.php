@@ -699,14 +699,14 @@
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">تنظیمات عاملیت / شعب</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">تنظیمات نمایندگی / عاملیت فروش</span>
                     </div>
                     <!--end:Menu content-->
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.add.representative' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.all.representative' ? 'show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -721,7 +721,7 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">مدیریت عاملیت / شعب</span>
+                        <span class="menu-title">نمایندگی / عاملیت فروش</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -731,11 +731,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link " href="{{route("vendor.add.representative")}}">
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.add.representative' ? 'active' : ''}}" href="{{route("vendor.add.representative")}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">افزودن کاربر جدید</span>
+                                <span class="menu-title">افزودن نماینده / عامل فروش</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -748,11 +748,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link " href="">
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.all.representative' ? 'active' : ''}}" href="{{route("vendor.all.representative")}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">مدیریت کاربران</span>
+                                <span class="menu-title">لیست نمایندگان / عاملیت فروش</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
