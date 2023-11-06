@@ -626,7 +626,7 @@
                                                             @foreach ($product_object_array as $product_key => $product_item)
                                                                 <tr>
                                                                     <td>
-                                                                        <input {{ $product_item->representative->first() ? "checked" : ""}} class="form-check-input" type="checkbox" value="{{$product_item->id}}">
+                                                                        <input {{ in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "checked" : ""}} class="form-check-input" type="checkbox" value="{{$product_item->id}}">
                                                                     </td>
                                                                     <td>{{ $product_key + 1}}</td>
                                                                     <td>
@@ -674,16 +674,17 @@
                                                                             </a>
                                                                         </td>
                                                                     @endif
+                                                                    
                                                                     <td>
-                                                                        <button {{$product_item->representative->first() ? "" : "disabled"}} type="button" class="btn btn-sm btn-dark m-1 edit-button-specification">
+                                                                        <button {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="button" class="btn btn-sm btn-dark m-1 edit-button-specification">
                                                                             <i class="bi bi-pencil-fill"></i>
                                                                             ویرایش
                                                                         </button>
-                                                                        <input class="hidden-input-information" {{$product_item->representative->first() ? "" : "disabled"}} type="hidden" name="product_obj[]" value='{{ json_encode($product_item->determine_representative_product_array(), JSON_UNESCAPED_UNICODE) }}'>
-                                                                        <input class="hidden-input-information-server" {{$product_item->representative->first() ? "" : "disabled"}} type="hidden" name="product_obj_server[]" value='{{ json_encode($product_item->determine_representative_selected_product_server_array(), JSON_UNESCAPED_UNICODE) }}'>
+                                                                        <input class="hidden-input-information" {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="hidden" name="product_obj[]" value='{{ json_encode(App\Models\Product::determine_representative_product_array($product_item, $representative), JSON_UNESCAPED_UNICODE) }}'>
+                                                                        <input class="hidden-input-information-server" {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="hidden" name="product_obj_server[]" value='{{ json_encode(App\Models\Product::determine_representative_selected_product_server_array($product_item, $representative), JSON_UNESCAPED_UNICODE) }}'>
                                                                     </td>
                                                                     <td></td>
-                                                                    {{-- @dd(App\Models\Product::find(517)->determine_representative_selected_product_server_array()) --}}
+                                                                    {{-- @dd(count($representative->products()->where("product_id", $product_item->id)->get())) --}}
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>

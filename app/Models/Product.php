@@ -263,11 +263,11 @@ class Product extends Model
     }
 
     // یک متد برای ایجاد آرایه مربوط به استان ها با توجه به لیست کامل استان ها و موارد انتخاب شده
-    public function create_province_array_based_on_representative_product() {
+    public function create_province_array_based_on_representative_product($product_item, $representative) {
         
         $province_list = config("yelsu_location_array.provinces");
 
-        $selected_provinces = explode(",", $this->representative()->pluck('product_geolocation_permission_province')->first());
+        $selected_provinces = explode(",", $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_province')->first());
 
         $province_name_array = [];
         foreach ($selected_provinces as $selected_province_key => $selected_province_item) {
@@ -287,9 +287,9 @@ class Product extends Model
     }
 
     // یک متد برای ایجاد آرایه مربوط به شهر ها با توجه به لیست کامل شهر ها و موارد انتخاب شده
-    public function create_city_array_based_on_representative_product() {
+    public function create_city_array_based_on_representative_product($product_item, $representative) {
         
-        $selected_cities = explode(",", $this->representative()->pluck('product_geolocation_permission_city')->first());
+        $selected_cities = explode(",", $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_city')->first());
 
         $city_name_array = [];
         foreach ($selected_cities as $selected_city_key => $selected_city_item) {
@@ -303,11 +303,11 @@ class Product extends Model
     }
 
     // یک متد برای ایجاد آرایه مربوط به کشور ها با توجه به لیست کامل کشور ها و موارد انتخاب شده
-    public function create_country_array_based_on_representative_product() {
+    public function create_country_array_based_on_representative_product($product_item, $representative) {
         
         $country_list = config("yelsu_location_array.countries");
 
-        $selected_countries = explode(",", $this->representative()->pluck('product_geolocation_permission_export_country')->first());
+        $selected_countries = explode(",", $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_export_country')->first());
 
         $country_name_array = [];
         foreach ($country_list as $country_item) {
@@ -328,22 +328,22 @@ class Product extends Model
     }
 
     // برای بارگذاری آرایه مربوط به هر محصول در کاربر عامل
-    public function determine_representative_product_array() {
+    public function scopeDetermine_representative_product_array($query, $product_item, $representative) {
         
-        if($this->representative->first()) {
+        if(count($representative->products()->where("product_id", $product_item->id)->get())) {
             $product_array = array(
-                "product_id" => $this->representative->first()->pivot->product_id,
-                "product_in_stock" => $this->representative->first()->pivot->product_in_stock ?: "",
-                "change_price_permission" => $this->representative->first()->pivot->change_price_permission ? true : false,
-                "product_specific_geolocation_internal" => $this->representative->first()->pivot->product_specific_geolocation_internal ? true : false,
-                "product_specific_geolocation_external" => $this->representative->first()->pivot->product_specific_geolocation_external ? true : false,
-                "product_geolocation_permission_city" => $this->create_city_array_based_on_representative_product() ?: [],
-                "product_geolocation_permission_export_country" => $this->create_country_array_based_on_representative_product() ?: [],
-                "product_geolocation_permission_province" => $this->create_province_array_based_on_representative_product() ?: [],
+                "product_id" => $product_item->id,
+                "product_in_stock" => $representative->products()->where("product_id", $product_item->id)->pluck('product_in_stock')->first() ?: "",
+                "change_price_permission" => $representative->products()->where("product_id", $product_item->id)->pluck('change_price_permission')->first() ? true : false,
+                "product_specific_geolocation_internal" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_internal')->first() ? true : false,
+                "product_specific_geolocation_external" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_external')->first() ? true : false,
+                "product_geolocation_permission_city" => $this->create_city_array_based_on_representative_product($product_item, $representative) ?: [],
+                "product_geolocation_permission_export_country" => $this->create_country_array_based_on_representative_product($product_item, $representative) ?: [],
+                "product_geolocation_permission_province" => $this->create_province_array_based_on_representative_product($product_item, $representative) ?: [],
             );
         } else {
             $product_array = array(
-                "product_id" => $this->id, 
+                "product_id" => $product_item->id, 
                 "product_in_stock" => "نامحدود", 
                 "change_price_permission" => false, 
                 "product_specific_geolocation_internal" => false, 
@@ -358,22 +358,22 @@ class Product extends Model
     }
 
     // برای ایجاد آرایه ای از محصولات نسبت داده شده به کاربر عامل
-    public function determine_representative_selected_product_server_array() {
+    public function scopeDetermine_representative_selected_product_server_array($query, $product_item, $representative) {
 
-        if($this->representative->first()) {
+        if(count($representative->products()->where("product_id", $product_item->id)->get())) {
             $product_array = array(
-                "product_id" => $this->representative->first()->pivot->product_id,
-                "product_in_stock" => $this->representative->first()->pivot->product_in_stock ?: "",
-                "change_price_permission" => $this->representative->first()->pivot->change_price_permission ? true : false,
-                "product_specific_geolocation_internal" => $this->representative->first()->pivot->product_specific_geolocation_internal ? true : false,
-                "product_specific_geolocation_external" => $this->representative->first()->pivot->product_specific_geolocation_external ? true : false,
-                "product_geolocation_permission_city" => $this->representative->first()->pivot->product_geolocation_permission_city ?: [],
-                "product_geolocation_permission_export_country" => $this->representative->first()->pivot->product_geolocation_permission_export_country ?: [],
-                "product_geolocation_permission_province" => $this->representative->first()->pivot->product_geolocation_permission_province ?: [],
+                "product_id" => $product_item->id,
+                "product_in_stock" => $representative->products()->where("product_id", $product_item->id)->pluck('product_in_stock')->first() ?: "",
+                "change_price_permission" => $representative->products()->where("product_id", $product_item->id)->pluck('change_price_permission')->first() ? true : false,
+                "product_specific_geolocation_internal" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_internal')->first() ? true : false,
+                "product_specific_geolocation_external" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_external')->first() ? true : false,
+                "product_geolocation_permission_city" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_city')->first() ?: [],
+                "product_geolocation_permission_export_country" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_export_country')->first() ?: [],
+                "product_geolocation_permission_province" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_province')->first() ?: [],
             );
         } else {
             $product_array = array(
-                "product_id" => $this->id, 
+                "product_id" => $product_item->id, 
                 "product_in_stock" => "نامحدود", 
                 "change_price_permission" => false, 
                 "product_specific_geolocation_internal" => false, 
