@@ -80,7 +80,7 @@
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <form class="form" method="POST" action={{route('vendor.update.user.representative')}}>
-                    <input type="hidden" name="id_from_user" value="{{$representative->id}}">
+                    <input type="hidden" name="representative_id" value="{{$representative->id}}">
                     @csrf
                     <!--begin::کارت-->
                     <div class="card mb-5 mb-xl-10">
@@ -367,7 +367,7 @@
                 </form>    
 
                 <form class="form" method="POST" action={{route('vendor.update.products.representative')}}>
-                    <input type="hidden" name="id_from_products" value="{{$representative->id}}">
+                    <input type="hidden" name="representative_id" value="{{$representative->id}}">
                     @csrf
 
                     <!--begin::کارت-->

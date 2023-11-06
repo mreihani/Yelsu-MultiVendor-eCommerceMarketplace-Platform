@@ -117,13 +117,9 @@ class VendorRepresentativeController extends Controller
     public function VendorEditRepresentative($id)
     {
         $representative = Representative::find($id);
-        
+       
         $user_id = auth()->user()->id;
         $vendorData = auth()->user();
-
-        if($user_id != $representative->vendor_id) {
-            return redirect(route('vendor.all.representative'))->with('error', 'کاربر مورد نظر یافت نشد.');
-        }
 
         $vendor_products = Product::sort_products_by_last_category($vendorData->vendorProducts);
 
@@ -135,8 +131,8 @@ class VendorRepresentativeController extends Controller
 
     public function VendorUpdateUserRepresentative(Request $request) {
 
-        $id_from_user = Purify::clean($request->id_from_user);
-        $representative = Representative::find($id_from_user);
+        $representative_id = Purify::clean($request->representative_id);
+        $representative = Representative::find($representative_id);
 
         $user_id = auth()->user()->id;
         $vendorData = auth()->user();
@@ -167,13 +163,8 @@ class VendorRepresentativeController extends Controller
             'shop_address.required' => 'لطفا آدرس فروشگاه یا شرکت را وارد نمایید.',
         ]);
 
-        if($user_id != $representative->vendor_id) {
-            return redirect(route('vendor.all.representative'))->with('error', 'شما اجازه دسترسی به کاربر مورد نظر را ندارید!');
-        }
-
         if ($incomingFields['password'] != 'password') {
             $representative->user->update([
-                'representative_type' => Purify::clean($request->representative_type),
                 'firstname' => Purify::clean($incomingFields['firstname']),
                 'lastname' => Purify::clean($incomingFields['lastname']),
                 'username' => Purify::clean($incomingFields['username']),
@@ -188,7 +179,6 @@ class VendorRepresentativeController extends Controller
             ]);
         } else {
             $representative->user->update([
-                'representative_type' => Purify::clean($request->representative_type),
                 'firstname' => Purify::clean($incomingFields['firstname']),
                 'lastname' => Purify::clean($incomingFields['lastname']),
                 'username' => Purify::clean($incomingFields['username']),
@@ -201,6 +191,10 @@ class VendorRepresentativeController extends Controller
                 'agent_name' => Purify::clean($request->agent_name) ? Purify::clean($request->agent_name) : null,
             ]);
         }
+
+        $representative->update([
+            'representative_type' => Purify::clean($request->representative_type),
+        ]);
 
         return redirect(route('vendor.all.representative'))->with('success', 'حساب کاربری با موفقیت بروزرسانی گردید.');
     }
@@ -219,8 +213,8 @@ class VendorRepresentativeController extends Controller
 
     public function VendorUpdateProductsRepresentative(Request $request) {
        
-        $id_from_products = Purify::clean($request->id_from_products);
-        $representative = Representative::find($id_from_products);
+        $representative_id = Purify::clean($request->representative_id);
+        $representative = Representative::find($representative_id);
 
         $user_id = auth()->user()->id;
         $vendorData = auth()->user();

@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'retaileraccess' => \App\Http\Middleware\MerchantAccess::class,
         'freightageaccess' => \App\Http\Middleware\FreightageAccess::class,
         'driveraccess' => \App\Http\Middleware\DriverAccess::class,
+        'vendorrepresentativeaccess' => \App\Http\Middleware\VendorRepresentativeAccess::class,
     ];
 }
