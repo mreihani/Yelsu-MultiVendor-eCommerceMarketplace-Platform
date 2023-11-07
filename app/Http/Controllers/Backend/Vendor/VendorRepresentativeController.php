@@ -253,4 +253,12 @@ class VendorRepresentativeController extends Controller
 
         return redirect(route('vendor.all.representative'))->with('success', 'اطلاعات عامل / نمایندگی با موفقیت بروزرسانی گردید.');
     }
+
+    public function VendorDeleteRepresentative($id) {
+        $representative = Representative::find($id);
+
+        $representative->user->delete();
+
+        return redirect(route('vendor.all.representative'))->with('success', 'حساب کاربری با موفقیت ایجاد گردید.');
+    }
 }

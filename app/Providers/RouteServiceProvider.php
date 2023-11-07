@@ -99,7 +99,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web/freightage.php'));
             Route::middleware(['web', 'auth', 'role:driver'])
                 ->prefix('driver')
-                ->group(base_path('routes/web/driver.php'));    
+                ->group(base_path('routes/web/driver.php'));   
+            Route::middleware(['web', 'auth', 'role:representative'])
+                ->prefix('representative')
+                ->group(base_path('routes/web/representative.php')); 
         });
     }
 

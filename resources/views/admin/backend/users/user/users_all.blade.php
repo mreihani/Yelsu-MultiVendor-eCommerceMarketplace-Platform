@@ -197,7 +197,9 @@
                                         @elseif($user->role == 'freightage')
                                             <td>باربری</td>                      
                                         @elseif($user->role == 'driver')
-                                            <td>راننده</td>                      
+                                            <td>راننده</td>     
+                                        @elseif($user->role == 'representative')
+                                            <td>عامل / نمایندگی</td>                      
                                         @endif
                                         <!--end::سطح دسترسی=-->
                                         <!--begin::نام کاربری=-->

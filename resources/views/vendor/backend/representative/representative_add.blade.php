@@ -283,7 +283,7 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6 mt-10">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">نام کاربری</label>
+                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">نام کاربری (حداقل 5 کاراکتر)</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-10">
@@ -325,7 +325,7 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6 mt-10">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">کلمه عبور</label>
+                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">کلمه عبور (حداقل 8 کاراکتر)</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-10">

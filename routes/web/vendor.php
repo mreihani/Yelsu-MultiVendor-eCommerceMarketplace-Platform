@@ -7,7 +7,6 @@ use App\Http\Controllers\Backend\Vendor\VendorProductController;
 use App\Http\Controllers\Backend\Vendor\VendorRepresentativeController;
 
 //Vendor Dashboard
-
 Route::get('dashboard', [VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
 Route::get('logout', [VendorController::class, 'VendorDestroy'])->name('vendor.logout');
 
@@ -65,7 +64,7 @@ Route::middleware(['vendoraccess'])->group(function () {
     Route::get('edit/representative/{representative_id}', [VendorRepresentativeController::class, 'VendorEditRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.edit.representative');
     Route::post('update-user/representative', [VendorRepresentativeController::class, 'VendorUpdateUserRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.update.user.representative');
     Route::post('update-products/representative', [VendorRepresentativeController::class, 'VendorUpdateProductsRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.update.products.representative');
-    Route::get('delete/representative/{id}', [VendorRepresentativeController::class, 'VendorDeleteRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.delete.representative');
+    Route::get('delete/representative/{representative_id}', [VendorRepresentativeController::class, 'VendorDeleteRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.delete.representative');
 });
 
 //Vendor Login
