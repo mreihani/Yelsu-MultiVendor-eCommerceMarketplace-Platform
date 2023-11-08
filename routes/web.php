@@ -1,11 +1,7 @@
 <?php
 
-
-
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Route;
-use App\Notifications\UserAuthNotification;
 
 
 /*
@@ -38,9 +34,6 @@ require __DIR__ . '/auth.php';
     //     $value->save();
     // }
     
-    
-  
-    
-   
+
 
 // });

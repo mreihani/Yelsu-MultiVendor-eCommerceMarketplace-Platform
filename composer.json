@@ -20,6 +20,7 @@
         "morilog/jalali": "^3.4",
         "pusher/pusher-php-server": "^7.2",
         "shetabit/payment": "^5.2",
+        "spatie/laravel-sitemap": "^7.0",
         "stevebauman/purify": "^5.1",
         "symfony/panther": "^2.1"
     },

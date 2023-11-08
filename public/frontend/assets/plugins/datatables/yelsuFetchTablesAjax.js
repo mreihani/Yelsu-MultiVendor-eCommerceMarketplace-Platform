@@ -3,6 +3,8 @@ loadTables(null);
 
 // Ajax function
 function loadTables(pagination_vendor_id) {
+    $("#tables-loading-spinner").show();
+
     $.ajax({
         method: "GET",
         url: "/shop/category/fetch-price-tables",
