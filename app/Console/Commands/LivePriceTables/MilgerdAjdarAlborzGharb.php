@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\LivePriceTables;
 
 use App\Models\Productliveprice;
 use Stevebauman\Purify\Facades\Purify;

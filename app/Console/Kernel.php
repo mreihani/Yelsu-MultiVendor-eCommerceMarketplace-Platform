@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:site-map-customs')->daily();
         $schedule->command('app:site-map-freightage')->daily();
         $schedule->command('app:site-map-driver')->daily();
-
     }
 
     /**
