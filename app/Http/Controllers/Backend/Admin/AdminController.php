@@ -471,7 +471,7 @@ class AdminController extends Controller
       $query_string = Purify::clean($request->q);
 
       $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
+         ['username', 'like', "%{$query_string}%"], 
       ])->OrWhere([
                ['firstname', 'like', "%{$query_string}%"],
             ])->OrWhere([
@@ -481,6 +481,25 @@ class AdminController extends Controller
             ])->OrWhere([
                ['role', 'like', "%{$query_string}%"],
             ])->get();
+
+      // تست کن ببین چرا کد پایینی کار می کنه
+      // $users = User::where([
+      //    ['username', 'like', "%{$query_string}%"],
+      //    ['role', '=', "vendor"],
+      // ])->OrWhere([
+      //          ['firstname', 'like', "%{$query_string}%"],
+      //          ['role', '=', "vendor"],
+      //       ])->OrWhere([
+      //          ['lastname', 'like', "%{$query_string}%"],
+      //          ['role', '=', "vendor"],
+      //       ])->OrWhere([
+      //          ['shop_name', 'like', "%{$query_string}%"],
+      //          ['role', '=', "vendor"],
+      //       ])->OrWhere([
+      //          ['email', 'like', "%{$query_string}%"],
+      //          ['role', '=', "vendor"],
+      //       ])->get();
+
 
       return view('admin.backend.users.user.users_all', compact('adminData', 'users', 'categories'));
    } //End method

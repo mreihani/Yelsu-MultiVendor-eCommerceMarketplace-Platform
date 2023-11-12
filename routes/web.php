@@ -1,7 +1,9 @@
 <?php
 
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+// use Illuminate\Http\Request;
 
 
 /*
@@ -33,7 +35,6 @@ require __DIR__ . '/auth.php';
     //     $value->username = $username2;
     //     $value->save();
     // }
-    
 
 
 // });

@@ -201,23 +201,35 @@ class SpecialistAttributeController extends Controller
 
                 // تهیه یک لیست از مقادیر ویژگی ها
                 $attibute_value_collection = !empty(AttributeItem::find($id)) ? AttributeItem::find($id)->values()->pluck('value')->toArray() : [];
-
-                foreach (json_decode($attribute_list_item)->value as $value) {
-                   
-                    // مقادیر ویژگی که برابر باشند را نادیده میگیرد، به جای حذف آن ها
-                    if(in_array($value, $attibute_value_collection)) {
-                        $ignore_delete_attribute_value_array[] = $attribute_item->values()->where('value', $value)->get()->first()->id;
-                        continue;
+                
+                // برای مقادیر دراپ داون بیشتر از یک مورد
+                if(count(collect(json_decode($attribute_list_item)->value)) > 1) {
+                    foreach (json_decode($attribute_list_item)->value as $value) {
+                
+                        // مقادیر ویژگی که برابر باشند را نادیده میگیرد، به جای حذف آن ها
+                        if(in_array($value, $attibute_value_collection)) {
+                            $ignore_delete_attribute_value_array[] = $attribute_item->values()->where('value', $value)->get()->first()->id;
+                            continue;
+                        }
+                        
+                        // مقادیر ویژگی هایی که جدیدا ثبت شده اند را اضافه می کند
+                        $attribute_value_item_id = $attribute_item->values()->insertGetId([
+                            'attribute_item_id' => $attribute_item->id,
+                            'value' => $value
+                        ]);
+    
+                        // لیستی از ویژگی هایی که نباید پاک شوند تهیه می شود، که شامل جدید ها و موارد قدیمی می شود
+                        $ignore_delete_attribute_value_array[] = $attribute_value_item_id;
                     }
 
-                    // مقادیر ویژگی هایی که جدیدا ثبت شده اند را اضافه می کند
-                    $attribute_value_item_id = $attribute_item->values()->insertGetId([
-                        'attribute_item_id' => $attribute_item->id,
-                        'value' => $value
-                    ]);
+                // برای مقادیر دراپ داون ولی تک گزینه ای مثل مالیات یا کمیسیون، وقتی مقدار تکی عوض میشه دیگه نباید اون پاک بشه و باید آپدیت بشه چون کلا یک مورد است    
+                } elseif(count(collect(json_decode($attribute_list_item)->value)) == 1) {
+                    $ignore_delete_attribute_value_array[] = $attribute_item->values()->where('value', $attibute_value_collection[0])->get()->first()->id;
 
-                    // لیستی از ویژگی هایی که نباید پاک شوند تهیه می شود، که شامل جدید ها و موارد قدیمی می شود
-                    $ignore_delete_attribute_value_array[] = $attribute_value_item_id;
+                    $attribute_value_item_id = $attribute_item->values()->update([
+                        'attribute_item_id' => $attribute_item->id,
+                        'value' => collect(json_decode($attribute_list_item)->value)->first()
+                    ]);
                 }
 
                 // پاک کردن مقادیر ویژگی ها

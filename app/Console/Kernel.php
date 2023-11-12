@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('app:milgerd-ajdar-alborz-gharb')->everyMinute();
 
+        // سایت مپ
         $schedule->command('app:site-map-pages')->daily();
         $schedule->command('app:site-map-products')->daily();
         $schedule->command('app:site-map-blog-posts')->daily();
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:site-map-customs')->daily();
         $schedule->command('app:site-map-freightage')->daily();
         $schedule->command('app:site-map-driver')->daily();
+
+        // پاک کردن ویزیت هایی که سه ماه گذشته باشن
+        $schedule->command('app:visitor-clean-database')->daily();
     }
 
     /**

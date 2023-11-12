@@ -177,21 +177,6 @@
                                                     </a>
                                                 </div>
                                             @endif
-                                        @elseif($item->merchant_id != NULL)
-                                            {{$item->merchant->shop_name}}
-                                            @if ($item->merchant->status == 'active')
-                                                <div class="badge badge-primary">
-                                                    <a class="text-white" href="{{route('merchant.details', $item->merchant->id)}}">
-                                                        <span class="fw-bold">فعال</span>
-                                                    </a>
-                                                </div>
-                                            @else 
-                                                <div class="badge badge-danger">
-                                                    <a class="text-white" href="{{route('merchant.details', $item->merchant->id)}}">
-                                                        <span class="fw-bold">غیر فعال</span>
-                                                    </a>
-                                                </div>
-                                            @endif
                                         @elseif($item->retailer_id != NULL)
                                             {{$item->retailer->shop_name}}
                                             @if ($item->retailer->status == 'active')
@@ -207,6 +192,25 @@
                                                     </a>
                                                 </div>
                                             @endif
+                                        @elseif($item->merchant_id != NULL)
+                                            {{$item->merchant->shop_name}}
+                                            @if ($item->merchant->status == 'active')
+                                                <div class="badge badge-primary">
+                                                    <a class="text-white" href="{{route('merchant.details', $item->merchant->id)}}">
+                                                        <span class="fw-bold">فعال</span>
+                                                    </a>
+                                                </div>
+                                            @else 
+                                                <div class="badge badge-danger">
+                                                    <a class="text-white" href="{{route('merchant.details', $item->merchant->id)}}">
+                                                        <span class="fw-bold">غیر فعال</span>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @elseif($item->vendor_id == NULL && $item->merchant_id == NULL && $item->retailer_id == NULL)
+                                            <div class="badge badge-secondary">
+                                                <span class="fw-bold">یلسو</span>
+                                            </div>
                                         @endif
                                     </td>
                                     <!--end::کدینگ دسته بندی=-->
@@ -218,13 +222,17 @@
                                             <div class="badge badge-secondary">
                                                 <span class="fw-bold">تأمین کننده</span>
                                             </div>
+                                        @elseif($item->retailer_id != NULL)
+                                            <div class="badge badge-secondary">
+                                                <span class="fw-bold">خرده فروش</span>
+                                            </div>
                                         @elseif($item->merchant_id != NULL)
                                             <div class="badge badge-secondary">
                                                 <span class="fw-bold">بازرگان</span>
                                             </div>
-                                        @elseif($item->retailer_id != NULL)
+                                        @elseif($item->vendor_id == NULL && $item->merchant_id == NULL && $item->retailer_id == NULL)
                                             <div class="badge badge-secondary">
-                                                <span class="fw-bold">خرده فروش</span>
+                                                <span class="fw-bold">مدیریت</span>
                                             </div>
                                         @endif
                                     </td>
@@ -322,16 +330,25 @@
                                         <!--end::Svg Icon--></a>
                                         <!--begin::Menu-->
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <a href="{{route('edit.product',$item->id)}}" class="menu-link px-3">ویرایش</a>
                                             </div>
                                             <!--end::Menu item-->
+                                            
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <a href="{{route('delete.product',$item->id)}}" onclick ="return confirm('آیا برای انجام این کار اطمینان دارید؟')" class="menu-link px-3" data-kt-ecommerce-product-filter="delete_row">حذف</a>
                                             </div>
                                             <!--end::Menu item-->
+
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="{{route('copy.product',$item->id)}}" class="menu-link px-3">رونوشت</a>
+                                            </div>
+                                            <!--end::Menu item-->
+
                                         </div>
                                         <!--end::Menu-->
                                     </td>

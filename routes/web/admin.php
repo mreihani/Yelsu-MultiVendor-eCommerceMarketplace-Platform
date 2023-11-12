@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Backend\Admin\AdminBlogController;
 use App\Http\Controllers\Backend\Admin\AdminController;
-use App\Http\Controllers\Backend\Admin\AdminCustomsController;
 use App\Http\Controllers\Backend\Admin\OrderController;
 use App\Http\Controllers\Backend\Admin\ProductController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
+use App\Http\Controllers\Backend\Admin\AdminBlogController;
+use App\Http\Controllers\Backend\Admin\AdminVisitController;
+use App\Http\Controllers\Backend\Admin\AdminCustomsController;
 use App\Http\Controllers\Backend\Admin\AdminAttributeController;
 
 
@@ -160,6 +161,8 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/edit/product/{id}', 'EditProduct')->name('edit.product');
     Route::post('/update/product', 'UpdateProduct')->name('update.product');
     Route::get('/delete/product/{id}', 'DeleteProduct')->name('delete.product');
+    Route::get('copy/product/{id}', 'CopyProduct')->name('copy.product');
+    Route::post('storeCopy/product', 'StoreCopyProduct')->name('storeCopy.product');
     Route::post('load-attributes', 'LoadAttributes');
 });
 
@@ -173,6 +176,13 @@ Route::controller(AdminAttributeController::class)->group(function () {
     Route::get('/copy/attribute/{id}', 'CopyAttribute')->name('copy.attribute');
     Route::post('/store-copy/attribute', 'StoreCopyAttribute')->name('store.copy.attribute');
     Route::get('/delete/attribute/{id}', 'DeleteAttribute')->name('delete.attribute');
+});
+
+//Visit All Route
+Route::controller(AdminVisitController::class)->group(function () {
+    Route::get('/all/visit', 'AllVisit')->name('all.visit');
+    Route::get('/visit/search', 'AdminVisitViewSearch')->name('admin.visit.search');
+    Route::get('/visit/status-view/{id}', 'AdminVisitStatusView')->name('admin.visit.statusView');
 });
 
 

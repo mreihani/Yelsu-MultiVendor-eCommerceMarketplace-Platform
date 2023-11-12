@@ -37,16 +37,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web', 'auth'])
                 ->group(base_path('routes/web/assets.php'));
 
-            Route::middleware(['web', 'auth'])
+            Route::middleware(['web', 'auth', 'visitorlogs'])
                 ->group(base_path('routes/web/front-dashboard.php'));
 
             Route::middleware(['web'])
                 ->group(base_path('routes/web/cart.php'));
 
-            Route::middleware(['web'])
+            Route::middleware(['web', 'visitorlogs'])
                 ->group(base_path('routes/web/frontend.php'));
 
-            Route::middleware(['web'])
+            Route::middleware(['web', 'visitorlogs'])
                 ->group(base_path('routes/web/blog.php'));
 
             Route::middleware(['web'])
@@ -71,15 +71,15 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin')
                 ->group(base_path('routes/web/admin.php'));
 
-            Route::middleware(['web', 'auth', 'role:vendor'])
+            Route::middleware(['web', 'auth', 'role:vendor', 'visitorlogs'])
                 ->prefix('vendor')
                 ->group(base_path('routes/web/vendor.php'));
 
-            Route::middleware(['web', 'auth', 'role:merchant'])
+            Route::middleware(['web', 'auth', 'role:merchant', 'visitorlogs'])
                 ->prefix('merchant')
                 ->group(base_path('routes/web/merchant.php'));
 
-            Route::middleware(['web', 'auth', 'role:editor'])
+            Route::middleware(['web', 'auth', 'role:editor', 'visitorlogs'])
                 ->prefix('editor')
                 ->group(base_path('routes/web/editor.php'));
 
@@ -87,20 +87,23 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('specialist')
                 ->group(base_path('routes/web/specialist.php'));
 
-            Route::middleware(['web', 'auth', 'role:retailer'])
+            Route::middleware(['web', 'auth', 'role:retailer', 'visitorlogs'])
                 ->prefix('retailer')
                 ->group(base_path('routes/web/retailer.php'));
 
-            Route::middleware(['web', 'auth', 'role:financial'])
+            Route::middleware(['web', 'auth', 'role:financial', 'visitorlogs'])
                 ->prefix('financial')
                 ->group(base_path('routes/web/financial.php'));
-            Route::middleware(['web', 'auth', 'role:freightage'])
+
+            Route::middleware(['web', 'auth', 'role:freightage', 'visitorlogs'])
                 ->prefix('freightage')
                 ->group(base_path('routes/web/freightage.php'));
-            Route::middleware(['web', 'auth', 'role:driver'])
+
+            Route::middleware(['web', 'auth', 'role:driver', 'visitorlogs'])
                 ->prefix('driver')
                 ->group(base_path('routes/web/driver.php'));   
-            Route::middleware(['web', 'auth', 'role:representative'])
+
+            Route::middleware(['web', 'auth', 'role:representative', 'visitorlogs'])
                 ->prefix('representative')
                 ->group(base_path('routes/web/representative.php')); 
         });

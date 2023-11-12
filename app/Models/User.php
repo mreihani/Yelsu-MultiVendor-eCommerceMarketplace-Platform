@@ -9,11 +9,13 @@ use App\Models\Merchant;
 use App\Models\Attribute;
 use App\Models\ActiveCode;
 use App\Models\Useroutlets;
+use App\Models\ShetabitVisit;
 use App\Models\Representative;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 class User extends Authenticatable
 {
@@ -123,6 +125,17 @@ class User extends Authenticatable
 
     public function vendorProducts() {
         return $this->hasMany(Product::class, 'vendor_id');
+    }
+
+    public function visits() {
+        return $this->hasMany(ShetabitVisit::class, 'visitor_id');
+    }
+
+    public function isUserOnline($seconds = 180) {
+
+        $time = now()->subSeconds($seconds);
+
+        return $this->visits()->where("updated_at", '>=', $time->toDateTime())->count() ? true : false;
     }
 
 }
