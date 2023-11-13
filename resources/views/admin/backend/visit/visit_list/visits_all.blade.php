@@ -180,9 +180,11 @@
                                             <!--begin::کاربر details-->
                                             <div class="d-flex flex-column">
                                                 <a href="" class="text-gray-800 text-hover-primary mb-1">{{$visit->user ? ($visit->user->firstname .' ' . $visit->user->lastname) : "نامشخص"}}</a>
-                                                <span class="badge badge-light">
-                                                    {{$visit->user ? $visit->user->email : ""}}
-                                                </span>
+                                                @if($visit->user)
+                                                    <span class="badge badge-light">
+                                                        {{$visit->user ? $visit->user->email : ""}}
+                                                    </span>
+                                                @endif
                                             </div>
                                             <!--begin::کاربر details-->
                                         </td>
