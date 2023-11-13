@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,42 @@ class ShetabitVisit extends Model
                 عرض جغرافیایی: $location_obj->latitude 
                 طول جغرافیایی: $location_obj->longitude 
             ";
+    }
+
+    // دریافت کالکشنی از داده های بازدید دیتابیس و مرتب سازی بر اساس تاریخ روز
+    public function scopeDetermine_visits_per_day_obj($query, $visits) {
+
+        $visits_array = [];
+
+        $visits_array = $visits->groupBy(function($visit) {
+            return jdate($visit->created_at)->format('Y/m/d');
+        });
+
+        return $visits_array;
+    }
+
+    // متد بالا ولی به جای شیء میاد تعداد بازدید در روز رو بر می گرداند
+    public function scopeDetermine_visits_per_day_number($query, $visits) {
+
+        $visits_array = [];
+
+        $visits_array = $this->determine_visits_per_day_obj($visits)->map(function($visits_item){
+            return count($visits_item);
+        });
+
+        return $visits_array;
+    }
+
+    // دریافت تعداد بازدید یونیک دیتابیس و مرتب سازی بر اساس تاریخ روز
+    public function scopeDetermine_unique_visits_per_day_number($query, $visits) {
+
+        $visits_array = [];
+
+        $visits_array = $this->determine_visits_per_day_obj($visits)->map(function($visits_item){
+            return count($visits_item->pluck('ip')->unique());
+        });
+
+        return $visits_array;
     }
 }
 

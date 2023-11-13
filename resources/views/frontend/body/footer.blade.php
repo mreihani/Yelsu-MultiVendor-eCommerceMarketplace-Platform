@@ -94,7 +94,7 @@
                                 <div class="container text-center">
                                     <div class="row">
                                         <div class="col-4">
-                                            <a href="{{asset('frontend/assets/images/anjoman_senfi_membership_1403.jpg')}}" data-lightbox="image-2" data-title="انجمن صنفی کارفرمایی فروشگاه های اینترنتی تهران">
+                                            <a href="https://eanjoman.ir/member/f3TIPo88NvVj3Kv1aCIYGZMlj" target="_blank">
                                                 <img width="100" src="{{asset('frontend/assets/images/anjoman-150x150.png')}}" alt="انجمن صنفی کارفرمایی فروشگاه های اینترنتی تهران"/>
                                             </a>
                                         </div>

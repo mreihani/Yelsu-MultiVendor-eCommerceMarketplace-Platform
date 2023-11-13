@@ -180,9 +180,11 @@ Route::controller(AdminAttributeController::class)->group(function () {
 
 //Visit All Route
 Route::controller(AdminVisitController::class)->group(function () {
-    Route::get('/all/visit', 'AllVisit')->name('all.visit');
+    Route::get('/visit/all', 'VisitAll')->name('visit.all');
     Route::get('/visit/search', 'AdminVisitViewSearch')->name('admin.visit.search');
     Route::get('/visit/status-view/{id}', 'AdminVisitStatusView')->name('admin.visit.statusView');
+    Route::get('/visit/{id}', 'AdminVisitId')->name('admin.visit.id');
+    Route::get('/chart/all', 'ChartAll')->name('chart.all');
 });
 
 

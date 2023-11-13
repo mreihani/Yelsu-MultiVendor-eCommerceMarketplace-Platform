@@ -68,7 +68,7 @@
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">اطلاعات بازدید پلتفرم</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">آمار و اطلاعات پلتفرم</span>
                     </div>
                     <!--end:Menu content-->
                 </div>
@@ -77,7 +77,7 @@
                 
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('admin/all/visit') ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('admin/visit/all') ? 'show' : '' }} {{ Request::is('admin/chart/all') ? 'show' : '' }}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -91,16 +91,17 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">اطلاعات و آمارها</span>
+                        <span class="menu-title">اطلاعات بازدید پلتفرم</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
+
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ Request::is('admin/all/visit') ? 'active' : '' }}" href="{{route('all.visit')}}">
+                            <a class="menu-link {{ Request::is('admin/visit/all') ? 'active' : '' }}" href="{{route('visit.all')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -109,9 +110,26 @@
                             <!--end:Menu link-->
                         </div>
                         <!--end:Menu item-->
-                        
                     </div>
                     <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ Request::is('admin/chart/all') ? 'active' : '' }}" href="{{route('chart.all')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">نمودار بازدید ها</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
                 </div>
                 <!--end:Menu item-->
 

@@ -128,7 +128,7 @@ class User extends Authenticatable
     }
 
     public function visits() {
-        return $this->hasMany(ShetabitVisit::class, 'visitor_id');
+        return $this->hasMany(ShetabitVisit::class, 'visitor_id')->orderBy('created_at', 'desc');
     }
 
     public function isUserOnline($seconds = 180) {

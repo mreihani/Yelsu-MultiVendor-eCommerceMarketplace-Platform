@@ -1,7 +1,7 @@
 @extends('admin.admin_dashboard')
 @section('admin')
 
-@if(Route::currentRouteName() == 'all.visit')    
+@if(Route::currentRouteName() == 'visit.all')    
     <style>
         .dataTables_length label { display:none;}
         #kt_ecommerce_category_table_paginate .pagination { display:none;}
@@ -127,13 +127,22 @@
                                     <th class="">مشخصات کاربر</th>
                                     <th class="">سطح دسترسی</th>
                                     <th class="">نام کاربری</th>
-                                    <th class="min-w-100px">آدرس بازدید شده</th>
+                                    <th class="min-w-100px">
+                                        آدرس بازدید شده
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="برای نمایش آدرس مورد نظر نشانه گر را روی دکمه کپی شناور کنید."></i>
+                                    </th>
                                     <th class="">پلتفرم</th>
                                     <th class="">مرورگر</th>
-                                    <th class="">آدرس ip</th>
+                                    <th class="">
+                                        آدرس ip
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="برای کسب اطلاعات جغرافیایی ip مورد نظر روی آن کلیک نمایید."></i>
+                                    </th>
                                     <th class="">تاریخ بازدید</th>
                                     <th class="">ساعت بازدید</th>
-                                    <th class="text-center min-w-100px">عملیات</th>
+                                    <th class="text-center min-w-100px">
+                                        عملیات
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="برای نمایش تمامی بازدید های یک فرد یا ip مشخص بر روی دکمه 'نمایش بازدید ها' کلیک نمایید."></i>
+                                    </th>
                                 </tr>
                                 <!--end::Table row-->
                             </thead>
@@ -171,7 +180,7 @@
                                             <!--begin::کاربر details-->
                                             <div class="d-flex flex-column">
                                                 <a href="" class="text-gray-800 text-hover-primary mb-1">{{$visit->user ? ($visit->user->firstname .' ' . $visit->user->lastname) : "نامشخص"}}</a>
-                                                <span>
+                                                <span class="badge badge-light">
                                                     {{$visit->user ? $visit->user->email : ""}}
                                                 </span>
                                             </div>
@@ -283,7 +292,7 @@
                                                 {{$visit->ip}}
                                             </button> --}}
 
-                                            <a href="{{"https://tools.keycdn.com/geo?host=$visit->ip"}}" class="btn btn-sm btn-light" target="_blank">
+                                            <a href="{{"https://tools.keycdn.com/geo?host=$visit->ip"}}" class="btn btn-sm btn-light-info" target="_blank">
                                                 {{$visit->ip}}
                                             </a>
                                         </td>
@@ -309,6 +318,7 @@
                                             <!--end::Svg Icon--></a>
                                             <!--begin::Menu-->
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     @if($visit->user)
@@ -318,6 +328,17 @@
                                                     @endif
                                                 </div>
                                                 <!--end::Menu item-->
+
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    @if($visit->user)
+                                                        <a href="{{route('admin.visit.id', $visit->user->id)}}" class="menu-link px-3">نمایش بازدیدها</a>
+                                                    @else
+                                                        <a href="" class="menu-link px-3">نمایش بازدیدها</a>
+                                                    @endif
+                                                </div>
+                                                <!--end::Menu item-->
+
                                             </div>
                                             <!--end::Menu-->
                                         </td>
@@ -331,7 +352,7 @@
                         </table>
                         <!--end::Table-->
 
-                        @if(Route::currentRouteName() == 'all.visit')    
+                        @if(Route::currentRouteName() == 'visit.all')    
                             <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
                                 {{$visits->links('vendor.pagination.backend-dashboard')}}
                             </div>

@@ -34,6 +34,8 @@
 		
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
 
+		<script src="{{asset('adminbackend/assets/plugins/custom/apexcharts/apexcharts.js')}}"></script>
+
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
