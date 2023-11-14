@@ -19,14 +19,10 @@ class ShetabitVisit extends Model
 
     public function determine_ip_location() {
 
-        $location_obj = \Location::get($this->ip);
-
         return "
-                نام کشور: $location_obj->countryName
-                نام منطقه: $location_obj->regionName 
-                نام شهر: $location_obj->cityName 
-                عرض جغرافیایی: $location_obj->latitude 
-                طول جغرافیایی: $location_obj->longitude 
+                نام کشور: $this->country_name
+                نام استان: $this->province_name 
+                نام شهر: $this->city_name
             ";
     }
 

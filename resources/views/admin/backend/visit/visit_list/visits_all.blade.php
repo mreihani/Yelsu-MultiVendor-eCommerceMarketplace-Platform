@@ -271,8 +271,8 @@
                                             {{-- <button class="btn btn-sm btn-light" data-toggle="tooltip" data-placement="top" title="{{\Location::get($visit->ip) ? $visit->determine_ip_location() : "نامشخص"}}">
                                                 {{$visit->ip}}
                                             </button> --}}
-
-                                            <a href="{{"https://tools.keycdn.com/geo?host=$visit->ip"}}" class="btn btn-sm btn-light-info" target="_blank">
+                                            
+                                            <a href="{{"https://tools.keycdn.com/geo?host=$visit->ip"}}" class="btn btn-sm btn-light-info" target="_blank" data-toggle="tooltip" data-placement="top" title="{{$visit->determine_ip_location()}}">
                                                 {{$visit->ip}}
                                             </a>
                                         </td>
