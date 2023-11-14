@@ -129,6 +129,7 @@
                                         آدرس
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="برای نمایش آدرس مورد نظر نشانه گر را روی دکمه کپی شناور کنید."></i>
                                     </th>
+                                    <th class="">دستگاه</th>
                                     <th class="">پلتفرم</th>
                                     <th class="">مرورگر</th>
                                     <th class="">
@@ -249,7 +250,13 @@
 
                                         <!--begin::پیوستنed-->
                                         <td>
-                                            <div class="badge badge-light fw-bold">{{$visit->platform}}</div>
+                                            <div class="badge badge-light fw-bold">{{$visit->device ?: ''}}</div>
+                                        </td>
+                                        <!--begin::پیوستنed-->
+
+                                        <!--begin::پیوستنed-->
+                                        <td>
+                                            <div class="badge badge-light fw-bold">{{$visit->platform ?: ''}}</div>
                                         </td>
                                         <!--begin::پیوستنed-->
 
