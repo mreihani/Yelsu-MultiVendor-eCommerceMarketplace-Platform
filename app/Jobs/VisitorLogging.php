@@ -43,8 +43,8 @@ class VisitorLogging implements ShouldQueue
             'country_name' => ($location && $location->countryName) ? $location->countryName : null,
             'city_name' => ($location && $location->cityName) ? $location->cityName : null,
             'province_name' => ($location && $location->regionName) ? $location->regionName : null,
+            'country_code' => ($location && $location->countryCode) ? $location->countryCode : null,
             
-            // 'country_code' => ($location && $location->countryCode) ? $location->countryCode : null,
             // 'latitude' => ($location && $location->latitude) ? $location->latitude : null,
             // 'longitude' => ($location && $location->longitude) ? $location->longitude : null,
         ];
