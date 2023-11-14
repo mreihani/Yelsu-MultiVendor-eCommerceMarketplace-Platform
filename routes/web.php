@@ -36,5 +36,7 @@ require __DIR__ . '/auth.php';
     //     $value->save();
     // }
 
-
+    // dd(App\Models\ShetabitVisit::all()->first()->ip);
+    // dd(\Location::get('2.180.237.2')->countryName);
+    
 // });

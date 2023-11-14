@@ -125,10 +125,8 @@
                                         </div>
                                     </th>
                                     <th class="">مشخصات کاربر</th>
-                                    <th class="">سطح دسترسی</th>
-                                    <th class="">نام کاربری</th>
                                     <th class="min-w-100px">
-                                        آدرس بازدید شده
+                                        آدرس
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="برای نمایش آدرس مورد نظر نشانه گر را روی دکمه کپی شناور کنید."></i>
                                     </th>
                                     <th class="">پلتفرم</th>
@@ -179,94 +177,67 @@
                                             <!--end::Avatar-->
                                             <!--begin::کاربر details-->
                                             <div class="d-flex flex-column">
-                                                <a href="" class="text-gray-800 text-hover-primary mb-1">{{$visit->user ? ($visit->user->firstname .' ' . $visit->user->lastname) : "نامشخص"}}</a>
-                                                @if($visit->user)
-                                                    <span class="badge badge-light">
-                                                        {{$visit->user ? $visit->user->email : ""}}
-                                                    </span>
-                                                @endif
+                                                <div class="text-gray-800 mb-1" data-toggle="tooltip" data-placement="top" title="{{$visit->user ? $visit->user->email : ""}}">
+                                                    {{$visit->user ? ($visit->user->firstname .' ' . $visit->user->lastname) : "نامشخص"}}
+                                                </div>
+                                                
+                                                <span>
+                                                    <!--begin::سطح دسترسی=-->
+                                                    @if($visit->user && $visit->user->role == 'admin')
+                                                        <div class="badge badge-light-success fw-bold">
+                                                            مدیریت
+                                                        </div>
+                                                    @elseif($visit->user && $visit->user->role == 'vendor')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            تأمین کننده
+                                                        </div>
+                                                    @elseif($visit->user && $visit->user->role == 'visit->user')
+                                                        <div class="badge badge-light-warning fw-bold">
+                                                            کاربر عادی 
+                                                        </div>
+                                                    @elseif($visit->user && $visit->user->role == 'editor')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            نویسنده
+                                                        </div>
+                                                    @elseif($visit->user && $visit->user->role == 'specialist')
+                                                        <div class="badge badge-light-primary fw-bold">کارشناس {{$visit->user->specialist_category->category_name}}</div>
+                                                    @elseif($visit->user && $visit->user->role == 'financial')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            کارشناس مالی
+                                                        </div> 
+                                                    @elseif($visit->user && $visit->user->role == 'merchant')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            بازرگان
+                                                        </div>  
+                                                    @elseif($visit->user && $visit->user->role == 'retailer')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            خرده فروش
+                                                        </div>     
+                                                    @elseif($visit->user && $visit->user->role == 'freightage')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            باربری
+                                                        </div>   
+                                                    @elseif($visit->user && $visit->user->role == 'driver')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            راننده
+                                                        </div>   
+                                                    @elseif($visit->user && $visit->user->role == 'representative')
+                                                        <div class="badge badge-light-info fw-bold">
+                                                            عامل / نمایندگی
+                                                        </div>   
+                                                    @elseif(!$visit->user)
+                                                        <div class="badge badge-light fw-bold">
+                                                            نامشخص
+                                                        </div>    
+                                                    @endif
+                                                    <!--end::سطح دسترسی=-->
+                                                </span>
+                                                
                                             </div>
                                             <!--begin::کاربر details-->
                                         </td>
                                         <!--end::کاربر=-->
-                                        <!--begin::سطح دسترسی=-->
-                                        @if($visit->user && $visit->user->role == 'admin')
-                                            <td>
-                                                <div class="badge badge-light-success fw-bold">
-                                                    مدیریت
-                                                </div>
-                                            </td>    
-                                        @elseif($visit->user && $visit->user->role == 'vendor')
-                                            <td>
-                                                <div class="badge badge-light-success fw-bold">
-                                                    تأمین کننده
-                                                </div>
-                                            </td>
-                                        @elseif($visit->user && $visit->user->role == 'visit->user')
-                                            <td>  
-                                                <div class="badge badge-light-success fw-bold">
-                                                    کاربر عادی 
-                                                </div>
-                                            </td> 
-                                        @elseif($visit->user && $visit->user->role == 'editor')
-                                            <td>  
-                                                <div class="badge badge-light-success fw-bold">
-                                                    نویسنده
-                                                </div>
-                                            </td> 
-                                        @elseif($visit->user && $visit->user->role == 'specialist')
-                                            <td>کارشناس فنی محصول
-                                                <div class="badge badge-light-primary fw-bold">{{$visit->user->specialist_category->category_name}}</div>
-                                            </td>    
-                                        @elseif($visit->user && $visit->user->role == 'financial')
-                                            <td>  
-                                                <div class="badge badge-light-success fw-bold">
-                                                    کارشناس مالی
-                                                </div> 
-                                            </td>
-                                        @elseif($visit->user && $visit->user->role == 'merchant')
-                                            <td> 
-                                                <div class="badge badge-light-success fw-bold">
-                                                    بازرگان
-                                                </div>  
-                                            </td>       
-                                        @elseif($visit->user && $visit->user->role == 'retailer')
-                                            <td> 
-                                                <div class="badge badge-light-success fw-bold">
-                                                    خرده فروش
-                                                </div>     
-                                            </td>                
-                                        @elseif($visit->user && $visit->user->role == 'freightage')
-                                            <td>  
-                                                <div class="badge badge-light-success fw-bold">
-                                                    باربری
-                                                </div>   
-                                            </td>                  
-                                        @elseif($visit->user && $visit->user->role == 'driver')
-                                            <td> 
-                                                <div class="badge badge-light-success fw-bold">
-                                                    راننده
-                                                </div>   
-                                            </td>    
-                                        @elseif($visit->user && $visit->user->role == 'representative')
-                                            <td>
-                                                <div class="badge badge-light-success fw-bold">
-                                                    عامل / نمایندگی
-                                                </div>   
-                                            </td>     
-                                        @elseif(!$visit->user)
-                                            <td>     
-                                                <div class="badge badge-light-warning fw-bold">
-                                                    نامشخص
-                                                </div>    
-                                            </td>                
-                                        @endif
-                                        <!--end::سطح دسترسی=-->
-                                        <!--begin::نام کاربری=-->
-                                        <td>
-                                            <div class="badge badge-light fw-bold">{{$visit->user ? $visit->user->username : "نامشخص"}}</div>
-                                        </td>
-                                        <!--end::نام کاربری=-->
+                                       
                                         <!--begin::Two step=-->
                                         <td>
                                             <button type="button" class="copyBtn btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="{{$visit->url}}">
@@ -301,11 +272,19 @@
                                         <!--begin::پیوستنed-->
 
                                         <!--begin::پیوستنed-->
-                                        <td>{{jdate($visit->created_at)->format('Y/m/d')}}</td>
+                                        <td>
+                                            <div class="badge badge-light fw-bold">
+                                                {{jdate($visit->created_at)->format('Y/m/d')}}
+                                            </div>
+                                        </td>
                                         <!--begin::پیوستنed-->
 
                                         <!--begin::پیوستنed-->
-                                        <td>{{jdate($visit->created_at)->format('H:i:m')}}</td>
+                                        <td>
+                                            <div class="badge badge-light fw-bold">
+                                                {{jdate($visit->created_at)->format('H:i:m')}}
+                                            </div>
+                                        </td>
                                         <!--begin::پیوستنed-->
 
                                         <!--begin::عملیات=-->
@@ -376,13 +355,13 @@
 </div>
 
     <!--begin::سفارشی Javascript(used for this page only)-->
-    <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
     <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script>
+    <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script> --}}
     <!--end::سفارشی Javascript-->
 
     <script>
