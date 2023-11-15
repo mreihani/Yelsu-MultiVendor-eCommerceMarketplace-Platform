@@ -155,6 +155,27 @@
                                 </div>
                                 <!--end::Input group-->
 
+                                <!--begin::Input group-->
+                                <div class="row mb-6 mt-10">
+                                    <!--begin::Tags-->
+                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">شماره تلفن همراه</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-10">
+                                        <!--begin::Row-->
+                                        <div class="row">
+                                            <!--begin::Col-->
+                                            <div class="col-lg-12 fv-row">
+                                                <input type="number" name="home_phone" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="شماره تلفن کاربر را وارد نمایید" value="{{old('home_phone')}}" />
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Row-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+
                                 <div class="separator separator-dashed my-5 pt-5"></div>
 
                                 <!--begin::Input group-->
@@ -182,7 +203,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="number" name="national_code" class="form-control form-control-lg form-control-solid" placeholder="کد ملی" value="" />
+                                                <input type="number" name="national_code" class="form-control form-control-lg form-control-solid" placeholder="کد ملی" value="{{old('national_code')}}" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -203,7 +224,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="number" name="company_number" class="form-control form-control-lg form-control-solid" placeholder="شماره شناسه شرکت" value="" />
+                                                <input type="number" name="company_number" class="form-control form-control-lg form-control-solid" placeholder="شماره شناسه شرکت" value="{{old('company_number')}}" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -224,7 +245,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="text" name="agent_name" class="form-control form-control-lg form-control-solid" placeholder="نام نماینده" value="" />
+                                                <input type="text" name="agent_name" class="form-control form-control-lg form-control-solid" placeholder="نام نماینده" value="{{old('agent_name')}}" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -247,7 +268,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="text" name="shop_name" class="form-control form-control-lg form-control-solid" placeholder="نام فروشگاه یا شرکت" value="" />
+                                                <input type="text" name="shop_name" class="form-control form-control-lg form-control-solid" placeholder="نام فروشگاه یا شرکت" value="{{old('shop_name')}}" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -268,7 +289,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="text" name="shop_address" class="form-control form-control-lg form-control-solid" placeholder="آدرس فروشگاه / شرکت" value="" />
+                                                <input type="text" name="shop_address" class="form-control form-control-lg form-control-solid" placeholder="آدرس فروشگاه / شرکت" value="{{old('shop_address')}}" />
                                             </div>
                                             <!--end::Col-->
                                         </div>

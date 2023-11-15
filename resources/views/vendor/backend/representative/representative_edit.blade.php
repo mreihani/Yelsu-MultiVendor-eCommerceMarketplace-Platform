@@ -156,6 +156,27 @@
                                 </div>
                                 <!--end::Input group-->
 
+                                <!--begin::Input group-->
+                                <div class="row mb-6 mt-10">
+                                    <!--begin::Tags-->
+                                    <label class="col-lg-2 col-form-label required fw-semibold fs-6">شماره تلفن همراه</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-10">
+                                        <!--begin::Row-->
+                                        <div class="row">
+                                            <!--begin::Col-->
+                                            <div class="col-lg-12 fv-row">
+                                                <input type="number" name="home_phone" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="شماره تلفن کاربر را وارد نمایید" value="{{$representative->user->home_phone, old('home_phone')}}" />
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Row-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+
                                 <div class="separator separator-dashed my-5 pt-5"></div>
 
                                 <!--begin::Input group-->

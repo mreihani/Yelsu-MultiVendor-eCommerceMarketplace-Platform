@@ -85,8 +85,18 @@
                             <div class="card-body pt-0">
                                     <!--begin::Input group-->
                                     <div class="mb-10 fv-row">
+
+                                        <div class="my-5">
+                                            <h3>
+                                                {{$representative_product->product_name}}
+                                            </h3>
+                                        </div>
+
                                         <!--begin::Tags-->
-                                        <label class="required form-label">قیمت محصول</label>
+                                        <label class="required form-label">
+                                            قیمت
+                                            ({{$representative_product->determine_product_currency()}})
+                                        </label>
                                         <!--end::Tags-->
                                         <!--begin::Input-->
                                         <input type="hidden" name="product_id" value="{{$representative_product->id}}" />
@@ -103,7 +113,7 @@
                         <!--end::عمومی options-->
                         <div class="d-flex justify-content-end">
                             <!--begin::Button-->
-                            <a href="" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
+                            <a href="{{route('representative.all.product')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">انصراف</a>
                             <!--end::Button-->
                             <!--begin::Button-->
                             <button type="submit" id="kt_ecommerce_add_category_submit" class="btn btn-primary">

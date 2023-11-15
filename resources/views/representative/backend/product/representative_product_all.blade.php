@@ -131,6 +131,10 @@
                                         وضعیت تایید کارشناس
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="پس از بررسی و تایید کارشناس، محصول شما در فروشگاه قابل دسترس خواهد بود."></i></label>
                                     </th>
+                                    <th class="text-end min-w-70px">
+                                        مجوز تغییر قیمت
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="با استفاده از مجوز تغییر قیمت شما می توانید قیمت محصول را تغییر دهید."></i></label>
+                                    </th>
                                     <th class="text-end min-w-70px">عملیات</th>
                                 </tr>
                                 <!--end::Table row-->
@@ -179,7 +183,7 @@
                                     </td>
                                     <!--end::تعداد=-->
                                     <!--begin::قیمت=-->
-                                    <td class="text-end pe-0">{{$item->selling_price}}</td>
+                                    <td class="text-end pe-0">{{$item->selling_price}} {{$item->determine_product_currency()}}</td>
                                     <!--end::قیمت=-->
                                     
                                     <!--begin::وضعیت=-->
@@ -197,49 +201,61 @@
                                     </td>
                                     @endif
                                     <!--end::وضعیت=-->
+
                                     <!--begin::وضعیت=-->
                                     @if($item->product_verification == 'inactive')
-                                    <td class="text-center pe-0" data-order="در حال بررسی">
-                                        <!--begin::Badges-->
-                                        <div class="badge badge-light-warning">در حال بررسی</div>
-                                        <!--end::Badges-->
-                                    </td>
-                                    @else
-                                    <td class="text-center pe-0" data-order="تایید شده">
-                                        <!--begin::Badges-->
-                                        <div class="badge badge-primary">تایید شده</div>
-                                        <!--end::Badges-->
-                                    </td>
+                                        <td class="text-center pe-0" data-order="در حال بررسی">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-light-warning">در حال بررسی</div>
+                                            <!--end::Badges-->
+                                        </td>
+                                        @else
+                                        <td class="text-center pe-0" data-order="تایید شده">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-primary">تایید شده</div>
+                                            <!--end::Badges-->
+                                        </td>
                                     @endif
                                     <!--end::وضعیت=-->
-                                    <!--begin::عملیات=-->
-                                    @if($representativeData->representative->products()->where('product_id', $item->id)->first()->pivot->change_price_permission)
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">عملیات
-                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-                                            <span class="svg-icon svg-icon-5 m-0">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                            <!--end::Svg Icon--></a>
-                                            <!--begin::Menu-->
-                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                                
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="{{route('representative.edit.product',$item->id)}}" class="menu-link px-3">ویرایش</a>
-                                                </div>
-                                                <!--end::Menu item-->
 
-                                            </div>
-                                            <!--end::Menu-->
+                                    <!--begin::وضعیت=-->
+                                    @if($representativeData->representative->products()->where('product_id', $item->id)->first()->pivot->change_price_permission)
+                                        <td class="text-center pe-0" data-order="بله">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-primary">بله</div>
+                                            <!--end::Badges-->
                                         </td>
                                     @else
-                                        <td class="text-end">
-                                            <div class="badge badge-light-warning">بدون مجوز تغییر قیمت</div>
+                                        <td class="text-center pe-0" data-order="خیر">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-light-warning">خیر</div>
+                                            <!--end::Badges-->
                                         </td>
                                     @endif
+                                    <!--end::وضعیت=-->
+
+                                    <!--begin::عملیات=-->                                
+                                    <td class="text-end">
+                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary {{$representativeData->representative->products()->where('product_id', $item->id)->first()->pivot->change_price_permission ? '' : 'disabled'}}" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">عملیات
+                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                        <span class="svg-icon svg-icon-5 m-0">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon--></a>
+                                        <!--begin::Menu-->
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                            
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="{{route('representative.edit.product', $item->id)}}" class="menu-link px-3">ویرایش</a>
+                                            </div>
+                                            <!--end::Menu item-->
+
+                                        </div>
+                                        <!--end::Menu-->
+                                    </td>
                                     <!--end::عملیات=-->
                                 </tr>
                                 <!--end::Table row-->

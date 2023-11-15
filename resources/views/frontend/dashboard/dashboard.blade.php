@@ -298,7 +298,7 @@
                             </div>
                             @elseif(Auth::user()->role == 'representative')
                             <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">        
-                                <a href="{{route('driver.dashboard')}}" class="link-to-tab">
+                                <a href="{{route('representative.dashboard')}}" class="link-to-tab">
                                     <div class="icon-box text-center">
                                         <span class="icon-box-icon icon-computer">
                                             <i class="w-icon-computer"></i>

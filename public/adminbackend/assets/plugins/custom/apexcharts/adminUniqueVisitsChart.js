@@ -1,45 +1,43 @@
+// Global unique traffic dates
 let uniqueDatesArray = [];
 $.each(unique_visits_per_day, function( key, value ) {
     uniqueDatesArray.push(key);
 });
 
+// Global unique traffic visits
 let uniqueVisitsArray = [];
 $.each(unique_visits_per_day, function( key, value ) {
     uniqueVisitsArray.push(value);
 });
 
+// Iran unique traffic visitors
+let uniqueVisitsArrayIran = [];
+$.each(unique_visits_per_day_iran, function( key, value ) {
+    uniqueVisitsArrayIran.push(value);
+});
+
 var options = {
     series: [{
-      name: "تعداد بازدید کننده یکتا",
-      data: uniqueVisitsArray
-  }],
+    name: 'بازدیدکنندگان یکتا جهانی',
+    data: uniqueVisitsArray
+}, {
+    name: 'بازدیدکنندگان یکتا داخلی',
+    data: uniqueVisitsArrayIran
+}],
     chart: {
     height: 350,
-    type: 'line',
-    zoom: {
-      enabled: false
-    }
-  },
-  dataLabels: {
+    type: 'area'
+},
+    dataLabels: {
     enabled: false
-  },
-  stroke: {
+},
+    stroke: {
     curve: 'smooth'
-  },
-  title: {
-    text: 'نمودار بازدید کنندگان یکتا',
-    align: 'center'
-  },
-  grid: {
-    row: {
-      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-      opacity: 0.5
+},
+    xaxis: {
+    categories: uniqueDatesArray
     },
-  },
-  xaxis: {
-    categories: uniqueDatesArray,
-  }
-  };
+};
 
-  var unique_chart = new ApexCharts(document.querySelector("#unique-visits"), options);
-  unique_chart.render();
+var unique_chart = new ApexCharts(document.querySelector("#unique-visitors"), options);
+unique_chart.render();

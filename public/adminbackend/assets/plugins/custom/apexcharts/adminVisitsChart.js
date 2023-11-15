@@ -1,24 +1,32 @@
+// Global traffic dates
 let datesArray = [];
 $.each(visits_per_day, function( key, value ) {
-    datesArray.push(key);
+  datesArray.push(key);
 });
 
+// Global traffic visits
 let visitsArray = [];
 $.each(visits_per_day, function( key, value ) {
-    visitsArray.push(value);
+ visitsArray.push(value);
+});
+
+// Iran traffic visits
+let visitsArrayIran = [];
+$.each(visits_per_day_iran, function( key, value ) {
+    visitsArrayIran.push(value);
 });
 
 var options = {
     series: [{
-      name: "بازدید",
-      data: visitsArray
+    name: 'بازدید جهانی',
+    data: visitsArray
+  }, {
+    name: 'بازدید داخلی',
+    data: visitsArrayIran
   }],
     chart: {
     height: 350,
-    type: 'line',
-    zoom: {
-      enabled: false
-    }
+    type: 'area'
   },
   dataLabels: {
     enabled: false
@@ -26,21 +34,10 @@ var options = {
   stroke: {
     curve: 'smooth'
   },
-  title: {
-    text: 'نمودار بازدید',
-    align: 'center'
-  },
-  grid: {
-    row: {
-      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-      opacity: 0.5
-    },
-  },
   xaxis: {
-    categories: datesArray,
-  }
+    categories: datesArray
+  },
   };
 
   var visits_chart = new ApexCharts(document.querySelector("#visits"), options);
   visits_chart.render();
-

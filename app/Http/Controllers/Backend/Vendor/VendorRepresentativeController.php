@@ -50,6 +50,7 @@ class VendorRepresentativeController extends Controller
             'person_type' => new PersonTypeValidation($request),
             'specific_geolocation_validation' => new RepresentativeGeolocation($request),
             'product_obj_server' => ['required', new RepresentativeGeolocationProduct($request)],
+            'home_phone' => [env('IRANIAN_PHONE_REGEX')]
         ], [
             'firstname.required' => 'لطفا نام کاربر را وارد نمایید.',
             'lastname.required' => 'لطفا نام خانوادگی کاربر را وارد نمایید.',
@@ -66,6 +67,7 @@ class VendorRepresentativeController extends Controller
             'shop_name.required' => 'لطفا نام فروشگاه یا شرکت را وارد نمایید.',
             'shop_address.required' => 'لطفا آدرس فروشگاه یا شرکت را وارد نمایید.',
             'product_obj_server.required' => 'لطفا حداقل یک محصول از جدول محصولات انتخاب نمایید.',
+            'home_phone.regex' => 'لطفا شماره تلفن صحیح وارد نمایید.',
         ]);
 
         $user = User::create([
@@ -82,6 +84,7 @@ class VendorRepresentativeController extends Controller
             'national_code' => Purify::clean($request->national_code) ? Purify::clean($request->national_code) : null,
             'company_number' => Purify::clean($request->company_number) ? Purify::clean($request->company_number) : null,
             'agent_name' => Purify::clean($request->agent_name) ? Purify::clean($request->agent_name) : null,
+            'home_phone' => Purify::clean($incomingFields['home_phone']),
         ]);
 
         $rep_user = $user->representative()->create([
@@ -146,6 +149,7 @@ class VendorRepresentativeController extends Controller
             'shop_name' => 'required',
             'shop_address' => 'required',
             'person_type' => new PersonTypeValidation($request),
+            'home_phone' => [env('IRANIAN_PHONE_REGEX')]
         ], [
             'firstname.required' => 'لطفا نام کاربر را وارد نمایید.',
             'lastname.required' => 'لطفا نام خانوادگی کاربر را وارد نمایید.',
@@ -161,6 +165,7 @@ class VendorRepresentativeController extends Controller
             'password.max' => 'کلمه عبور باید حداکثر 20 کاراکتر باشد.',
             'shop_name.required' => 'لطفا نام فروشگاه یا شرکت را وارد نمایید.',
             'shop_address.required' => 'لطفا آدرس فروشگاه یا شرکت را وارد نمایید.',
+            'home_phone.regex' => 'لطفا شماره تلفن صحیح وارد نمایید.',
         ]);
 
         if ($incomingFields['password'] != 'password') {
@@ -176,6 +181,7 @@ class VendorRepresentativeController extends Controller
                 'national_code' => Purify::clean($request->national_code) ? Purify::clean($request->national_code) : null,
                 'company_number' => Purify::clean($request->company_number) ? Purify::clean($request->company_number) : null,
                 'agent_name' => Purify::clean($request->agent_name) ? Purify::clean($request->agent_name) : null,
+                'home_phone' => Purify::clean($incomingFields['home_phone']),
             ]);
         } else {
             $representative->user->update([
@@ -189,6 +195,7 @@ class VendorRepresentativeController extends Controller
                 'national_code' => Purify::clean($request->national_code) ? Purify::clean($request->national_code) : null,
                 'company_number' => Purify::clean($request->company_number) ? Purify::clean($request->company_number) : null,
                 'agent_name' => Purify::clean($request->agent_name) ? Purify::clean($request->agent_name) : null,
+                'home_phone' => Purify::clean($incomingFields['home_phone']),
             ]);
         }
 
