@@ -199,7 +199,7 @@ $(".edit-button-specification").on("click", $(this), function() {
                                 <div class="form-group">
                                     <div class="select-box">
                                         <select name="product_geolocation_permission_province[]" class="ir-province form-control form-control-md">
-                                        <option value=""></option><option value="همه استان ها">همه استان ها</option><option value="آذربايجان شرقي">آذربايجان شرقي</option><option value="آذربايجان غربي">آذربايجان غربي</option><option value="اردبيل">اردبيل</option><option value="اصفهان">اصفهان</option><option value="ايلام">ايلام</option><option value="بوشهر">بوشهر</option><option value="تهران">تهران</option><option value="چهارمحال بختياري">چهارمحال بختياري</option><option value="خراسان جنوبي">خراسان جنوبي</option><option value="خراسان رضوي">خراسان رضوي</option><option value="خراسان شمالي">خراسان شمالي</option><option value="خوزستان">خوزستان</option><option value="زنجان">زنجان</option><option value="سمنان">سمنان</option><option value="سيستان و بلوچستان">سيستان و بلوچستان</option><option value="فارس">فارس</option><option value="قزوين">قزوين</option><option value="قم">قم</option><option value="کرج">کرج</option><option value="كردستان">كردستان</option><option value="كرمان">كرمان</option><option value="كرمانشاه">كرمانشاه</option><option value="كهكيلويه و بويراحمد">كهكيلويه و بويراحمد</option><option value="گلستان">گلستان</option><option value="گيلان">گيلان</option><option value="لرستان">لرستان</option><option value="مازندران">مازندران</option><option value="مركزي">مركزي</option><option value="هرمزگان">هرمزگان</option><option value="همدان">همدان</option><option value="يزد">يزد</option>
+                                        <option value="همه استان ها">همه استان ها</option><option value="آذربايجان شرقي">آذربايجان شرقي</option><option value="آذربايجان غربي">آذربايجان غربي</option><option value="اردبيل">اردبيل</option><option value="اصفهان">اصفهان</option><option value="ايلام">ايلام</option><option value="بوشهر">بوشهر</option><option value="تهران">تهران</option><option value="چهارمحال بختياري">چهارمحال بختياري</option><option value="خراسان جنوبي">خراسان جنوبي</option><option value="خراسان رضوي">خراسان رضوي</option><option value="خراسان شمالي">خراسان شمالي</option><option value="خوزستان">خوزستان</option><option value="زنجان">زنجان</option><option value="سمنان">سمنان</option><option value="سيستان و بلوچستان">سيستان و بلوچستان</option><option value="فارس">فارس</option><option value="قزوين">قزوين</option><option value="قم">قم</option><option value="کرج">کرج</option><option value="كردستان">كردستان</option><option value="كرمان">كرمان</option><option value="كرمانشاه">كرمانشاه</option><option value="كهكيلويه و بويراحمد">كهكيلويه و بويراحمد</option><option value="گلستان">گلستان</option><option value="گيلان">گيلان</option><option value="لرستان">لرستان</option><option value="مازندران">مازندران</option><option value="مركزي">مركزي</option><option value="هرمزگان">هرمزگان</option><option value="همدان">همدان</option><option value="يزد">يزد</option>
                                         </select>
                                     </div>
                                 </div>
@@ -208,7 +208,11 @@ $(".edit-button-specification").on("click", $(this), function() {
                             <label class="col-md-2 d-flex align-items-center">شهر</label>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="product_geolocation_permission_city[]" class="ir-city form-control form-control-md"></select>
+                                    <select name="product_geolocation_permission_city[]" class="ir-city form-control form-control-md">
+                                        <option value="همه شهرها"> 
+                                            همه شهرها                                                                                
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

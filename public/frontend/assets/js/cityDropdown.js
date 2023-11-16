@@ -390,46 +390,49 @@ var data = {
 //             });
 //     };
     
-    // این بخش رو اضافه کردم برای فرم ریپیتر که بیاد مواردی که اضافه میشن رو شهر ها رو اضافه کنه با توجه به استان
-    $(".repeater").change(function(e) {
-        if($(e.target).hasClass("ir-province")) {
-            let cityData = data[$(e.target).val()];
-            let cityElem = $(e.target).closest(".ir-select").find(".ir-city");
-            
-            let cityDataList;
 
-            $.each(cityData, function (a, value) {
-                cityDataList += `
-                <option value="${value}">
-                    ${value}
-                </option>`;
-            });
 
-            cityElem.empty();
-            
-            cityElem.prepend(cityDataList);
-        }
-    });
 
-    // همین فرم ریپیتر بالا منتها فقط برای محصولات
-    $(".repeater-product").change(function(e) {
-        if($(e.target).hasClass("ir-province")) {
-            let cityData = data[$(e.target).val()];
-            let cityElem = $(e.target).closest(".ir-select").find(".ir-city");
-            
-            let cityDataList;
+// این بخش رو اضافه کردم برای فرم ریپیتر که بیاد مواردی که اضافه میشن رو شهر ها رو اضافه کنه با توجه به استان
+$(".repeater").change(function(e) {
+    if($(e.target).hasClass("ir-province")) {
+        
+        let cityData = data[$(e.target).val()];
+        let cityElem = $(e.target).closest(".ir-select").find(".ir-city");
+        
+        let cityDataList;
 
-            $.each(cityData, function (a, value) {
-                cityDataList += `
-                <option value="${value}">
-                    ${value}
-                </option>`;
-            });
+        $.each(cityData, function (a, value) {
+            cityDataList += `
+            <option value="${value}">
+                ${value}
+            </option>`;
+        });
 
-            cityElem.empty();
-            
-            cityElem.prepend(cityDataList);
-        }
-    });
+        cityElem.empty();
+        
+        cityElem.prepend(cityDataList);
+    }
+});
 
-    
+// همین فرم ریپیتر بالا منتها فقط برای محصولات
+$(".repeater-product").change(function(e) {
+    if($(e.target).hasClass("ir-province")) {
+        let cityData = data[$(e.target).val()];
+        let cityElem = $(e.target).closest(".ir-select").find(".ir-city");
+        
+        let cityDataList;
+
+        $.each(cityData, function (a, value) {
+            cityDataList += `
+            <option value="${value}">
+                ${value}
+            </option>`;
+        });
+
+        cityElem.empty();
+        
+        cityElem.prepend(cityDataList);
+    }
+});
+

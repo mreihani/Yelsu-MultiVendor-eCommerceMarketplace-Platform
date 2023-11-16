@@ -134,6 +134,10 @@
                                             <label>نام کاربری  * (لاتین و حداقل 5 کاراکتر)</label>
                                             <input type="text" class="form-control" name="username" id="user-name" value={{old('username')}}>
                                         </div>
+                                        <div class="form-group mb-5">
+                                            <label>شماره تلفن همراه *</label>
+                                            <input type="number" class="form-control" name="home_phone" id="home-phone" value={{old('','home_phone')}} placeholder="09123456789">
+                                        </div>
                                         <div class="form-group">
                                             <label>آدرس ایمیل شما  *</label>
                                             <input type="text" class="form-control" name="email" id="email_1" value={{old('email')}}>

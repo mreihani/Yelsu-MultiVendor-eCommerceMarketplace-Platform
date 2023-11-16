@@ -116,7 +116,9 @@ class UserController extends Controller
 
         $data->save();
 
-        if ($data->home_phone !== Purify::clean($request->home_phone) && Purify::clean($request->home_phone) !== NULL) {
+        if (($data->home_phone !== Purify::clean($request->home_phone) && Purify::clean($request->home_phone) !== NULL) || 
+            ($data->home_phone == Purify::clean($request->home_phone) && Purify::clean($request->home_phone) !== NULL && !$data->phone_verified)){
+
             $request->session()->flash('home_phone', Purify::clean($request->home_phone));
             $code = ActiveCode::generateCode(Auth::user());
 
@@ -344,6 +346,7 @@ class UserController extends Controller
             $user->activeCode()->delete();
             $user->update([
                 'home_phone' => $request->session()->get('home_phone'),
+                'phone_verified' => 1,
             ]);
 
             $request->session()->reflash();

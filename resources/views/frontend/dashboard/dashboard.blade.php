@@ -561,6 +561,14 @@
                                 <h4 class="icon-box-title mb-0 ls-normal">جزئیات حساب </h4>
                             </div>
                         </div>
+
+                        @if($userData->home_phone && !$userData->phone_verified)
+                            <div class="alert alert-warning alert-button show-code-action mb-3">
+                                <a href="#" class="btn btn-warning btn-rounded">توجه فرمایید</a>
+                                شماره تلفن وارد شده به تأیید نیاز دارد، برای دریافت کد تأیید بر روی دکمه "ذخیره تغییرات" کلیک نمایید.
+                            </div>
+                        @endif
+
                         <form class="form account-details-form" action="{{route('user.profile.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -590,9 +598,38 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                   
                                     <div class="form-group">
                                         <label>تلفن * (09123456789)</label>
-                                        <input type="number" class="form-control form-control-md" name="home_phone" value="{{$userData->home_phone}}">
+
+                                        @if($userData->phone_verified)
+                                            <div class="row">
+                                                <div class="col-md-2 pr-0 pl-0 alert-success alert-bg alert-inline d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-check"></i>
+                                                    <span>
+                                                        &nbsp;تأیید شده
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-10 pl-0">
+                                                    <input type="number" class="form-control form-control-md mb-0" name="home_phone" value="{{$userData->home_phone}}">
+                                                </div>
+                                            </div>
+                                        @elseif(!$userData->phone_verified && $userData->home_phone)
+                                            <div class="row">
+                                                <div class="col-md-2 pr-0 pl-0 alert-warning alert-bg alert-inline d-flex align-items-center justify-content-center">
+                                                    <i class="w-icon-exclamation-triangle"></i>
+                                                    <span>
+                                                        &nbsp;تأیید نشده
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-10 pl-0">
+                                                    <input type="number" class="form-control form-control-md mb-0" name="home_phone" value="{{$userData->home_phone}}">
+                                                </div>
+                                            </div>
+                                        @else
+                                            <input type="number" class="form-control form-control-md" name="home_phone" value="{{$userData->home_phone}}">
+                                        @endif
+                                        
                                     </div>
                                 </div>
                             </div>

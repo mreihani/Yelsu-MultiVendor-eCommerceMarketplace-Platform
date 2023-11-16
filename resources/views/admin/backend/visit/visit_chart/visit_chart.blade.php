@@ -18,7 +18,7 @@
         <div class="card card-bordered mt-9">
             
             <div class="text-center pt-10">
-                <h3>نمودار بازدید جهانی و داخلی</h3>
+                <h3>نمودار بازدید صفحات پلتفرم (جهانی و داخلی)</h3>
             </div>
 
             <div class="card-body">
@@ -29,7 +29,7 @@
         <div class="card card-bordered mt-9">
 
             <div class="text-center pt-10">
-                <h3>نمودار بازدیدکنندگان یکتا جهانی و داخلی</h3>
+                <h3>نمودار بازدیدکنندگان یکتا (جهانی و داخلی)</h3>
             </div>
 
             <div class="card-body">

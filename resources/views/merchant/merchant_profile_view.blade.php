@@ -110,7 +110,7 @@
                     <!--end::Tags-->
                     <!--begin::Col-->
                     <div class="col-lg-8 d-flex align-items-center">
-                        @if($merchantData->home_phone)
+                        @if($merchantData->home_phone && $merchantData->phone_verified)
                             <span class="fw-bold fs-6 text-gray-800 me-2">{{$merchantData->home_phone}}</span><span class="badge badge-success">تایید شده</span>
                         @else
                             <span>لطفا از بخش <a href="{{route('dashboard',['type' => 'details'])}}">جزئیات حساب</a> اقدام به ثبت و تایید شماره تلفن نمایید</span>

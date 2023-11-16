@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             'password' => 'required|confirmed|min:8|max:20',
             'policyAgreement' => 'required',
             'captcha' => ['required', 'captcha'],
+            'home_phone' => ['required', env('IRANIAN_PHONE_REGEX')],
         ], [
             'firstname.required' => 'لطفا نام خود را وارد نمایید.',
             'lastname.required' => 'لطفا نام خانوادگی خود را وارد نمایید.',
@@ -63,6 +64,8 @@ class RegisteredUserController extends Controller
             'policyAgreement.required' => 'لطفا موافقت نامه حفظ حریم خصوصی را تایید فرمایید.',
             'captcha.required' => 'لطفا عبارت امنیتی را وارد نمایید.',
             'captcha.captcha' => 'لطفا عبارت امنیتی را به درستی وارد نمایید.',
+            'home_phone.required' => 'لطفا شماره تلفن همراه خود را وارد نمایید.',
+            'home_phone.regex' => 'لطفا شماره تلفن صحیح وارد نمایید.',
         ]);
 
         if ($incomingFields->fails()) {
@@ -99,6 +102,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make(($request->password)),
                 'role' => 'user',
                 'shop_name' => Purify::clean($request->shop_name),
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 2) {
             $user = User::create([
@@ -112,6 +116,7 @@ class RegisteredUserController extends Controller
                 'role' => 'vendor',
                 'status' => 'inactive',
                 'vendor_sector' => $vendor_sector,
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 3) {
             $user = User::create([
@@ -124,6 +129,7 @@ class RegisteredUserController extends Controller
                 'shop_name' => Purify::clean($request->shop_name),
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
 
             Merchant::create([
@@ -141,6 +147,7 @@ class RegisteredUserController extends Controller
                 'role' => 'retailer',
                 'status' => 'inactive',
                 'vendor_sector' => $vendor_sector,
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 5) {
             $user = User::create([
@@ -153,6 +160,7 @@ class RegisteredUserController extends Controller
                 'shop_name' => Purify::clean($request->shop_name),
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
 
             Freightage::create([
@@ -171,6 +179,7 @@ class RegisteredUserController extends Controller
                 'shop_name' => Purify::clean($request->shop_name),
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
+                'home_phone' => Purify::clean($request->home_phone),
             ]);
 
             Driver::create([

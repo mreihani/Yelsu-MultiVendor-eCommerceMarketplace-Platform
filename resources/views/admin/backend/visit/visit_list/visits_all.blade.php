@@ -262,7 +262,7 @@
 
                                         <!--begin::پیوستنed-->
                                         <td>
-                                            <div class="badge badge-light fw-bold">{{$visit->browser}}</div>
+                                            <div class="badge badge-light fw-bold">{{$visit->browser ?: ''}}</div>
                                         </td>
                                         <!--begin::پیوستنed-->
 

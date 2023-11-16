@@ -7,7 +7,7 @@ $('.repeater-body').on('click', '.add-repeater-btn', function(e) {
     $repeater = $this.closest(".repeater-body").find('[data-repeatable]').last();
     $clone = $repeater.first().clone();
 
-    $clone.find(".ir-city").html("");
+    $clone.find(".ir-city").html(`<option value="همه شهرها">همه شهرها</option>`);
     
     $clone.insertAfter($repeater);
 });
