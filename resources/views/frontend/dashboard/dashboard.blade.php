@@ -565,7 +565,7 @@
                         @if($userData->home_phone && !$userData->phone_verified)
                             <div class="alert alert-warning alert-button show-code-action mb-3">
                                 <a href="#" class="btn btn-warning btn-rounded">توجه فرمایید</a>
-                                شماره تلفن وارد شده به تأیید نیاز دارد، برای دریافت کد تأیید بر روی دکمه "ذخیره تغییرات" کلیک نمایید.
+                                شماره تلفن وارد شده به تأیید نیاز دارد، برای دریافت کد تأیید بر روی دکمه "ذخیره تغییرات" کلیک کنید.
                             </div>
                         @endif
 
