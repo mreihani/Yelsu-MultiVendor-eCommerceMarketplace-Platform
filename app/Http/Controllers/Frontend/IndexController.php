@@ -1227,9 +1227,6 @@ class IndexController extends Controller
 
     public function ViewShopCategoryFiltered(Request $request)
     {
-        //set_time_limit(0);
-        //ini_set('max_execution_time', '0'); 
-
         $category_hierarchy_arr = [];
 
         $id = Purify::clean(request('id'));
@@ -1362,6 +1359,19 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
+        
+        // تنظیمات سئو داینامیک
+        if ($category->meta_title != NULL) {
+            SEOMeta::setTitle($category->meta_title);
+        }
+        if ($category->meta_description != NULL) {
+            SEOMeta::setDescription($category->meta_description);
+        }
+        if ($category->meta_keywords != NULL) {
+            $meta_keywords = explode('،', $category->meta_keywords);
+            SEOMeta::setKeywords($meta_keywords);
+        }
+
         
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
     }

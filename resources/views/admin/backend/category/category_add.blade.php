@@ -95,6 +95,7 @@
                     @csrf
                     <!--begin::کناری column-->
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+
                         <!--begin::Thumbnail settings-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
@@ -147,9 +148,8 @@
                             <!--end::کارت body-->
                         </div>
                         <!--end::Thumbnail settings-->
-                        <!--begin::وضعیت-->
+
                         
-                        <!--end::وضعیت-->
                         
                     </div>
                     <!--end::کناری column-->
@@ -212,8 +212,61 @@
                             <!--end::کارت header-->
                         </div>
                         <!--end::عمومی options-->
-                        <!--begin::Meta options-->
                         
+                        <!--begin::Meta options-->
+                        <div class="card card-flush py-4">
+                            <!--begin::کارت header-->
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2> تنظیمات متا</h2>
+                                </div>
+                            </div>
+                            <!--end::کارت header-->
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Tags-->
+                                    <label class="form-label">برچسب متا تایتل</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control mb-2" name="meta_title" placeholder="نام متا تگ" value="{{old('meta_title')}}"/>
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">یک عنوان متا تگ تنظیم کنید. توصیه می شود کلمات کلیدی ساده و دقیق باشند.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Tags-->
+                                    <label class="form-label">توضیحات متا تگ</label>
+                                    <!--end::Tags-->
+                                    <!--begin::or-->
+                                        <textarea class="form-control mb-2" name="meta_description" placeholder="توضیحات متا">{{old('meta_description')}}</textarea>
+                                    <!--end::or-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">برای افزایش رتبه سئو، توضیحات متا تگ را برای محصول تنظیم کنید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div>
+                                    <!--begin::Tags-->
+                                    <label class="form-label">کلمات کلیدی</label>
+                                    <!--end::Tags-->
+                                    <!--begin::or-->
+                                    <input id="kt_ecommerce_add_product_meta_keywords" name="meta_keywords" class="form-control mb-2" placeholder="قیمت میلگرد، قیمت سیمان، قیمت تیرآهن" value="{{old('meta_keywords')}}"/>
+                                    <!--end::or-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">لیستی از کلمات کلیدی که محصول به آنها مرتبط است تنظیم کنید. کلمات کلیدی را با اضافه کردن ویرگول <code>،</code> مرتب کنید
+                                   </div>
+                                    <!--end::توضیحات-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::کارت header-->
+                        </div>
                         <!--end::Meta options-->
                         
                         <div class="d-flex justify-content-end">

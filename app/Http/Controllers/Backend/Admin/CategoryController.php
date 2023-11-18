@@ -63,6 +63,9 @@ class CategoryController extends Controller
             'category_slug' => strtolower(str_replace('', '-', Purify::clean($incomingFields['category_name']))),
             'category_description' => ($request->category_description),
             'parent' => Purify::clean($request->parent) == 0 ? 0 : Purify::clean($request->parent),
+            'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
+            'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
+            'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
         ]);
 
         return redirect(route('all.category'))->with('success', 'دسته بندی مورد نظر با موفقیت ایجاد گردید.');
@@ -129,6 +132,9 @@ class CategoryController extends Controller
                 'category_slug' => strtolower(str_replace('', '-', Purify::clean($incomingFields['category_name']))),
                 'category_description' => ($request->category_description),
                 'parent' => Purify::clean($request->parent) == 0 ? 0 : Purify::clean($request->parent),
+                'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
+                'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
+                'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             ]);
 
         } else {
@@ -137,6 +143,9 @@ class CategoryController extends Controller
                 'category_slug' => strtolower(str_replace('', '-', Purify::clean($incomingFields['category_name']))),
                 'category_description' => ($request->category_description),
                 'parent' => Purify::clean($request->parent) == 0 ? 0 : Purify::clean($request->parent),
+                'meta_title' => Purify::clean($request['meta_title']) ?? NULL,
+                'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
+                'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             ]);
         }
 

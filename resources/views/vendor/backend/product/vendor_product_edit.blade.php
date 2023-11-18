@@ -473,149 +473,86 @@
                                             <!--begin::Input group-->
                                             <div class="mb-10 fv-row">
                                                 <!--begin::Tags-->
-                                                <label class="required form-label">قیمت پایه بدون ارزش افزوده را وارد نمایید </label>
+                                                <label class="required form-label">قیمت بدون احتساب کمیسیون را وارد نمایید</label>
                                                 <!--end::Tags-->
                                                 <!--begin::Input-->
-                                                <input type="text" name="selling_price" class="form-control mb-2" placeholder="قیمت محصول" value="{{$products->selling_price}}" />
+                                                <input type="text" id="product-price-without-commission" name="selling_price" class="form-control mb-2" placeholder="قیمت محصول بدون کمیسیون" value="{{$products->selling_price}}" />
                                                 <!--end::Input-->
                                                 <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">قیمت محصول را وارد کنید</div>
+                                                <div class="text-muted fs-7">قیمت پایه مصحول برای تأمین کننده بدون احتساب کمیسیون (بدون ارزش افزوده)</div>
                                                 <!--end::توضیحات-->
                                             </div>
                                             <!--end::Input group-->
+                                            
                                             <!--begin::Input group-->
-                                            {{-- <div class="fv-row mb-10">
+                                            <div class="mb-10 fv-row">
                                                 <!--begin::Tags-->
-                                                <label class="fs-6 fw-semibold mb-2">نوع تخفیف
-                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="انتخاب a discount type that will be applied to this product"></i></label>
-                                                <!--End::Tags-->
-                                                <!--begin::Row-->
-                                                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']">
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <!--begin::Option-->
-                                                        <label class="btn btn-outline btn-outline-dashed btn-active-light-primary active d-flex text-start p-6" data-kt-button="true">
-                                                            <!--begin::رادیو-->
-                                                            <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio" name="discount_option" value="1" checked="checked" />
-                                                            </span>
-                                                            <!--end::رادیو-->
-                                                            <!--begin::Info-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-4 fw-bold text-gray-800 d-block">بدون تخفیف</span>
-                                                            </span>
-                                                            <!--end::Info-->
-                                                        </label>
-                                                        <!--end::Option-->
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <!--begin::Option-->
-                                                        <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
-                                                            <!--begin::رادیو-->
-                                                            <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio" name="discount_option" value="2" />
-                                                            </span>
-                                                            <!--end::رادیو-->
-                                                            <!--begin::Info-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-4 fw-bold text-gray-800 d-block">درصدی</span>
-                                                            </span>
-                                                            <!--end::Info-->
-                                                        </label>
-                                                        <!--end::Option-->
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <!--begin::Option-->
-                                                        <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
-                                                            <!--begin::رادیو-->
-                                                            <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio" name="discount_option" value="3" />
-                                                            </span>
-                                                            <!--end::رادیو-->
-                                                            <!--begin::Info-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-4 fw-bold text-gray-800 d-block">قیمت ثابت</span>
-                                                            </span>
-                                                            <!--end::Info-->
-                                                        </label>
-                                                        <!--end::Option-->
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                                <!--end::Row-->
-                                            </div> --}}
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            {{-- <div class="d-none mb-10 fv-row" id="kt_ecommerce_add_product_discount_percentage">
-                                                <!--begin::Tags-->
-                                                <label class="form-label">درصد تخفیف را تنظیم کنید</label>
-                                                <!--end::Tags-->
-                                                <!--begin::Slider-->
-                                                <div class="d-flex flex-column text-center mb-5">
-                                                    <div class="d-flex align-items-start justify-content-center mb-7">
-                                                        <span class="fw-bold fs-3x" id="kt_ecommerce_add_product_discount_label">0</span>
-                                                        <span class="fw-bold fs-4 mt-1 ms-2">%</span>
-                                                    </div>
-                                                    <div id="kt_ecommerce_add_product_discount_slider" class="noUi-sm"></div>
-                                                </div>
-                                                <!--end::Slider-->
-                                                <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">درصد تخفیف را برای اعمال این محصول تعیین کنید.</div>
-                                                <!--end::توضیحات-->
-                                            </div> --}}
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            {{-- <div class="d-none mb-10 fv-row" id="kt_ecommerce_add_product_discount_fixed">
-                                                <!--begin::Tags-->
-                                                <label class="form-label">ثابت قیمت با تخفیف</label>
+                                                <label class="required form-label">قیمت با احتساب کمیسیون را وارد نمایید</label>
                                                 <!--end::Tags-->
                                                 <!--begin::Input-->
-                                                <input type="text" name="dicsounted_price" class="form-control mb-2" placeholder="قیمت تخفیف" />
+                                                <input type="text" id="product-price-with-commission" class="form-control mb-2" placeholder="قیمت محصول با کمیسیون"/>
                                                 <!--end::Input-->
                                                 <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">قیمت محصول با تخفیف را تعیین کنید. محصول با قیمت ثابت تعیین شده کاهش می یابد</div>
+                                                <div class="text-muted fs-7">قیمت نهایی محصول برای مشتری با احتساب کمیسیون (بدون ارزش افزوده)</div>
                                                 <!--end::توضیحات-->
-                                            </div> --}}
+                                            </div>
                                             <!--end::Input group-->
-                                            <!--begin::Tax-->
-                                            {{-- <div class="d-flex flex-wrap gap-5">
-                                                <!--begin::Input group-->
-                                                <div class="fv-row w-100 flex-md-root">
-                                                    <!--begin::Tags-->
-                                                    <label class="required form-label">کلاس مالیات</label>
-                                                    <!--end::Tags-->
-                                                    <!--begin::انتخاب2-->
-                                                    <select class="form-select mb-2" name="tax" data-control="select2" data-hide-search="true" data-placeholder="انتخاب ">
-                                                        <option></option>
-                                                        <option value="0">Tax رایگان</option>
-                                                        <option value="1">Taxable Goods</option>
-                                                        <option value="2">دانلودable محصولات</option>
-                                                    </select>
-                                                    <!--end::انتخاب2-->
-                                                    <!--begin::توضیحات-->
-                                                    <div class="text-muted fs-7">طبقه مالیات محصول را تنظیم کنید.</div>
-                                                    <!--end::توضیحات-->
+
+                                            <div class="d-flex align-items-center justify-content-between border border-dashed border-gray-300 rounded px-7 py-3 mb-5">
+                                                <!--begin::Title-->
+                                                <div class="fs-5 text-dark text-hover-primary fw-semibold w-375px ">
+                                                    <?xml version="1.0" encoding="iso-8859-1"?>
+                                                    <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                                        viewBox="0 0 512 512" xml:space="preserve">
+                                                        <g>
+                                                            <g>
+                                                                <path d="M187.935,136.886c-28.148,0-51.049,22.9-51.049,51.049c0,28.148,22.9,51.047,51.049,51.047
+                                                                    c28.148,0,51.049-22.9,51.049-51.047C238.984,159.787,216.084,136.886,187.935,136.886z M187.937,204.95
+                                                                    c-9.383,0-17.016-7.632-17.016-17.015c0-9.383,7.633-17.016,17.016-17.016c9.383,0,17.016,7.633,17.016,17.016
+                                                                    C204.953,197.317,197.319,204.95,187.937,204.95z"/>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M324.066,273.017c-28.148,0-51.049,22.9-51.049,51.047c0,28.148,22.9,51.049,51.049,51.049
+                                                                    c28.148,0,51.049-22.9,51.049-51.049C375.115,295.916,352.214,273.017,324.066,273.017z M324.066,341.08
+                                                                    c-9.383,0-17.016-7.633-17.016-17.016c0-9.383,7.633-17.015,17.016-17.015c9.383,0,17.016,7.633,17.016,17.015
+                                                                    C341.082,333.447,333.449,341.08,324.066,341.08z"/>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M340.222,171.784c-6.644-6.644-17.419-6.644-24.064,0L171.771,316.171c-6.645,6.644-6.645,17.419,0,24.064
+                                                                    c3.323,3.323,7.678,4.985,12.032,4.985c4.354,0,8.71-1.662,12.032-4.985l144.388-144.387
+                                                                    C346.868,189.203,346.868,178.428,340.222,171.784z"/>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M256.001,0C114.843,0,0.002,114.84,0.002,255.999c0,52.1,15.442,101.818,44.77,144.491L1.877,486.277
+                                                                    c-3.221,6.441-2.236,14.189,2.493,19.62C7.807,509.844,12.725,512,17.777,512c1.9,0,3.82-0.306,5.685-0.935l102.502-34.619
+                                                                    c39.336,23.284,84.11,35.552,130.037,35.552C397.158,511.999,512,397.159,512,255.999S397.16,0,256.001,0z M256.001,476.453
+                                                                    c-42.028,0-82.923-11.927-118.266-34.491c-2.891-1.846-6.214-2.793-9.565-2.793c-1.911,0-3.832,0.307-5.686,0.934l-69.517,23.478
+                                                                    l28.398-56.794c3.013-6.027,2.36-13.241-1.689-18.627c-28.87-38.408-44.129-84.109-44.129-132.16
+                                                                    c0-121.558,98.895-220.454,220.454-220.454s220.454,98.896,220.454,220.454S377.559,476.453,256.001,476.453z"/>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                    میزان کمیسیون به درصد
                                                 </div>
-                                                <!--end::Input group-->
-                                                <!--begin::Input group-->
-                                                <div class="fv-row w-100 flex-md-root">
-                                                    <!--begin::Tags-->
-                                                    <label class="form-label">مقدار (%)</label>
-                                                    <!--end::Tags-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" class="form-control mb-2" value="" />
-                                                    <!--end::Input-->
-                                                    <!--begin::توضیحات-->
-                                                    <div class="text-muted fs-7">مالیات بر ارزش افزوده محصول را تنظیم کنید.</div>
-                                                    <!--end::توضیحات-->
+                                                <!--end::Title-->
+                                                
+                                                <input type="hidden" value="{{$products->determine_product_commission()}}" id="product_commission">
+
+                                                <!--begin::پردازش-->
+                                                <div class="pe-2">
+                                                    <span id="commission_value" class="badge badge-light-primary">
+                                                        {{$products->determine_product_commission()}} درصد
+                                                    </span>
                                                 </div>
-                                                <!--end::Input group-->
-                                            </div> --}}
-                                            <!--end:Tax-->
+                                                <!--end::پردازش-->
+                                            </div>
+                                            
                                         </div>
                                         <!--end::کارت header-->
                                     </div>

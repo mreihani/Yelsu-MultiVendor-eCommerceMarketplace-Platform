@@ -156,6 +156,23 @@ class Product extends Model
         return $currency_type;
     }
 
+    // تابع برای تعیین کمیسیون یک محصول
+    public function determine_product_commission() {
+        $commission_value = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission") {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                    $commission_value = $attribute_value_array['attribute_value_obj'][0]->value;
+                } else {
+                    $commission_value = $attribute_value_array["attribute_value"];
+                }
+            }
+        }
+
+        return $commission_value;
+    }
+
     // تابع برای تعیین مالیات بر ارزش افزوده به درصد
     public function determine_product_value_added_tax_by_percent() {
         $added_value_tax = null;

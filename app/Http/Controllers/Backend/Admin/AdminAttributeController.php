@@ -215,18 +215,26 @@ class AdminAttributeController extends Controller
 
                 // برای مقادیر دراپ داون ولی تک گزینه ای مثل مالیات یا کمیسیون، وقتی مقدار تکی عوض میشه دیگه نباید اون پاک بشه و باید آپدیت بشه چون کلا یک مورد است    
                 } elseif(count(collect(json_decode($attribute_list_item)->value)) == 1) {
-                    $ignore_delete_attribute_value_array[] = $attribute_item->values()->where('value', $attibute_value_collection[0])->get()->first()->id;
+                    $ignore_delete_attribute_value_array[] = $id ? $attribute_item->values()->where('value', $attibute_value_collection[0])->get()->first()->id : null;
 
-                    $attribute_value_item_id = $attribute_item->values()->update([
-                        'attribute_item_id' => $attribute_item->id,
-                        'value' => collect(json_decode($attribute_list_item)->value)->first()
-                    ]);
+                    if($id) {
+                        $attribute_value_item_id = $attribute_item->values()->update([
+                            'attribute_item_id' => $attribute_item->id,
+                            'value' => collect(json_decode($attribute_list_item)->value)->first()
+                        ]);
+                    } else {
+                        $attribute_value_item_id = $attribute_item->values()->create([
+                            'attribute_item_id' => $attribute_item->id,
+                            'value' => collect(json_decode($attribute_list_item)->value)->first()
+                        ]);
+                    }
+                    
                 }
 
                 // پاک کردن مقادیر ویژگی ها
                 $attribute_item->values()->whereNotIn('id', $ignore_delete_attribute_value_array)->delete();
                 
-            } else {
+            } elseif(Purify::clean(json_decode($attribute_list_item)->attribute_item_type) == "input_field") {
                 // موارد ورودی دلخواه را ایجاد می کند
                 $attribute_item->values()->updateOrCreate([
                     'attribute_item_id' => $attribute_item->id,

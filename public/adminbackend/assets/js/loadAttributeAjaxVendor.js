@@ -176,8 +176,44 @@ function updateDOM(data) {
             $('.no-category-warning').hide();
             $('.duplicated-category-warning').hide();
         });
+
+        getCommisionValue(data);
     }
 }
 
+// محاسبه کمیسون برای کاربر تامین کننده
+function getCommisionValue(data) {
+    $.each(data.attributes, function(attributeItemKey, attributeItemValue) {
+        if(attributeItemValue.attribute_item_keyword == "fix_commission") {
+            $("#commission_value").html(attributeItemValue.values[0].value + " درصد");
+            $("#product_commission").val(attributeItemValue.values[0].value);
 
+            $("#commission_value").removeClass('badge-light-danger');
+            $("#commission_value").addClass('badge-light-primary');
+
+            return false;
+        } else {
+            $("#commission_value").html("ناموجود");
+
+            $("#commission_value").removeClass('badge-light-primary');
+            $("#commission_value").addClass('badge-light-danger');
+        }
+    });
+}
+
+let newPrice;
+let product_price_without_commission = $("#product-price-without-commission");
+let product_price_with_commission = $("#product-price-with-commission");
+product_price_without_commission.keyup(function(){
+    newPrice = $(this).val() * (1+$("#product_commission").val()/100);
+    product_price_with_commission.val(newPrice);
+});
+product_price_with_commission.keyup(function(){
+    newPrice = $(this).val() * (1-$("#product_commission").val()/100);
+    product_price_without_commission.val(newPrice);
+});
+$(document).ready(function(){
+    newPrice = product_price_without_commission.val() * (1+$("#product_commission").val()/100);
+    newPrice ? product_price_with_commission.val(newPrice) : '';
+});
 
