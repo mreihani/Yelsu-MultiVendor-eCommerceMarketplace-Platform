@@ -501,7 +501,7 @@
                                             <div class="d-flex align-items-center justify-content-between border border-dashed border-gray-300 rounded px-7 py-3 mb-5">
                                                 <!--begin::Title-->
                                                 <div class="fs-5 text-dark text-hover-primary fw-semibold w-375px ">
-                                                    <?xml version="1.0" encoding="iso-8859-1"?>
+                                                   
                                                     <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                                         viewBox="0 0 512 512" xml:space="preserve">
                                                         <g>
