@@ -24,19 +24,13 @@ class AdminVisitController extends Controller
 
         $adminData = auth()->user();
 
-        $query_string = Purify::clean($request->q);
+        $query_string = Purify::clean($request['query']);
   
-        $users = User::where([
-           ['username', 'like', "%{$query_string}%"], 
-        ])->OrWhere([
-            ['firstname', 'like', "%{$query_string}%"],
-        ])->OrWhere([
-            ['lastname', 'like', "%{$query_string}%"],
-        ])->OrWhere([
-            ['email', 'like', "%{$query_string}%"],
-        ])->get();
+        $query = User::search($query_string);
+        $query->limit = 10000;
+        $users_id_array = $query->get()->pluck('id');
 
-        $visits = ShetabitVisit::whereIn('visitor_id', $users->pluck("id"))->orderBy('created_at', 'desc')->get();
+        $visits = ShetabitVisit::whereIn('visitor_id', $users_id_array)->orderBy('created_at', 'desc')->paginate(10);
         
         return view('admin.backend.visit.visit_list.visits_all', compact('adminData', 'visits'));
     }

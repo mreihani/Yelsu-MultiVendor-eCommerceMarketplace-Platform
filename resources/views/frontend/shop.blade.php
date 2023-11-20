@@ -322,14 +322,16 @@
                     </div>
                 @endif
 
-                @if((Route::currentRouteName() == 'shop'))    
-                <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
-                    {{$products->links('vendor.pagination.custom')}}
-                </div>
-                {{-- برای حذف صفحه گذاری روی صفحه دسته بندی آخر که جدول میاد --}}
-                @elseif(Route::currentRouteName() == "shop.category" && $category->child()->get()->count())
+                @if(Route::currentRouteName() == "shop" || Route::currentRouteName() == "search.products")
                     <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
-                        {{$products->links('vendor.pagination.custom')}}
+                        {{$products->withQueryString()->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+                
+                {{-- برای حذف صفحه گذاری روی صفحه دسته بندی آخر که جدول میاد --}}
+                @if(Route::currentRouteName() == "shop.category" && $category->child()->get()->count())
+                    <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
+                        {{$products->withQueryString()->links('vendor.pagination.custom') }}
                     </div>
                 @endif
 

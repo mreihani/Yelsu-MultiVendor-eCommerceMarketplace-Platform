@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\AttributeValue;
 use App\Models\Attribute;
+use Laravel\Scout\Searchable;
+use App\Models\AttributeValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AttributeItem extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $guarded = [];
 
     public function values()

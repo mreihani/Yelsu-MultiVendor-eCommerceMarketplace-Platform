@@ -440,33 +440,19 @@ class SpecialistController extends Controller
     {
         $user_id = Auth::user()->id;
         $specialistData = User::find($user_id);
-        $search_string = Purify::clean($request->q);
-
-        $products = Product::where([
-            ['product_name', 'like', "%{$search_string}%"],
-            ['product_verification', '=', 'active'],
-            ['vendor_id', '!=', NULL],
-        ])->Orwhere([
-                    ['product_name', 'like', "%{$search_string}%"],
-                    ['product_verification', '=', 'active'],
-                    ['retailer_id', '!=', NULL],
-                ])->Orwhere([
-                    ['product_name', 'like', "%{$search_string}%"],
-                    ['product_verification', '=', 'inactive'],
-                    ['vendor_id', '=', NULL],
-                    ['retailer_id', '=', NULL],
-                ])->latest()->get();
+        $query_string = Purify::clean($request['query']);
 
         // check if product matches specialist category
-        $products_array = [];
-        foreach ($products as $product) {
-            $product_category_arr = explode(",", $product->category_id);
-            if (in_array($specialistData->specialist_category_id, $product_category_arr)) {
-                $products_array[] = $product;
+        $products_id_array = [];
+        $all_products = Product::all();
+        foreach ($all_products as $product) {
+            if ($specialistData->specialist_category_id == $product->parent_category_id) {
+                $products_id_array[] = $product->id;
             }
         }
-        $products = $products_array;
         // end of check if product matches specialist category
+
+        $products = Product::search($query_string)->whereIn('id', $products_id_array)->paginate(10);
 
         return view('specialist.product.product_all', compact('products', 'specialistData'));
     }
@@ -1105,34 +1091,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $VendorStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "vendor"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                ])->get();
+        $query_string = Purify::clean($request['query']);
 
         // add search for related users      
-        $relatedVendors = [];
-        foreach ($VendorStatus as $item) {
+        $relatedVendorsIds = [];
+        $all_vendors = User::where('role','vendor')->get();
+        foreach ($all_vendors as $item) {
             $vendor_sector_arr = explode(",", $item->vendor_sector);
             if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
-                $relatedVendors[] = $item;
+                $relatedVendorsIds[] = $item->id;
             }
         }      
         // add search for related users
+
+        $relatedVendors = User::search($query_string)->whereIn('id', $relatedVendorsIds)->paginate(10);
 
         return view('specialist.users.vendor.activate_account.vendor_status', compact('relatedVendors', 'specialistData'));
     } //End method
@@ -1209,34 +1181,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $RetailerStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "retailer"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                ])->get();
-
+        $query_string = Purify::clean($request['query']);
+    
         // add search for related users
-        $relatedRetailers = [];
-        foreach ($RetailerStatus as $item) {
+        $relatedRetailersIds = [];
+        $all_retailers = User::where('role','retailer')->get();
+        foreach ($all_retailers as $item) {
             $retailer_sector_arr = explode(",", $item->vendor_sector);
             if (in_array($specialistData->specialist_category_id, $retailer_sector_arr)) {
-                $relatedRetailers[] = $item;
+                $relatedRetailersIds[] = $item->id;
             }
         }
         // add search for related users
+
+        $relatedRetailers = User::search($query_string)->whereIn('id', $relatedRetailersIds)->paginate(10);
 
         return view('specialist.users.retailer.activate_account.retailer_status', compact('relatedRetailers', 'specialistData'));
     } //End method
@@ -1314,34 +1272,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $FreightageStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "freightage"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->get();
+        $query_string = Purify::clean($request['query']);
 
         // add search for related users
-        $relatedFreightages = [];
-        foreach ($FreightageStatus as $item) {
+        $relatedFreightagesIds = [];
+        $all_freightages = User::where('role','freightage')->get();
+        foreach ($all_freightages as $item) {
             $freightage_sector_arr = explode(",", $item->freightage->category_id);
             if (in_array($specialistData->specialist_category_id, $freightage_sector_arr)) {
-                $relatedFreightages[] = $item;
+                $relatedFreightagesIds[] = $item->id;
             }
         }
         // add search for related users
+
+        $relatedFreightages = User::search($query_string)->whereIn('id', $relatedFreightagesIds)->paginate(10);
 
         return view('specialist.users.freightage.activate_account.freightage_status', compact('relatedFreightages', 'specialistData'));
     } //End method
@@ -1397,24 +1341,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
+        $query_string = Purify::clean($request['query']);
 
-        $DriverStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "driver"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->get();
+        // add search for related users
+        $relatedDriverIds = [];
+        $all_drivers = User::where('role','driver')->get();
+        foreach ($all_drivers as $item) {
+            $driver_sector_arr = explode(",", $item->driver->category_id);
+            if (in_array($specialistData->specialist_category_id, $driver_sector_arr)) {
+                $relatedDriverIds[] = $item->id;
+            }
+        }
+        // add search for related users
+
+        $DriverStatus = User::search($query_string)->whereIn('id', $relatedDriverIds)->paginate(10);
 
         return view('specialist.users.driver.activate_account.driver_status', compact('DriverStatus', 'specialistData'));
     } //End method
@@ -1512,44 +1452,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $VendorStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "vendor"],
-            ['status', '=', "active"],
-            ['vendor_description_status', '=', "inactive"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "vendor"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->get();
-
+        $query_string = Purify::clean($request['query']);
+        
         // add search for related users
-        $relatedVendors = [];
-        foreach ($VendorStatus as $item) {
+        $relatedVendorsIds = [];
+        $allVendors = User::where('role', 'vendor')->where('status','active')->where('vendor_description_status','inactive')->get();
+        foreach ($allVendors as $item) {
             $vendor_sector_arr = explode(",", $item->vendor_sector);
             if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
-                $relatedVendors[] = $item;
+                $relatedVendorsIds[] = $item->id;
             }
         }
         // add search for related users
+
+        $relatedVendors = User::search($query_string)->whereIn('id',$relatedVendorsIds)->paginate(10);
 
         return view('specialist.users.vendor.verify_about.vendor_about_status', compact('specialistData', 'relatedVendors'));
     } //End method
@@ -1620,43 +1536,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $RetailerStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "retailer"],
-            ['status', '=', "active"],
-            ['vendor_description_status', '=', "inactive"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "retailer"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->get();
-
+        $query_string = Purify::clean($request['query']);
+        
         // add search for related users
-        $relatedRetailers = [];
-        foreach ($RetailerStatus as $item) {
-            $retailer_sector_arr = explode(",", $item->vendor_sector);
-            if (in_array($specialistData->specialist_category_id, $retailer_sector_arr)) {
-                $relatedRetailers[] = $item;
+        $relatedRetailersIds = [];
+        $allRetailers = User::where('role', 'retailer')->where('status','active')->where('vendor_description_status','inactive')->get();
+        foreach ($allRetailers as $item) {
+            $vendor_sector_arr = explode(",", $item->vendor_sector);
+            if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
+                $relatedRetailersIds[] = $item->id;
             }
         }
+        // add search for related users
+
+        $relatedRetailers = User::search($query_string)->whereIn('id',$relatedRetailersIds)->paginate(10);
         // add search for related users
 
         return view('specialist.users.retailer.verify_about.retailer_about_status', compact('specialistData', 'relatedRetailers'));
@@ -1728,43 +1621,20 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $FreightageStatus = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "freightage"],
-            ['status', '=', "active"],
-            ['vendor_description_status', '=', "inactive"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->get();
-
+        $query_string = Purify::clean($request['query']);
+        
         // add search for related users
-        $relatedFreightages = [];
-        foreach ($FreightageStatus as $item) {
-            $freightage_sector_arr = explode(",", $item->freightage->category_id);
-            if (in_array($specialistData->specialist_category_id, $freightage_sector_arr)) {
-                $relatedFreightages[] = $item;
+        $relatedFreightageIds = [];
+        $allFreightages = User::where('role', 'freightage')->where('status','active')->where('vendor_description_status','inactive')->get();
+        foreach ($allFreightages as $item) {
+            $vendor_sector_arr = explode(",", $item->freightage->category_id);
+            if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
+                $relatedFreightageIds[] = $item->id;
             }
         }
+        // add search for related users
+
+        $relatedFreightages = User::search($query_string)->whereIn('id', $relatedFreightageIds)->paginate(10);
         // add search for related users
 
         return view('specialist.users.freightage.verify_about.freightage_about_status', compact('specialistData', 'relatedFreightages'));
@@ -1818,35 +1688,19 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
-
-        $users = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "driver"],
-            ['status', '=', "active"],
-            ['vendor_description_status', '=', "inactive"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                    ['status', '=', "active"],
-                    ['vendor_description_status', '=', "inactive"],
-                ])->get();
-
+        $query_string = Purify::clean($request['query']);
+        
+        // add search for related users
+        $relatedDriverIds = [];
+        $allDrivers = User::where('role', 'driver')->where('status','active')->where('vendor_description_status','inactive')->get();
+        foreach ($allDrivers as $item) {
+            $vendor_sector_arr = explode(",", $item->freightage->category_id);
+            if (in_array($specialistData->specialist_category_id, $vendor_sector_arr)) {
+                $relatedDriverIds[] = $item->id;
+            }
+        }
+        // add search for related users
+        $users = User::search($query_string)->whereIn('id', $relatedDriverIds)->paginate(10);
 
         return view('specialist.users.driver.verify_about.driver_about_status', compact('specialistData', 'users'));
     }
@@ -1887,13 +1741,13 @@ class SpecialistController extends Controller
         $id = Auth::user()->id;
         $specialistData = User::find($id);
 
-        $users = Freightage::where('status', 'inactive')->latest()->get();
+        $users = User::where('role', 'freightage')->latest()->get();
 
         // add custom pagination for related users
         $relatedFreightagesArr = [];
         foreach ($users as $item) {
-            $freightage_sector_arr = explode(",", $item->category_id);
-            if (in_array($specialistData->specialist_category_id, $freightage_sector_arr)) {
+            $freightage_sector_arr = explode(",", $item->freightage->category_id);
+            if (in_array($specialistData->specialist_category_id, $freightage_sector_arr) && $item->freightage->status == "inactive") {
                 $relatedFreightagesArr[] = $item;
             }
         }
@@ -1914,35 +1768,21 @@ class SpecialistController extends Controller
     {
         $id = Auth::user()->id;
         $specialistData = User::find($id);
-        $query_string = Purify::clean($request->q);
+        $query_string = Purify::clean($request['query']);
 
-        $users_freightage = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "freightage"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "freightage"],
-                ])->get();
-
-        $relatedFreightages = [];
-
-        foreach ($users_freightage as $user) {
+        $relatedFreightagesIds = [];
+        $freightages = User::where('role','freightage')->get();
+        foreach ($freightages as $user) {
             $freightage_sector_arr = explode(",", $user->freightage->category_id);
             if ($user->freightage->status == "inactive" && in_array($specialistData->specialist_category_id, $freightage_sector_arr)) {
-                $relatedFreightages[] = $user;
+                $relatedFreightagesIds[] = $user->id;
             }
+            
         }
+        $relatedFreightages = User::search($query_string)->whereIn('id', $relatedFreightagesIds)->paginate(10);
+        
 
-        return view('specialist.users.freightage.freightage_about_status', compact('specialistData', 'relatedFreightages'));
+        return view('specialist.users.freightage.profile_field_of_activity.freightage_activity_status', compact('specialistData', 'relatedFreightages'));
     }
 
     public function SpecialistFreightageProfileVerify($id)
@@ -2065,32 +1905,43 @@ class SpecialistController extends Controller
     public function SpecialistDriverProfileVerifyAllSearch(Request $request)
     {
         $specialistData = auth()->user();
-        $query_string = Purify::clean($request->q);
+        $query_string = Purify::clean($request['query']);
 
-        $users_driver = User::where([
-            ['username', 'like', "%{$query_string}%"],
-            ['role', '=', "driver"],
-        ])->OrWhere([
-                    ['firstname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['lastname', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['shop_name', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->OrWhere([
-                    ['email', 'like', "%{$query_string}%"],
-                    ['role', '=', "driver"],
-                ])->get();
+        // $users_driver = User::where([
+        //     ['username', 'like', "%{$query_string}%"],
+        //     ['role', '=', "driver"],
+        // ])->OrWhere([
+        //             ['firstname', 'like', "%{$query_string}%"],
+        //             ['role', '=', "driver"],
+        //         ])->OrWhere([
+        //             ['lastname', 'like', "%{$query_string}%"],
+        //             ['role', '=', "driver"],
+        //         ])->OrWhere([
+        //             ['shop_name', 'like', "%{$query_string}%"],
+        //             ['role', '=', "driver"],
+        //         ])->OrWhere([
+        //             ['email', 'like', "%{$query_string}%"],
+        //             ['role', '=', "driver"],
+        //         ])->get();
 
-        $users = [];
+        // $users = [];
 
-        foreach ($users_driver as $user) {
-            if ($user->driver->status == "inactive") {
-                $users[] = $user->driver;
+        // foreach ($users_driver as $user) {
+        //     if ($user->driver->status == "inactive") {
+        //         $users[] = $user->driver;
+        //     }
+        // }
+
+        $relatedDriversIds = [];
+        $drivers = User::where('role','driver')->get();
+        foreach ($drivers as $user) {
+            $driver_sector_arr = explode(",", $user->driver->category_id);
+            if ($user->driver->status == "inactive" && in_array($specialistData->specialist_category_id, $driver_sector_arr)) {
+                $relatedDriversIds[] = $user->id;
             }
+            
         }
+        $users = User::search($query_string)->whereIn('id', $relatedDriversIds)->paginate(10);
 
         return view('specialist.users.driver.profile_field_of_activity.driver_activity_status', compact('specialistData', 'users'));
     }

@@ -2,7 +2,6 @@
 @section('admin')
 
 
-
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -13,7 +12,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">لیست سفارشات</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0"><a href="">لیست سفارشات</a></h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -36,15 +35,13 @@
                         </li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
-                        <li class="breadcrumb-item text-muted">سفارشات</li>
+                        <li class="breadcrumb-item text-muted"> سفارشات</li>
                         <!--end::آیتم-->
                     </ul>
                     <!--end::Breadcrumb-->
                 </div>
                 <!--end::Page title-->
-                <!--begin::Actions-->
-                
-                <!--end::Actions-->
+ 
             </div>
             <!--end::Toolbar container-->
         </div>
@@ -52,13 +49,20 @@
         <!--begin::Content-->
         <div id="kt_app_content" class="app-content flex-column-fluid">
             @if(session()->has('success'))
-            <div class="alert alert-icon alert-success alert-bg alert-inline show-code-action ms-5 me-5">
-                <h4 class="alert-title"></h4><i style="color:#50cd89" class="fas fa-check"></i> {{session('success')}}
-            </div>
+                <div class="alert alert-icon alert-success alert-bg alert-inline show-code-action me-5 ms-5">
+                    <h4 class="alert-title"></h4><i style="color:#50cd89" class="fas fa-check"></i> {{session('success')}}
+                </div>
+            @endif
+            @if(session()->has('error'))
+                <div  class="alert alert-icon alert-warning alert-bg alert-inline show-code-action me-5 ms-5 mt-5 mb-5">
+                    <h4 class="alert-title" style="color:#ffa800">
+                        <i class="w-icon-exclamation-triangle"></i>خطا!</h4>
+                        {{session('error')}}
+                </div>
             @endif
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
-                <!--begin::محصولات-->
+                <!--begin::دسته بندی-->
                 <div class="card card-flush">
                     <!--begin::کارت header-->
                     <div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -74,20 +78,24 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو " />
+                                <input type="text" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو سفارش" />
                             </div>
                             <!--end::جستجو-->
                         </div>
                         <!--end::کارت title-->
                         <!--begin::کارت toolbar-->
-                        
+                        {{-- <div class="card-toolbar">
+                            <!--begin::Add customer-->
+                            <a href="{{route('specialist.add.product')}}" class="btn btn-primary">افزودن محصول</a>
+                            <!--end::Add customer-->
+                        </div> --}}
                         <!--end::کارت toolbar-->
                     </div>
                     <!--end::کارت header-->
                     <!--begin::کارت body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_category_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -109,191 +117,200 @@
                                 <!--end::Table row-->
                             </thead>
                             <!--end::Table head-->
+
+
+                            <!--begin::Table body-->
+                            
                             <!--begin::Table body-->
                             <tbody class="fw-semibold text-gray-600">
 
-                            @foreach ($orders as $order)
-
-                                <!--begin::Table row-->
-                                <tr>
-                                    <!--begin::Checkbox-->
-                                    <td>
-                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox" value="1" />
-                                        </div>
-                                    </td>
-                                    <!--end::Checkbox-->
-                                    <!--begin::شناسه سفارش=-->
-                                    <td data-kt-ecommerce-order-filter="order_id">
-                                        <a href="../../demo1/dist/apps/ecommerce/sales/details.html" class="text-gray-800 text-hover-primary fw-bold">{{$order->id}}</a>
-                                    </td>
-                                    <!--end::شناسه سفارش=-->
-                                    <!--begin::مشتری=-->
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <!--begin:: آواتار -->
-                                            <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="../../demo1/dist/apps/user-management/users/view.html">
-                                                    <div class="symbol-label">
-                                                        {{-- <img src="{{!empty($order->user->photo) ? url('storage/upload/admin_images/' . $order->user->photo) : url('storage/upload/no_image.jpg') }}" alt="{{$order->user->firstname .' '. $order->user->lastname}}" class="w-100"> --}}
-                                                        <div class="symbol-label fs-3 bg-light-info text-info">{{mb_substr($order->user->lastname, 0, 1, "UTF-8")}}</div>
-                                                    </div>
-                                                </a>
+                                @foreach ($orders as $order)
+                                    <!--begin::Table row-->
+                                    <tr>
+                                        <!--begin::Checkbox-->
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="checkbox" value="1" />
                                             </div>
-                                            <!--end::Avatar-->
-                                            <div class="ms-5">
-                                                <!--begin::Title-->
-                                                <a href="../../demo1/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{$order->user->firstname .' '. $order->user->lastname}}</a>
-                                                <!--end::Title-->
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <!--end::مشتری=-->
-
-                                    <!--begin::نام فروشنده=-->
-
-                                    @php
-                                        $vendor_arr = [];
-                                        foreach ($order->products as $product) {
-                                            $vendor_id = $product->vendor_id;
-                                            $user = App\Models\User::find($vendor_id);
-                                            if($user) {
-                                                $vendor_arr[] = $user->firstname .' '. $user->lastname;
-                                            }
-                                        }
-                                        $vendor_arr = array_unique($vendor_arr);
-                                    @endphp
-                                    
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            @foreach ($vendor_arr as $vendor_info)
-                                               <div class="badge badge-light-dark">{{$vendor_info}}</div>
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                    <!--end::نام فروشنده=-->
-
-                                    <!--begin::وضعیت=-->
-                                    
-                                        @if($order->status == 'paid')
-                                        <td class="text-end pe-0" data-order="پرداخت موفق">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-success">پرداخت موفق</div>
-                                            <!--end::Badges-->
-                                        </td>    
-                                        @elseif(($order->status == 'unpaid'))
-                                        <td class="text-end pe-0" data-order="پرداخت ناموفق">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-dark">پرداخت ناموفق</div>
-                                            <!--end::Badges-->
-                                        </td> 
-                                        @elseif(($order->status == 'preparation'))
-                                        <td class="text-end pe-0" data-order="در حال پردازش">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-info">در حال پردازش</div>
-                                            <!--end::Badges-->
                                         </td>
-                                        @elseif(($order->status == 'posted'))
-                                        <td class="text-end pe-0" data-order="ارسال شده">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-primary">ارسال شده</div>
-                                            <!--end::Badges-->
-                                        </td>        
-                                        @elseif(($order->status == 'received'))
-                                        <td class="text-end pe-0" data-order="دریافت شده">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-primary">دریافت شده</div>
-                                            <!--end::Badges-->
-                                        </td> 
-                                        @elseif(($order->status == 'cancelled'))
-                                        <td class="text-end pe-0" data-order="سفارش لغو شده">
-                                            <!--begin::Badges-->
-                                            <div class="badge badge-light-danger">سفارش لغو شده</div>
-                                            <!--end::Badges-->
-                                        </td> 
-                                        @endif
+                                        <!--end::Checkbox-->
+                                        <!--begin::شناسه سفارش=-->
+                                        <td data-kt-ecommerce-order-filter="order_id">
+                                            <a href="../../demo1/dist/apps/ecommerce/sales/details.html" class="text-gray-800 text-hover-primary fw-bold">{{$order->id}}</a>
+                                        </td>
+                                        <!--end::شناسه سفارش=-->
+                                        <!--begin::مشتری=-->
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <!--begin:: آواتار -->
+                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                    <a href="../../demo1/dist/apps/user-management/users/view.html">
+                                                        <div class="symbol-label">
+                                                            {{-- <img src="{{!empty($order->user->photo) ? url('storage/upload/admin_images/' . $order->user->photo) : url('storage/upload/no_image.jpg') }}" alt="{{$order->user->firstname .' '. $order->user->lastname}}" class="w-100"> --}}
+                                                            <div class="symbol-label fs-3 bg-light-info text-info">{{mb_substr($order->user->lastname, 0, 1, "UTF-8")}}</div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <!--end::Avatar-->
+                                                <div class="ms-5">
+                                                    <!--begin::Title-->
+                                                    <a href="../../demo1/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{$order->user->firstname .' '. $order->user->lastname}}</a>
+                                                    <!--end::Title-->
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!--end::مشتری=-->
 
-                                    <!--end::وضعیت=-->
-                                    <!--begin::کل=-->
-                                    <td class="text-end pe-0">
-                                        <span class="fw-bold">{{$order->price}} {{$order->products[0]->determine_product_currency()}}</span>
-                                    </td>
-                                    <!--end::کل=-->
-                                    <!--begin::تاریخ افزودن=-->
-                                    <td class="text-end" data-order="{{jdate($order->created_at)->format('Y/m/d')}}">
-                                        <span class="fw-bold">{{jdate($order->created_at)->format('Y/m/d')}}</span>
-                                    </td>
-                                    <!--end::تاریخ افزودن=-->
-                                    <!--begin::تاریخ اصلاح شد=-->
-                                    {{-- <td class="text-end" data-order="{{$order->updated_at}}">
-                                        <span class="fw-bold">{{jdate($order->updated_at)->format('Y/m/d')}}</span>
-                                    </td> --}}
-                                    <!--end::تاریخ اصلاح شد=-->
-                                    <!--begin::عملیات=-->
-                                    <td class="text-end">
-                                        <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">عملیات
-                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-                                        <span class="svg-icon svg-icon-5 m-0">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                        <!--end::Svg Icon--></a>
-                                        <!--begin::Menu-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <form method="GET" id="viewOrder">
-                                                    @csrf
-                                                </form>
-                                                <a onclick="document.getElementById('viewOrder').submit();" href="{{route('admin.orders.view', $order->id)}}" class="menu-link px-3">جزئیات سفارش</a>
+                                        <!--begin::نام فروشنده=-->
+                                        @php
+                                            $vendor_arr = [];
+                                            foreach ($order->products as $product) {
+                                                $vendor_id = $product->vendor_id;
+                                                $user = App\Models\User::find($vendor_id);
+                                                if($user) {
+                                                    $vendor_arr[] = $user->firstname .' '. $user->lastname;
+                                                }
+                                            }
+                                            $vendor_arr = array_unique($vendor_arr);
+                                        @endphp
+                                        
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @foreach ($vendor_arr as $vendor_info)
+                                                <div class="badge badge-light-dark">{{$vendor_info}}</div>
+                                                @endforeach
                                             </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <form action="{{route('admin.orders.destroy', $order->id)}}" method="POST" id="deleteOrder-{{$order->id}}">
-                                                    @csrf
-                                                </form>
-                                                <a onclick="document.getElementById('deleteOrder-{{$order->id}}').submit(); return confirm('آیا برای انجام این کار اطمینان دارید؟');" class="menu-link px-3" data-kt-ecommerce-order-filter="delete_row" onclick ="return confirm('آیا برای انجام این کار اطمینان دارید؟')">حذف</a>
+                                        </td>
+                                        <!--end::نام فروشنده=-->
+
+                                        <!--begin::وضعیت=-->
+                                        
+                                            @if($order->status == 'paid')
+                                            <td class="text-end pe-0" data-order="پرداخت موفق">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-success">پرداخت موفق</div>
+                                                <!--end::Badges-->
+                                            </td>    
+                                            @elseif(($order->status == 'unpaid'))
+                                            <td class="text-end pe-0" data-order="پرداخت ناموفق">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-dark">پرداخت ناموفق</div>
+                                                <!--end::Badges-->
+                                            </td> 
+                                            @elseif(($order->status == 'preparation'))
+                                            <td class="text-end pe-0" data-order="در حال پردازش">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-info">در حال پردازش</div>
+                                                <!--end::Badges-->
+                                            </td>
+                                            @elseif(($order->status == 'posted'))
+                                            <td class="text-end pe-0" data-order="ارسال شده">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-primary">ارسال شده</div>
+                                                <!--end::Badges-->
+                                            </td>        
+                                            @elseif(($order->status == 'received'))
+                                            <td class="text-end pe-0" data-order="دریافت شده">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-primary">دریافت شده</div>
+                                                <!--end::Badges-->
+                                            </td> 
+                                            @elseif(($order->status == 'cancelled'))
+                                            <td class="text-end pe-0" data-order="سفارش لغو شده">
+                                                <!--begin::Badges-->
+                                                <div class="badge badge-light-danger">سفارش لغو شده</div>
+                                                <!--end::Badges-->
+                                            </td> 
+                                            @endif
+
+                                        <!--end::وضعیت=-->
+                                        <!--begin::کل=-->
+                                        <td class="text-end pe-0">
+                                            <span class="fw-bold">{{$order->price}} {{$order->products[0]->determine_product_currency()}}</span>
+                                        </td>
+                                        <!--end::کل=-->
+                                        <!--begin::تاریخ افزودن=-->
+                                        <td class="text-end" data-order="{{jdate($order->created_at)->format('Y/m/d')}}">
+                                            <span class="fw-bold">{{jdate($order->created_at)->format('Y/m/d')}}</span>
+                                        </td>
+                                        <!--end::تاریخ افزودن=-->
+                                        <!--begin::تاریخ اصلاح شد=-->
+                                        {{-- <td class="text-end" data-order="{{$order->updated_at}}">
+                                            <span class="fw-bold">{{jdate($order->updated_at)->format('Y/m/d')}}</span>
+                                        </td> --}}
+                                        <!--end::تاریخ اصلاح شد=-->
+                                        <!--begin::عملیات=-->
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">عملیات
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                            <span class="svg-icon svg-icon-5 m-0">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon--></a>
+                                            <!--begin::Menu-->
+                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <form method="GET" id="viewOrder">
+                                                        @csrf
+                                                    </form>
+                                                    <a onclick="document.getElementById('viewOrder').submit();" href="{{route('admin.orders.view', $order->id)}}" class="menu-link px-3">جزئیات سفارش</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <form action="{{route('admin.orders.destroy', $order->id)}}" method="POST" id="deleteOrder-{{$order->id}}">
+                                                        @csrf
+                                                    </form>
+                                                    <a onclick="document.getElementById('deleteOrder-{{$order->id}}').submit(); return confirm('آیا برای انجام این کار اطمینان دارید؟');" class="menu-link px-3" data-kt-ecommerce-order-filter="delete_row" onclick ="return confirm('آیا برای انجام این کار اطمینان دارید؟')">حذف</a>
+                                                </div>
+                                                <!--end::Menu item-->
                                             </div>
-                                            <!--end::Menu item-->
-                                        </div>
-                                        <!--end::Menu-->
-                                    </td>
-                                    <!--end::عملیات=-->
-                                </tr>
-                                <!--end::Table row-->
+                                            <!--end::Menu-->
+                                        </td>
+                                        <!--end::عملیات=-->
+                                    </tr>
+                                    <!--end::Table row-->
+                                    
+                                @endforeach
                                 
-                            @endforeach
-
-
                             </tbody>
                             <!--end::Table body-->
+
                         </table>
                         <!--end::Table-->
                     </div>
                     <!--end::کارت body-->
                 </div>
-                <!--end::محصولات-->
+                <!--end::دسته بندی-->
             </div>
             <!--end::Content container-->
         </div>
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
-    
+
 </div>
 
-
-<!--begin::سفارشی Javascript(used for this page only)-->
-<script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/new-target.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script>
-<!--end::سفارشی Javascript-->
-
+    <!--begin::سفارشی Javascript(used for this page only)-->
+    <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/categories.js')}}"></script>
+    {{-- <script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script> --}}
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script> --}}
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script> --}}
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script> --}}
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script> --}}
+    {{-- <script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.j')}}s"></script> --}}
+    <!--end::سفارشی Javascript-->
 
 @endsection
+
+
+
+
+
+
+
+
+

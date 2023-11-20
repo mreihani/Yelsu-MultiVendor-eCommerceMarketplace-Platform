@@ -1,12 +1,10 @@
 @extends('specialist.specialist_dashboard')
 @section('specialist')
 
-@if(Route::currentRouteName() == 'specialist.freightage.about.verifyAll')    
-    <style>
-        .dataTables_length label { display:none;}
-        #kt_ecommerce_category_table_paginate .pagination { display:none;}
-    </style>
-@endif
+<style>
+    .dataTables_length label { display:none;}
+    #kt_ecommerce_category_table_paginate .pagination { display:none;}
+</style>
 
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
         <!--begin::Toolbar-->
@@ -215,11 +213,9 @@
                         </table>
                         <!--end::Table-->
 
-                        @if(Route::currentRouteName() == 'specialist.freightage.about.verifyAll')    
-                            <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
-                                {{$relatedFreightages->links('vendor.pagination.backend-dashboard')}}
-                            </div>
-                        @endif
+                        <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
+                            {{$relatedFreightages->withQueryString()->links('vendor.pagination.backend-dashboard') }}
+                        </div>
 
                     </div>
                     <!--end::کارت body-->

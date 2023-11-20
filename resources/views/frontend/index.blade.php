@@ -14,7 +14,8 @@
 
     <!-- Beginning of Financial GIF BANNER -->
     <div class="bg-white mt-6 mb-6">
-        <a href="{{route('blog.financing')}}">
+        {{-- <a href="{{route('blog.financing')}}"> --}}
+        <a href="">
             <img src="{{asset('frontend/assets/images/financial_compressed.gif')}}" alt="financial banner">
         </a>
     </div>

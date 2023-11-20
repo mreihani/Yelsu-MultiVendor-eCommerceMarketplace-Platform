@@ -39,10 +39,10 @@
             <h5>باربری ها</h5>
         </figure>
     </a>
-    <a href="{{route('blog.encomGalaxy')}}" target="_blank" class="platform-marker-estate-a">
+    <a href="{{URL::to('/register')}}" target="_blank" class="platform-marker-estate-a">
         <figure class="platform-marker-estate">
             <img src="{{asset('frontend/assets/images/demos/demo13/banner/placeholder_684908.png')}}" alt="Marker">
-            <h5>املاک</h5>
+            <h5>عاملین/نمایندگی</h5>
         </figure>
     </a>
     <a href="{{route('driver.all')}}" target="_blank" class="platform-marker-drivers-a">

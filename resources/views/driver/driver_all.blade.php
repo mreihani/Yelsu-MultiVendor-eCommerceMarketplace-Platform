@@ -49,7 +49,7 @@
             <!-- End of Vendor Toolbox -->
             {{-- <div class="vendor-search-wrapper"> --}}
                 <form class="vendor-search-form d-flex mb-10" method="GET" action="{{route('driver.all.search')}}">
-                    <input type="text" class="form-control mr-4 bg-white" name="q" id="vendor"
+                    <input type="text" class="form-control mr-4 bg-white" name="query" id="vendor"
                         placeholder="جستجوی راننده" value="{{$query}}" />
                     <button class="btn btn-primary btn-rounded" type="submit">جستجو </button>
                 </form>
@@ -57,11 +57,9 @@
             {{-- </div> --}}
 
 
-            @if(Route::currentRouteName() == 'driver.all')    
-                <div class="toolbox toolbox-pagination d-flex justify-content-center" style="border-top: none;">
-                    {{$drivers->links('vendor.pagination.custom')}}
-                </div>
-            @endif
+            <div class="toolbox toolbox-pagination d-flex justify-content-center" style="border-top: none;">
+                {{$drivers->withQueryString()->links('vendor.pagination.custom') }}
+            </div>
 
             <div class="row cols-lg-3 cols-md-2 cols-sm-2 cols-1 mt-4">
 

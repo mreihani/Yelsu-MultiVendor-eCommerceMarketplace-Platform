@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ShetabitVisit extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $guarded = [];
 
     public function user()

@@ -107,7 +107,6 @@ class AdminController extends Controller
 
    public function AdminUpdatePassword(Request $request)
    {
-
       //Validation
       $incomingFields = $request->validate([
          'old_password' => 'required',
@@ -146,24 +145,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $VendorStatus = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "vendor"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-            ])->get();
+      $VendorStatus = User::search($query_string)->where('role','vendor')->paginate(10);  
 
       return view('admin.backend.users.vendor.activate_account.vendor_status', compact('VendorStatus', 'adminData'));
    } //End method
@@ -214,24 +198,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $MerchantStatus = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "merchant"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-            ])->get();
+      $MerchantStatus = User::search($query_string)->where('role','merchant')->paginate(10);
 
       return view('admin.backend.users.merchant.activate_account.merchant_status', compact('MerchantStatus', 'adminData'));
    } //End method
@@ -277,24 +246,9 @@ class AdminController extends Controller
       $id = Auth::user()->id;
       $adminData = User::find($id);
 
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $RetailerStatus = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "retailer"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-            ])->get();
+      $RetailerStatus = User::search($query_string)->where('role','retailer')->paginate(10);
 
       return view('admin.backend.users.retailer.activate_account.retailer_status', compact('RetailerStatus', 'adminData'));
    } //End method
@@ -339,24 +293,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $FreightageStatus = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "freightage"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->get();
+      $FreightageStatus = User::search($query_string)->where('role','freightage')->paginate(10);
 
       return view('admin.backend.users.freightage.activate_account.freightage_status', compact('FreightageStatus', 'adminData'));
    } //End method
@@ -403,24 +342,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $DriverStatus = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "driver"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->get();
+      $DriverStatus = User::search($query_string)->where('role','driver')->paginate(10);
 
       return view('admin.backend.users.driver.activate_account.driver_status', compact('DriverStatus', 'adminData'));
    } //End method
@@ -468,38 +392,9 @@ class AdminController extends Controller
       $id = Auth::user()->id;
       $adminData = User::find($id);
       $categories = Category::where('parent', 0)->latest()->get()->reverse();
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"], 
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-            ])->OrWhere([
-               ['role', 'like', "%{$query_string}%"],
-            ])->get();
-
-      // تست کن ببین چرا کد پایینی کار می کنه
-      // $users = User::where([
-      //    ['username', 'like', "%{$query_string}%"],
-      //    ['role', '=', "vendor"],
-      // ])->OrWhere([
-      //          ['firstname', 'like', "%{$query_string}%"],
-      //          ['role', '=', "vendor"],
-      //       ])->OrWhere([
-      //          ['lastname', 'like', "%{$query_string}%"],
-      //          ['role', '=', "vendor"],
-      //       ])->OrWhere([
-      //          ['shop_name', 'like', "%{$query_string}%"],
-      //          ['role', '=', "vendor"],
-      //       ])->OrWhere([
-      //          ['email', 'like', "%{$query_string}%"],
-      //          ['role', '=', "vendor"],
-      //       ])->get();
-
+      $users = User::search($query_string)->paginate(10);
 
       return view('admin.backend.users.user.users_all', compact('adminData', 'users', 'categories'));
    } //End method
@@ -849,34 +744,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "vendor"],
-         ['status', '=', "active"],
-         ['vendor_description_status', '=', "inactive"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "vendor"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->get();
+      $users = User::search($query_string)->where('role','vendor')->where('status','active')->where('vendor_description_status','inactive')->paginate(10);
 
       return view('admin.backend.users.vendor.verify_about.vendor_about_status', compact('adminData', 'users'));
    }
@@ -925,35 +795,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "merchant"],
-         ['status', '=', "active"],
-         ['vendor_description_status', '=', "inactive"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "merchant"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->get();
-
+      $users = User::search($query_string)->where('role','merchant')->where('status','active')->where('vendor_description_status','inactive')->paginate(10);
 
       return view('admin.backend.users.merchant.verify_about.merchant_about_status', compact('adminData', 'users'));
    }
@@ -1002,35 +846,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "retailer"],
-         ['status', '=', "active"],
-         ['vendor_description_status', '=', "inactive"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "retailer"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->get();
-
+      $users = User::search($query_string)->where('role','retailer')->where('status','active')->where('vendor_description_status','inactive')->paginate(10);
 
       return view('admin.backend.users.retailer.verify_about.retailer_about_status', compact('adminData', 'users'));
    }
@@ -1079,36 +897,10 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "freightage"],
-         ['status', '=', "active"],
-         ['vendor_description_status', '=', "inactive"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->get();
-
-
+      $users = User::search($query_string)->where('role','freightage')->where('status','active')->where('vendor_description_status','inactive')->paginate(10);
+      
       return view('admin.backend.users.freightage.verify_about.freightage_about_status', compact('adminData', 'users'));
    }
 
@@ -1148,7 +940,8 @@ class AdminController extends Controller
       $id = Auth::user()->id;
       $adminData = User::find($id);
 
-      $users = Freightage::where('status', 'inactive')->latest()->paginate(10);
+      $freightages_id = Freightage::where('status', "inactive")->pluck('user_id')->toArray();
+      $users = User::whereIn('id', $freightages_id)->paginate(10);
 
       return view('admin.backend.users.freightage.profile_field_of_activity.freightage_activity_status', compact('adminData', 'users'));
    }
@@ -1157,32 +950,10 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users_freightage = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "freightage"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "freightage"],
-            ])->get();
-
-      $users = [];
-
-      foreach ($users_freightage as $user) {
-         if ($user->freightage->status == "inactive") {
-            $users[] = $user->freightage;
-         }
-      }
+      $freightages_id = Freightage::where('status', "inactive")->pluck('user_id')->toArray();
+      $users = User::search($query_string)->whereIn('id', $freightages_id)->paginate(10);
 
       return view('admin.backend.users.freightage.profile_field_of_activity.freightage_activity_status', compact('adminData', 'users'));
    }
@@ -1299,35 +1070,9 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "driver"],
-         ['status', '=', "active"],
-         ['vendor_description_status', '=', "inactive"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-               ['status', '=', "active"],
-               ['vendor_description_status', '=', "inactive"],
-            ])->get();
-
+      $users = User::search($query_string)->where('role','driver')->where('status','active')->where('vendor_description_status','inactive')->paginate(10);
 
       return view('admin.backend.users.driver.verify_about.driver_about_status', compact('adminData', 'users'));
    }
@@ -1368,7 +1113,8 @@ class AdminController extends Controller
       $id = Auth::user()->id;
       $adminData = User::find($id);
 
-      $users = Driver::where('status', 'inactive')->latest()->paginate(10);
+      $driver_id = Driver::where('status', "inactive")->pluck('user_id')->toArray();
+      $users = User::whereIn('id', $driver_id)->paginate(10);
 
       return view('admin.backend.users.driver.profile_field_of_activity.driver_activity_status', compact('adminData', 'users'));
    }
@@ -1377,32 +1123,10 @@ class AdminController extends Controller
    {
       $id = Auth::user()->id;
       $adminData = User::find($id);
-      $query_string = Purify::clean($request->q);
+      $query_string = Purify::clean($request['query']);
 
-      $users_driver = User::where([
-         ['username', 'like', "%{$query_string}%"],
-         ['role', '=', "driver"],
-      ])->OrWhere([
-               ['firstname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['lastname', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['shop_name', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->OrWhere([
-               ['email', 'like', "%{$query_string}%"],
-               ['role', '=', "driver"],
-            ])->get();
-
-      $users = [];
-
-      foreach ($users_driver as $user) {
-         if ($user->driver->status == "inactive") {
-            $users[] = $user->driver;
-         }
-      }
+      $driver_id = Driver::where('status', "inactive")->pluck('user_id')->toArray();
+      $users = User::search($query_string)->whereIn('id', $driver_id)->paginate(10);
 
       return view('admin.backend.users.driver.profile_field_of_activity.driver_activity_status', compact('adminData', 'users'));
    }

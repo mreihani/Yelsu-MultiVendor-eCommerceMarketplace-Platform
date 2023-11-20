@@ -57,7 +57,7 @@
             <!-- End of Vendor Toolbox -->
             {{-- <div class="vendor-search-wrapper"> --}}
                 <form class="vendor-search-form d-flex mb-10" method="GET" action="{{route('customs.all.search')}}">
-                    <input type="text" class="form-control mr-4 bg-white" name="q" id="vendor"
+                    <input type="text" class="form-control mr-4 bg-white" name="query" id="vendor"
                         placeholder="منطقه اقتصادی را جستجو کنید" value="{{$query}}" />
                     <button class="btn btn-primary btn-rounded" type="submit">جستجو </button>
                 </form>
@@ -72,19 +72,12 @@
                     <div id="map"></div>
                 </div>
             </div>
-            @elseif(!count($vendors))
-            <div class="container mt-10">
-                <div class="shop-default-category">                           
-                    <h4 class="text-center">هیچ نتیجه ای یافت نشد!</h4>
-                </div>
-            </div>
+            
             @endif
 
-            @if(Route::currentRouteName() == 'customs.all')    
-                <div class="toolbox toolbox-pagination d-flex justify-content-center" style="border-top: none;">
-                    {{$customsAll->links('vendor.pagination.custom')}}
-                </div>
-            @endif
+            <div class="toolbox toolbox-pagination d-flex justify-content-center" style="border-top: none;">
+                {{$customsAll->withQueryString()->links('vendor.pagination.custom') }}
+            </div>
 
             <div class="row cols-lg-3 cols-md-2 cols-sm-2 cols-1 mt-4">
 

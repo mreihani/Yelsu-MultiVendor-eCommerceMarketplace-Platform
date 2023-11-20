@@ -1,12 +1,10 @@
 @extends('admin.admin_dashboard')
 @section('admin')
 
-@if(Route::currentRouteName() == 'admin.driver.profile.verifyAll')    
-    <style>
-        .dataTables_length label { display:none;}
-        #kt_ecommerce_category_table_paginate .pagination { display:none;}
-    </style>
-@endif
+<style>
+    .dataTables_length label { display:none;}
+    #kt_ecommerce_category_table_paginate .pagination { display:none;}
+</style>
 
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
         <!--begin::Toolbar-->
@@ -103,7 +101,7 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                     {{-- <input type="text" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو راننده" /> --}}
-                                    <input type="text" name="q" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو راننده" />
+                                    <input type="text" name="query" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو راننده" />
                                 </div>
                             </form>    
                             <!--end::جستجو-->
@@ -156,16 +154,16 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <!--begin::Thumbnail-->
-                                                    <a href="{{route('driver.details', $item->user->id)}}" class="symbol symbol-50px">
-                                                        <span class="symbol-label" style="background-image:url({{!empty($item->user->photo) ? asset('storage/upload/driver_images/' . $item->user->photo) : url(asset('storage/upload/no_image.jpg'))}});"></span>
+                                                    <a href="{{route('driver.details', $item->id)}}" class="symbol symbol-50px">
+                                                        <span class="symbol-label" style="background-image:url({{!empty($item->photo) ? asset('storage/upload/driver_images/' . $item->photo) : url(asset('storage/upload/no_image.jpg'))}});"></span>
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class="ms-5">
                                                         <!--begin::Title-->
-                                                        <a href="{{route('driver.details',$item->user->id)}}" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-item-filter="item_name">{{$item->user->shop_name}}</a>
+                                                        <a href="{{route('driver.details',$item->id)}}" class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1" data-kt-ecommerce-item-filter="item_name">{{$item->shop_name}}</a>
                                                         <!--end::Title-->
                                                         <!--begin::توضیحات-->
-                                                        <div class="text-muted fs-7 fw-bold">{{($item->user->username)}}</div>
+                                                        <div class="text-muted fs-7 fw-bold">{{($item->username)}}</div>
                                                         <!--end::توضیحات-->
                                                     </div>
                                                 </div>
@@ -174,16 +172,16 @@
 
                                             <!--begin::نوع=-->
                                             <td class="pe-0 text-center">
-                                                <a href="mailto:{{$item->user->email}}">
-                                                    <span class="fw-bold">{{$item->user->email}}</span>
+                                                <a href="mailto:{{$item->email}}">
+                                                    <span class="fw-bold">{{$item->email}}</span>
                                                 </a>
                                             </td>
                                             <!--end::نوع=-->
 
                                             <!--begin::نوع=-->
                                             <td class="pe-0 text-center">
-                                                <a href="tel:{{$item->user->home_phone}}">
-                                                    <span class="fw-bold">{{$item->user->home_phone}}</span>
+                                                <a href="tel:{{$item->home_phone}}">
+                                                    <span class="fw-bold">{{$item->home_phone}}</span>
                                                 </a>
                                             </td>
                                             <!--end::نوع=-->
@@ -191,7 +189,7 @@
 
                                             <!--begin::عملیات=-->
                                             <td class="text-end">
-                                                <a class="btn btn-sm btn-primary" href="{{route('admin.driver.profile.verify', $item->user->id)}}" class="menu-link px-3">بررسی </a>
+                                                <a class="btn btn-sm btn-primary" href="{{route('admin.driver.profile.verify', $item->id)}}" class="menu-link px-3">بررسی </a>
 
                                                 {{-- <form action="{{route('admin.vendor.statusChange')}}" method="POST">
                                                 @csrf    
@@ -215,11 +213,10 @@
                            
                         </table>
 
-                        @if(Route::currentRouteName() == 'admin.driver.profile.verifyAll')    
-                            <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
-                                {{$users->links('vendor.pagination.backend-dashboard')}}
-                            </div>
-                        @endif
+                        <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
+                            {{$users->withQueryString()->links('vendor.pagination.backend-dashboard') }}
+                        </div>
+                        
                         <!--end::Table-->
                     </div>
                     <!--end::کارت body-->

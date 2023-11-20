@@ -1,12 +1,10 @@
 @extends('admin.admin_dashboard')
 @section('admin')
 
-@if(Route::currentRouteName() == 'admin.retailer.about.verifyAll')    
-    <style>
-        .dataTables_length label { display:none;}
-        #kt_ecommerce_category_table_paginate .pagination { display:none;}
-    </style>
-@endif
+<style>
+    .dataTables_length label { display:none;}
+    #kt_ecommerce_category_table_paginate .pagination { display:none;}
+</style>
 
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
         <!--begin::Toolbar-->
@@ -103,7 +101,7 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                     {{-- <input type="text" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو فروشنده" /> --}}
-                                    <input type="text" name="q" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو فروشنده" />
+                                    <input type="text" name="query" class="form-control form-control-solid w-250px ps-14" placeholder="جستجو فروشنده" />
                                 </div>
                             </form>    
                             <!--end::جستجو-->
@@ -215,11 +213,10 @@
                            
                         </table>
 
-                        @if(Route::currentRouteName() == 'admin.retailer.about.verifyAll')    
-                            <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
-                                {{$users->links('vendor.pagination.backend-dashboard')}}
-                            </div>
-                        @endif
+                        <div class="toolbox toolbox-pagination d-flex justify-content-center mt-5">
+                            {{$users->withQueryString()->links('vendor.pagination.backend-dashboard') }}
+                        </div>
+                        
                         <!--end::Table-->
                     </div>
                     <!--end::کارت body-->

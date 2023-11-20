@@ -49,7 +49,7 @@
                                 <h3 class="widget-title"><span>زمینه فعالیت تأمین کننده</span></h3>
                                 <ul class="widget-body filter-items search-ul">
                                     @foreach($vendor_sector_cat_arr as $vendor_sector_item)
-                                    <a href="{{route('shop.category',['id'=> $vendor_sector_item->id])}}">
+                                    <a href="{{route('shop.category', ['id'=> $vendor_sector_item->id])}}">
                                         {{$vendor_sector_item->category_name}}
                                     </a>
                                     @endforeach

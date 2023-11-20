@@ -36,7 +36,7 @@
                             <option value="d">جستجو رانندگان</option>
                         </select>
                     </div>
-                    <input type="text" class="form-control" name="q" id="search"
+                    <input type="text" class="form-control" name="query" id="search"
                         placeholder="جستجو کنید ..." required />
                     <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
                     </button>

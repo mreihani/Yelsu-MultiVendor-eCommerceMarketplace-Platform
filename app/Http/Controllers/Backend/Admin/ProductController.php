@@ -49,27 +49,29 @@ class ProductController extends Controller
     {
         $user_id = Auth::user()->id;
         $adminData = User::find($user_id);
-        $query_string = Purify::clean($request->q);
+        $query_string = Purify::clean($request['query']);
 
-        $products = Product::where([
-            ['product_name', 'like', "%{$query_string}%"],
-            ['product_verification', '=', 'active'],
-            ['vendor_id', '!=', NULL],
-        ])->Orwhere([
-                    ['product_name', 'like', "%{$query_string}%"],
-                    ['product_verification', '=', 'active'],
-                    ['merchant_id', '!=', NULL],
-                ])->Orwhere([
-                    ['product_name', 'like', "%{$query_string}%"],
-                    ['product_verification', '=', 'active'],
-                    ['retailer_id', '!=', NULL],
-                ])->Orwhere([
-                    ['product_name', 'like', "%{$query_string}%"],
-                    ['product_verification', '=', 'inactive'],
-                    ['vendor_id', '=', NULL],
-                    ['merchant_id', '=', NULL],
-                    ['retailer_id', '=', NULL],
-                ])->latest()->get();
+        // $products = Product::where([
+        //     ['product_name', 'like', "%{$query_string}%"],
+        //     ['product_verification', '=', 'active'],
+        //     ['vendor_id', '!=', NULL],
+        // ])->Orwhere([
+        //             ['product_name', 'like', "%{$query_string}%"],
+        //             ['product_verification', '=', 'active'],
+        //             ['merchant_id', '!=', NULL],
+        //         ])->Orwhere([
+        //             ['product_name', 'like', "%{$query_string}%"],
+        //             ['product_verification', '=', 'active'],
+        //             ['retailer_id', '!=', NULL],
+        //         ])->Orwhere([
+        //             ['product_name', 'like', "%{$query_string}%"],
+        //             ['product_verification', '=', 'inactive'],
+        //             ['vendor_id', '=', NULL],
+        //             ['merchant_id', '=', NULL],
+        //             ['retailer_id', '=', NULL],
+        //         ])->latest()->get();
+
+        $products = Product::search($query_string)->paginate(10);
 
         return view('admin.backend.product.product_all', compact('products', 'adminData'));
     }

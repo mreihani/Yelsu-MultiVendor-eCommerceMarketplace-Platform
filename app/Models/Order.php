@@ -6,11 +6,13 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Useroutlets;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    use Searchable;
     protected $guarded =  [];
 
     public function user() {

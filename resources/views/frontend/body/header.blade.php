@@ -81,7 +81,7 @@
                     </select>
                     
                 </div>
-                <input type="text" class="form-control bg-white" name="q" id="search"
+                <input type="text" class="form-control bg-white" name="query" id="search"
                     placeholder="جستجو کنید ..." required />
                 <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
                 </button>

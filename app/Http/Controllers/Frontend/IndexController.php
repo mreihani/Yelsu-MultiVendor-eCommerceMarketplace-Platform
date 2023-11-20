@@ -382,27 +382,9 @@ class IndexController extends Controller
 
     public function VendorAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $vendors = User::where([
-            ['role', '=', 'vendor'],
-            ['status', '=', 'active'],
-            ['username', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['role', '=', 'vendor'],
-                    ['status', '=', 'active'],
-                    ['firstname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'vendor'],
-                    ['status', '=', 'active'],
-                    ['lastname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'vendor'],
-                    ['status', '=', 'active'],
-                    ['shop_name', 'like', "%{$query}%"],
-                ])
-            ->get();
-
+        $query = Purify::clean($request['query']);
+        
+        $vendors = User::search($query)->where('status','active')->where('role','vendor')->paginate(12);
         $vendor_id_arr = $vendors->pluck('id');
 
         $outletsArr = [];
@@ -524,26 +506,9 @@ class IndexController extends Controller
 
     public function MerchantAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $merchants = User::where([
-            ['role', '=', 'merchant'],
-            ['status', '=', 'active'],
-            ['username', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['role', '=', 'merchant'],
-                    ['status', '=', 'active'],
-                    ['firstname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'merchant'],
-                    ['status', '=', 'active'],
-                    ['lastname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'merchant'],
-                    ['status', '=', 'active'],
-                    ['shop_name', 'like', "%{$query}%"],
-                ])
-            ->get();
+        $query = Purify::clean($request['query']);
+        
+        $merchants = User::search($query)->where('status','active')->where('role','merchant')->paginate(12);
 
         $merchant_id_arr = $merchants->pluck('id');
 
@@ -668,26 +633,9 @@ class IndexController extends Controller
 
     public function RetailerAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $retailers = User::where([
-            ['role', '=', 'retailer'],
-            ['status', '=', 'active'],
-            ['username', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['role', '=', 'retailer'],
-                    ['status', '=', 'active'],
-                    ['firstname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'retailer'],
-                    ['status', '=', 'active'],
-                    ['lastname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'retailer'],
-                    ['status', '=', 'active'],
-                    ['shop_name', 'like', "%{$query}%"],
-                ])
-            ->get();
+        $query = Purify::clean($request['query']);
+        
+        $retailers = User::search($query)->where('status','active')->where('role','retailer')->paginate(12);
 
         $retailer_id_arr = $retailers->pluck('id');
 
@@ -795,15 +743,9 @@ class IndexController extends Controller
 
     public function CustomsAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $customsAll = Customsoutlet::where([
-            ['name', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['province', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['address', 'like', "%{$query}%"],
-                ])->get();
+        $query = Purify::clean($request['query']);
+        
+        $customsAll = Customsoutlet::search($query)->paginate(12);
 
         $customs_id_arr = $customsAll->pluck('id');
 
@@ -864,27 +806,9 @@ class IndexController extends Controller
 
     public function FreightageAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $freightages = User::where([
-            ['role', '=', 'freightage'],
-            ['status', '=', 'active'],
-            ['username', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['role', '=', 'freightage'],
-                    ['status', '=', 'active'],
-                    ['firstname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'freightage'],
-                    ['status', '=', 'active'],
-                    ['lastname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'freightage'],
-                    ['status', '=', 'active'],
-                    ['shop_name', 'like', "%{$query}%"],
-                ])
-            ->get();
-
+        $query = Purify::clean($request['query']);
+        
+        $freightages = User::search($query)->where('status','active')->where('role','freightage')->paginate(12);
 
         return view('freightage.freightage_all', compact('freightages', 'query'));
     } //End method
@@ -920,27 +844,9 @@ class IndexController extends Controller
 
     public function DriverAllSearch(Request $request)
     {
-        $query = Purify::clean($request->q);
-
-        $drivers = User::where([
-            ['role', '=', 'driver'],
-            ['status', '=', 'active'],
-            ['username', 'like', "%{$query}%"],
-        ])->Orwhere([
-                    ['role', '=', 'driver'],
-                    ['status', '=', 'active'],
-                    ['firstname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'driver'],
-                    ['status', '=', 'active'],
-                    ['lastname', 'like', "%{$query}%"],
-                ])->Orwhere([
-                    ['role', '=', 'driver'],
-                    ['status', '=', 'active'],
-                    ['shop_name', 'like', "%{$query}%"],
-                ])
-            ->get();
-
+        $query = Purify::clean($request['query']);
+        
+        $drivers = User::search($query)->where('status','active')->where('role','driver')->paginate(12);
 
         return view('driver.driver_all', compact('drivers', 'query'));
     } //End method
@@ -1381,25 +1287,17 @@ class IndexController extends Controller
         $category_id = Purify::clean($request->cat_id);
         $parentCategories = Category::where('parent', 0)->latest()->get();
        
-        if (Purify::clean($request->q) == NULL) {
+        if (Purify::clean($request['query']) == NULL) {
             return back();
         }
         //dd((int) $category_id);
         if (in_array($category_id, [0, 1, 2, 3, 4, 5, 6, 7, 8])) {
-            $search_keyword = Purify::clean($request->q);
+            $search_keyword = Purify::clean($request['query']);
 
-            if ($category_id == 0) {
-                $products = Product::where('product_name', 'like', "%{$search_keyword}%")->get();
-            } else {
-                $products = Product::where('product_name', 'like', "%{$search_keyword}%")->where('parent_category_id', $category_id)->get();
-            }
-
-            // exclude products which store has been disabled
-            $products_arr = [];
-            foreach ($products as $product) {
-                if ($product->status == 'disabled') {
-                    continue;
-                }
+            // ایجاد آرایه ای از آی دی محصولاتی که مجاز نیستند
+            $products_arr_id = [];
+            $disabled_products_array = Product::where('status','active')->get();
+            foreach ($disabled_products_array as $product) {
 
                 if ($product->vendor_id != NULL) {
                     $vendor_id = (int) $product->vendor_id;
@@ -1428,11 +1326,17 @@ class IndexController extends Controller
                     }
                 }
 
-                $products_arr[] = $product;
+                $products_arr_id[] = $product->id;
             }
-            $products = new Collection($products_arr);
-            // End of - exclude products which store has been disabled
+            // ایجاد آرایه ای از آی دی محصولاتی که مجاز نیستند
 
+
+            if ($category_id == 0) {
+                $products = Product::search($search_keyword)->whereIn('id', $products_arr_id)->paginate(24);
+            } else {
+                $products = Product::search($search_keyword)->whereIn('id', $products_arr_id)->where('parent_category_id', $category_id)->paginate(24);
+            }
+            
             $categories = Category::latest()->get();
 
             $root_catgory_obj = NULL;

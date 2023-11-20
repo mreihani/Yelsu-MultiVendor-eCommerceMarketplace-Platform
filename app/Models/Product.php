@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeItem;
+use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
 use Stevebauman\Purify\Facades\Purify;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $guarded = [];
 
     public function categories()
