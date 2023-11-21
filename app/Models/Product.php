@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
 use App\Models\Attribute;
+use Illuminate\Support\Arr;
 use App\Models\AttributeItem;
-use Laravel\Scout\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
 use Stevebauman\Purify\Facades\Purify;
@@ -18,6 +19,13 @@ class Product extends Model
 {
     use HasFactory, Searchable;
     protected $guarded = [];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return Arr::only($array, ['id','product_name']);
+    }
 
     public function categories()
     {

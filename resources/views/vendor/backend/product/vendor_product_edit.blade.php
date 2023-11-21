@@ -470,14 +470,36 @@
                                         <!--end::کارت header-->
                                         <!--begin::کارت body-->
                                         <div class="card-body pt-0">
+
                                             <!--begin::Input group-->
                                             <div class="mb-10 fv-row">
                                                 <!--begin::Tags-->
                                                 <label class="required form-label">قیمت بدون احتساب کمیسیون را وارد نمایید</label>
                                                 <!--end::Tags-->
-                                                <!--begin::Input-->
-                                                <input type="text" id="product-price-without-commission" name="selling_price" class="form-control mb-2" placeholder="قیمت محصول بدون کمیسیون" value="{{$products->selling_price}}" />
-                                                <!--end::Input-->
+
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <!--begin::Input-->
+                                                        <input type="text" id="product-price-without-commission" name="selling_price" class="form-control mb-2" placeholder="قیمت محصول بدون کمیسیون" value="{{old('selling_price', $products->selling_price)}}" />
+                                                        <!--end::Input-->
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="border border-gray-300 border-dashed rounded">
+                                                            <!--begin::Tags-->
+                                                            <div class="fw-semibold fs-6 text-gray-400 text-center">با احتساب مالیات بر ارزش افزوده</div>
+                                                            <!--end::Tags-->
+                
+                                                            <!--begin::شماره کارت-->
+                                                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                                                <span class="badge badge-light-primary" id="no-commission-added-tax">
+                                                                   نامشخص
+                                                                </span>
+                                                            </div>
+                                                            <!--end::شماره کارت-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <!--begin::توضیحات-->
                                                 <div class="text-muted fs-7">قیمت پایه مصحول برای تأمین کننده بدون احتساب کمیسیون (بدون ارزش افزوده)</div>
                                                 <!--end::توضیحات-->
@@ -489,9 +511,32 @@
                                                 <!--begin::Tags-->
                                                 <label class="required form-label">قیمت با احتساب کمیسیون را وارد نمایید</label>
                                                 <!--end::Tags-->
-                                                <!--begin::Input-->
-                                                <input type="text" id="product-price-with-commission" class="form-control mb-2" placeholder="قیمت محصول با کمیسیون"/>
-                                                <!--end::Input-->
+
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <!--begin::Input-->
+                                                        <!--begin::Input-->
+                                                        <input type="text" id="product-price-with-commission" class="form-control mb-2" placeholder="قیمت محصول با کمیسیون"/>
+                                                        <!--end::Input-->
+                                                        <!--end::Input-->
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="border border-gray-300 border-dashed rounded">
+                                                            <!--begin::Tags-->
+                                                            <div class="fw-semibold fs-6 text-gray-400 text-center">با احتساب مالیات بر ارزش افزوده</div>
+                                                            <!--end::Tags-->
+                
+                                                            <!--begin::شماره کارت-->
+                                                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                                                <span class="badge badge-light-primary" id="commission-added-tax">
+                                                                   نامشخص
+                                                                </span>
+                                                            </div>
+                                                            <!--end::شماره کارت-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <!--begin::توضیحات-->
                                                 <div class="text-muted fs-7">قیمت نهایی محصول برای مشتری با احتساب کمیسیون (بدون ارزش افزوده)</div>
                                                 <!--end::توضیحات-->
@@ -501,7 +546,7 @@
                                             <div class="d-flex align-items-center justify-content-between border border-dashed border-gray-300 rounded px-7 py-3 mb-5">
                                                 <!--begin::Title-->
                                                 <div class="fs-5 text-dark text-hover-primary fw-semibold w-375px ">
-                                                   
+                                                    
                                                     <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                                         viewBox="0 0 512 512" xml:space="preserve">
                                                         <g>
@@ -538,11 +583,14 @@
                                                             </g>
                                                         </g>
                                                     </svg>
-                                                    میزان کمیسیون به درصد
+                                                    <span id="commission-type-title">
+                                                        میزان کمیسیون
+                                                    </span>
                                                 </div>
                                                 <!--end::Title-->
-                                                
-                                                <input type="hidden" value="{{$products->determine_product_commission()}}" id="product_commission">
+
+                                                <input type="hidden" value="{{$products->determine_product_commission()}}" id="product_commission" commission-type="">
+                                                <input type="hidden" value="" id="value_added_tax">
 
                                                 <!--begin::پردازش-->
                                                 <div class="pe-2">
@@ -552,7 +600,7 @@
                                                 </div>
                                                 <!--end::پردازش-->
                                             </div>
-                                            
+
                                         </div>
                                         <!--end::کارت header-->
                                     </div>

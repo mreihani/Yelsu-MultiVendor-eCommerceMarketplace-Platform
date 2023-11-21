@@ -185,11 +185,26 @@ function updateDOM(data) {
 function getCommisionValue(data) {
     $.each(data.attributes, function(attributeItemKey, attributeItemValue) {
         if(attributeItemValue.attribute_item_keyword == "fix_commission") {
+            $("#commission_value").html(attributeItemValue.values[0].value);
+            $("#product_commission").val(attributeItemValue.values[0].value);
+
+            $("#commission_value").removeClass('badge-light-danger');
+            $("#commission_value").addClass('badge-light-primary');
+
+            $("#product_commission").attr('commission-type', "fix_commission");
+            $("#commission-type-title").html("میزان کمیسیون (ثابت)");
+
+            return false;
+        } else if(attributeItemValue.attribute_item_keyword == "percent_commission") {
+
             $("#commission_value").html(attributeItemValue.values[0].value + " درصد");
             $("#product_commission").val(attributeItemValue.values[0].value);
 
             $("#commission_value").removeClass('badge-light-danger');
             $("#commission_value").addClass('badge-light-primary');
+            
+            $("#product_commission").attr('commission-type', "percent_commission");
+            $("#commission-type-title").html("میزان کمیسیون (درصدی)");
 
             return false;
         } else {
@@ -199,21 +214,58 @@ function getCommisionValue(data) {
             $("#commission_value").addClass('badge-light-danger');
         }
     });
+
+    $.each(data.attributes, function(attributeItemKey, attributeItemValue) {
+        if(attributeItemValue.attribute_item_keyword == "value_added_tax") {
+            $("#value_added_tax").val(attributeItemValue.values[0].value);
+            
+            return false;
+        } 
+    });
 }
 
 let newPrice;
 let product_price_without_commission = $("#product-price-without-commission");
 let product_price_with_commission = $("#product-price-with-commission");
+let commission_type = $("#product_commission").attr('commission-type');
+
 product_price_without_commission.keyup(function(){
-    newPrice = $(this).val() * (1+$("#product_commission").val()/100);
-    product_price_with_commission.val(newPrice);
+    let commission_type = $("#product_commission").attr('commission-type');
+
+    if(commission_type == "percent_commission") {
+        newPrice = Math.floor($(this).val() * (1+$("#product_commission").val()/100));
+        product_price_with_commission.val(newPrice);
+        $("#commission-type-title").html("میزان کمیسیون (درصدی)");
+        
+    } else if(commission_type == "fix_commission") {
+        newPrice = parseInt($(this).val()) + parseInt($("#product_commission").val());
+        product_price_with_commission.val(newPrice);
+        $("#commission-type-title").html("میزان کمیسیون (ثابت)");
+    }
+
+    let value_added_price = Math.floor($(this).val() * (1+$("#value_added_tax").val()/100));
+    $("#no-commission-added-tax").html(value_added_price);
+    $("#commission-added-tax").html(Math.floor(product_price_with_commission.val() * (1+$("#value_added_tax").val()/100)));
 });
 product_price_with_commission.keyup(function(){
-    newPrice = $(this).val() * (1-$("#product_commission").val()/100);
-    product_price_without_commission.val(newPrice);
+    let commission_type = $("#product_commission").attr('commission-type');
+
+    if(commission_type == "percent_commission") {
+        newPrice = Math.floor($(this).val() * (1-$("#product_commission").val()/100));
+        product_price_without_commission.val(newPrice);
+        $("#commission-type-title").html("میزان کمیسیون (درصدی)");
+
+    } else if(commission_type == "fix_commission") {
+        newPrice = parseInt($(this).val()) - parseInt($("#product_commission").val());
+        product_price_without_commission.val(newPrice);
+        $("#commission-type-title").html("میزان کمیسیون (ثابت)");
+    }
+
+    let value_added_price = Math.floor($(this).val() * (1+$("#value_added_tax").val()/100));
+    $("#commission-added-tax").html(value_added_price);
+    $("#no-commission-added-tax").html(Math.floor(product_price_without_commission.val() * (1+$("#value_added_tax").val()/100)));
 });
 $(document).ready(function(){
     newPrice = product_price_without_commission.val() * (1+$("#product_commission").val()/100);
     newPrice ? product_price_with_commission.val(newPrice) : '';
 });
-

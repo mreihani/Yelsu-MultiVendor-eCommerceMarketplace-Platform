@@ -6,11 +6,11 @@ use App\Models\File;
 use App\Models\User;
 use App\Models\Driver;
 use App\Models\Product;
-
 use App\Models\Category;
 use App\Models\Merchant;
 use App\Models\Freightage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use App\Http\Requests\Auth\LoginRequest;
-
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File as LaravelFile;
+
 
 class AdminController extends Controller
 {
@@ -41,7 +41,7 @@ class AdminController extends Controller
    public function AdminDestroy(Request $request)
    {
       Auth::guard('web')->logout();
-
+      
       $request->session()->invalidate();
 
       $request->session()->regenerateToken();
@@ -460,6 +460,8 @@ class AdminController extends Controller
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
             'vendor_sector' => $vendor_sector,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
       } elseif ($request->role == 'merchant') {
@@ -473,6 +475,8 @@ class AdminController extends Controller
             'role' => Purify::clean($request->role),
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
          Merchant::create([
@@ -491,6 +495,8 @@ class AdminController extends Controller
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
             'vendor_sector' => $vendor_sector,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
          Merchant::create([
@@ -508,6 +514,8 @@ class AdminController extends Controller
             'role' => Purify::clean($request->role),
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
          Freightage::create([
@@ -527,6 +535,8 @@ class AdminController extends Controller
             'role' => Purify::clean($request->role),
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
          Driver::create([
@@ -546,6 +556,8 @@ class AdminController extends Controller
             'role' => Purify::clean($request->role),
             'status' => 'inactive',
             'specialist_category_id' => $specialist_category_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
          ]);
 
       }

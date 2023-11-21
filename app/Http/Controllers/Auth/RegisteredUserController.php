@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Driver;
-use App\Models\Freightage;
 use App\Models\User;
+use App\Models\Driver;
 use App\Models\Category;
 use App\Models\Merchant;
 use Illuminate\View\View;
+use App\Models\Freightage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -103,6 +104,8 @@ class RegisteredUserController extends Controller
                 'role' => 'user',
                 'shop_name' => Purify::clean($request->shop_name),
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 2) {
             $user = User::create([
@@ -117,6 +120,8 @@ class RegisteredUserController extends Controller
                 'status' => 'inactive',
                 'vendor_sector' => $vendor_sector,
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 3) {
             $user = User::create([
@@ -130,6 +135,8 @@ class RegisteredUserController extends Controller
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
             Merchant::create([
@@ -148,6 +155,8 @@ class RegisteredUserController extends Controller
                 'status' => 'inactive',
                 'vendor_sector' => $vendor_sector,
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         } elseif (Purify::clean($request->check_user_type) == 5) {
             $user = User::create([
@@ -161,6 +170,8 @@ class RegisteredUserController extends Controller
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
             Freightage::create([
@@ -180,6 +191,8 @@ class RegisteredUserController extends Controller
                 'shop_address' => Purify::clean($request->shop_address),
                 'status' => 'inactive',
                 'home_phone' => Purify::clean($request->home_phone),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
             Driver::create([
