@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-Route::get('changeDatabase', function () {
-
+// Route::get('changeDatabase', function () {
 
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
@@ -39,23 +38,16 @@ Route::get('changeDatabase', function () {
     // }
 
 
-
-    $all_products = App\Models\Product::all();
-    foreach ($all_products as $product) {
+    // $all_products = App\Models\Product::all();
+    // foreach ($all_products as $product) {
         // $user_id = $product->determine_product_related_user_object();
 
         // if($user_id === 0) {
         //     $product->owner_id = 1;
         //     $product->save();
         // }
-
-        if($product->owner_id == null) {
-            dd("we have a null");
-        }
-    }
         
-    //dd(App\Models\Product::find(250)->determine_product_owner()->get());
+    // }
+        
 
-
-
-});
+// });
