@@ -984,7 +984,7 @@
                 </a>
             </figure>
             <figure class="swiper-slide">
-                    <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue.pdf')}}">
+                    <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
                         <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
                         height="180" />
                     </a>

@@ -536,7 +536,7 @@ class SpecialistController extends Controller
             'product_code' => Purify::clean($request->product_code),
             'selling_price' => Purify::clean($incomingFields['selling_price']),
             'long_desc' => ($request->long_desc),
-            // 'vendor_id' => $vendor_id,
+            'owner_id' => auth()->user()->id,
             'product_thumbnail' => $save_url,
             'product_thumbnail_sm' => $save_url_sm,
             'product_qty' => Purify::clean($request->product_qty) >= 0 ? Purify::clean($request->product_qty) : 0,

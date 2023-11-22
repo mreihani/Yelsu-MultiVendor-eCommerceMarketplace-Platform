@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
     //     // FIX - ISSUE in USERNAME
@@ -36,10 +36,16 @@ require __DIR__ . '/auth.php';
     //     $value->save();
     // }
 
-    // dd(App\Models\ShetabitVisit::all()->first()->ip);
-    // dd(\Location::get('2.180.237.2')->countryName);
-    
+    $all_products = App\Models\Product::all();
+    foreach ($all_products as $product) {
+        $user_id = $product->determine_product_related_user_object();
+
+        if($user_id !== 0) {
+            $product->owner_id = $user_id;
+            $product->save();
+        }
+    }
         
        
 
-// });
+});

@@ -211,7 +211,7 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر برند / لوگو</label>
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر آواتار / پروفایل / لوگو</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
@@ -250,7 +250,7 @@
 
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر فروشگاه / بنر فروشگاه</label>
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر سربرگ فروشگاه / شرکت / کارخانه</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
