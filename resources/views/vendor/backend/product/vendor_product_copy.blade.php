@@ -588,18 +588,18 @@
                                                         </g>
                                                     </svg>
                                                     <span id="commission-type-title">
-                                                        میزان کمیسیون
+                                                        میزان کمیسیون {{$products->determine_product_commission_type() == "percent_commission" ? "(درصدی)" : "(ثابت)"}}
                                                     </span>
                                                 </div>
                                                 <!--end::Title-->
 
-                                                <input type="hidden" value="{{$products->determine_product_commission()}}" id="product_commission" commission-type="">
-                                                <input type="hidden" value="" id="value_added_tax">
+                                                <input type="hidden" value="{{$products->determine_product_commission()}}" id="product_commission" commission-type="{{$products->determine_product_commission_type()}}">
+                                                <input type="hidden" value="{{$products->determine_product_value_added_tax()}}" id="value_added_tax">
 
                                                 <!--begin::پردازش-->
                                                 <div class="pe-2">
                                                     <span id="commission_value" class="badge badge-light-primary">
-                                                        {{$products->determine_product_commission()}} درصد
+                                                        {{$products->determine_product_commission()}} {{$products->determine_product_commission_type() == "percent_commission" ? "درصد" : ""}}
                                                     </span>
                                                 </div>
                                                 <!--end::پردازش-->

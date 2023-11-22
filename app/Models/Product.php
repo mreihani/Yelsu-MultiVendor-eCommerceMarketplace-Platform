@@ -170,7 +170,7 @@ class Product extends Model
         $commission_value = null;
 
         foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission") {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission" || AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "percent_commission")) {
                 if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
                     $commission_value = $attribute_value_array['attribute_value_obj'][0]->value;
                 } else {
@@ -182,8 +182,25 @@ class Product extends Model
         return $commission_value;
     }
 
-    // تابع برای تعیین مالیات بر ارزش افزوده به درصد
-    public function determine_product_value_added_tax_by_percent() {
+    // تابع برای تعیین نوع کمیسیون یک محصول
+    public function determine_product_commission_type() {
+        $commission_type = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword) {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission") {
+                    $commission_type = "fix_commission";
+                } elseif(AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "percent_commission") {
+                    $commission_type = "percent_commission";
+                }
+            } 
+        }
+
+        return $commission_type;
+    }
+
+    // تابع برای تعیین مقدار مالیات بر ارزش افزوده
+    public function determine_product_value_added_tax() {
         $added_value_tax = null;
 
         foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
@@ -195,6 +212,13 @@ class Product extends Model
                 }
             }
         }
+
+        return $added_value_tax;
+    }
+
+    // تابع برای تعیین مالیات بر ارزش افزوده به درصد
+    public function determine_product_value_added_tax_by_percent() {
+        $added_value_tax = $this->determine_product_value_added_tax();
 
         return floor($this->selling_price * ($added_value_tax / 100 + 1));
     }
