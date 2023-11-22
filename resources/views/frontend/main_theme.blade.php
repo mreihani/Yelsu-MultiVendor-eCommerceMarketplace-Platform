@@ -62,16 +62,13 @@
     <script src="{{asset('frontend/assets/js/axios.min.js')}}"></script>
     {{-- @vite(['resources/js/app.js']) --}}
 
-
     <!-- Neshan -->
     <link href="{{asset('frontend/assets/plugins/leaflet/leaflet.css')}}" rel="stylesheet" type="text/css" />  
     <link href="{{asset('frontend/assets/plugins/leaflet/Control.Geocoder.css')}}" rel="stylesheet" type="text/css"/>
     <script src="{{asset('frontend/assets/plugins/leaflet/leaflet.js')}}"></script> 
-
     
     <!-- jQuery -->
     <script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>
-
 
     <!--begin::DataTables Plugin CSS -->
     <link href="{{asset('frontend/assets/plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -80,9 +77,13 @@
     <!--begin::DataTables Plugin JS -->
     <script src="{{asset('frontend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('frontend/assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
-
     
     <script src="{{asset('frontend/assets/js/chatUX.js')}}"></script>
+
+    <!--begin:: product details min value initiation -->
+    <script>
+        let productInitialPriceValue;
+    </script>
 </head>
 
 <body class="my-account">   
@@ -124,12 +125,12 @@
     <script src="{{asset('frontend/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js')}}"></script>
     <script src="{{asset('frontend/assets/vendor/zoom/jquery.zoom.js')}}"></script>
     <script src="{{asset('frontend/assets/vendor/jquery.countdown/jquery.countdown.min.js')}}"></script>
-    {{-- <script src="{{asset('frontend/assets/vendor/magnific-popup/jquery.magnific-popup.min.js')}}"></script> --}}
     <script src="{{asset('frontend/assets/js/main.min.js')}}"></script>
 
     <!-- Lightbox JS -->
     <script src="{{asset('frontend/assets/lightbox/src/js/lightbox.js')}}"></script>
     
+
 </body>
 
 

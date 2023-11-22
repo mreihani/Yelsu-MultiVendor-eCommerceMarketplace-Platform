@@ -118,7 +118,7 @@
                                     </div>
                                 @endif
 
-
+                                
                                 {{-- <div class="ratings-container">
                                     <div class="ratings-full">
                                         <span class="ratings" style="width: 80%;"></span>
@@ -234,7 +234,7 @@
                                         @if ($product->determine_product_currency() == 'تومان')
                                             <div class="product-qty-form">
                                                 <div class="input-group">
-                                                    <input id="quantityInputvalue" class="quantity form-control" type="number" min="1" max="10000000">
+                                                    <input id="quantityInputvalue" class="quantity form-control" type="number" min="{{$product->determine_product_min()}}" max="{{$product->determine_product_max()}}">
                                                     <button class="quantity-plus w-icon-plus"></button>
                                                     <button class="quantity-minus w-icon-minus"></button>
                                                 </div>
@@ -1484,5 +1484,8 @@
 
 <script src="{{asset('frontend/assets/js/productDetailAjaxCard.js')}}"></script>
 
+<script>
+    productInitialPriceValue = {!! json_encode($product->determine_product_min()) !!};
+</script>
 
 @endsection

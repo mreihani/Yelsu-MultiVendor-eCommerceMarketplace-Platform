@@ -7,7 +7,7 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
 
     $("#continueShopping").prop("disabled", true);
     $("#continueShopping").css({
-        backgroundColor: "#ccc",
+        "background-color": "#ccc",
         "border-color": "#ccc",
     });
     $("#continueShopping i").removeClass("w-icon-long-arrow-left");
@@ -18,7 +18,12 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
 
         if (event.target.classList.contains("add-yelsu")) {
             let totalPrice = 0;
-            input.value++;
+            let product_max = parseInt($(event.target).closest(".input-group").find("input").attr("max"));
+            
+            if(input.value < product_max) {
+                input.value++;
+            }
+            
             itemSumPrice.innerHTML = input.value * price;
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
                 totalPrice += parseInt(itemSumPriceElementByClass[i].innerHTML);
@@ -29,7 +34,12 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
             input.value > 1
         ) {
             let totalPrice = 0;
-            input.value--;
+            let product_min = parseInt($(event.target).closest(".input-group").find("input").attr("min"));
+
+            if(input.value > product_min) {
+                input.value--;
+            }
+
             itemSumPrice.innerHTML = input.value * price;
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
                 totalPrice += parseInt(itemSumPriceElementByClass[i].innerHTML);

@@ -199,6 +199,40 @@ class Product extends Model
         return $commission_type;
     }
 
+    // تابع برای تعیین حداقل مقدار مجاز یک محصول
+    public function determine_product_min() {
+        $min_value = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "min")) {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                    $min_value = $attribute_value_array['attribute_value_obj'][0]->value;
+                } else {
+                    $min_value = $attribute_value_array["attribute_value"];
+                }
+            }
+        }
+
+        return $min_value;
+    }
+
+    // تابع برای تعیین حداکثر مقدار مجاز یک محصول
+    public function determine_product_max() {
+        $max_value = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "max")) {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                    $max_value = $attribute_value_array['attribute_value_obj'][0]->value;
+                } else {
+                    $max_value = $attribute_value_array["attribute_value"];
+                }
+            }
+        }
+
+        return $max_value;
+    }
+
     // تابع برای تعیین مقدار مالیات بر ارزش افزوده
     public function determine_product_value_added_tax() {
         $added_value_tax = null;

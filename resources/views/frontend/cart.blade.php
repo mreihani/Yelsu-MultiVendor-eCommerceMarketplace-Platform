@@ -63,7 +63,7 @@
                                         
                                         <td class="product-quantity">
                                             <div class="input-group">
-                                                <input oninput="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="1" max="{{$product->product_qty}}">
+                                                <input oninput="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
                                                 <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',1)" class="w-icon-plus add-yelsu"></button>
                                                 <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',1)" class="w-icon-minus sub-yelsu"></button>
                                             </div>

@@ -246,6 +246,8 @@
                                     <span class="product_code d-none">{{$product->product_code ?? ''}}</span>
                                     <span class="short_desc d-none">{!! $product->short_desc ?? '' !!}</span>
                                     <span class="product_id d-none">{!! $product->id ?? '' !!}</span>
+                                    <input type="hidden" class="product_min" value="{!! $product->determine_product_min() ?: 1 !!}">
+                                    <input type="hidden" class="product_max" value="{!! $product->determine_product_max() ?: 10000 !!}">
                                     
                                     @if(App\Helpers\Cart\Cart::count($product) < $product->product_qty || $product->product_qty == NULL || $product->unlimitedStock == 'active')
                                     <span class="product_qty d-none">show_button</span>

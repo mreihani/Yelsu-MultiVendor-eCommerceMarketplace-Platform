@@ -100,7 +100,19 @@ $(".btn-quickview").click(function (e) {
         .eq(1)
         .html();
 
-    let html_with_button = `<div class="mfp-bg mfp-product mfp-fade mfp-ready"></div>
+    let product_min = $(e.target)
+        .closest("div.product-wrap")
+        .find("input.product_min")
+        .val();
+
+    let product_max = $(e.target)
+        .closest("div.product-wrap")
+        .find("input.product_max")
+        .val();
+       
+
+        
+let html_with_button = `<div class="mfp-bg mfp-product mfp-fade mfp-ready"></div>
 <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-product mfp-fade mfp-ready" tabindex="-1" style="overflow: hidden auto;"><div class="mfp-container mfp-s-ready mfp-inline-holder"><div class="mfp-content"><div class="product product-single product-popup">
     <div class="row gutter-lg">
         <div class="col-md-6 mb-4 mb-md-0">
@@ -142,7 +154,7 @@ $(".btn-quickview").click(function (e) {
                 <div class="product-form">
                 <div class="product-qty-form">
                     <div class="input-group">
-                        <input id="quantityInputvalue" class="quantity form-control" type="number" min="1" max="10000000" value="1">
+                        <input id="quantityInputvalue" class="quantity form-control" type="number" min="${product_min}" max="${product_max}" value="${product_min}">
                         <button class="quantity-plus w-icon-plus"></button>
                         <button class="quantity-minus w-icon-minus"></button>
                     </div>
@@ -211,16 +223,32 @@ $(".btn-quickview").click(function (e) {
     }
 });
 
-$(document).on("click", ".quantity-plus", function () {
+$(document).on("click", ".quantity-plus", function (e) {
+    
+    let product_max = parseInt($(e.target)
+    .closest("div.input-group")
+    .find("input#quantityInputvalue")
+    .attr("max"));
+
     let value = $(".quantity").val();
-    value++;
-    $(".quantity").val(value);
+
+    if(value < product_max) {
+        value++;
+        $(".quantity").val(value);
+    }
 });
 
-$(document).on("click", ".quantity-minus", function () {
+$(document).on("click", ".quantity-minus", function (e) {
+
+    let product_min = parseInt($(e.target)
+    .closest("div.input-group")
+    .find("input#quantityInputvalue")
+    .attr("min"));
+
     let value = $(".quantity").val();
-    value--;
-    if (value > 0) {
+    
+    if(value > product_min && value > 0) {
+        value--;
         $(".quantity").val(value);
     }
 });
