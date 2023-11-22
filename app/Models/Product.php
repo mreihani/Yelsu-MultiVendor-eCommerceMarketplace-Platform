@@ -311,6 +311,10 @@ class Product extends Model
 
         return $user_id;
     }
+    
+    public function determine_product_owner() {
+        return $this->belongsTo(User::class, 'owner_id', 'id');
+    }
 
     // یک متد برای ایجاد آرایه مربوط به استان ها با توجه به لیست کامل استان ها و موارد انتخاب شده
     public function create_province_array_based_on_representative_product($product_item, $representative) {
