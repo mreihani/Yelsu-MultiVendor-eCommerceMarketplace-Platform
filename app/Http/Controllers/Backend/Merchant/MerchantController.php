@@ -333,7 +333,7 @@ class MerchantController extends Controller
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             'specification' => ($request->specification),
-            'owner_id' => auth()->user()->id,
+            'owner_id' => Auth::user()->id,
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {

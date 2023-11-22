@@ -554,7 +554,7 @@ class AdminController extends Controller
             'email' => Purify::clean($incomingFields['email']),
             'password' => Hash::make(($incomingFields['password'])),
             'role' => Purify::clean($request->role),
-            'status' => 'inactive',
+            'status' => 'active',
             'specialist_category_id' => $specialist_category_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
