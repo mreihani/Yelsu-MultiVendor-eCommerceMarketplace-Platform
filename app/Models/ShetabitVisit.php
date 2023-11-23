@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
-use Elastic\ScoutDriverPlus\Searchable;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

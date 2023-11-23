@@ -1,4 +1,47 @@
 function updateCartFunction(event, id, cartName = null, price, inputType) {
+    
+    calculateTotalPrice(event, id, cartName = null, price, inputType);
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            "Content-Type": "application/json",
+        },
+    });
+
+    let input = event.target.closest("div").firstElementChild;
+
+    var request = $.ajax({
+        url: "/cart/quantity/change",
+        method: "post",
+        data: JSON.stringify({
+            id: id,
+            quantity: input.value,
+            //cart:cartName,
+            _method: "patch",
+        }),
+        success: function (data) {
+            if (data.status == "success") {
+                $("#continueShopping").prop("disabled", false);
+                $("#continueShopping").css({
+                    "background-color": "#333",
+                    "border-color": "#333",
+                });
+                $("#continueShopping i").removeClass("fas fa-spinner fa-spin");
+                $("#continueShopping i").addClass("w-icon-long-arrow-left");
+
+                //$(".cart-count").html(data.cartCountProducts);
+                
+                let cart_item_quantity = data.cart_item.quantity;
+                $(input).val(cart_item_quantity);
+
+                //calculateTotalPrice(event, id, cartName = null, price, inputType);
+            }
+        },
+    });
+}
+
+function calculateTotalPrice(event, id, cartName = null, price, inputType) {
     let input = event.target.closest("div").firstElementChild;
     let itemSumPriceElementByClass = $(".itemSumPrice");
     let itemSumPrice =
@@ -57,35 +100,4 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
         }
         $("#totalPrice").html(totalPrice);
     }
-
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            "Content-Type": "application/json",
-        },
-    });
-
-    var request = $.ajax({
-        url: "/cart/quantity/change",
-        method: "post",
-        data: JSON.stringify({
-            id: id,
-            quantity: input.value,
-            //cart:cartName,
-            _method: "patch",
-        }),
-        success: function (data) {
-            if (data.status == "success") {
-                $("#continueShopping").prop("disabled", false);
-                $("#continueShopping").css({
-                    backgroundColor: "#333",
-                    "border-color": "#333",
-                });
-                $("#continueShopping i").removeClass("fas fa-spinner fa-spin");
-                $("#continueShopping i").addClass("w-icon-long-arrow-left");
-
-                //$(".cart-count").html(data.cartCountProducts);
-            }
-        },
-    });
 }

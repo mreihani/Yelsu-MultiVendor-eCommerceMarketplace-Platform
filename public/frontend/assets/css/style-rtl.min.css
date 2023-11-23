@@ -19205,7 +19205,7 @@ body .product-popup {
     color: #333;
 }
 .shop-table.cart-table .product-quantity .input-group {
-    max-width: 120px;
+    max-width: 200px;
 }
 .shop-table.cart-table .btn-close {
     top: -8px;

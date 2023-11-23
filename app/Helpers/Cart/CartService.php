@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Cart;
 
+use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,12 @@ class CartService {
                 'subject_id' => $obj->id,
                 'subject_type' => get_class($obj)
             ]);
+
+            // این بخش رو بعدا خودم برای محاسبه و جایگزین کردن محدودیت تعداد محصول اضافه کردم
+            $value = array_merge($value,[
+                'quantity' => $this->productQuantityLimitPut($obj,$value['quantity'])
+            ]);
+
         } elseif(!isset($value['id'])) {
             $value = array_merge($value,[
                 'id' => Str::random(10)
@@ -37,17 +44,57 @@ class CartService {
 
         if(is_numeric($options)) {
             $item = $item->merge([
-                'quantity' => $item['quantity'] + $options
+                'quantity' => $this->productQuantityLimitUpdate($key,$options)
             ]);
         }
 
         if(is_array($options)) {
+
             $item = $item->merge($options);
+
+            $item = $item->merge([
+                'quantity' => $this->productQuantityLimitUpdate($key,$options)
+            ]);
         }
 
         $this->put($item->toArray());
 
-        return $this;
+        //return $this;
+        return $item;
+    }
+
+    // محاسبه محدودیت تعداد محصول برای محصولی که برای اولین بار در سبد خرید قرار میگیرد
+    public function productQuantityLimitPut($key,$quantity) {
+
+        if($key->determine_product_min() != NULL && ($quantity < $key->determine_product_min())) {
+            $quantity = $key->determine_product_min();
+        } elseif($key->determine_product_max() != NULL && ($quantity > $key->determine_product_max())) {
+            $quantity = $key->determine_product_max();
+        }
+
+        return $quantity;
+    }
+
+    // محاسبه محدودیت تعداد محصول برای محصولی که قبلا داخل سبد خرید گذاشته شده است
+    public function productQuantityLimitUpdate($key,$options) {
+
+        $item = collect($this->get($key,false));
+        $product = Product::find($item['subject_id']);
+
+        if(is_numeric($options)) {
+            $quantity = $item['quantity'] + $options;
+        } elseif(is_array($options)) {
+            $quantity = $options['quantity'];
+        }
+        
+        
+        if($product->determine_product_min() && ($quantity < $product->determine_product_min())) {
+            $quantity = $product->determine_product_min();
+        } elseif($product->determine_product_max() && ($quantity > $product->determine_product_max())) {
+            $quantity = $product->determine_product_max();
+        }
+
+        return $quantity;
     }
 
     public function count($key) {

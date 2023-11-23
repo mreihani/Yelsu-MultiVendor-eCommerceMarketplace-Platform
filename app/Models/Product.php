@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\Attribute;
 use Illuminate\Support\Arr;
 use App\Models\AttributeItem;
-use Elastic\ScoutDriverPlus\Searchable;
+use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
 use Stevebauman\Purify\Facades\Purify;

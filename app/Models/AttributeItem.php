@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Attribute;
-use Elastic\ScoutDriverPlus\Searchable;
+use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -23,13 +23,15 @@ class CartController extends Controller
 
         $product = Product::findOrFail(Purify::clean($data['id']));
 
+        $quantity = $data['quantity'];
+
         if (Cart::has($product)) {
             if (Cart::count($product) < $product->product_qty || $product->product_qty == NULL || $product->unlimitedStock == 'active') {
-                Cart::update($product, Purify::clean($data['quantity']));
+                Cart::update($product, Purify::clean($quantity));
             }
         } else {
             Cart::put([
-                'quantity' => Purify::clean($data['quantity']),
+                'quantity' => Purify::clean($quantity),
             ],
                 $product
             );
@@ -64,11 +66,11 @@ class CartController extends Controller
         ]);
 
         if (Cart::has(Purify::clean($data['id']))) {
-            Cart::update(Purify::clean($data['id']), [
+            $cart_item = Cart::update(Purify::clean($data['id']), [
                 'quantity' => Purify::clean($data['quantity'])
             ]);
 
-            return response(['status' => 'success']);
+            return response(['status' => 'success', 'cart_item' => $cart_item]);
         }
 
         return response(['status' => 'success', 'cartCountProducts' => Cart::countCartItems()]);

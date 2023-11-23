@@ -62,6 +62,7 @@
                                         <td class="product-price"><span class="amount">{{$product->selling_price}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
+                                            
                                             <div class="input-group">
                                                 <input oninput="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
                                                 <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',1)" class="w-icon-plus add-yelsu"></button>
