@@ -1,5 +1,13 @@
 let delayTimer;
 
+function formatNumberCart(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
+function removeComma(num) {
+    return num.replaceAll(',', '');
+}
+
 function updateCartFunction(event, id, cartName = null, price, inputType) {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function() {
@@ -69,11 +77,11 @@ function calculateTotalPrice(event, price, inputType) {
                 input.value++;
             }
             
-            itemSumPrice.innerHTML = input.value * price;
+            itemSumPrice.innerHTML = formatNumberCart(input.value * price);
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
-                totalPrice += parseInt(itemSumPriceElementByClass[i].innerHTML);
+                totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
             }
-            $("#totalPrice").html(totalPrice);
+            $("#totalPrice").html(formatNumberCart(totalPrice));
         } else if (
             event.target.classList.contains("sub-yelsu") &&
             input.value > 1
@@ -85,22 +93,22 @@ function calculateTotalPrice(event, price, inputType) {
                 input.value--;
             }
 
-            itemSumPrice.innerHTML = input.value * price;
+            itemSumPrice.innerHTML = formatNumberCart(input.value * price);
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
-                totalPrice += parseInt(itemSumPriceElementByClass[i].innerHTML);
+                totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
             }
-            $("#totalPrice").html(totalPrice);
+            $("#totalPrice").html(formatNumberCart(totalPrice));
         }
     } else if (inputType == 2) {
         input = event.target;
         let value = parseInt(input.value);
         let totalPrice = 0;
 
-        itemSumPrice.innerHTML = input.value * price;
+        itemSumPrice.innerHTML = formatNumberCart(input.value * price);
         for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
-            totalPrice += parseInt(itemSumPriceElementByClass[i].innerHTML);
+            totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
         }
-        $("#totalPrice").html(totalPrice);
+        $("#totalPrice").html(formatNumberCart(totalPrice));
     }
 }
 
