@@ -1497,7 +1497,7 @@ class IndexController extends Controller
         foreach ($sort_products_by_last_vendor as $user_id => $product_object_array) {
 
             // اگر جدول مربوط به کاربر تأمین کننده باشد
-            if($user_id != 0 && User::find($user_id)->role == "vendor") {
+            if(User::find($user_id)->role == "vendor") {
 
                 if(!empty(User::find($user_id)->photo)) {
                     $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/vendor_images/' . User::find($user_id)->photo);
@@ -1511,7 +1511,7 @@ class IndexController extends Controller
                 $table[$user_id]['table_header_arr']['user_role'] = "vendor";
 
             // اگر جدول مربوط به کاربر بازرگان باشد
-            } elseif($user_id != 0 && User::find($user_id)->role == "merchant") {
+            } elseif(User::find($user_id)->role == "merchant") {
 
                 if(!empty(User::find($user_id)->photo)) {
                     $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/merchant_images/' . User::find($user_id)->photo);
@@ -1525,7 +1525,7 @@ class IndexController extends Controller
                 $table[$user_id]['table_header_arr']['user_role'] = "merchant";
 
             // اگر جدول مربوط به کاربر خرده فروش باشد
-            } elseif($user_id != 0 && User::find($user_id)->role == "retailer") {
+            } elseif(User::find($user_id)->role == "retailer") {
 
                 if(!empty(User::find($user_id)->photo)) {
                     $table[$user_id]['table_header_arr']['img_src_url'] = url('storage/upload/retailer_images/' . User::find($user_id)->photo);
@@ -1539,7 +1539,7 @@ class IndexController extends Controller
                 $table[$user_id]['table_header_arr']['user_role'] = "retailer";
 
             // اگر جدول مربوط به خود یلسو باشد
-            } elseif($user_id == 0) {
+            } elseif(User::find($user_id)->role == "admin" || User::find($user_id)->role == "specialist") {
 
                 $table[$user_id]['table_header_arr']['img_src_url'] = asset('frontend/assets/images/demos/demo13/logo_cropped.png');
                 $table[$user_id]['table_header_arr']['anchor_link'] = "";
