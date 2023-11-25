@@ -1283,80 +1283,57 @@ class IndexController extends Controller
     }
 
     // ایجاد آرایه ای از آی دی محصولاتی که مجاز نیستند
-    public function getDisallowedProducts() {
-        $products_arr_id = [];
-        $all_products = Product::all();
-        foreach ($all_products as $product) {
+    // public function getDisallowedProducts() {
+    //     $products_arr_id = [];
+    //     $all_products = Product::all();
+    //     foreach ($all_products as $product) {
 
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
+    //         if ($product->vendor_id != NULL) {
+    //             $vendor_id = (int) $product->vendor_id;
+    //             $vendor_user = User::where('id', $vendor_id)->first();
 
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    $products_arr_id[] = $product->id;
-                    continue;
-                }
-            }
+    //             if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+    //                 $products_arr_id[] = $product->id;
+    //                 continue;
+    //             }
+    //         }
 
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
+    //         if ($product->merchant_id != NULL) {
+    //             $merchant_id = (int) $product->merchant_id;
+    //             $merchant_user = User::where('id', $merchant_id)->first();
 
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    $products_arr_id[] = $product->id;
-                    continue;
-                }
-            }
+    //             if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+    //                 $products_arr_id[] = $product->id;
+    //                 continue;
+    //             }
+    //         }
 
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
+    //         if ($product->retailer_id != NULL) {
+    //             $retailer_id = (int) $product->retailer_id;
+    //             $retailer_user = User::where('id', $retailer_id)->first();
 
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    $products_arr_id[] = $product->id;
-                    continue;
-                }
-            }
+    //             if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
+    //                 $products_arr_id[] = $product->id;
+    //                 continue;
+    //             }
+    //         }
 
-            if($product->status == "disabled") {
-                $products_arr_id[] = $product->id;
-            }
-        }
+    //         if($product->status == "disabled") {
+    //             $products_arr_id[] = $product->id;
+    //         }
+    //     }
 
-        return $products_arr_id;
-    }
+    //     return $products_arr_id;
+    // }
 
     // ایجاد آرایه ای از آی دی محصولاتی که مجاز هستند
-    public function getAllowedProducts() {
+    public function getAllowedProducts($products) {
         $products_arr_id = [];
-        $all_products = Product::all();
         
-        foreach ($all_products as $product) {
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
+        foreach ($products as $product) {
 
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
-
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
-
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
+            if($product->determine_product_owner->id !== 1 && ($product->determine_product_owner->status == "inactive" || $product->product_verification == 'inactive')) {
+                continue;
             }
 
             $products_arr_id[] = $product->id;
@@ -1378,7 +1355,8 @@ class IndexController extends Controller
             $search_keyword = Purify::clean($request['query']);
 
             // ایجاد آرایه ای از آی دی محصولاتی که مجاز هستند
-            $products_arr_id = $this->getAllowedProducts();
+            $all_products = Product::all();
+            $products_arr_id = $this->getAllowedProducts($all_products);
             
             if ($category_id == 0) {
                 $products = Product::search($search_keyword)->whereIn('id', $products_arr_id)->paginate(24);
@@ -1448,33 +1426,10 @@ class IndexController extends Controller
         "owner_id"
         ])->get();
         
-
         foreach ($products as $product) {
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
-
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
-
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
-
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
+            
+            if($product->determine_product_owner->id !== 1 && ($product->determine_product_owner->status == "inactive" || $product->product_verification == 'inactive')) {
+                continue;
             }
 
             $products_arr[] = $product;

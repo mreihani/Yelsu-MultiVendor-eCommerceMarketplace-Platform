@@ -214,7 +214,7 @@
                                                 class="fas fa-times"></i> <span
                                                 class="product-quantity">{{$quantity}}</span>
                                             </td>
-                                            <td class="product-total">{{$quantity*$product->selling_price}} {{$product->determine_product_currency()}} </td>
+                                            <td class="product-total">{{number_format($quantity*$product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -255,7 +255,7 @@
                                                 <b>جمع کل</b>
                                             </th>
                                             <td>
-                                                <b>100000 {{$product->determine_product_currency()}}</b>
+                                                <b>{{number_format(100000, 0, '', ',')}} {{$product->determine_product_currency()}}</b>
                                             </td>
                                         </tr>
                                     </tfoot>
