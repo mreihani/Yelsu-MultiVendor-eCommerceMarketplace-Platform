@@ -154,7 +154,7 @@ class ProductController extends Controller
             'product_code' => Purify::clean($request->product_code),
             'selling_price' => Purify::clean($incomingFields['selling_price']),
             'long_desc' => ($request->long_desc),
-            'owner_id' => Auth::user()->id,
+            'owner_id' => 1,
             'product_thumbnail' => $save_url,
             'product_thumbnail_sm' => $save_url_sm,
             'product_qty' => Purify::clean($request->product_qty) >= 0 ? Purify::clean($request->product_qty) : 0,
@@ -568,7 +568,7 @@ class ProductController extends Controller
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             'specification' => ($request->specification),
-            'owner_id' => Auth::user()->id,
+            'owner_id' => 1,
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {

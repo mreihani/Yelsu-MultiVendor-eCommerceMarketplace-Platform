@@ -1444,7 +1444,8 @@ class IndexController extends Controller
         "vendor_id", 
         "product_verification", 
         "merchant_id", 
-        "retailer_id"
+        "retailer_id",
+        "owner_id"
         ])->get();
         
 
@@ -1478,10 +1479,10 @@ class IndexController extends Controller
 
             $products_arr[] = $product;
         }
-
+       
         $products_without_pagination = new Collection($products_arr);
         $sort_products_by_last_vendor_total = Product::sort_products_by_last_vendor($products_without_pagination);
-
+        
         $table = [];
         $table_header_arr = [];
         $thead_arr = [];
@@ -1578,7 +1579,7 @@ class IndexController extends Controller
         $vendor_name_array = [];
         foreach ($sort_products_by_last_vendor_total as $user_id_total => $vendor_product_total) {
             // ایجاد یک لیست از نام تامین کنندگان بر اساس شماره آن ها
-            if($user_id_total == 0) {
+            if(User::find($user_id_total)->role == "admin" || User::find($user_id_total)->role == "specialist") {
                 $vendor_name_array[$user_id_total] = "یلسو";
             } else {
                 $vendor_name_array[$user_id_total] = User::find($user_id_total)->shop_name;
