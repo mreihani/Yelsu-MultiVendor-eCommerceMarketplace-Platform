@@ -39,17 +39,17 @@ Route::get('changeDatabase', function () {
     // }
 
 
-    $all_products = App\Models\Product::all();
-    foreach ($all_products as $product) {
-        $user_id = $product->determine_product_related_user_object();
+    // $all_products = App\Models\Product::all();
+    // foreach ($all_products as $product) {
+    //     $user_id = $product->determine_product_related_user_object();
 
-        if(App\Models\User::find($user_id)->role == "admin" || App\Models\User::find($user_id)->role == "specialist") {
-            $product->owner_id = 1;
-            $product->save();
-        }
+    //     if(App\Models\User::find($user_id)->role == "admin" || App\Models\User::find($user_id)->role == "specialist") {
+    //         $product->owner_id = 1;
+    //         $product->save();
+    //     }
         
         
-    }
+    // }
     
 
 
