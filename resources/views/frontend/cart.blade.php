@@ -59,7 +59,7 @@
                                             </a>
                                         </td>
 
-                                        <td class="product-price"><span class="amount">{{$product->selling_price}} {{$product->determine_product_currency()}}</span></td>
+                                        <td class="product-price"><span class="amount">{{number_format($product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
                                             
@@ -70,7 +70,7 @@
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount"><span class="itemSumPrice">{{$product->selling_price * $cart['quantity']}}</span> {{$product->determine_product_currency()}} </span>
+                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->selling_price * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
                                         </td>
                                     </tr>
                                     @endif
@@ -78,7 +78,9 @@
                             </tbody>
                         </table>
                         <div class="cart-action mb-6">
-                            <button class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i class="w-icon-long-arrow-left"></i>بازگشت به فروشگاه</button>
+                            <a href="{{route("shop")}}" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto">
+                                <i class="w-icon-long-arrow-left"></i>بازگشت به فروشگاه
+                            </a>
                             <form action="{{route('cart.destroyAll')}}" method="POST">
                                 @csrf
                                 @method('delete')
@@ -108,7 +110,7 @@
                                             return $cart['product']->selling_price * $cart['quantity'];
                                         });
                                     @endphp
-                                    <span><span id="totalPrice">{{$totalPrice}}</span> تومان</span>
+                                    <span><span id="totalPrice">{{number_format($totalPrice, 0, '', ',')}}</span> تومان</span>
                                 </div>
 
                                 <hr class="divider">
@@ -200,7 +202,7 @@
                     <h1 style='margin-top:20px;'>سبد خرید شما در حال حاضر خالی است.</h1>
                 </div>    
                 <div class="mb-10 text-center">
-                    <button class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto">بازگشت به فروشگاه</button>
+                    <a href="{{route("shop")}}" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto">بازگشت به فروشگاه</a>
                 </div>
             @endif
         </div>

@@ -304,7 +304,7 @@
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center pt-2 pb-2">
-                                                            {{$product->selling_price}} {{$product->determine_product_currency()}}
+                                                            {{number_format($product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}}
                                                         </div>
                                                     @endif
                                                 </div>
@@ -601,7 +601,7 @@
 
 {{-- بارگذاری فایل ایجکس برای لودینگ جداول در صفحه دسته بندی آخر --}}
 @if(Route::currentRouteName() == "shop.category")
-    @if(count(App\Models\Category::find((int) request('id'))->attributes) && !App\Models\Category::find((int) request('id'))->child()->get()->count())
+    @if(count(App\Models\Category::find((int) request('id'))->attributes) && !App\Models\Category::find((int) request('id'))->child()->get()->count() && count(App\Models\Category::find((int) request('id'))->products))
         <script src="{{asset('frontend/assets/plugins/datatables/yelsuFetchTablesAjax.js')}}"></script>
     @endif
 @endif      

@@ -1,3 +1,8 @@
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
+
 $(".cart-toggle").click(function () {
     $.ajax({
         type: "GET",
@@ -23,7 +28,7 @@ $(".cart-toggle").click(function () {
                             <a href="" class="product-name">${value.products.product_name}</a>
                             <div class="price-box">
                                 <span class="product-quantity">${value.cart.quantity}</span>
-                                <span class="product-price">${value.products.selling_price} ${value.currency}</span>
+                                <span class="product-price">${formatNumber(value.products.selling_price)} ${value.currency}</span>
                             </div>
                         </div>
                         <figure class="product-media">
@@ -45,7 +50,7 @@ $(".cart-toggle").click(function () {
                 });
 
                 $("#minicartRefresh").html(miniCart);
-                $("#miniCartTotalPrice").html(miniCartTotalPrice);
+                $("#miniCartTotalPrice").html(formatNumber(miniCartTotalPrice));
                 $(".minicart.gotoShop.cart-action").hide();
             } else {
                 $("#minicartRefresh").html(

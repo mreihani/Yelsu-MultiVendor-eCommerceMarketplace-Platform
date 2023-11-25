@@ -250,7 +250,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -323,7 +323,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -424,7 +424,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -527,7 +527,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{$item->selling_price}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>

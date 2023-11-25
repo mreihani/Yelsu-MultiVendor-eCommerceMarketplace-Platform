@@ -114,7 +114,7 @@
                                     </div>
                                 @else
                                     <div class="d-flex align-items-center pt-2 pb-2">
-                                        <div class="product-price"><ins class="new-price">{{$product->selling_price}} {{$product->determine_product_currency()}} </ins></div>
+                                        <div class="product-price"><ins class="new-price">{{number_format($product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </ins></div>
                                     </div>
                                 @endif
 
@@ -1119,13 +1119,13 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="product-price">{{$relatedProduct->selling_price}} {{$relatedProduct->determine_product_currency()}}</div>
+                                                <div class="product-price">{{number_format($relatedProduct->selling_price, 0, '', ',')}} {{$relatedProduct->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
-                               
+                                
                             </div>
                         </div>
                     </section>
@@ -1190,7 +1190,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="product-price">{{$recently_viewed_product_item->selling_price}} {{$recently_viewed_product_item->determine_product_currency()}}</div>
+                                                <div class="product-price">{{number_format($recently_viewed_product_item->selling_price, 0, '', ',')}} {{$recently_viewed_product_item->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>

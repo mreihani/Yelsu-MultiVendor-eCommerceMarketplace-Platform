@@ -229,13 +229,14 @@
                                                 <tr class="bb-no">
                                                     <td class="product-name" style="text-align: start;">
                                                         {{$product->product_name}}
+                                                        
                                                         <i class="fas fa-times"></i> 
                                                         <span class="product-quantity">
                                                             {{$cart['quantity']}}
                                                         </span>
                                                     </td>
                                                    <td class="product-total">
-                                                        {{$cart['quantity']*$product->selling_price}} {{$product->determine_product_currency()}} 
+                                                        {{number_format($cart['quantity']*$product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
                                             @endif    
@@ -252,7 +253,7 @@
                                                 <b>مجموع</b>
                                             </td>
                                             <td>
-                                                <b>{{$totalPrice}} تومان</b>
+                                                <b>{{number_format($totalPrice, 0, '', ',')}} تومان</b>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -294,7 +295,7 @@
                                                 <b>جمع کل</b>
                                             </th>
                                             <td>
-                                                <b>100000 تومان</b>
+                                                <b>{{number_format(10000, 0, '', ',')}} تومان</b>
                                             </td>
                                         </tr>
                                     </tfoot>
