@@ -23556,3 +23556,28 @@ td {
     margin-left:auto;    
 }
 /* shop.blade table page loader custom css */
+
+
+/* cart page change quantity ajax loading overlay */
+#cart-page-overlay {
+    position: absolute; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+    justify-content: center;
+    align-items: center;
+}
+
+#cart-page-overlay .loader {
+    width: 150px;
+    height: 150px;
+    border-color: #999 transparent;
+}
+/* cart page change quantity ajax loading overlay */

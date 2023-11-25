@@ -1,6 +1,14 @@
+let delayTimer;
+
 function updateCartFunction(event, id, cartName = null, price, inputType) {
-    
-    calculateTotalPrice(event, id, cartName = null, price, inputType);
+    clearTimeout(delayTimer);
+    delayTimer = setTimeout(function() {
+        sendAjaxCartItem(event, id, cartName = null, price, inputType);
+    }, 1500); 
+}
+
+function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
+    disableCheckoutBtn();
 
     $.ajaxSetup({
         headers: {
@@ -9,14 +17,16 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
         },
     });
 
-    let input = event.target.closest("div").firstElementChild;
+    let productInput = event.target.closest("div").firstElementChild;
+
+    document.getElementById("cart-page-overlay").style.display = "flex";
 
     var request = $.ajax({
         url: "/cart/quantity/change",
         method: "post",
         data: JSON.stringify({
             id: id,
-            quantity: input.value,
+            quantity: productInput.value,
             //cart:cartName,
             _method: "patch",
         }),
@@ -30,31 +40,23 @@ function updateCartFunction(event, id, cartName = null, price, inputType) {
                 $("#continueShopping i").removeClass("fas fa-spinner fa-spin");
                 $("#continueShopping i").addClass("w-icon-long-arrow-left");
 
-                //$(".cart-count").html(data.cartCountProducts);
-                
                 let cart_item_quantity = data.cart_item.quantity;
-                $(input).val(cart_item_quantity);
+                $(productInput).val(cart_item_quantity);
 
-                //calculateTotalPrice(event, id, cartName = null, price, inputType);
+                calculateTotalPrice(event, price, inputType);
+
+                document.getElementById("cart-page-overlay").style.display = "none";
             }
         },
     });
 }
 
-function calculateTotalPrice(event, id, cartName = null, price, inputType) {
+function calculateTotalPrice(event, price, inputType) {
     let input = event.target.closest("div").firstElementChild;
     let itemSumPriceElementByClass = $(".itemSumPrice");
     let itemSumPrice =
         event.target.parentElement.parentElement.nextElementSibling.children[0]
             .children[0];
-
-    $("#continueShopping").prop("disabled", true);
-    $("#continueShopping").css({
-        "background-color": "#ccc",
-        "border-color": "#ccc",
-    });
-    $("#continueShopping i").removeClass("w-icon-long-arrow-left");
-    $("#continueShopping i").addClass("fas fa-spinner fa-spin");
 
     if (inputType == 1) {
         let value = parseInt(input.value);
@@ -100,4 +102,15 @@ function calculateTotalPrice(event, id, cartName = null, price, inputType) {
         }
         $("#totalPrice").html(totalPrice);
     }
+}
+
+function disableCheckoutBtn() {
+    //disable continue button
+    $("#continueShopping").prop("disabled", true);
+    $("#continueShopping").css({
+        "background-color": "#ccc",
+        "border-color": "#ccc",
+    });
+    $("#continueShopping i").removeClass("w-icon-long-arrow-left");
+    $("#continueShopping i").addClass("fas fa-spinner fa-spin");
 }
