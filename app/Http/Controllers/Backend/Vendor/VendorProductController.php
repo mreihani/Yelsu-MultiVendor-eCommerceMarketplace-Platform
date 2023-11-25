@@ -180,6 +180,8 @@ class VendorProductController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
 
@@ -649,6 +651,8 @@ class VendorProductController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+        
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
 

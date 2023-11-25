@@ -378,6 +378,8 @@ class MerchantController extends Controller
         }   
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     } //End method
 
@@ -630,6 +632,9 @@ class MerchantController extends Controller
         if ($product_verification == 'inactive') {
             return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی و پس از تایید کارشناس منتشر خواهد شد.');
         }
+
+        
+
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی گردید.');
     } //End method
 
@@ -841,6 +846,8 @@ class MerchantController extends Controller
             }
         }    
         // بخش مدیریت ویژگی ها
+
+        $product->searchable();
 
         return redirect()->route('merchant.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     } //End method

@@ -506,6 +506,8 @@ class RetailerController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+        
         return redirect()->route('retailer.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
 
@@ -975,6 +977,8 @@ class RetailerController extends Controller
         }   
         // بخش مدیریت ویژگی ها
         
+        $product->searchable();
+
         return redirect()->route('retailer.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
 

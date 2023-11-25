@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-Route::get('changeDatabase', function () {
+// Route::get('changeDatabase', function () {
 
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
@@ -58,4 +58,4 @@ Route::get('changeDatabase', function () {
 
 
        
-});
+// });

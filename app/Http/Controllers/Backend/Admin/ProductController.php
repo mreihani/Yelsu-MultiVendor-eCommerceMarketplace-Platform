@@ -209,6 +209,8 @@ class ProductController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+        
         return redirect(route('all.product'))->with('success', 'محصول مورد نظر با موفقیت ایجاد گردید.');
     }
 

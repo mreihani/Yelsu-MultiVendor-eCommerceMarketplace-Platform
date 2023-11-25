@@ -591,6 +591,8 @@ class SpecialistController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+        $product->searchable();
+        
         return redirect(route('specialist.all.product'))->with('success', 'محصول مورد نظر با موفقیت ایجاد گردید.');
     }
 
@@ -1004,6 +1006,8 @@ class SpecialistController extends Controller
             }
         }    
         // بخش مدیریت ویژگی ها
+
+        $product->searchable();
 
         return redirect(route('specialist.all.product'))->with('success', 'محصول مورد نظر با موفقیت ایجاد گردید.');
     }
