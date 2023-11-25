@@ -81,9 +81,9 @@
     <script src="{{asset('frontend/assets/js/chatUX.js')}}"></script>
 
     <!--begin:: product details min value initiation -->
-    <script>
+    {{-- <script>
         let productInitialPriceValue;
-    </script>
+    </script> --}}
 </head>
 
 <body class="my-account">   
