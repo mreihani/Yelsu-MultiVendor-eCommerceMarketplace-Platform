@@ -19,6 +19,7 @@ $(document).on("click", "#check-seller", function () {
     $("#check-freightage").removeClass("active");
     $("#check-driver").removeClass("active");
 
+    $(".login-vendor").slideDown();
     $("#shop_address").slideDown();
 });
 
