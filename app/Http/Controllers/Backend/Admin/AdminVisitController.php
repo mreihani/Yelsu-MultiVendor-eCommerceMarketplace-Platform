@@ -53,20 +53,28 @@ class AdminVisitController extends Controller
         return view('admin.backend.visit.visit_list.visit_status_view', compact('adminData', 'data'));
     }
 
-    public function ChartAll() {
+    public function ChartUniqueVisitors() {
 
         $adminData = auth()->user();
        
         $all_visits = ShetabitVisit::select('ip', 'created_at', 'country_name')->get();
-       
-        $visits_per_day = ShetabitVisit::determine_visits_per_day_number($all_visits);
         $unique_visits_per_day = ShetabitVisit::determine_unique_visits_per_day_number($all_visits);
-
         $all_visits_iran = $all_visits->where('country_name', 'Iran');
-        $visits_per_day_iran = ShetabitVisit::determine_visits_per_day_number($all_visits_iran);
         $unique_visits_per_day_iran = ShetabitVisit::determine_unique_visits_per_day_number($all_visits_iran);
 
-        return view('admin.backend.visit.visit_chart.visit_chart', compact('adminData', 'visits_per_day', 'unique_visits_per_day', 'visits_per_day_iran', 'unique_visits_per_day_iran'));
+        return view('admin.backend.visit.visit_chart.unique-visitors', compact('adminData', 'unique_visits_per_day', 'unique_visits_per_day_iran'));
+    }
+
+    public function ChartVisits() {
+
+        $adminData = auth()->user();
+       
+        $all_visits = ShetabitVisit::select('ip', 'created_at', 'country_name')->get();
+        $visits_per_day = ShetabitVisit::determine_visits_per_day_number($all_visits);
+        $all_visits_iran = $all_visits->where('country_name', 'Iran');
+        $visits_per_day_iran = ShetabitVisit::determine_visits_per_day_number($all_visits_iran);
+
+        return view('admin.backend.visit.visit_chart.visits', compact('adminData', 'visits_per_day', 'visits_per_day_iran'));
     }
     
 }

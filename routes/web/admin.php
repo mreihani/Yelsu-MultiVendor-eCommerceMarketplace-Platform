@@ -184,7 +184,8 @@ Route::controller(AdminVisitController::class)->group(function () {
     Route::get('/visit/search', 'AdminVisitViewSearch')->name('admin.visit.search');
     Route::get('/visit/status-view/{id}', 'AdminVisitStatusView')->name('admin.visit.statusView');
     Route::get('/visit/{id}', 'AdminVisitId')->name('admin.visit.id');
-    Route::get('/chart/all', 'ChartAll')->name('chart.all');
+    Route::get('/chart/unique-visitors', 'ChartUniqueVisitors')->name('admin.chart.unique.visitors');
+    Route::get('/chart/visits', 'ChartVisits')->name('admin.chart.visits');
 });
 
 

@@ -77,7 +77,7 @@
                 
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('admin/visit/all') ? 'show' : '' }} {{ Request::is('admin/chart/all') ? 'show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Request::is('admin/visit/all') ? 'show' : '' }} {{Route::currentRouteName() == 'admin.chart.unique.visitors' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.chart.visits' ? 'show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -116,17 +116,47 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
-                        <div class="menu-item">
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'admin.chart.unique.visitors' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.chart.visits' ? 'show' : ''}}">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ Request::is('admin/chart/all') ? 'active' : '' }}" href="{{route('chart.all')}}">
+                            <span class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">نمودار بازدید ها</span>
-                            </a>
+                                <span class="menu-arrow"></span>
+                            </span>
                             <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{Route::currentRouteName() == 'admin.chart.visits' ? 'active' : ''}}" href="{{route('admin.chart.visits')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">بازدید ها</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{Route::currentRouteName() == 'admin.chart.unique.visitors' ? 'active' : ''}}" href="{{route('admin.chart.unique.visitors')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">بازدید کنندگان یکتا</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
                         </div>
                         <!--end:Menu item-->
+                       
                     </div>
                     <!--end:Menu sub-->
 
