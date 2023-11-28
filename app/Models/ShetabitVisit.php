@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ShetabitVisit extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $guarded = [];
 
     public function user()

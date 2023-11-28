@@ -1,0 +1,30 @@
+@foreach ($items as $item)
+
+    @if(in_array($item->id, $loader_type_arr_selected))
+        <li class="filterButtonShopPage list-style-none">
+            @if($item->getChildren()) 
+                <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$item->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$item->value}} 
+            @else
+                <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$item->id}}"> {{$item->value}} 
+            @endif
+        </li>
+    @else
+        <li class="filterButtonShopPage list-style-none">
+            @if($item->getChildren()) 
+                <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$item->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$item->value}} 
+            @else
+                <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$item->id}}"> {{$item->value}} 
+            @endif
+        </li>
+    @endif
+
+    @if($item->getChildren()) 
+        <!--begin::Table row Children-->
+        <div class="mb-1 subCatGroup" style="margin-right: 30px;">
+            @include('driver.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $item->getChildren()])  
+        </div>
+        <!--end::Table row Children-->
+    @endif
+    
+@endforeach
+

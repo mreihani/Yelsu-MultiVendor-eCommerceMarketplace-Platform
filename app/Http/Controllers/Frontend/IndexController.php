@@ -150,6 +150,10 @@ class IndexController extends Controller
 
         $product = Product::where('product_slug', Purify::clean($slug))->get();
 
+        if(count($product) == 0) {
+            redirect()->to('/')->send();
+        }
+
         $product = $product[0];
 
         if ($product->status == 'disabled' || ($product->vendor_id != NULL && $product->product_verification == 'inactive')) {
@@ -669,6 +673,10 @@ class IndexController extends Controller
         $outletsArr = [];
         $customsItem = Customsoutlet::find(Purify::clean($id));
 
+        if(empty($customsItem)) {
+            redirect()->to('/')->send();
+        }
+
         $customs_type = $customsItem->customsItem_type;
         $name = $customsItem->name;
         $province = $customsItem->province;
@@ -1139,6 +1147,11 @@ class IndexController extends Controller
 
         // exclude products which store has been disabled
         $category = Category::where('id', $id)->first();
+
+        if(empty($category)) {
+            redirect()->to('/')->send();
+        }
+
         $products = $category->products()->where('status', 'active')->latest()->get();
         
         $products_arr = [];

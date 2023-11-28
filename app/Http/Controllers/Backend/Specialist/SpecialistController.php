@@ -29,6 +29,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\File as LaravelFile;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeService;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeRoadService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 class SpecialistController extends Controller
 {
@@ -1819,7 +1826,13 @@ class SpecialistController extends Controller
         $loader_type_sea_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_sea_temp);
         $loader_type_air_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_air_temp);
 
-        return view('specialist.users.freightage.profile_field_of_activity.activity_freightage', compact('specialistData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected'));
+        $freightageTypeArray = FreightageTypeService::getFreightageTypeArray();
+        $freightageLoaderTypeRoadArray = FreightageTypeRoadService::getFreightageLoaderTypeRoadArray();
+        $freightageLoaderTypeRailArray = FreightageTypeRailService::getFreightageLoaderTypeRailArray();
+        $freightageLoaderTypeSeaArray = FreightageTypeSeaService::getFreightageLoaderTypeSeaArray();
+        $freightageLoaderTypeAirArray = FreightageTypeAirService::getFreightageLoaderTypeAirArray();
+
+        return view('specialist.users.freightage.profile_field_of_activity.activity_freightage', compact('specialistData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected', 'freightageTypeArray', 'freightageLoaderTypeRoadArray', 'freightageLoaderTypeRailArray', 'freightageLoaderTypeSeaArray', 'freightageLoaderTypeAirArray'));
     }
 
     public function SpecialistFreightageProfileVerifyStore(Request $request)
@@ -1957,7 +1970,6 @@ class SpecialistController extends Controller
         $driverData = User::find((int) Purify::clean($id));
 
         $driver_sector_arr = explode(",", $driverData->driver->type_temp);
-
         // category for filter
         $vendor_sector_cat_arr = Category::where('parent', 0)->get();
 
@@ -1975,7 +1987,10 @@ class SpecialistController extends Controller
 
         $loader_type_arr_selected = explode(',', $driverData->driver->freightage_loader_type_temp);
 
-        return view('specialist.users.driver.profile_field_of_activity.activity_driver', compact('specialistData', 'id', 'driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected'));
+        $driverTypeArray = DriverTypeService::getDriverTypeArray();
+        $driverLoaderTypeRoadArray = DriverTypeRoadService::getDriverLoaderTypeRoadArray();
+
+        return view('specialist.users.driver.profile_field_of_activity.activity_driver', compact('specialistData', 'id', 'driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'driverTypeArray', 'driverLoaderTypeRoadArray'));
     }
 
     public function SpecialistDriverProfileVerifyStore(Request $request)
@@ -1996,21 +2011,21 @@ class SpecialistController extends Controller
             }
         }
 
-        $data = User::find(Purify::clean($request->id));
+        $data = Driver::find(Purify::clean($request->id));
 
-        $data->driver->type = implode(',', Purify::clean($incomingFields['type']));
-        $data->driver->category_id = implode(',', Purify::clean($incomingFields['category_id']));
-        $data->driver->vendor_id = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
-        $data->driver->freightage_loader_type = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
+        $data->type = implode(',', Purify::clean($incomingFields['type']));
+        $data->category_id = implode(',', Purify::clean($incomingFields['category_id']));
+        $data->vendor_id = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
+        $data->freightage_loader_type = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
 
-        $data->driver->type_temp = implode(',', Purify::clean($incomingFields['type']));
-        $data->driver->category_id_temp = implode(',', Purify::clean($incomingFields['category_id']));
-        $data->driver->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
-        $data->driver->freightage_loader_type_temp = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
+        $data->type_temp = implode(',', Purify::clean($incomingFields['type']));
+        $data->category_id_temp = implode(',', Purify::clean($incomingFields['category_id']));
+        $data->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
+        $data->freightage_loader_type_temp = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
 
-        $data->driver->status = "active";
+        $data->status = "active";
 
-        $data->driver->save();
+        $data->save();
 
         return redirect()->route('specialist.driver.profile.verifyAll')->with('success', 'اطلاعات با موفقیت ذخیره و منتشر گردید.');
     }

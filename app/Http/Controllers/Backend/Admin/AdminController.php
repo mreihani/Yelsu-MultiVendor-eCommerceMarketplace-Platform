@@ -21,6 +21,13 @@ use Stevebauman\Purify\Facades\Purify;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File as LaravelFile;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeService;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeRoadService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 
 class AdminController extends Controller
@@ -562,6 +569,8 @@ class AdminController extends Controller
 
       }
 
+      $user->searchable();
+      
       return redirect(route('admin.users'))->with('success', 'حساب کاربری با موفقیت ایجاد گردید.');
    } //End method
 
@@ -999,7 +1008,13 @@ class AdminController extends Controller
       $loader_type_sea_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_sea_temp);
       $loader_type_air_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_air_temp);
 
-      return view('admin.backend.users.freightage.profile_field_of_activity.activity_freightage', compact('adminData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected'));
+      $freightageTypeArray = FreightageTypeService::getFreightageTypeArray();
+      $freightageLoaderTypeRoadArray = FreightageTypeRoadService::getFreightageLoaderTypeRoadArray();
+      $freightageLoaderTypeRailArray = FreightageTypeRailService::getFreightageLoaderTypeRailArray();
+      $freightageLoaderTypeSeaArray = FreightageTypeSeaService::getFreightageLoaderTypeSeaArray();
+      $freightageLoaderTypeAirArray = FreightageTypeAirService::getFreightageLoaderTypeAirArray();
+
+      return view('admin.backend.users.freightage.profile_field_of_activity.activity_freightage', compact('adminData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected', 'freightageTypeArray', 'freightageLoaderTypeRoadArray', 'freightageLoaderTypeRailArray', 'freightageLoaderTypeSeaArray', 'freightageLoaderTypeAirArray'));
    }
 
    public function AdminFreightageProfileVerifyStore(Request $request)
@@ -1168,7 +1183,10 @@ class AdminController extends Controller
 
       $loader_type_arr_selected = explode(',', $driverData->driver->freightage_loader_type_temp);
 
-      return view('admin.backend.users.driver.profile_field_of_activity.activity_driver', compact('adminData', 'id', 'driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected'));
+      $driverTypeArray = DriverTypeService::getDriverTypeArray();
+      $driverLoaderTypeRoadArray = DriverTypeRoadService::getDriverLoaderTypeRoadArray();
+
+      return view('admin.backend.users.driver.profile_field_of_activity.activity_driver', compact('adminData', 'id', 'driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'driverTypeArray', 'driverLoaderTypeRoadArray'));
    }
 
    public function AdminDriverProfileVerifyStore(Request $request)

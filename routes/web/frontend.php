@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Frontend\IndexController;
 
-Route::get('/', [IndexController::class, 'HomePage']);
+Route::get('/', [IndexController::class, 'HomePage'])->name('homepage');
 
 // Frontend Shop All routes
 Route::get('shop', [IndexController::class, 'ViewShop'])->name('shop');

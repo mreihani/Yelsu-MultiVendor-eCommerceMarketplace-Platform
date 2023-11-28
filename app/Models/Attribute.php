@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Attribute extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $guarded = [];
 
     public function items()

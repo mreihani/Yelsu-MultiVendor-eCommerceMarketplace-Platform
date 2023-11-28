@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Backend\Driver;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File as LaravelFile;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeService;
+use App\Services\Users\Driver\DriverTypeServices\DriverTypeRoadService;
 
 class DriverController extends Controller
 {
@@ -286,7 +288,10 @@ class DriverController extends Controller
             $loader_type_arr_selected = explode(',', $driverData->driver->freightage_loader_type_temp);
         }
 
-        return view('driver.driver_profile_field_of_activity', compact('driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'status', 'loader_type_arr_selected'));
+        $driverTypeArray = DriverTypeService::getDriverTypeArray();
+        $driverLoaderTypeRoadArray = DriverTypeRoadService::getDriverLoaderTypeRoadArray();
+        
+        return view('driver.driver_profile_field_of_activity', compact('driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'status', 'loader_type_arr_selected', 'driverTypeArray', 'driverLoaderTypeRoadArray'));
     } //End method
 
     public function profileFieldOfActivityStore(Request $request)

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BlogCategory extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $guarded = [];
 }

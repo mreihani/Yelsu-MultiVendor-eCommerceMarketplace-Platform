@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CategoryProduct extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $guarded =  [];
 
 }

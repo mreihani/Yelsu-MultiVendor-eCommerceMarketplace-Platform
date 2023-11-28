@@ -6,6 +6,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use App\Models\ShetabitVisit;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -57,6 +58,13 @@ class AdminVisitController extends Controller
         $adminData = auth()->user();
 
         $all_visits = ShetabitVisit::all();
+
+        // DB::table('shetabit_visits')->orderBy('id')->chunk(1000, function ($visits) {
+        //     foreach ($visits as $visit) {
+                
+        //     }
+        // }); 
+
         $visits_per_day = ShetabitVisit::determine_visits_per_day_number($all_visits);
         $unique_visits_per_day = ShetabitVisit::determine_unique_visits_per_day_number($all_visits);
 

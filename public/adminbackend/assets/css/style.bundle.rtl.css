@@ -54109,7 +54109,7 @@ input[type="number"] {
     font-size: 1.1rem;
 }
 .select2-container--bootstrap5 .select2-selection__clear {
-    right: 1.25rem;
+    right: 0.25rem;
 }
 /* select2 box custom css placeholder */
 

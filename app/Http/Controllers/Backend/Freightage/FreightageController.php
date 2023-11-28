@@ -7,13 +7,17 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Freightage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File as LaravelFile;
-
-use App\Http\Controllers\Controller;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 class FreightageController extends Controller
 {
@@ -297,8 +301,33 @@ class FreightageController extends Controller
             $loader_type_sea_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_sea_temp);
             $loader_type_air_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_air_temp);
         }
+        
+        $freightageTypeArray = FreightageTypeService::getFreightageTypeArray();
+        $freightageLoaderTypeRoadArray = FreightageTypeRoadService::getFreightageLoaderTypeRoadArray();
+        $freightageLoaderTypeRailArray = FreightageTypeRailService::getFreightageLoaderTypeRailArray();
+        $freightageLoaderTypeSeaArray = FreightageTypeSeaService::getFreightageLoaderTypeSeaArray();
+        $freightageLoaderTypeAirArray = FreightageTypeAirService::getFreightageLoaderTypeAirArray();
 
-        return view('freightage.freightage_profile_field_of_activity', compact('freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'status', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected'));
+        return view('freightage.freightage_profile_field_of_activity', 
+        compact(
+            'freightageData', 
+            'freightage_sector_arr', 
+            'vendor_sector_cat_arr', 
+            'filter_category_array', 
+            'vendorsName', 
+            'category_sector_cat_arr_selected', 
+            'vendor_arr_selected', 
+            'status', 
+            'loader_type_arr_selected', 
+            'loader_type_rail_arr_selected', 
+            'loader_type_sea_arr_selected', 
+            'loader_type_air_arr_selected',
+            'freightageTypeArray',
+            'freightageLoaderTypeRoadArray',
+            'freightageLoaderTypeRailArray',
+            'freightageLoaderTypeSeaArray',
+            'freightageLoaderTypeAirArray',
+        ));
     } //End method
 
     public function profileFieldOfActivityStore(Request $request)

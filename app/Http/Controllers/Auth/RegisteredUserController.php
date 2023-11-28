@@ -206,6 +206,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $user->searchable();
+
         return redirect(RouteServiceProvider::HOME)->with('success', 'حساب کاربری با موفقیت ایجاد گردید.');
     }
 }

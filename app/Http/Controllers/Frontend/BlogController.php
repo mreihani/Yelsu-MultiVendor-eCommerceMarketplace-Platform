@@ -126,6 +126,11 @@ class BlogController extends Controller
     {
         $blogcategories = BlogCategory::latest()->get();
         $post = BlogPost::where('status', 'active')->where('post_slug', Purify::clean($post_slug))->get();
+
+        if(!count($post)) {
+            redirect()->to('/')->send();
+        }
+
         $post = $post[0];
 
         $recentposts = BlogPost::latest()->where('status', 'active')->whereNot('id', $post->id)->get();
