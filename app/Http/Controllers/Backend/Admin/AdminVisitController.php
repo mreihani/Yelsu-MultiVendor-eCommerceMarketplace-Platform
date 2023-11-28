@@ -56,15 +56,9 @@ class AdminVisitController extends Controller
     public function ChartAll() {
 
         $adminData = auth()->user();
-
-        $all_visits = ShetabitVisit::all();
-
-        // DB::table('shetabit_visits')->orderBy('id')->chunk(1000, function ($visits) {
-        //     foreach ($visits as $visit) {
-                
-        //     }
-        // }); 
-
+       
+        $all_visits = ShetabitVisit::select('ip', 'created_at', 'country_name')->get();
+       
         $visits_per_day = ShetabitVisit::determine_visits_per_day_number($all_visits);
         $unique_visits_per_day = ShetabitVisit::determine_unique_visits_per_day_number($all_visits);
 
