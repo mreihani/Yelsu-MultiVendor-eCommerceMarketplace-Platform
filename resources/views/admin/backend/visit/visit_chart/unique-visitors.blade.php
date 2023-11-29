@@ -7,7 +7,7 @@
 </script>
 
 
-<div id="kt_app_content" class="app-content flex-column-fluid">
+<div id="kt_app_content" class="app-content flex-column-fluid d-flex align-items-center">
 
     <!--begin::Content container-->
     <div id="kt_app_content_container" class="app-container container-xxl">

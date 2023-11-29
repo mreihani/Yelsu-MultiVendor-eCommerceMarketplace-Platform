@@ -6,10 +6,10 @@
     let visits_per_day_iran = {!! json_encode($visits_per_day_iran) !!};
 </script>
 
-<div id="kt_app_content" class="app-content flex-column-fluid">
+<div id="kt_app_content" class="app-content flex-column-fluid d-flex align-items-center">
 
     <!--begin::Content container-->
-    <div id="kt_app_content_container" class="app-container container-xxl">
+    <div id="kt_app_content_container" class="app-container container-xxl ">
         
         <div class="card card-bordered mt-9">
             
