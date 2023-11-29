@@ -1,11 +1,11 @@
 @extends('frontend.main_theme')
 @section('main')
 
-
+{{-- 
 <script>
     let latitudeVal = {!! json_encode(old('latitude',$latitudeVal)) !!};
     let longitudeVal = {!! json_encode(old('longitude',$longitudeVal)) !!};
-</script>
+</script> --}}
 
 <main class="main checkout">
     <!-- Start of Breadcrumb -->
@@ -40,7 +40,7 @@
                         {{$error}}
                 </div>
             @endforeach
-
+{{-- 
             <div class="coupon-toggle">
                 کد تخفیف دارید؟ <a href="#"
                     class="show-coupon font-weight-bold text-uppercase text-dark">کد را وارد کنید </a>
@@ -51,7 +51,7 @@
                     <input type="text" name="coupon_code" class="form-control form-control-md mr-1 mb-2" placeholder="کد تخفیف" id="coupon_code">
                     <button type="submit" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon" value="اعمال کد">اعمال کد</button>
                 </div>
-            </div>
+            </div> --}}
             <form action="{{route('cart.payment')}}" method="POST" id="cart-payment">
                 @csrf
                 <div class="row mb-9">
@@ -59,47 +59,94 @@
                         <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
                             جزئیات صورتحساب
                         </h3>
-                        <div class="form-group">
-                            <label>شخص حقیقی یا حقوقی *</label>
-                            <div class="select-box">
-                                <select id="person" name="person_type" class="form-control form-control-md">
-                                    <option value="haghighi">شخص حقیقی</option>
-                                    <option value="hoghoghi">شخص حقوقی</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row gutter-sm haghighi">
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label>نام *</label>
-                                    <input type="text" class="form-control form-control-md" name="firstname" value="{{old('firstname') ? old('firstname') :  $userData->firstname}}"
-                                    >
+
+                        <input type="hidden" value="{{$userData->person_type}}" id="person-type-value">
+
+                        @if($userData->person_type && ($userData->role == "vendor" || $userData->role == "merchant" || $userData->role == "retailer"))
+                            <div class="form-group">
+                                <label>شخص حقیقی یا حقوقی *</label>
+                                <div class="select-box">
+                                    <select @disabled(true) id="person" name="person_type" class="form-control form-control-md yelsu-disabled-input">
+                                        <option class="yelsu-disabled-input" {{$userData->person_type == "haghighi" ? "selected" : ""}} value="haghighi">شخص حقیقی</option>
+                                        <option class="yelsu-disabled-input" {{$userData->person_type == "hoghoghi" ? "selected" : ""}} value="hoghoghi">شخص حقوقی</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label>نام خانوادگی  *</label>
-                                    <input type="text" class="form-control form-control-md" name="lastname" value="{{old('lastname') ? old('lastname') :  $userData->lastname}}"
-                                    >
+                            <div class="row gutter-sm haghighi">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>نام *</label>
+                                        <input @disabled(true) type="text" class="form-control form-control-md yelsu-disabled-input" name="firstname" value="{{old('firstname', $userData->firstname)}}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>نام خانوادگی  *</label>
+                                        <input @disabled(true) type="text" class="form-control form-control-md yelsu-disabled-input" name="lastname" value="{{old('lastname', $userData->lastname)}}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group haghighi">
-                            <label>کد ملی *</label>
-                            <input type="number" class="form-control form-control-md" name="national_code" value="{{old('national_code')}}">
-                        </div>
-                        <div class="form-group hoghoghi">
-                            <label>نام شرکت *</label>
-                            <input type="text" class="form-control form-control-md" name="company_name" value="{{old('company_name')}}">
-                        </div>
-                        <div class="form-group hoghoghi">
-                            <label>شماره شناسه شرکت *</label>
-                            <input type="number" class="form-control form-control-md" name="company_number" value="{{old('company_number')}}">
-                        </div>
-                        <div class="form-group hoghoghi">
-                            <label>نام نماینده (اختیاری)</label>
-                            <input type="text" class="form-control form-control-md" name="agent_name" value="{{old('agent_name')}}">
-                        </div>
+                            <div class="form-group haghighi">
+                                <label>کد ملی *</label>
+                                <input @disabled(true) type="number" class="form-control form-control-md yelsu-disabled-input" name="national_code" value="{{old('national_code', $userData->national_code)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>نام شرکت *</label>
+                                <input @disabled(true) type="text" class="form-control form-control-md yelsu-disabled-input" name="shop_name" value="{{old('shop_name', $userData->shop_name)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>شماره شناسه شرکت *</label>
+                                <input @disabled(true) type="number" class="form-control form-control-md yelsu-disabled-input" name="company_number" value="{{old('company_number', $userData->company_number)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>نام نماینده (اختیاری)</label>
+                                <input @disabled(true) type="text" class="form-control form-control-md yelsu-disabled-input" name="agent_name" value="{{old('agent_name', $userData->agent_name)}}">
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <label>شخص حقیقی یا حقوقی *</label>
+                                <div class="select-box">
+                                    <select id="person" name="person_type" class="form-control form-control-md">
+                                        <option {{$userData->person_type == "haghighi" ? "selected" : ""}} value="haghighi">شخص حقیقی</option>
+                                        <option {{$userData->person_type == "hoghoghi" ? "selected" : ""}} value="hoghoghi">شخص حقوقی</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row gutter-sm haghighi">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>نام *</label>
+                                        <input type="text" class="form-control form-control-md" name="firstname" value="{{old('firstname', $userData->firstname)}}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>نام خانوادگی  *</label>
+                                        <input type="text" class="form-control form-control-md" name="lastname" value="{{old('lastname', $userData->lastname)}}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group haghighi">
+                                <label>کد ملی *</label>
+                                <input type="number" class="form-control form-control-md" name="national_code" value="{{old('national_code', $userData->national_code)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>نام شرکت *</label>
+                                <input type="text" class="form-control form-control-md" name="shop_name" value="{{old('shop_name', $userData->shop_name)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>شماره شناسه شرکت *</label>
+                                <input type="number" class="form-control form-control-md" name="company_number" value="{{old('company_number', $userData->company_number)}}">
+                            </div>
+                            <div class="form-group hoghoghi">
+                                <label>نام نماینده (اختیاری)</label>
+                                <input type="text" class="form-control form-control-md" name="agent_name" value="{{old('agent_name', $userData->agent_name)}}">
+                            </div>
+                        @endif
+
 
                         <div class="row gutter-sm">                           
                             {{-- <div class="col-xs-6"> --}}
@@ -111,8 +158,7 @@
                         </div>
 
                         {{-- added neshan map and addresses --}}
-
-                        @if(count($useroutlet))
+                        {{-- @if(count($useroutlet))
                         <div class="form-group">
                             <div class="mb-1">آدرس پستی مرسوله *</div>
 
@@ -196,7 +242,7 @@
                                 </div>
                             </div>
 
-                        </div>   
+                        </div>    --}}
                         {{-- added neshan map and addresses --}}
 
                         <div class="form-group mt-3">
@@ -258,7 +304,7 @@
                                         </tr>
                                     </tbody>
                                     <tfoot>
-                                        <tr class="shipping-methods">
+                                        {{-- <tr class="shipping-methods">
                                             <td colspan="2" class="text-left">
                                                 <h4 class="title title-simple bb-no mb-1 pb-0 pt-3">حمل و نقل
                                                 </h4>
@@ -289,7 +335,7 @@
                                                     </li>
                                                 </ul>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr class="order-total">
                                             <th>
                                                 <b>جمع کل</b>
@@ -306,21 +352,23 @@
                                     <div class="accordion payment-accordion">
                                         <div class="card">
                                             <div class="card-header">
-                                                <a href="#cash-on-delivery" class="collapse">درگاه بانک صادرات</a>
+                                                <a href="#cash-on-delivery" class="collapse">درگاه بانک رفاه</a>
                                             </div>
                                             <div id="cash-on-delivery" class="card-body expanded">
                                                 <p class="mb-0">
-                                                    پرداخت از طریق درگاه بانک صادرات
+                                                    <img width="40px" src="{{asset('frontend/assets/images/demos/demo13/banner/Refah-Bank-Logo.png')}}" alt="">
+                                                    پرداخت از طریق درگاه بانک رفاه
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="card">
                                             <div class="card-header">
-                                                <a href="#payment" class="expand">درگاه بانک رفاه</a>
+                                                <a href="#payment" class="expand">درگاه بانک صادرات</a>
                                             </div>
                                             <div id="payment" class="card-body collapsed">
                                                 <p class="mb-0">
-                                                    پرداخت از طریق درگاه بانک رفاه
+                                                    <img width="40px" src="{{asset('frontend/assets/images/demos/demo13/banner/Bank_Saderat_Iran_logo.png')}}" alt="">
+                                                    پرداخت از طریق درگاه بانک صادرات
                                                 </p>
                                             </div>
                                         </div>
@@ -343,7 +391,7 @@
 </main>
 
 <script src="{{asset('frontend/assets/js/checkout.js')}}"></script>
-<script src="{{asset('frontend/assets/plugins/leaflet/Control.Geocoder.js')}}"></script>
-<script src="{{asset('frontend/assets/plugins/leaflet/leafletyelsuDashboard.js')}}"></script>
+{{-- <script src="{{asset('frontend/assets/plugins/leaflet/Control.Geocoder.js')}}"></script>
+<script src="{{asset('frontend/assets/plugins/leaflet/leafletyelsuDashboard.js')}}"></script> --}}
 
 @endsection

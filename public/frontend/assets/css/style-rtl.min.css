@@ -23581,3 +23581,11 @@ td {
     border-color: #999 transparent;
 }
 /* cart page change quantity ajax loading overlay */
+
+
+/* disabled input greyed out */
+.yelsu-disabled-input {
+    pointer-events: none;
+    background-color:#eff2f5;
+}
+/* disabled input greyed out */

@@ -9,14 +9,13 @@ $("#person").on("change", function () {
 });
 
 
-
-$("#shipment").on("change", function () {
-    if (this.value == "0") {
-        $(".address-container").slideDown();
-    } else if ("haghighi") {
-        $(".address-container").slideUp();
-    }
-});
+// $("#shipment").on("change", function () {
+//     if (this.value == "0") {
+//         $(".address-container").slideDown();
+//     } else if ("haghighi") {
+//         $(".address-container").slideUp();
+//     }
+// });
 
 // var data = {
 //     "آذربايجان شرقي": [
@@ -367,23 +366,19 @@ $("#shipment").on("change", function () {
 //         "زارچ",
 //     ],
 // };
-$(document).ready(function () {
-    // $(".ir-province").each(loadProvinces), $(".ir-province").change(loadCities);
 
-    // if (shippingProvinceDB != null) {
-    //     $(".ir-province[name='shipping_province']").prepend(
-    //         `<option selected value="${shippingProvinceDB} ">${shippingProvinceDB} </option>`
-    //     );
-    // }
-    // if (shippingCityDB != null) {
-    //     $(".ir-city[name='shipping_city']").prepend(
-    //         `<option selected value="${shippingCityDB} ">${shippingCityDB} </option>`
-    //     );
-    // }
-
+if($("#person-type-value").val()) {
+    if ($("#person-type-value").val() == "hoghoghi") {
+        $(".haghighi").hide();
+        $(".hoghoghi").show();
+    } else if ("haghighi") {
+        $(".haghighi").show();
+        $(".hoghoghi").hide();
+    }
+} else {
     $(".hoghoghi").hide();
-    
-});
+}
+
 // var loadProvinces = function () {
 //         var t = $(this);
 //         t.empty(),

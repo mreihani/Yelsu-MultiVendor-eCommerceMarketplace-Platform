@@ -1,5 +1,5 @@
 <div class="grid-item grid-item3 banner col-lg-4 col-md-6 height-x1 overlay-zoom">
-    <a href="{{route('blog.galaxyPetrol')}}">
+    <a href="">
     <figure class="banner-media br-sm">
         <img src="{{asset('frontend/assets/images/demos/demo13/banner/1.png')}}" alt="Intro Banner" width="499"
             height="210" style="background-color: #0E0F10;">
