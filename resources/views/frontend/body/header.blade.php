@@ -65,7 +65,7 @@
                         @foreach ($parentCategories->reverse() as $parentCategory)
                         <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
                         @endforeach
-                        <option value="v">جستجو تأمین کنندگان</option>
+                        <option value="v">جستجو تولید کنندگان / تأمین کنندگان</option>
                         <option value="m">جستجو بازرگانان</option>
                         <option value="r">جستجو خرده فروشان</option>
                         <option value="c">جستجو گمرک / بنادر / مناطق اقتصادی</option>

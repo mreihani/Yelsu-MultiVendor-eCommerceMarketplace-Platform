@@ -48,8 +48,9 @@
                                                 <form action="{{route('cart.destroy',$cart['id'])}}" method="POST">
                                                 @csrf
                                                 @method('delete')   
-                                                <button type="submit" class="btn btn-close"><i
-                                                        class="fas fa-times"></i></button>
+                                                <button type="submit" class="btn btn-close">
+                                                    <i class="fas fa-times" style="color: red;"></i>
+                                                </button>
                                                 </form>        
                                             </div>
                                         </td>

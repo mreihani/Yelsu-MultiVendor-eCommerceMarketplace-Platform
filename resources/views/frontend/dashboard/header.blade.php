@@ -28,7 +28,7 @@
                             @foreach (App\Models\Category::where('parent', 0)->latest()->get()->reverse() as $parentCategory)
                             <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
                             @endforeach
-                            <option value="v">جستجو تأمین کنندگان</option>
+                            <option value="v">جستجو تولید کنندگان / تأمین کنندگان</option>
                             <option value="m">جستجو بازرگانان</option>
                             <option value="r">خرده فروشان</option>
                             <option value="c">جستجو گمرک / بنادر / مناطق اقتصادی</option>

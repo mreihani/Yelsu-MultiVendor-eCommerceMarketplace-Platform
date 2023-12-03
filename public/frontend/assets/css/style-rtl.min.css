@@ -23347,6 +23347,14 @@ td {
 }
 /* leaflet vendor page custom styles */
 
+/* leaflet shipping page custom styles */
+.shipping-page-map-container {
+    width: 700px;
+    height: 500px;
+    border: 2px solid #14b6cb;
+}
+/* leaflet shipping page custom styles */
+
 /* leaflet shop page custom styles */
 .leafletPopupInfo {
     text-align: right;

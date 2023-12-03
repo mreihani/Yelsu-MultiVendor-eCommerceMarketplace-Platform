@@ -17,6 +17,9 @@ Route::get('/dashboard/address/edit/{id}', [UserController::class, 'DashboardAdd
 Route::post('/dashboard/address/update', [UserController::class, 'DashboardAddressUpdate'])->name('dashboard.address.update');
 Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardAddressDelete'])->name('dashboard.address.delete');
 
+// dashboard shipping all routes
+Route::get('/shipping-details/{id}', [UserController::class, 'ShippingDetails'])->name('shipping-details');
+
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

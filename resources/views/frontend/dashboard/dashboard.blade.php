@@ -397,7 +397,7 @@
                                         <th class="order-date text-center">تاریخ ثبت سفارش </th>
                                         <th class="order-status text-center">وضعیت </th>
                                         <th class="order-total text-center">مجموع </th>
-                                        <th class="order-actions text-center">اقدامات </th>
+                                        <th class="order-actions text-center">عملیات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -418,9 +418,15 @@
                                                 <span class="order-price">{{$order->price}} تومان</span> 
                                                 {{-- <span class="order-quantity"> {{$order->products->count()}}</span> آیتم --}}
                                             </td>
-                                            <td class="order-action text-center">
-                                                <a href="{{route('orderview', $order->id)}}"
-                                                    class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
+                                            <td class="text-center">
+                                                <a href="{{route('orderview', $order->id)}}" class="btn btn-rounded btn-default btn-sm btn-block">
+                                                    <i class="w-icon-orders"></i>
+                                                    جزئیات سفارش 
+                                                </a>
+                                                <a href="{{route('shipping-details', $order->id)}}" class="btn btn-primary btn-rounded btn-default btn-sm btn-block mt-1">
+                                                    <i class="w-icon-shipping"></i>
+                                                    حمل و نقل
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

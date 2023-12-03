@@ -36,6 +36,10 @@ class UserController extends Controller
         $order = Order::findOrFail(Purify::clean($id));
         $useroutlet = Useroutlets::where('user_id', $user_id)->latest()->get();
 
+        if ($order->user_id != $user_id) {
+            return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
+        }
+
         return view('frontend.dashboard.orderview', compact('userData', 'order', 'useroutlet'));
     }
 
@@ -367,5 +371,21 @@ class UserController extends Controller
             return redirect(route('dashboard', ['type' => 'details']))->with('error', 'شماره تلفن ثبت نشد. لطفا مجددا اقدام نمایید.');
         }
 
+    }
+
+    public function ShippingDetails($id) {
+
+        $userData = auth()->user();
+        $user_id = $userData->id;
+
+        $order = Order::findOrFail(Purify::clean($id));
+
+        $products = $order->products()->get();
+
+        if ($order->user_id != $user_id) {
+            return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
+        }
+
+        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'products'));
     }
 }

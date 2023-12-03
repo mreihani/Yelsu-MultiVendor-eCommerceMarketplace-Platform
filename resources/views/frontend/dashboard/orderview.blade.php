@@ -132,7 +132,7 @@
                         <!-- End of Sub Orders-->
                         
                         <div>
-                            <div class="row">       
+                            {{-- <div class="row">       
 
                                 <div class="col-12">
                                     <div class="ecommerce-address billing-address">
@@ -166,9 +166,9 @@
                                         </address>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            @if(count($useroutlet))
+                            {{-- @if(count($useroutlet))
                             <h4 class="title title-underline ls-25 font-weight-bold mt-5"> تغییر آدرس ارسال سفارش</h4>
                                 <div class="col-12">
                                     <div class="form-group">
@@ -198,7 +198,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
 
                         </div>
                         <!-- End of Account Address -->

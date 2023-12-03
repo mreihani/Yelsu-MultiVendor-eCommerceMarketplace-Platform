@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->hasMany(Useroutlets::class);
     }
 
+    public function vendor_outlets()
+    {
+        return $this->hasMany(Outlet::class);
+    }
+
     public function freightage()
     {
         return $this->hasOne(Freightage::class);

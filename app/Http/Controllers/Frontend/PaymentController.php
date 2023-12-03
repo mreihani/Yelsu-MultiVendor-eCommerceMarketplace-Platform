@@ -44,32 +44,26 @@ class PaymentController extends Controller
             // 'longitude.required' => 'لطفا طول جغرافیایی محل مورد نظر را وارد نمایید.',
         ]);
 
-        // if (Purify::clean($request->person_type) == 'haghighi') {
-        //     if (Purify::clean($request->firstname) == NULL) {
-        //         session()->flashInput($request->input());
-        //         return redirect(route('checkout'))->with('error', 'لطفا نام خود را وارد نمایید.');
-        //     }
-        //     if (Purify::clean($request->lastname) == NULL) {
-        //         session()->flashInput($request->input());
-        //         return redirect(route('checkout'))->with('error', 'لطفا نام خانوادگی خود را وارد نمایید.');
-        //     }
-        //     if (Purify::clean($request->national_code) == NULL) {
-        //         session()->flashInput($request->input());
-        //         return redirect(route('checkout'))->with('error', 'لطفا کد ملی خود را وارد نمایید.');
-        //     }
-        // } elseif (Purify::clean($request->person_type) == 'hoghoghi') {
-        //     if (Purify::clean($request->company_name) == NULL || Purify::clean($request->company_number) == NULL) {
-        //         session()->flashInput($request->input());
-        //         return redirect(route('checkout'))->with('error', 'لطفا اطلاعات شخص حقوقی را به درستی وارد نمایید.');
-        //     }
-        // }
-
-        if (Purify::clean($request->person_type) == 'hoghoghi') {
-            if (Purify::clean($request->shop_name) == NULL) {
+        if (Purify::clean($request->person_type) == 'haghighi') {
+            if (Purify::clean($request->firstname) == NULL) {
                 session()->flashInput($request->input());
-                return redirect(route('checkout'))->with('error', 'لطفا نام شرکت را وارد نمایید.');
+                return redirect(route('checkout'))->with('error', 'لطفا نام خود را وارد نمایید.');
+            }
+            if (Purify::clean($request->lastname) == NULL) {
+                session()->flashInput($request->input());
+                return redirect(route('checkout'))->with('error', 'لطفا نام خانوادگی خود را وارد نمایید.');
+            }
+            if (Purify::clean($request->national_code) == NULL) {
+                session()->flashInput($request->input());
+                return redirect(route('checkout'))->with('error', 'لطفا کد ملی خود را وارد نمایید.');
+            }
+        } elseif (Purify::clean($request->person_type) == 'hoghoghi') {
+            if (Purify::clean($request->shop_name) == NULL || Purify::clean($request->company_number) == NULL) {
+                session()->flashInput($request->input());
+                return redirect(route('checkout'))->with('error', 'لطفا اطلاعات شخص حقوقی را به درستی وارد نمایید.');
             }
         }
+
 
         $cart = Cart::instance('default');
         $cartItems = $cart->all();
@@ -117,17 +111,29 @@ class PaymentController extends Controller
 
             // $useroutlet_obj = Useroutlets::find($useroutlet_id);
 
-            if($user->role !== 'vendor' && $user->role !== 'merchant' && $user->role !== 'retailer') {
+           
+
+            if($request->person_type && $request->person_type == "haghighi") {
+
                 $user->update([
                     'person_type' => $request->person_type ? Purify::clean($request->person_type) : NULL,
                     'firstname' => $request->firstname ? Purify::clean($request->firstname) : NULL,
                     'lastname' => $request->lastname ? Purify::clean($request->lastname) : NULL,
                     'national_code' => $request->national_code ? Purify::clean($request->national_code) : NULL,
+                ]);
+
+            } elseif($request->person_type && $request->person_type == "hoghoghi") {
+
+                $user->update([
+                    'person_type' => $request->person_type ? Purify::clean($request->person_type) : NULL,
                     'shop_name' => $request->shop_name ? Purify::clean($request->shop_name) : NULL,
                     'company_number' => $request->company_number ? Purify::clean($request->company_number) : NULL,
                     'agent_name' => $request->agent_name ? Purify::clean($request->agent_name) : NULL,
                 ]);
-            } 
+
+            }
+                
+            
 
             $order = auth()->user()->order()->create([
                 'status' => 'unpaid',
