@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:visitor-clean-database')->daily();
 
         // به روز رسانی ایندکس محصولات و کاربران الاستیک سرچ
-        $schedule->command('app:update-elastic-search-index')->everyMinute();
+        $schedule->command('app:update-elastic-search-index')->everyTenMinutes();
     }
 
     /**

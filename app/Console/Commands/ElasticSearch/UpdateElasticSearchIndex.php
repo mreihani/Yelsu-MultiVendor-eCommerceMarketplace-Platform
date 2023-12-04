@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\ElasticSearch;
 
+use App\Models\User;
 use App\Models\Product;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -28,5 +29,6 @@ class UpdateElasticSearchIndex extends Command
     public function handle()
     {
        Product::all()->searchable();
+       User::all()->searchable();
     }
 }
