@@ -19,6 +19,8 @@ Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardA
 
 // dashboard shipping all routes
 Route::get('/shipping-details/{id}', [UserController::class, 'ShippingDetails'])->name('shipping-details');
+Route::get('/get-vendor-address', [UserController::class, 'GetVendorAddressAjax']);
+Route::get('/get-user-address', [UserController::class, 'GetUserAddressAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

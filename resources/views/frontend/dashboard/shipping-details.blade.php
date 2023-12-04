@@ -64,22 +64,93 @@
                         
                         <div class="row">       
                             <div class="col-12">
-                                <div class="ecommerce-address billing-address">
-                                    <h4 class="title title-underline ls-25 font-weight-bold">حمل و نقل</h4>
+                                <div class="shipping">
+
+                                    <div class="title-underline mb-5">
+                                        <h4 class="ls-25 font-weight-bold">
+                                            حمل و نقل
+                                        </h4>
+                                        <p>
+                                            لطفا مختصات مبدا و مقصد هر محصول را از فرم زیر انتخاب نمایید.
+                                        </p>
+                                    </div>
                                     
                                     @foreach ($products as $product)
                                         
-                                        <a href="{{route('product.details',$product->product_slug)}}">
+                                        <div class="mb-5">
                                             <a href="{{route('product.details', $product->product_slug)}}">
                                                 <img src="{{!empty($product->product_thumbnail_sm) ? asset($product->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="{{$product->product_name}}" width="50" />
-                                            </a>
-                                        </a>
 
-                                        <p class="mb-5">
-                                            {{$product->product_name}}
-                                        </p>
-@dd($product->determine_product_owner)
-                                        <div id="map_{{$product->id}}" class="shipping-page-map-container" vendor_coords={{$product->determine_product_owner->vendor_outlets}}></div>
+                                                <span class="ml-1">
+                                                    {{$product->product_name}}
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div class="row pt-5 shipping-element">
+                                            <div class="col-md-5">
+
+                                                <div class="order-origin-address">
+                                                    <h4>
+                                                        تعیین مبدا
+                                                    </h4>
+
+                                                    <div class="form-group">
+                                                        <label>نام مبدا</label>
+                                                        <div>
+                                                            <select class="form-control form-control-md vendor-address-information">
+                                                                @foreach($product->determine_product_owner->vendor_outlets as $vendor_outlet)
+                                                                    <option value="{{$vendor_outlet->id}}">{{$vendor_outlet->shop_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2">
+                                                        <p>
+                                                            آدرس:
+                                                            <span class="vendor-address">
+                                                                {{$product->determine_product_owner->vendor_outlets->first()->shop_address}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="divider mb-5 mt-5">
+
+                                                <div class="order-destination-address">
+                                                    <h4>
+                                                        تعیین مقصد
+                                                    </h4>
+
+                                                    <div class="form-group">
+                                                        <label>نام مقصد</label>
+                                                        <div>
+                                                            <select class="form-control form-control-md user-address-information">
+                                                                @foreach($userData->outlets()->get() as $user_outlet)
+                                                                    <option value="{{$user_outlet->id}}">{{$user_outlet->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2">
+                                                        <p>
+                                                            آدرس:
+                                                            <span class="user-address">
+                                                                {{$userData->outlets()->first()->address}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <hr class="divider mb-10 mt-10">
 

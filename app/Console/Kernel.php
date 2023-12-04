@@ -28,6 +28,9 @@ class Kernel extends ConsoleKernel
 
         // پاک کردن ویزیت هایی که سه ماه گذشته باشن
         $schedule->command('app:visitor-clean-database')->daily();
+
+        // به روز رسانی ایندکس محصولات و کاربران الاستیک سرچ
+        $schedule->command('app:update-elastic-search-index')->everyMinute();
     }
 
     /**

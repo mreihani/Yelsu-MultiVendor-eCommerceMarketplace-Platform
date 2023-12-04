@@ -2,6 +2,7 @@
 
 
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,14 +48,12 @@ require __DIR__ . '/auth.php';
     //         $product->owner_id = 1;
     //         $product->save();
     //     }
-        
-        
     // }
     
 
 
     
-        
+    
 
 
        

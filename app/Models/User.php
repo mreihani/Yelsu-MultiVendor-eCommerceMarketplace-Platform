@@ -74,9 +74,49 @@ class User extends Authenticatable
         return $this->hasMany(Useroutlets::class);
     }
 
+    public function user_outlets_array()
+    {
+        $outletsArr = [];
+        $outlets = $this->outlets()->get();
+
+        foreach ($outlets as $outlet) {
+            
+            $id = $outlet->id;
+            $name = $outlet->name;
+            $shop_coords = [$outlet->latitude, $outlet->longitude];
+            $address = $outlet->address;
+
+            $outletsArr[] = array($id, $name, $shop_coords, $address);
+        }
+
+        return $outletsArr;
+    }
+
     public function vendor_outlets()
     {
         return $this->hasMany(Outlet::class);
+    }
+
+    public function vendor_outelts_array() {
+        
+        $outletsArr = [];
+        $outlets = $this->vendor_outlets()->get();
+
+        foreach ($outlets as $outlet) {
+            if ($outlet->user->status == 'active') {
+                $id = $outlet->id;
+                $shop_name = $outlet->shop_name;
+                $shop_address = $outlet->shop_address;
+                $shop_coords = [$outlet->latitude, $outlet->longitude];
+                $shop_link = route('vendor.details', $outlet->user_id);
+                $shop_logo = $outlet->user->photo ? url('storage/upload/vendor_images/' . $outlet->user->photo) : url('frontend/assets/images/icons/store_alternative_icon.png');
+                $marker_class = 'leaflet-vendor-marker';
+
+                $outletsArr[] = array($id, $shop_name, $shop_address, $shop_coords, $shop_link, $shop_logo, $marker_class);
+            }
+        }
+
+        return $outletsArr;
     }
 
     public function freightage()
