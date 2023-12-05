@@ -13,7 +13,7 @@ class GeomarketingController extends Controller
         $lat = Purify::clean($request->lat);
         $lng = Purify::clean($request->lng);
 
-        $NESHAN_SERVICES_API_KEY = env('NESHAN_SERVICES_API_KEY');
+        $NESHAN_SERVICES_API_KEY = config("services.neshan.api-key.services");
 
         $neshan_response = Http::withHeaders(["Api-Key" => $NESHAN_SERVICES_API_KEY])->get("https://api.neshan.org/v5/reverse?lat=$lat&lng=$lng");
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Stevebauman\Purify\Facades\Purify;
 use App\Notifications\ActiveCodeNotification;
+use App\Services\NeshanServices\NeshanApiService;
 
 class UserController extends Controller
 {
@@ -325,7 +326,6 @@ class UserController extends Controller
 
     public function postPhoneVerify(Request $request)
     {
-
         $user = Auth::user();
 
         $code_1 = Purify::clean($request->code_1);
@@ -375,59 +375,5 @@ class UserController extends Controller
 
     }
 
-    public function ShippingDetails($id) {
-
-        $userData = auth()->user();
-        $user_id = $userData->id;
-
-        $order = Order::findOrFail(Purify::clean($id));
-
-        $products = $order->products()->get();
-
-        if ($order->user_id != $user_id) {
-            return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
-        }
-
-        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'products'));
-    }
-
-    public function GetVendorAddressAjax(Request $request) {
-
-        $outlet_id = Purify::clean($request->outlet_id);
-        $user_outlet_id = Purify::clean($request->user_outlet_id);
-
-        $vendor_outlet = Outlet::findOrFail($outlet_id);
-        // $user_outlet = Useroutlets::findOrFail($user_outlet_id);
-
-        // $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
-        // $destination = array('lt' => $user_outlet->latitude, 'ln' => $user_outlet->longitude);
-
-        // $neshan_response = $this->GetCoordsDistance($origin, $destination);
-
-        return response($vendor_outlet);
-    }
-
-    public function GetUserAddressAjax(Request $request) {
-
-        $outlet_id = Purify::clean($request->outlet_id);
-        $vendor_outlet_id = Purify::clean($request->vendor_outlet_id);
-
-        $user_outlet = Useroutlets::findOrFail($outlet_id);
-
-        return response($user_outlet);
-    }
-
-    public function GetCoordsDistance($origin, $destination) {
-        $NESHAN_SERVICES_API_KEY = env('NESHAN_SERVICES_API_KEY');
-
-        $origin_lt = $origin['lt'];
-        $origin_ln = $origin['ln'];
-
-        $destination_lt = $destination['lt'];
-        $destination_ln = $destination['ln'];
-
-        $neshan_response = Http::withHeaders(["Api-Key" => $NESHAN_SERVICES_API_KEY])->get("https://api.neshan.org/v1/distance-matrix/no-traffic?type=car&origins=$origin_lt,$origin_ln&destinations=$destination_lt,$destination_ln");
-
-        return $neshan_response;
-    }
+    
 }

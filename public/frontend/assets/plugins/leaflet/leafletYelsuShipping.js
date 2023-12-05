@@ -12,12 +12,21 @@ $.each(mapContainerIdArr, (key, val) => {
     let mapObj = val.id;
     let vendorCoords = JSON.parse(val.vendor_coords);
     let userCoords = JSON.parse(val.user_coords);
-    
-    mapObj = L.map(mapObj).setView(userCoords[0][2], 4);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(mapObj);
+    // only for neshan tiles
+    mapObj = new L.Map(mapObj, {
+        key: "web.72d88acbee68404289191f19fc1d2643",
+        maptype: "dreamy-gold",
+        poi: false,
+        traffic: false,
+        center: userCoords[0][2],
+        zoom: 4,
+    })
+
+    // mapObj = L.map(mapObj).setView(userCoords[0][2], 4);
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(mapObj);
 
     for(let key in vendorCoords) {
         let outletItem = vendorCoords[key];
@@ -52,50 +61,6 @@ $.each(mapContainerIdArr, (key, val) => {
     }
 
 });
-
-
-// send ajax to retrieve vendor address
-$(".vendor-address-information").change(function () {
-    let outlet_id = $(this).val();
-    let vendorAddressSpan = $(this).closest(".order-origin-address").find(".vendor-address");
-    
-    let user_outlet_id = $(this).closest(".shipping-element").find(".user-address-information :selected").val();
-    
-    $.ajax({
-        type: "GET",
-        data:{
-            outlet_id:outlet_id,
-            user_outlet_id:user_outlet_id
-        },
-        url: "/get-vendor-address",
-        success: function (response) {
-            vendorAddressSpan.html(response.shop_address);
-        },
-    });
-});
-
-// send ajax to retrieve user address
-$(".user-address-information").change(function () {
-    let outlet_id = $(this).val();
-    let userAddressSpan = $(this).closest(".order-destination-address").find(".user-address");
-
-    let vendor_outlet_id = $(this).closest(".shipping-element").find(".vendor-address-information :selected").val();
-    
-    $.ajax({
-        type: "GET",
-        data:{
-            outlet_id:outlet_id,
-            vendor_outlet_id:vendor_outlet_id
-        },
-        url: "/get-user-address",
-        success: function (response) {
-            userAddressSpan.html(response.address);
-        },
-    });
-});
-
-
-
 
 
 

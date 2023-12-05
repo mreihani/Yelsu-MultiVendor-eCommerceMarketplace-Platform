@@ -23349,10 +23349,28 @@ td {
 
 /* leaflet shipping page custom styles */
 .shipping-page-map-container {
-    width: 750px;
+    width: 700px;
     height: 550px;
     border: 2px solid #14b6cb;
 }
+.shipping-page-map-container-img {
+    width: 700px;
+    height: 550px;
+    border: 2px solid #14b6cb;
+}
+.shipping-page-content .product-name {
+    font-size: 20px; 
+    font-weight:bolder;
+}
+.shipping-page-content .product-image {
+    border-radius:50%;
+    width: 100px;
+    height: 100px;
+}
+.shipping-page-content .product-item a:hover {
+    color: #336699 !important;
+}
+
 /* leaflet shipping page custom styles */
 
 /* leaflet shop page custom styles */

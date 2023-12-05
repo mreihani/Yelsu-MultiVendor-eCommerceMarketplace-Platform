@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\UserShippingController;
 
 Route::get('/dashboard', [UserController::class, 'UserDashboard'])->name('dashboard');
 Route::get('/orderview/{id}', [UserController::class, 'OrderView'])->name('orderview');
@@ -18,9 +19,9 @@ Route::post('/dashboard/address/update', [UserController::class, 'DashboardAddre
 Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardAddressDelete'])->name('dashboard.address.delete');
 
 // dashboard shipping all routes
-Route::get('/shipping-details/{id}', [UserController::class, 'ShippingDetails'])->name('shipping-details');
-Route::get('/get-vendor-address', [UserController::class, 'GetVendorAddressAjax']);
-Route::get('/get-user-address', [UserController::class, 'GetUserAddressAjax']);
+Route::get('/shipping-details/{id}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
+Route::get('/get-vendor-address', [UserShippingController::class, 'GetVendorAddressAjax']);
+Route::get('/get-user-address', [UserShippingController::class, 'GetUserAddressAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

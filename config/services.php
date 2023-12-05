@@ -54,6 +54,13 @@ return [
                 'product_price_today' => ["قیمت (تومان)"],
             ]
         ]
-    ]
+    ],
+
+    'neshan' => [
+        'api-key' => [
+            'map' => 'web.72d88acbee68404289191f19fc1d2643',
+            'services' => 'service.82c412cfb52546828bb9cbb6c361b249'
+        ]
+    ]    
 
 ];

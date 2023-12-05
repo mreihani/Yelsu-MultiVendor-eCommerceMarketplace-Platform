@@ -1,6 +1,9 @@
 @extends('frontend.main_theme')
 @section('main')
 
+<link rel="stylesheet" href="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.css"/>
+<script src="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.js"></script>
+
         <!-- Start of Main -->
         <main class="main">
             <!-- Start of Page Header -->
@@ -25,7 +28,7 @@
 
 
             <!-- Start of PageContent -->
-            <div class="page-content pt-2">
+            <div class="page-content pt-2 shipping-page-content">
                 <div class="container">
 
                     @if(session()->has('success'))
@@ -61,7 +64,8 @@
                                 می باشد.
                             </p>
                         </div>
-                        
+
+
                         <div class="row">       
                             <div class="col-12">
                                 <div class="shipping">
@@ -77,11 +81,11 @@
                                     
                                     @foreach ($products as $product)
                                         
-                                        <div class="mb-5">
+                                        <div class="mb-5 product-item">
                                             <a href="{{route('product.details', $product->product_slug)}}">
-                                                <img src="{{!empty($product->product_thumbnail_sm) ? asset($product->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="{{$product->product_name}}" width="50" />
+                                                <img class="product-image" src="{{!empty($product->product_thumbnail_sm) ? asset($product->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="{{$product->product_name}}" />
 
-                                                <span class="ml-1">
+                                                <span class="ml-1 product-name">
                                                     {{$product->product_name}}
                                                 </span>
                                             </a>
@@ -114,6 +118,7 @@
                                                             </span>
                                                         </p>
                                                     </div>
+                                                    
                                                 </div>
 
                                                 <hr class="divider mb-5 mt-5">
@@ -145,10 +150,19 @@
                                                     
                                                 </div>
 
+                                                <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2">
+                                                    <p>
+                                                        فاصله بین مبدا و مقصد:
+                                                        <span class="calculated-distance"></span>
+                                                    </p>
+                                                </div>
+
                                             </div>
-                                            <div class="col-md-7">
+                                            <div class="col-md-7 shipping-page-map-div">
+
                                                 <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -205,5 +219,7 @@
         <!-- End of Main -->
 
         <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuShipping.js')}}"></script>
+        <script src="{{asset('frontend/assets/js/shippingPageUserInformationAjax.js')}}"></script>
+        <script src="{{asset('frontend/assets/js/shippingPageVendorInformationAjax.js')}}"></script>
 
 @endsection
