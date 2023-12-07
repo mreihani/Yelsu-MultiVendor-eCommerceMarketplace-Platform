@@ -48,5 +48,29 @@ class FreightageTypeService {
         return $freightage_children;
     }
 
+    public static function findById($id) {
+        $freightage_type_array = self::getFreightageTypeArray();
+
+        foreach ($freightage_type_array as $freightage_type_item) {
+            if($freightage_type_item->id === (int) $id) {
+              return new FreightageTypeService($freightage_type_item->id, $freightage_type_item->parent, $freightage_type_item->value);
+            }
+        }
+    }
+
+    public static function getFreightageTypeValuesByIds($id_array) {
+        $freightage_type_value_array = [];
+        $freightage_type_array = self::getFreightageTypeArray();
+
+        if($id_array) {
+            $freightage_type_db_array = explode(",", $id_array);
+            $freightage_type_value_array = [];
+            foreach ($freightage_type_db_array as $freightage_type_db_item) {
+                $freightage_type_value_array[] = self::findById((int) $freightage_type_db_item)->value;
+            }
+        }
+
+        return $freightage_type_value_array;
+    }
 }
 

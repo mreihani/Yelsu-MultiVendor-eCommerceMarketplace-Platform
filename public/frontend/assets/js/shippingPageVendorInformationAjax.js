@@ -1,9 +1,10 @@
 // send ajax to retrieve vendor address
 $(".vendor-address-information").change(function () {
 
-    window.thisElement = $(this);
+    //window.thisElement = $(this);
+    let thisElement = $(this);
 
-    window.shipping_element = thisElement.closest(".shipping-element");
+    let shipping_element = thisElement.closest(".shipping-element");
     let outlet_id = thisElement.val();
     let user_outlet_id = shipping_element.find(".user-address-information :selected").val();
     
@@ -30,7 +31,7 @@ $(".vendor-address-information").change(function () {
             calculated_distance_element.html(distanceObject.text);
             
             // update address in shipping page
-            let vendorAddressSpan = $(this).closest(".order-origin-address").find(".vendor-address");
+            let vendorAddressSpan = thisElement.closest(".order-origin-address").find(".vendor-address");
             vendorAddressSpan.html(response.vendor_outlet.shop_address);
         },
     });

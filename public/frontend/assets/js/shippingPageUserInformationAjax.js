@@ -1,8 +1,8 @@
 // send ajax to retrieve user address
 $(".user-address-information").change(function () {
-    window.thisElement = $(this);
+    let thisElement = $(this);
 
-    window.shipping_element = thisElement.closest(".shipping-element");
+    let shipping_element = thisElement.closest(".shipping-element");
     let outlet_id = shipping_element.find(".vendor-address-information :selected").val();
     let user_outlet_id = thisElement.val();
     

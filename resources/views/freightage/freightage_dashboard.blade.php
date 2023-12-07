@@ -18,7 +18,7 @@
 		<!--end::Fonts-->
 		<!--begin::Vendor Stylesheets(used for this page only)-->
 		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" /> --}}
-		<link href="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+		{{-- <link href="{{asset('adminbackend/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" /> --}}
 		<!--end::Vendor Stylesheets-->
 		<!--begin::Global Stylesheets Bundle(mوatory for all pages)-->
 		<link href="{{asset('adminbackend/assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
@@ -33,6 +33,10 @@
 		
 		<script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>      
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
+
+		{{-- عامل اصلی خرابی سرچ نبودن این اسکریپت است --}}
+		<script src="{{asset('adminbackend/assets/js/scripts.bundle.js')}}"></script>
+		
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

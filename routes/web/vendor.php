@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\Vendor\OutletController;
 use App\Http\Controllers\Backend\Vendor\VendorController;
 use App\Http\Controllers\Backend\Vendor\VendorOrderController;
 use App\Http\Controllers\Backend\Vendor\VendorProductController;
+use App\Http\Controllers\Backend\Vendor\VendorFreightageController;
 use App\Http\Controllers\Backend\Vendor\VendorRepresentativeController;
 
 //Vendor Dashboard
@@ -65,6 +66,12 @@ Route::middleware(['vendoraccess'])->group(function () {
     Route::post('update-user/representative', [VendorRepresentativeController::class, 'VendorUpdateUserRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.update.user.representative');
     Route::post('update-products/representative', [VendorRepresentativeController::class, 'VendorUpdateProductsRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.update.products.representative');
     Route::get('delete/representative/{representative_id}', [VendorRepresentativeController::class, 'VendorDeleteRepresentative'])->middleware(['vendorrepresentativeaccess'])->name('vendor.delete.representative');
+
+    // Vendor Freightage management all route
+    Route::get('all/freightage/verified', [VendorFreightageController::class, 'VendorAllFreightageVerified'])->name('vendor.all.freightage.verified');
+    Route::get('all/freightage/not-verified', [VendorFreightageController::class, 'VendorAllFreightageNotVerified'])->name('vendor.all.freightage.not-verified');
+    Route::get('edit/freightage/{invitation}', [VendorFreightageController::class, 'VendorEditFreightage'])->name('vendor.edit.freightage');
+    Route::post('update/freightage', [VendorFreightageController::class, 'VendorUpdateFreightage'])->name('vendor.update.freightage');
 });
 
 //Vendor Login

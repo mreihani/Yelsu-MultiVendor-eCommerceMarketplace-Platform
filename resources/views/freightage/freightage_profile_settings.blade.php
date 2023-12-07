@@ -499,7 +499,7 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6 hoghoghi">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر مجوز فعالیت (از سازمان وزارت راه)</label>
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر مجوز فعالیت / جواز کسب (از سازمان وزارت راه)</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">

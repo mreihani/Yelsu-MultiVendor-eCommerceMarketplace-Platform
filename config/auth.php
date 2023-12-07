@@ -39,7 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-            'remember' => 4320,
+            'remember' => 43200,
         ],
     ],
 

@@ -376,10 +376,10 @@ class FreightageController extends Controller
         $data = User::find($id);
 
         // اگر کاربری تنظیماتی رو دوباره اعمال کرد نباید اتفاقی بیفته
-        if (Purify::clean($incomingFields['type']) != explode(',', $data->freightage->type) || Purify::clean($incomingFields['category_id']) != explode(',', $data->freightage->category_id) || Purify::clean($request->vendor_id) != explode(',', $data->freightage->vendor_id) || Purify::clean($request->loader_type) != explode(',', $data->freightage->freightage_loader_type) || Purify::clean($request->loader_type_rail) != explode(',', $data->freightage->freightage_loader_type_rail) || Purify::clean($request->loader_type_sea) != explode(',', $data->freightage->freightage_loader_type_sea) || Purify::clean($request->loader_type_air) != explode(',', $data->freightage->freightage_loader_type_air)) {
+        if (Purify::clean($incomingFields['type']) != explode(',', $data->freightage->type) || Purify::clean($incomingFields['category_id']) != explode(',', $data->freightage->category_id) || Purify::clean($request->loader_type) != explode(',', $data->freightage->freightage_loader_type) || Purify::clean($request->loader_type_rail) != explode(',', $data->freightage->freightage_loader_type_rail) || Purify::clean($request->loader_type_sea) != explode(',', $data->freightage->freightage_loader_type_sea) || Purify::clean($request->loader_type_air) != explode(',', $data->freightage->freightage_loader_type_air)) {
             $data->freightage->type_temp = implode(',', Purify::clean($incomingFields['type']));
             $data->freightage->category_id_temp = implode(',', Purify::clean($incomingFields['category_id']));
-            $data->freightage->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
+            // $data->freightage->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
             $data->freightage->freightage_loader_type_temp = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
 
             $data->freightage->freightage_loader_type_rail_temp = $request->loader_type_rail ? implode(',', Purify::clean($request->loader_type_rail)) : NULL;

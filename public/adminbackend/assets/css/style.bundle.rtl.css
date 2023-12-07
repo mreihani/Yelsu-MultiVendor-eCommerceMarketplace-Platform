@@ -54202,3 +54202,10 @@ html { scroll-behavior: smooth; }
     border-color: #48486c;
 }
 /* datatables custom css */
+
+/* disabled input greyed out */
+.yelsu-disabled-input {
+    pointer-events: none;
+    background-color:#eff2f5;
+}
+/* disabled input greyed out */

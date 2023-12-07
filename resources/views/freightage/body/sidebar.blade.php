@@ -190,96 +190,76 @@
                 </div>
                 <!--end:Menu item-->
 
-                
                 <!--begin:Menu item-->
-                {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت تولید کننده / تأمین کنندگان</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'freightage.all.vendor-request' ? 'show' : ''}} {{Route::currentRouteName() == 'freightage.add.vendor-request' ? 'show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/finance/fin002.svg-->
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
                             <span class="svg-icon svg-icon-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 7H2V11H22V7Z" fill="currentColor" />
-                                    <path opacity="0.3" d="M21 19H3C2.4 19 2 18.6 2 18V6C2 5.4 2.4 5 3 5H21C21.6 5 22 5.4 22 6V18C22 18.6 21.6 19 21 19ZM14 14C14 13.4 13.6 13 13 13H5C4.4 13 4 13.4 4 14C4 14.6 4.4 15 5 15H13C13.6 15 14 14.6 14 14ZM16 15.5C16 16.3 16.7 17 17.5 17H18.5C19.3 17 20 16.3 20 15.5C20 14.7 19.3 14 18.5 14H17.5C16.7 14 16 14.7 16 15.5Z" fill="currentColor" />
-                                </svg>
+                                <svg fill="#d1d1d1" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#d1d1d1"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M478.604,82.17V50.089c0-27.618-22.469-50.086-50.086-50.086H294.953c-21.768,0-40.335,13.956-47.226,33.391H161.39 c-27.618,0-50.086,22.469-50.086,50.086c0,27.618,22.469,50.086,50.086,50.086h133.564c21.768,0,40.335-13.956,47.226-33.391 h33.409l-28.118,178.085h-46.951v-83.477c0-13.724-15.718-21.604-26.713-13.356l-106.851,80.138v-66.782 c0-13.723-15.718-21.605-26.713-13.356L6.678,281.6C2.474,284.753,0,289.7,0,294.956v200.346c0,9.22,7.475,16.695,16.695,16.695 h478.603c9.22,0,16.695-7.475,16.695-16.695V294.956C511.994,292.75,513.234,301.503,478.604,82.17z M475.761,278.261h-94.487 l5.272-33.391h83.943L475.761,278.261z M465.216,211.479h-73.398l5.272-33.391h62.853L465.216,211.479z M454.672,144.697h-52.309 l7.03-44.521h38.249L454.672,144.697z M328.344,66.785c-9.22,0-16.695,7.475-16.695,16.695c0,9.206-7.49,16.695-16.695,16.695 H161.39c-9.206,0-16.695-7.49-16.695-16.695c0-9.206,7.49-16.695,16.695-16.695h100.173c9.22,0,16.695-7.475,16.695-16.695 c0-9.206,7.49-16.695,16.695-16.695h133.564c9.206,0,16.695,7.49,16.695,16.695v16.695 C429.39,66.785,346.459,66.785,328.344,66.785z M478.604,478.607H33.391V303.305l100.173-75.13v66.782 c0,13.724,15.717,21.603,26.713,13.356l106.851-80.138v66.782c0,9.22,7.475,16.695,16.695,16.695h194.781V478.607z"></path> </g> </g> <g> <g> <path d="M422.952,345.044H356.17c-9.22,0-16.695,7.475-16.695,16.695v66.782c0,9.22,7.475,16.695,16.695,16.695h66.782 c9.22,0,16.695-7.475,16.695-16.695v-66.782C439.647,352.519,432.172,345.044,422.952,345.044z M406.256,411.825h-33.391v-33.391 h33.391V411.825z"></path> </g> </g> <g> <g> <path d="M289.388,345.044h-66.782c-9.22,0-16.695,7.474-16.695,16.695v66.782c0,9.22,7.475,16.695,16.695,16.695h66.782 c9.22,0,16.695-7.475,16.695-16.695v-66.782C306.084,352.519,298.609,345.044,289.388,345.044z M272.693,411.825h-33.391v-33.391 h33.391V411.825z"></path> </g> </g> <g> <g> <path d="M155.824,345.044H89.043c-9.22,0-16.695,7.475-16.695,16.695v66.782c0,9.22,7.475,16.695,16.695,16.695h66.782 c9.22,0,16.695-7.475,16.695-16.695v-66.782C172.52,352.518,165.045,345.044,155.824,345.044z M139.129,411.825h-33.391v-33.391 h33.391V411.825z"></path> </g> </g> </g></svg>
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">مدیریت فاکتور</span>
+                        <span class="menu-title">تولید کننده / تأمین کنندگان</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
+
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <!--begin:Menu link-->
-                            <span class="menu-link">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">نمایش فاکتور ها</span>
-                                <span class="menu-arrow"></span>
-                            </span>
-                            <!--end:Menu link-->
-                            <!--begin:Menu sub-->
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link" href="../../demo1/dist/apps/invoices/view/invoice-1.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">فاکتور1</span>
-                                    </a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link" href="../../demo1/dist/apps/invoices/view/invoice-2.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">فاکتور2</span>
-                                    </a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link" href="../../demo1/dist/apps/invoices/view/invoice-3.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">فاکتور 3</span>
-                                    </a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                            </div>
-                            <!--end:Menu sub-->
-                        </div>
-                        <!--end:Menu item-->
-                        <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="../../demo1/dist/apps/invoices/create.html">
+                            <a class="menu-link {{Route::currentRouteName() == 'freightage.add.vendor-request' ? 'active' : ''}}" href="{{route('freightage.add.vendor-request')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">ساختن فاکتور</span>
+                                <span class="menu-title">ارسال درخواست همکاری</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
                         <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
-                </div> --}}
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'freightage.all.vendor-request' ? 'active' : ''}}" href="{{route('freightage.all.vendor-request')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">نمایش درخواست ها</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
                 <!--end:Menu item-->
+
+
+
+
+
+
+
+
 
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
