@@ -58,12 +58,12 @@ class FreightageTypeRailService {
         }
     }
 
-    public static function getFreightageTypeValuesByIds($id_array) {
+    public static function getFreightageTypeValuesByIds($id_string_db) {
         $freightage_type_value_array = [];
         $freightage_type_array = self::getFreightageLoaderTypeRailArray();
 
-        if($id_array) {
-            $freightage_type_db_array = explode(",", $id_array);
+        if($id_string_db) {
+            $freightage_type_db_array = explode(",", $id_string_db);
             $freightage_type_value_array = [];
             foreach ($freightage_type_db_array as $freightage_type_db_item) {
                 $freightage_type_value_array[] = self::findById((int) $freightage_type_db_item)->value;
@@ -71,6 +71,18 @@ class FreightageTypeRailService {
         }
 
         return $freightage_type_value_array;
+    }
+
+    public static function getFreightageParentItems($id_array) {
+        $parent_item_array = [];
+
+        foreach ($id_array as $item) {
+            if(self::findById($item)->parent == 0) {
+                $parent_item_array[] = self::findById($item);
+            }
+        }
+
+        return $parent_item_array;
     }
 
 }

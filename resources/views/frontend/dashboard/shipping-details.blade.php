@@ -80,7 +80,7 @@
                                     </div>
                                     
                                     @foreach ($products as $product)
-                                        
+                                       
                                         <div class="mb-5 product-item">
                                             <a href="{{route('product.details', $product->product_slug)}}">
                                                 <img class="product-image" src="{{!empty($product->product_thumbnail_sm) ? asset($product->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="{{$product->product_name}}" />
@@ -92,7 +92,7 @@
                                         </div>
 
                                         <div class="row pt-5 shipping-element">
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
 
                                                 <div class="order-origin-address">
                                                     <h4>
@@ -157,8 +157,28 @@
                                                     </p>
                                                 </div>
 
+                                                <hr class="divider mb-5 mt-5">
+
+                                                <div class="order-shipping-service">
+                                                    <h4>
+                                                        تعیین شرکت باربری
+                                                    </h4>
+                                                    {{-- @dd(App\Models\User::find(2397)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent()) --}}
+                                                    <div class="form-group freightage-company-name">
+                                                        <label>نام شرکت باربری</label>
+                                                        <div>
+                                                            <select class="form-control form-control-md freightage-information-dropdown">
+                                                                    <option value="">شرکت باربری را انتخاب نمایید</option>
+                                                                @foreach($product->determine_product_owner->verified_freightages_with_vendor_id as $freightage)
+                                                                    <option value="{{$freightage->freightage->id}}">{{$freightage->freightage->shop_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
                                             </div>
-                                            <div class="col-md-7 shipping-page-map-div">
+                                            <div class="col-md-6 shipping-page-map-div">
 
                                                 <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
                                                 </div>
@@ -221,5 +241,6 @@
         <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuShipping.js')}}"></script>
         <script src="{{asset('frontend/assets/js/shippingPageUserInformationAjax.js')}}"></script>
         <script src="{{asset('frontend/assets/js/shippingPageVendorInformationAjax.js')}}"></script>
+        <script src="{{asset('frontend/assets/js/shippingPageFreightageInformationAjax.js')}}"></script>
 
 @endsection

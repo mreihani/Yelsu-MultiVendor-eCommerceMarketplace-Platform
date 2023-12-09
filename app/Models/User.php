@@ -10,12 +10,13 @@ use App\Models\Attribute;
 use App\Models\ActiveCode;
 use App\Models\Useroutlets;
 use App\Models\ShetabitVisit;
+use Laravel\Scout\Searchable;
 use App\Models\Representative;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Models\FreightageVendorInvitation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
@@ -95,6 +96,14 @@ class User extends Authenticatable
     public function vendor_outlets()
     {
         return $this->hasMany(Outlet::class);
+    }
+
+    public function verified_freightages_with_vendor_id() {
+        return $this->hasMany(FreightageVendorInvitation::class, 'vendor_user_id')->where("verified",1);
+    }
+
+    public function verified_freightages_with_freightage_id() {
+        return $this->hasMany(FreightageVendorInvitation::class, 'freightage_user_id')->where("verified",1);
     }
 
     public function vendor_outelts_array() {

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Outlet;
 use App\Models\Useroutlets;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\NeshanServices\NeshanApiService;
-use App\Http\Controllers\Controller;
 
 class UserShippingController extends Controller
 {
@@ -61,4 +62,12 @@ class UserShippingController extends Controller
 
         return response(["user_outlet" => $user_outlet, "neshan_response" => $neshan_response, "image_arc_src" => $image_arc_src]);
     }
+
+    public function GetFreightageInformationAjax(Request $request) {
+        $freightage_id = Purify::clean($request->freightage_id);
+        $freightage_obj = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent();
+
+        return response($freightage_obj);
+    }
+
 }

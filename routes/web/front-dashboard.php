@@ -22,6 +22,7 @@ Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardA
 Route::get('/shipping-details/{id}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
 Route::get('/get-vendor-address', [UserShippingController::class, 'GetVendorAddressAjax']);
 Route::get('/get-user-address', [UserShippingController::class, 'GetUserAddressAjax']);
+Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

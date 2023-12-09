@@ -1,7 +1,5 @@
 // send ajax to retrieve vendor address
 $(".vendor-address-information").change(function () {
-
-    //window.thisElement = $(this);
     let thisElement = $(this);
 
     let shipping_element = thisElement.closest(".shipping-element");
