@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\NeshanServices\NeshanApiService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
+use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 class UserShippingController extends Controller
 {
@@ -20,7 +24,14 @@ class UserShippingController extends Controller
 
         $order = Order::findOrFail(Purify::clean($id));
 
+        // products with lazy loading
         $products = $order->products()->get();
+
+        // products with eager loading
+        // $products = Order::where("id",Purify::clean($id))
+        // ->with(["products", "products.determine_product_owner", "products.determine_product_owner.vendor_outlets"])
+        // ->first()
+        // ->products;
 
         if ($order->user_id != $user_id) {
             return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
@@ -33,6 +44,10 @@ class UserShippingController extends Controller
 
         $outlet_id = Purify::clean($request->outlet_id);
         $user_outlet_id = Purify::clean($request->user_outlet_id);
+
+        if($outlet_id == 0 || $user_outlet_id == 0) {
+            return;
+        }
 
         $vendor_outlet = Outlet::findOrFail($outlet_id);
         $user_outlet = Useroutlets::findOrFail($user_outlet_id);
@@ -51,6 +66,10 @@ class UserShippingController extends Controller
         $outlet_id = Purify::clean($request->outlet_id);
         $user_outlet_id = Purify::clean($request->user_outlet_id);
 
+        if($outlet_id == 0 || $user_outlet_id == 0) {
+            return;
+        }
+
         $vendor_outlet = Outlet::findOrFail($outlet_id);
         $user_outlet = Useroutlets::findOrFail($user_outlet_id);
 
@@ -68,6 +87,27 @@ class UserShippingController extends Controller
         $freightage_obj = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent();
 
         return response($freightage_obj);
+    }
+
+    public function GetFreightageLoaderTypeAjax(Request $request) {
+        $type_id = Purify::clean($request->type_id);
+        $freightage_id = Purify::clean($request->freightage_id);
+        
+        if($type_id == 1) {
+            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeRoad();
+            $freightage_object_array = FreightageTypeRoadService::getFreightageSelectedItems($freightage_type_array);
+        } elseif($type_id == 7) {
+            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeRail();
+            $freightage_object_array = FreightageTypeRailService::getFreightageSelectedItems($freightage_type_array);
+        } elseif($type_id == 8) {
+            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeSea();
+            $freightage_object_array = FreightageTypeSeaService::getFreightageSelectedItems($freightage_type_array);
+        } elseif($type_id == 9) {
+            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeAir();
+            $freightage_object_array = FreightageTypeAirService::getFreightageSelectedItems($freightage_type_array);
+        }
+
+        return response($freightage_object_array);
     }
 
 }

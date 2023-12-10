@@ -115,7 +115,7 @@
             </div> 
         @elseif($root_catgory_obj && $root_catgory_obj->id == 8)
             <div class="shop-default-banner shop-boxed-banner banner d-flex align-items-center"
-                style="background-image: url({{asset('frontend/assets/images/yelsu_images/dynamic_category_banner/industrial.jpg')}});">
+                style="background-image: url({{asset('frontend/assets/images/yelsu_images/dynamic_category_banner/industrial-2.jpg')}});">
                 
                 <div class="container banner-content d-flex">
                     <a href="https://t.me/yelsu_com7">

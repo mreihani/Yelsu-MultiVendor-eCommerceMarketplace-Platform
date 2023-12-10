@@ -24,8 +24,8 @@ class NeshanApiService {
     public function GetNeshanArcMapImage($origin, $destination) {
         $NESHAN_SERVICES_API_KEY = config("services.neshan.api-key.services");
 
-        $image_width = 950;
-        $image_height = 650;
+        $image_width = 500;
+        $image_height = 500;
 
         $marker1Token = "401532.8upZaBbh";
         $marker2Token = "51535.QRbBXfZFT";

@@ -80,7 +80,7 @@
                                     </div>
                                     
                                     @foreach ($products as $product)
-                                       
+                                   
                                         <div class="mb-5 product-item">
                                             <a href="{{route('product.details', $product->product_slug)}}">
                                                 <img class="product-image" src="{{!empty($product->product_thumbnail_sm) ? asset($product->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="{{$product->product_name}}" />
@@ -88,13 +88,24 @@
                                                 <span class="ml-1 product-name">
                                                     {{$product->product_name}}
                                                 </span>
+                                                
                                             </a>
                                         </div>
 
-                                        <div class="row pt-5 shipping-element">
-                                            <div class="col-md-6">
+                                        <div class="row pt-5 pb-5 shipping-element d-flex justify-content-center">
 
-                                                <div class="order-origin-address">
+                                            <div class="col-md-11 bg-grey">
+                                                <h5 class="mt-3">
+                                                    تعداد
+                                                    <u>{{$product->product_name}}</u> خریداری شده:
+                                                    
+                                                    {{$product->pivot->quantity}}
+                                                </h5>
+                                            </div>
+
+                                            <div class="col-md-3 bg-grey mt-2">
+
+                                                <div class="order-origin-address pt-3">
                                                     <h4>
                                                         تعیین مبدا
                                                     </h4>
@@ -120,7 +131,7 @@
                                                     </div>
                                                     
                                                 </div>
-
+                                                
                                                 <hr class="divider mb-5 mt-5">
 
                                                 <div class="order-destination-address">
@@ -132,6 +143,7 @@
                                                         <label>نام مقصد</label>
                                                         <div>
                                                             <select class="form-control form-control-md user-address-information">
+                                                                    {{-- <option value="">مقصد را انتخاب نمایید</option> --}}
                                                                 @foreach($userData->outlets()->get() as $user_outlet)
                                                                     <option value="{{$user_outlet->id}}">{{$user_outlet->name}}</option>
                                                                 @endforeach
@@ -152,18 +164,19 @@
 
                                                 <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2">
                                                     <p>
-                                                        فاصله بین مبدا و مقصد:
+                                                        {{-- فاصله بین مبدا و مقصد: --}}
                                                         <span class="calculated-distance"></span>
                                                     </p>
                                                 </div>
 
-                                                <hr class="divider mb-5 mt-5">
+                                            </div>
 
+                                            <div class="col-md-3 bg-grey ml-1 mr-1 pt-3 mt-2 pb-3">
                                                 <div class="order-shipping-service">
                                                     <h4>
                                                         تعیین شرکت باربری
                                                     </h4>
-                                                    {{-- @dd(App\Models\User::find(2397)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent()) --}}
+                                                    
                                                     <div class="form-group freightage-company-name">
                                                         <label>نام شرکت باربری</label>
                                                         <div>
@@ -175,10 +188,11 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                   
+                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 shipping-page-map-div">
+
+                                            <div class="col-md-5 shipping-page-map-div bg-grey mt-2 pt-2 pb-2">
 
                                                 <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
                                                 </div>
@@ -242,5 +256,6 @@
         <script src="{{asset('frontend/assets/js/shippingPageUserInformationAjax.js')}}"></script>
         <script src="{{asset('frontend/assets/js/shippingPageVendorInformationAjax.js')}}"></script>
         <script src="{{asset('frontend/assets/js/shippingPageFreightageInformationAjax.js')}}"></script>
+        <script src="{{asset('frontend/assets/js/shippingPageFreightageLoaderTypeAjax.js')}}"></script>
 
 @endsection

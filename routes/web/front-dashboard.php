@@ -23,6 +23,7 @@ Route::get('/shipping-details/{id}', [UserShippingController::class, 'ShippingDe
 Route::get('/get-vendor-address', [UserShippingController::class, 'GetVendorAddressAjax']);
 Route::get('/get-user-address', [UserShippingController::class, 'GetUserAddressAjax']);
 Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
+Route::get('/get-freightage-loader-type', [UserShippingController::class, 'GetFreightageLoaderTypeAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

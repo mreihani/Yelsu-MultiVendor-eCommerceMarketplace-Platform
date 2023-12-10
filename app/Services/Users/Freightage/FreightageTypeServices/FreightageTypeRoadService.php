@@ -7,12 +7,14 @@ class FreightageTypeRoadService {
     public $id;
     public $parent;
     public $value;
+    public $description;
     public static $class_obj_arr;
 
-    public function __construct($id, $parent, $value) {
+    public function __construct($id, $parent, $value, $description) {
         $this->id = $id;
         $this->parent = $parent;
         $this->value = $value;
+        $this->description = $description;
     }
 
     public static function getFreightageLoaderTypeRoadArray() {
@@ -26,7 +28,7 @@ class FreightageTypeRoadService {
         $class_obj_arr = [];
 
         foreach ($freightage_array as $type_object) {
-            $class_obj_arr[] = new FreightageTypeRoadService($type_object['id'], $type_object['parent'], $type_object['value']);
+            $class_obj_arr[] = new FreightageTypeRoadService($type_object['id'], $type_object['parent'], $type_object['value'], $type_object['description']);
         }
 
         self::$class_obj_arr = $class_obj_arr;
@@ -53,7 +55,7 @@ class FreightageTypeRoadService {
 
         foreach ($freightage_loader_type_sea_array as $freightage_type_item) {
             if($freightage_type_item->id === (int) $id) {
-              return new FreightageTypeRoadService($freightage_type_item->id, $freightage_type_item->parent, $freightage_type_item->value);
+              return new FreightageTypeRoadService($freightage_type_item->id, $freightage_type_item->parent, $freightage_type_item->value, $freightage_type_item->description);
             }
         }
     }
@@ -73,16 +75,19 @@ class FreightageTypeRoadService {
         return $freightage_type_value_array;
     }
 
-    public static function getFreightageParentItems($id_array) {
-        $parent_item_array = [];
+    public static function getFreightageSelectedItems($id_array) {
+        $selected_items_array = [];
+        $last_item_array = [];
 
         foreach ($id_array as $item) {
-            if(self::findById($item)->parent == 0) {
-                $parent_item_array[] = self::findById($item);
+            $children = self::findById($item)->getChildren();
+
+            if(!count($children)) {
+                $last_item_array[] = self::findById($item);
             }
         }
 
-        return $parent_item_array;
+        return $last_item_array;
     }
 
 }

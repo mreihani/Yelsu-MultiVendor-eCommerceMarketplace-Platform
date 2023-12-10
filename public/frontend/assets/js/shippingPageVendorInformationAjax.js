@@ -26,7 +26,7 @@ $(".vendor-address-information").change(function () {
             // update calculated address in shipping page
             let distanceObject = getDistanceObject(response);
             let calculated_distance_element = shipping_element.find(".calculated-distance");
-            calculated_distance_element.html(distanceObject.text);
+            calculated_distance_element.html("فاصله بین مبدا و مقصد: " + distanceObject.text);
             
             // update address in shipping page
             let vendorAddressSpan = thisElement.closest(".order-origin-address").find(".vendor-address");

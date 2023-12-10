@@ -23349,13 +23349,13 @@ td {
 
 /* leaflet shipping page custom styles */
 .shipping-page-map-container {
-    width: 700px;
-    height: 550px;
+    /* width: 500px; */
+    height: 500px;
     border: 2px solid #14b6cb;
 }
 .shipping-page-map-container-img {
-    width: 700px;
-    height: 550px;
+    /* width: 500px; */
+    height: 500px;
     border: 2px solid #14b6cb;
 }
 .shipping-page-content .product-name {

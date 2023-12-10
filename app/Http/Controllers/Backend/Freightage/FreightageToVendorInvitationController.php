@@ -33,7 +33,7 @@ class FreightageToVendorInvitationController extends Controller
     public function FreightageStoreVendorRequest(Request $request) {
 
         $incomingFields = $request->validate([
-            'vendor_id' => ['required', Rule::unique('freightage_vendor_invitations', 'vendor_user_id')],
+            'vendor_id' => ['required', Rule::unique('freightage_vendor_invitations', 'vendor_user_id')->where('freightage_user_id', auth()->user()->id)],
         ], [
             'vendor_id.required' => 'لطفا تأمین کننده مورد نظر را انتخاب نمایید.',
             'vendor_id.unique' => 'درخواست دیگری برای تأمین کننده مورد نظر قبلا ارسال شده است.',
@@ -68,7 +68,7 @@ class FreightageToVendorInvitationController extends Controller
         $invitation_id = Purify::clean($request->id);
 
         $incomingFields = $request->validate([
-            'vendor_id' => ['required', Rule::unique('freightage_vendor_invitations', 'vendor_user_id')->ignore($invitation_id)],
+            'vendor_id' => ['required', Rule::unique('freightage_vendor_invitations', 'vendor_user_id')->where('freightage_user_id', auth()->user()->id)->ignore($invitation_id)],
         ], [
             'vendor_id.required' => 'لطفا تأمین کننده مورد نظر را انتخاب نمایید.',
             'vendor_id.unique' => 'درخواست دیگری برای تأمین کننده مورد نظر قبلا ارسال شده است.',
