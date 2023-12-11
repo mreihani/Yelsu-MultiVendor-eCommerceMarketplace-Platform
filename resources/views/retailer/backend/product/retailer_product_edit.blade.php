@@ -159,6 +159,7 @@
                             <!--end::کارت body-->
                         </div>
                         <!--end::Thumbnail settings-->
+                        
                         <!--begin::وضعیت-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
@@ -196,6 +197,33 @@
                             <!--end::کارت body-->
                         </div>
                         <!--end::وضعیت-->
+
+                        <!--begin::داخلی یا صادراتی-->
+                        <div class="card card-flush py-4">
+                            <!--begin::کارت header-->
+                            <div class="card-header">
+                                <!--begin::کارت title-->
+                                <div class="card-title">
+                                    <h2>داخلی یا صادراتی</h2>
+                                </div>
+                                <!--end::کارت title-->
+                            </div>
+                            <!--end::کارت header-->
+                            <!--begin::کارت body-->
+                            <div class="card-body pt-0">
+                                <!--begin::انتخاب2-->
+                                <select class="form-select mb-2" data-control="select2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_trading_method">
+                                    <option value="internal" {{$products->trading_method == 'internal' ? "selected" : ""}}>داخلی</option>
+                                    <option value="export" {{$products->trading_method == 'export' ? "selected" : ""}}>صادراتی</option>
+                                </select>
+                                <!--end::انتخاب2-->
+                                <!--begin::توضیحات-->
+                                <div class="text-muted fs-7">محصول برای فروش داخل کشور یا صادرات</div>
+                                <!--end::توضیحات-->
+                            </div>
+                            <!--end::کارت body-->
+                        </div>
+                        <!--end::داخلی یا صادراتی-->
 
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">

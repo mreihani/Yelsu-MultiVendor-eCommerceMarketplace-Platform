@@ -166,6 +166,7 @@ class ProductController extends Controller
             'meta_description' => Purify::clean($request['meta_description']) ?? NULL,
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             'specification' => ($request->specification),
+            'trading_method' => Purify::clean($request->trading_method),
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {
@@ -351,6 +352,7 @@ class ProductController extends Controller
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
+                'trading_method' => Purify::clean($request->trading_method),
             ]);
 
         } else {
@@ -375,6 +377,7 @@ class ProductController extends Controller
                 'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
+                'trading_method' => Purify::clean($request->trading_method),
             ]);
         }
 
@@ -571,6 +574,7 @@ class ProductController extends Controller
             'meta_keywords' => Purify::clean($request['meta_keywords']) ?? NULL,
             'specification' => ($request->specification),
             'owner_id' => 1,
+            'trading_method' => Purify::clean($request->trading_method),
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {

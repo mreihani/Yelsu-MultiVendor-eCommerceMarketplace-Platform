@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
     // $all_users = App\Models\User::all();
     // foreach ($all_users as $value) {
@@ -41,16 +41,22 @@ require __DIR__ . '/auth.php';
     // }
 
 
-    // $all_products = App\Models\Product::all();
-    // foreach ($all_products as $product) {
-    //     $user_id = $product->determine_product_related_user_object();
+    $all_products = App\Models\Product::all();
+    foreach ($all_products as $product) {
+        // $user_id = $product->determine_product_related_user_object();
 
-    //     if(App\Models\User::find($user_id)->role == "admin" || App\Models\User::find($user_id)->role == "specialist") {
-    //         $product->owner_id = 1;
-    //         $product->save();
-    //     }
-    // }
+        // if(App\Models\User::find($user_id)->role == "admin" || App\Models\User::find($user_id)->role == "specialist") {
+        //     $product->owner_id = 1;
+        //     $product->save();
+        // }
+            
+        if($product->determine_product_currency() != null && $product->determine_product_currency() != "تومان") {
+            
+            $product->trading_method = "export";
+            $product->save();
+        }
+    }
    
     
 
-// });
+});

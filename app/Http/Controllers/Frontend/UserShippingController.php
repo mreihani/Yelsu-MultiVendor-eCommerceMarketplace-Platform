@@ -49,7 +49,7 @@ class UserShippingController extends Controller
             return;
         }
 
-        $vendor_outlet = Outlet::findOrFail($outlet_id);
+        $vendor_outlet = Outlet::findOrFail($outlet_id, ["id","shop_address", "latitude", "longitude"]);
         $user_outlet = Useroutlets::findOrFail($user_outlet_id);
 
         $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
@@ -71,7 +71,7 @@ class UserShippingController extends Controller
         }
 
         $vendor_outlet = Outlet::findOrFail($outlet_id);
-        $user_outlet = Useroutlets::findOrFail($user_outlet_id);
+        $user_outlet = Useroutlets::findOrFail($user_outlet_id, ["id","address", "latitude", "longitude"]);
 
         $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
         $destination = array('lt' => $user_outlet->latitude, 'ln' => $user_outlet->longitude);

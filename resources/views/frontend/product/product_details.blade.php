@@ -74,7 +74,7 @@
                                 @endif
 
                                 <div class="d-flex align-items-center pt-2 pb-2">
-                                    @if ($product->determine_product_currency() == 'تومان')
+                                    @if ($product->trading_method == 'internal')
                                         <h1 class="product-title">{{$product->product_name}}</h1>
                                     @else
                                         <h1 class="product-title">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></h1>
@@ -231,7 +231,7 @@
                                 <div class="fix-bottom product-sticky-content sticky-content mt-4">
                                     <div class="product-form container">
             
-                                        @if ($product->determine_product_currency() == 'تومان')
+                                        @if ($product->trading_method == 'internal')
                                             <div class="product-qty-form">
                                                 <div class="input-group">
                                                     <input id="quantityInputvalue" class="quantity form-control" type="number" min="{{$product->determine_product_min()}}" max="{{$product->determine_product_max()}}">

@@ -232,7 +232,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -305,7 +305,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -406,7 +406,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">                                  
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
@@ -509,7 +509,7 @@
                                         </div> --}}
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->determine_product_currency() != 'تومان' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         {{-- <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>

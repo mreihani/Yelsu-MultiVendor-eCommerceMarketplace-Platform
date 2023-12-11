@@ -280,7 +280,7 @@
                                                 @endif
                                             </div>
                                             <h3 class="product-name">
-                                                @if ($product->determine_product_currency() == 'تومان')
+                                                @if ($product->trading_method == 'internal')
                                                     <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}}</a>
                                                 @else
                                                     <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></a>

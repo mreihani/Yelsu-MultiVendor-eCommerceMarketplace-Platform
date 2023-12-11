@@ -868,10 +868,11 @@ class IndexController extends Controller
         OpenGraph::setTitle('پلتفرم اقتصادی یلسو | شرکت ارمغان تجارت مغان');
         OpenGraph::setDescription('قیمت سیمان, قیمت بتن, قیمت فولاد, خرید اینترنتی محصولات معدنی, ماشین آلات کشاورزی');
 
-
         // exclude products which store has been disabled
         $products_arr = [];
+
         $products = Product::where('status', 'active')->latest()->get();
+        
         foreach ($products as $product) {
             if ($product->vendor_id != NULL) {
                 $vendor_id = (int) $product->vendor_id;
