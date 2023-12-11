@@ -40,8 +40,8 @@ Route::get('changeDatabase', function () {
     //     $value->save();
     // }
 
-
-    App\Models\Product::chunk(100, function($products) {
+    ini_set('max_execution_time', 180);
+    App\Models\Product::chunk(1000, function($products) {
         foreach ($products as $product) {
             if($product->determine_product_currency() != null && $product->determine_product_currency() != "تومان") {
             
