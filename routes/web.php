@@ -41,22 +41,15 @@ Route::get('changeDatabase', function () {
     // }
 
 
-    $all_products = App\Models\Product::all();
-    foreach ($all_products as $product) {
-        // $user_id = $product->determine_product_related_user_object();
-
-        // if(App\Models\User::find($user_id)->role == "admin" || App\Models\User::find($user_id)->role == "specialist") {
-        //     $product->owner_id = 1;
-        //     $product->save();
-        // }
+    App\Models\Product::chunk(100, function($products) {
+        foreach ($products as $product) {
+            if($product->determine_product_currency() != null && $product->determine_product_currency() != "تومان") {
             
-        if($product->determine_product_currency() != null && $product->determine_product_currency() != "تومان") {
-            
-            $product->trading_method = "export";
-            $product->save();
+                $product->trading_method = "export";
+                $product->save();
+            }
         }
-    }
-   
+    });
     
 
 });
