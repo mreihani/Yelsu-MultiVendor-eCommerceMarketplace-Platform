@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-
+use App\Models\Product;
 use App\Models\BlogPost;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Stevebauman\Purify\Facades\Purify;
-
-use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {

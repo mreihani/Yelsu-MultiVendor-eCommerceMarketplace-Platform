@@ -2,6 +2,8 @@
 
 namespace App\Services\Users\Freightage\FreightageTypeServices;
 
+use App\Models\Freightageloadertype;
+
 class FreightageTypeAirService {
 
     public $id;
@@ -19,7 +21,8 @@ class FreightageTypeAirService {
    
     public static function getFreightageLoaderTypeAirArray() {
 
-        $freightage_loader_type_air_array = config('yelsu_freightage_array.loader_type.air');
+        //$freightage_loader_type_air_array = config('yelsu_freightage_array.loader_type.air');
+        $freightage_loader_type_air_array = Freightageloadertype::where("freightagetype_title", "air")->get()->toArray();
 
         return self::getClassObjectArray($freightage_loader_type_air_array);
     }

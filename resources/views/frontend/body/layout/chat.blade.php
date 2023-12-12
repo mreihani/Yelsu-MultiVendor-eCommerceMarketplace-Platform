@@ -2,7 +2,7 @@
     $specialist_category_array = [];
     $specialist_category_array_unique = [];
 
-    $usersList = App\Models\User::all();
+    $usersList = App\Models\User::where('role','specialist')->get(["id","specialist_category_id"]);
     foreach ($usersList as $userItem) {
         if($userItem->specialist_category_id != NULL) {
             $specialist_category_array[] = $userItem->specialist_category;
@@ -12,11 +12,6 @@
     if($specialist_category_array) {
         $specialist_category_array_unique = array_unique($specialist_category_array);
     }
-
-    // dd($specialist_category_array);
-    // foreach ($specialist_category_array as $specialist_category_item) {
-    //     $specialist_category_item->specialist_category->parent
-    // }
 @endphp
 
 @if (!Auth::check() || Auth::user()->role != 'specialist')

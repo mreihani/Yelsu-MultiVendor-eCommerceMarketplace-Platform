@@ -2,6 +2,8 @@
 
 namespace App\Services\Users\Freightage\FreightageTypeServices;
 
+use App\Models\Freightageloadertype;
+
 class FreightageTypeSeaService {
 
     public $id;
@@ -19,7 +21,8 @@ class FreightageTypeSeaService {
    
     public static function getFreightageLoaderTypeSeaArray() {
 
-        $freightage_loader_type_sea_array = config('yelsu_freightage_array.loader_type.sea');
+        // $freightage_loader_type_sea_array = config('yelsu_freightage_array.loader_type.sea');
+        $freightage_loader_type_sea_array = Freightageloadertype::where("freightagetype_title", "sea")->get()->toArray();
 
         return self::getClassObjectArray($freightage_loader_type_sea_array);
     }

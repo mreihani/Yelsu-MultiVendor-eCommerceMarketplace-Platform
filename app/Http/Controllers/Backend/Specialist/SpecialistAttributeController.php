@@ -18,15 +18,18 @@ class SpecialistAttributeController extends Controller
     public function AllAttribute()
     {
         $specialistData = auth()->user();
-        $rawAttributes = Attribute::get();
+        $rawAttributes = Attribute::all();
+        // $specialist_category_id = $specialistData->specialist_category_id;
+        
+        // $attributes = [];
+        // foreach ($rawAttributes as $attribute) {
+        //     $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+        //     if($specialist_category_id == $root_category_id) {
+        //         $attributes[] = $attribute;
+        //     }
+        // }
 
-        $attributes = [];
-        foreach ($rawAttributes as $attribute) {
-            $root_category_id = Category::findRootCategory($attribute->category_id)->id;
-            if($specialistData->specialist_category_id == $root_category_id) {
-                $attributes[] = $attribute;
-            }
-        }
+        $attributes = $rawAttributes;
         
         return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
     }

@@ -2,6 +2,8 @@
 
 namespace App\Services\Users\Freightage\FreightageTypeServices;
 
+use App\Models\Freightagetype;
+
 class FreightageTypeService {
 
     public $id;
@@ -17,7 +19,8 @@ class FreightageTypeService {
    
     public static function getFreightageTypeArray() {
 
-        $freightage_type_array = config('yelsu_freightage_array.type');
+        //$freightage_type_array = config('yelsu_freightage_array.type');
+        $freightage_type_array = Freightagetype::all()->toArray();
 
         return self::getClassObjectArray($freightage_type_array);
     }
