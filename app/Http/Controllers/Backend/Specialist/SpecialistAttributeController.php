@@ -18,28 +18,17 @@ class SpecialistAttributeController extends Controller
     public function AllAttribute()
     {
         $specialistData = auth()->user();
-        //$rawAttributes = Attribute::all();
+      
         $specialist_category_id = $specialistData->specialist_category_id;
-        
-        // $attributes = [];
-        // foreach ($rawAttributes as $attribute) {
-        //     $root_category_id = Category::findRootCategory($attribute->category_id)->id;
-        //     if($specialist_category_id == $root_category_id) {
-        //         $attributes[] = $attribute;
-        //     }
-        // }
+        $specialist_all_related_children_id = Category::where("id",$specialist_category_id)->first()->allChildrenIds();
 
         $attributes = Attribute::where(
-            function($query) use($specialist_category_id) {
-                foreach ($query->get() as $attribute) {
-                    $root_category_id = Category::findRootCategory($attribute->category_id)->id;
-                    if($specialist_category_id == $root_category_id) {
-                        return $attribute;
-                    }
-                }
+            function($query) use($specialist_all_related_children_id) {
+                return $query->whereIn("category_id", $specialist_all_related_children_id);
+                
             }
         )->get();
-            
+
         return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
     }
 
@@ -129,10 +118,10 @@ class SpecialistAttributeController extends Controller
         $filter_category_array[] = array($parentCategories, $all_children);
 
         // عدم دسترسی به ویژگی غیر مرتبط با کارشناس غیر مرتبط
-        // $root_category_id = Category::findRootCategory($attribute->category_id)->id;
-        // if($specialistData->specialist_category_id != $root_category_id) {
-        //     return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
-        // }
+        $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+        if($specialistData->specialist_category_id != $root_category_id) {
+            return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
+        }
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();
@@ -283,10 +272,10 @@ class SpecialistAttributeController extends Controller
         $filter_category_array[] = array($parentCategories, $all_children);
 
         // عدم دسترسی به ویژگی غیر مرتبط با کارشناس غیر مرتبط
-        // $root_category_id = Category::findRootCategory($attribute->category_id)->id;
-        // if($specialistData->specialist_category_id != $root_category_id) {
-        //     return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
-        // }
+        $root_category_id = Category::findRootCategory($attribute->category_id)->id;
+        if($specialistData->specialist_category_id != $root_category_id) {
+            return redirect(route('specialist.all.attribute'))->with('error', 'ویژگی مورد نظر یافت نشد.');
+        }
 
         // دریافت لیستی از کلمات کلیدی
         $attribute_item_keyword_list = collect();

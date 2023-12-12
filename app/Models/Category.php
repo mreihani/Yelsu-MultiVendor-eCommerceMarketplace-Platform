@@ -42,6 +42,17 @@ class Category extends Model
     return $item;
   }
 
+  public function allChildrenIds()
+  {
+    $children_array = [];
+
+    foreach ($this->allChildren() as $item) {
+      $children_array[] = $item->id;
+    }
+
+    return $children_array;
+  }
+
   public function parentCategory($id)
   {
     return $this->find($id) ? $this->find($id)->category_name : "";

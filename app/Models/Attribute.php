@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use App\Models\AttributeItem;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
