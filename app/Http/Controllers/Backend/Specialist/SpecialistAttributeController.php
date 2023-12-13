@@ -24,7 +24,7 @@ class SpecialistAttributeController extends Controller
        
         //$attributes = Attribute::whereIn("category_id", $specialist_all_related_children_id)->get();
         $attributesRaw = Attribute::all();
-
+        dd($specialist_all_related_children_id);
         $attributes = [];
         foreach ($attributesRaw as $attribute) {
             if(in_array($attribute->id, $specialist_all_related_children_id)) {
