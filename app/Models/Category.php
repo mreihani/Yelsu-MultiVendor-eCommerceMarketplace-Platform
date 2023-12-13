@@ -27,19 +27,20 @@ class Category extends Model
 
   public function allChildren()
   {
-    $item = collect();
     $childArr = $this->child;
 
-    foreach ($childArr as $value) {
-      if (count($value->child)) {
-        $item->push($value->child);
+    $children_array = [];
+    foreach ($childArr as $childItem) {
+      if (count($childItem->child)) {
+        $children_array[] = $childItem->child;
       }
     }
 
-    $childArr->push($item);
-    $item = Arr::flatten($item);
+    array_push($children_array, $childArr);
 
-    return $item;
+    $children_array = Arr::flatten($children_array);
+
+    return $children_array;
   }
 
   public function allChildrenIds()
