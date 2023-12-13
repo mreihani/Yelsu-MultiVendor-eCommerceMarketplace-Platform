@@ -168,11 +168,6 @@ class SpecialistController extends Controller
             $categories = Category::where('id', $filter_id)->orderBy('parent', 'DESC')->get();
         }
 
-        
-        $specialist_category_id = $specialistData->specialist_category_id;
-        $specialist_all_related_children_id = Category::where("id",$specialist_category_id)->first()->allChildrenIds();
-        dd($specialist_all_related_children_id);
-
         return view('specialist.category.category_all', compact('categories', 'specialistData'));
     } // end of Category section
 
