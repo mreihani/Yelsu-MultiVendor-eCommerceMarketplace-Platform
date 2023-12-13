@@ -21,8 +21,8 @@ class FreightageTypeRoadService {
 
     public static function getFreightageLoaderTypeRoadArray() {
 
-        //$freightage_loader_type_road_array = config('yelsu_freightage_array.loader_type.road');
-        $freightage_loader_type_road_array = Freightageloadertype::where("freightagetype_title", "road")->get()->toArray();
+        $freightage_loader_type_road_array = config('yelsu_freightage_array.loader_type.road');
+        // $freightage_loader_type_road_array = Freightageloadertype::where("freightagetype_title", "road")->get()->toArray();
 
         return self::getClassObjectArray($freightage_loader_type_road_array);
     }

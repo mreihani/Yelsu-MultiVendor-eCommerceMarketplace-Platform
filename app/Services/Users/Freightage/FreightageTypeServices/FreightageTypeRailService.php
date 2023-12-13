@@ -21,8 +21,8 @@ class FreightageTypeRailService {
    
     public static function getFreightageLoaderTypeRailArray() {
 
-        //$freightage_loader_type_rail_array = config('yelsu_freightage_array.loader_type.rail');
-        $freightage_loader_type_rail_array = Freightageloadertype::where("freightagetype_title", "rail")->get()->toArray();
+        $freightage_loader_type_rail_array = config('yelsu_freightage_array.loader_type.rail');
+        // $freightage_loader_type_rail_array = Freightageloadertype::where("freightagetype_title", "rail")->get()->toArray();
 
         return self::getClassObjectArray($freightage_loader_type_rail_array);
     }
