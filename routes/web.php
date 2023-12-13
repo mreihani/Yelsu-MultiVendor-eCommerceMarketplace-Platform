@@ -37,8 +37,8 @@ Route::get('changeDatabase', function () {
 //     });
 
     dd(
-        App\Models\Category::where("id", 167)->first()->allChildren()
-        //App\Models\Category::where("id", 29)->first()->allChildrenIds()
+        //App\Models\Category::where("id", 167)->first()->allChildren()
+        App\Models\Category::where("id", 2)->first()->allChildrenIds()
     );
 
 });
