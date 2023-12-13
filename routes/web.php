@@ -37,10 +37,16 @@ Route::get('changeDatabase', function () {
 //     });
 
     $specialist_all_related_children_id = App\Models\Category::where("id",1)->first()->allChildrenIds();
+
+        $attributesRaw = App\Models\Attribute::all();
+        $attributes = [];
+        foreach ($attributesRaw as $attribute) {
+            if(in_array($attribute->id, $specialist_all_related_children_id)) {
+                $attributes[] = $attribute;
+            }
+        }
     dd(
-        //App\Models\Category::where("id", 167)->first()->allChildren()
-        //App\Models\Attribute::where("category_id", [$specialist_all_related_children_id])->get()
-        App\Models\Attribute::find($specialist_all_related_children_id)
+        $attributes
     );
 
 });
