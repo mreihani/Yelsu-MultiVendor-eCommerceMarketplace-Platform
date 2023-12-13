@@ -36,9 +36,11 @@ Route::get('changeDatabase', function () {
 //         }
 //     });
 
+    $specialist_all_related_children_id = App\Models\Category::where("id",1)->first()->allChildrenIds();
     dd(
         //App\Models\Category::where("id", 167)->first()->allChildren()
-        App\Models\Category::where("id", 2)->first()->allChildrenIds()
+        //App\Models\Attribute::where("category_id", [$specialist_all_related_children_id])->get()
+        App\Models\Attribute::find($specialist_all_related_children_id)
     );
 
 });
