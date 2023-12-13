@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -36,4 +36,9 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
-// });
+    dd(
+        App\Models\Category::where("id", 167)->first()->allChildren()
+        //App\Models\Category::where("id", 29)->first()->allChildrenIds()
+    );
+
+});
