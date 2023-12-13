@@ -20,18 +20,18 @@ class SpecialistAttributeController extends Controller
         $specialistData = auth()->user();
       
         $specialist_category_id = $specialistData->specialist_category_id;
-        $specialist_all_related_children_id = Category::where("id",$specialist_category_id)->first()->allChildrenIds();
+        $specialist_all_related_children_id = Category::where("id", $specialist_category_id)->first()->allChildrenIds();
        
         //$attributes = Attribute::whereIn("category_id", $specialist_all_related_children_id)->get();
         $attributesRaw = Attribute::all();
-        dd($specialist_all_related_children_id);
+        
         $attributes = [];
         foreach ($attributesRaw as $attribute) {
-            if(in_array($attribute->id, $specialist_all_related_children_id)) {
+            if(in_array($attribute->category_id, $specialist_all_related_children_id)) {
                 $attributes[] = $attribute;
             }
         }
-
+       
         return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
     }
 
