@@ -2,7 +2,7 @@
 
 
 
-use App\Models\Product;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +36,17 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
+  
+
+    //$specialist_all_related_children_id = App\Models\Category::allChildren(2);
+    // $specialist_all_related_children_id = App\Models\Category::allChildrenIds(2);
+
+    // dd(
+    //     $specialist_all_related_children_id
+    // );
+
+
+    
+   
+ 
 // });

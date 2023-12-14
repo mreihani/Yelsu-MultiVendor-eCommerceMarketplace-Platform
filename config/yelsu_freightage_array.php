@@ -46,7 +46,7 @@ return [
             'id' => 9,
             'parent' => 0,
             'value' => 'هوایی'
-        ]
+        ],
     ],
     'loader_type' => [
         'road' => [

@@ -25,33 +25,34 @@ class Category extends Model
     return $this->hasMany(Category::class, 'parent', 'id');
   }
 
-  public function allChildren()
+  public function scopeAllChildren($query, $category_id)
   {
-    $childArr = $this->child;
-
     $children_array = [];
-    foreach ($childArr as $childItem) {
-      if (count($childItem->child)) {
-        $children_array[] = $childItem->child;
-      }
+    $children = $this->find($category_id)->child;
+
+    foreach ($children as $category_item) {
+        $children_array[] = $this->allChildren($category_item->id);
+       
+        array_push($children_array, $children);
     }
-
-    array_push($children_array, $childArr);
-
+        
     $children_array = Arr::flatten($children_array);
 
     return $children_array;
   }
 
-  public function allChildrenIds()
+  public function scopeAllChildrenIds($query, $category_id)
   {
-    $children_array = [];
-
-    foreach ($this->allChildren() as $item) {
-      $children_array[] = $item->id;
+    $children_array_id = [];
+    $children = $this->allChildren($category_id);
+   
+    foreach ($children as $item) {
+      $children_array_id[] = $item->id;
     }
 
-    return $children_array;
+    $children_array_id = array_unique($children_array_id);
+
+    return $children_array_id;
   }
 
   public function parentCategory($id)

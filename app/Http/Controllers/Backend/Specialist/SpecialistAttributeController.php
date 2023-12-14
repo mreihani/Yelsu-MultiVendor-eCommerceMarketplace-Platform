@@ -20,9 +20,8 @@ class SpecialistAttributeController extends Controller
         $specialistData = auth()->user();
       
         $specialist_category_id = $specialistData->specialist_category_id;
-        $specialist_all_related_children_id = Category::where("id", $specialist_category_id)->first()->allChildrenIds();
-       
-        //$attributes = Attribute::whereIn("category_id", $specialist_all_related_children_id)->get();
+        $specialist_all_related_children_id = Category::allChildrenIds($specialist_category_id);
+        
         $attributesRaw = Attribute::all();
         
         $attributes = [];
@@ -31,7 +30,7 @@ class SpecialistAttributeController extends Controller
                 $attributes[] = $attribute;
             }
         }
-       
+        
         return view('specialist.attribute.attribute_all', compact('specialistData', 'attributes'));
     }
 

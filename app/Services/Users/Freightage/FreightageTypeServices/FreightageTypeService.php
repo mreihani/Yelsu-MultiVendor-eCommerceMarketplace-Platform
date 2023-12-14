@@ -87,5 +87,40 @@ class FreightageTypeService {
 
         return $parent_item_array;
     }
+
+
+    // public static function getAllChildren($id) {
+
+    //     $children_array = [];
+
+    //     $target_item = self::findById($id);
+    //     $target_children = $target_item->getChildren();
+       
+    //     foreach ($target_children as $child_item) {
+    //        $children_array[] = self::getAllChildren($child_item->id);
+
+    //         if(count($target_children)) {
+    //            array_push($children_array, $target_children);
+    //         }
+    //     }
+
+    //     $children_array = self::array_flatten($children_array);
+
+    //     return $children_array;
+    // }
+
+    // public static function array_flatten($array) {
+    //     $return = array();
+    //     foreach ($array as $key => $value) {
+    //         if (is_array($value)){
+    //             $return = array_merge($return, self::array_flatten($value));
+    //         } else {
+    //             $return[$key] = $value;
+    //         }
+    //     }
+    
+    //     return $return;
+    // }
+   
 }
 

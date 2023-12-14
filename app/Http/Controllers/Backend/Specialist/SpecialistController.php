@@ -162,7 +162,7 @@ class SpecialistController extends Controller
         $specialistData = User::find($id);
 
         $categories = Category::where('id', $specialistData->specialist_category_id)->latest()->get();
-
+        
         if (Purify::clean(request('filter_id'))) {
             $filter_id = Purify::clean(request('filter_id'));
             $categories = Category::where('id', $filter_id)->orderBy('parent', 'DESC')->get();
