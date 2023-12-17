@@ -34,7 +34,7 @@ class AdminFreightageLoaderTypeController extends Controller
 
     public function StoreFreightageLoaderType(Request $request) {
         $incomingFields = $request->validate([
-            'value' => ['required', Rule::unique('freightageloadertypes', 'value')],
+            'value' => 'required',
             'description' => 'required',
         ], [
             'value.required' => 'لطفا نام بارگیر را وارد نمایید.',
@@ -86,7 +86,7 @@ class AdminFreightageLoaderTypeController extends Controller
         $id = Purify::clean($request->id);
 
         $incomingFields = $request->validate([
-            'value' => ['required', Rule::unique('freightageloadertypes', 'value')->ignore($id)],
+            'value' => 'required',
             'description' => 'required',
         ], [
             'value.required' => 'لطفا نام بارگیر را وارد نمایید.',
