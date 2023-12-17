@@ -41,7 +41,6 @@ class CategoryController extends Controller
 
     public function StoreCategory(Request $request)
     {
-
         $incomingFields = $request->validate([
             'category_image' => 'required',
             'category_name' => ['required', Rule::unique('categories', 'category_name')],

@@ -20,8 +20,7 @@ Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardA
 
 // dashboard shipping all routes
 Route::get('/shipping-details/{id}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
-Route::get('/get-vendor-address', [UserShippingController::class, 'GetVendorAddressAjax']);
-Route::get('/get-user-address', [UserShippingController::class, 'GetUserAddressAjax']);
+Route::get('/get-users-address-shipping', [UserShippingController::class, 'GetAddressAjax']);
 Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
 Route::get('/get-freightage-loader-type', [UserShippingController::class, 'GetFreightageLoaderTypeAjax']);
 

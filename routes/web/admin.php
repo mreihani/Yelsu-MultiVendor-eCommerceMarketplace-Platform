@@ -8,6 +8,9 @@ use App\Http\Controllers\Backend\Admin\AdminBlogController;
 use App\Http\Controllers\Backend\Admin\AdminVisitController;
 use App\Http\Controllers\Backend\Admin\AdminCustomsController;
 use App\Http\Controllers\Backend\Admin\AdminAttributeController;
+use App\Http\Controllers\Backend\Admin\AdminFreightageTypeController;
+use App\Http\Controllers\Backend\Admin\AdminFreightageLoaderTypeController;
+use App\Http\Controllers\Backend\Admin\AdminFreightageVehicleController;
 
 
 //Admin Dashboard
@@ -191,3 +194,37 @@ Route::controller(AdminVisitController::class)->group(function () {
 
 //Admin Login
 //Route::get('login',[AdminController::class, 'AdminLogin'])->middleware(RedirectIfAuthenticated::class);
+
+
+// Freightage Type All Route
+Route::controller(AdminFreightageTypeController::class)->group(function () {
+    Route::get('/all/freightage-type', 'AllFreightageType')->name('admin.all.freightage-type');
+    Route::get('/add/freightage-type', 'AddFreightageType')->name('admin.add.freightage-type');
+    Route::post('/store/freightage-type', 'StoreFreightageType')->name('admin.store.freightage-type');
+    Route::get('/edit/freightage-type/{freightagetype}', 'EditFreightageType')->name('admin.edit.freightage-type');
+    Route::post('/update/freightage-type', 'UpdateFreightageType')->name('admin.update.freightage-type');
+    Route::get('/delete/freightage-type/{freightagetype}', 'DeleteFreightageType')->name('admin.delete.freightage-type');
+});
+
+// Freightage Loader Type All Route
+Route::controller(AdminFreightageLoaderTypeController::class)->group(function () {
+    Route::get('/all/freightage-loader-type', 'AllFreightageLoaderType')->name('admin.all.freightage-loader-type');
+    Route::get('/add/freightage-loader-type', 'AddFreightageLoaderType')->name('admin.add.freightage-loader-type');
+    Route::post('/store/freightage-loader-type', 'StoreFreightageLoaderType')->name('admin.store.freightage-loader-type');
+    Route::get('/edit/freightage-loader-type/{freightageLoadertype}', 'EditFreightageLoaderType')->name('admin.edit.freightage-loader-type');
+    Route::post('/update/freightage-loader-type', 'UpdateFreightageLoaderType')->name('admin.update.freightage-loader-type');
+    Route::get('/delete/freightage-loader-type/{freightageLoadertype}', 'DeleteFreightageLoaderType')->name('admin.delete.freightage-loader-type');
+    Route::get('/all/freightage-loader-type-all-ajax', 'GetFreightageLoaderAjaxAll');
+});
+
+// Freightage Vehicle All Route
+Route::controller(AdminFreightageVehicleController::class)->group(function () {
+    Route::get('/all/freightage-vehicle', 'AllFreightageVehicle')->name('admin.all.freightage-vehicle');
+    Route::get('/add/freightage-vehicle', 'AddFreightageVehicle')->name('admin.add.freightage-vehicle');
+    Route::post('/store/freightage-vehicle', 'StoreFreightageVehicle')->name('admin.store.freightage-vehicle');
+    Route::get('/edit/freightage-vehicle/{freightagevehicle}', 'EditFreightageVehicle')->name('admin.edit.freightage-vehicle');
+    Route::post('/update/freightage-vehicle', 'UpdateFreightageVehicle')->name('admin.update.freightage-vehicle');
+    Route::get('/delete/freightage-vehicle/{freightagevehicle}', 'DeleteFreightageVehicle')->name('admin.delete.freightage-vehicle');
+    Route::get('/all/freightage-loader-type-ajax', 'GetFreightageLoaderAjax');
+});
+

@@ -1219,6 +1219,181 @@
                 </div>
                 <!--end:Menu item-->
 
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت حمل و نقل کالا</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'admin.all.freightage-type' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.add.freightage-type' ? 'show' : ''}}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <span class="svg-icon svg-icon-2">
+                               
+                                <svg fill="#b8b8b8" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 198.9" xml:space="preserve" stroke="#b8b8b8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M128.3,70.3c15.2,0,27.4-12.2,27.4-27.4s-12.1-27.4-27.4-27.4c-15.2,0-27.4,12.2-27.4,27.4 C100.9,58.1,113.2,70.3,128.3,70.3z M64.6,149.7H15.3c-16,0-16.9-24.4,0.3-24.4h42.7l24.5-36.1c7.2-9.9,15.5-14.6,27.1-14.6h36.5 c11.7,0,19.9,4.3,27.1,14.6l24.6,36.1h43c17.2,0,16.2,24.4,0.6,24.4h-49.3c-3.9,0-8.6-1.4-11.4-5.6l-18.8-26.8l-0.1,81.6H94.8 l-0.1-81.6l-18.8,26.8C73.2,148.3,68.5,149.7,64.6,149.7z"></path> <path d="M19.1,89.6v5.7c0,3.2-2.6,5.7-5.7,5.7s-5.7-2.5-5.7-5.7v-5.7H2V71.1l0,0c0-4.1,2.7-7.4,6.5-8.5l6.7-15.8c1-2.3,3.2-4,5.9-4 h25c2.7,0,4.9,1.6,5.9,4l6.6,15.8c3.7,1,6.5,4.4,6.5,8.5l0,0v18.5h-5.8v5.7c0,3.2-2.6,5.7-5.7,5.7c-3.2,0-5.7-2.5-5.7-5.7v-5.7H19.1 z M13.8,80.4c3.2,0,5.7-2.6,5.7-5.7S16.9,69,13.8,69S8,71.5,8,74.7C8,77.9,10.6,80.4,13.8,80.4 M58.6,74.7c0-3.2-2.6-5.7-5.7-5.7 s-5.7,2.6-5.7,5.7s2.6,5.7,5.7,5.7s5.7-3.6,5.7-6.7 M50.8,61.5l-5.1-12.2c-0.2-0.6-0.8-1-1.5-1H22.8c-0.7,0-1.3,0.4-1.5,1l-5.1,12.2 C16.3,61.5,50.8,61.5,50.8,61.5z"></path> <path d="M252.4,50.6c4.7-4.7-1.8-10.7-6.4-6.1l-16.8,16.9l-38.7-10.2l-6.5,6.5l31.9,16.8l-13,12.9l-10-1.2l-5.1,5.1l11.3,5.9l6,11.4 l5.1-5.1l-1.2-9.9l12.9-12.9l16.4,31.7l6.5-6.5l-9.7-38L252.4,50.6z"></path> <g id="shopping_cart"> </g> <g id="cross"> </g> <g id="leaf"> </g> </g></svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title"> مدیریت روش های ارسال کالا</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.add.freightage-type' ? 'active' : ''}}" href="{{route('admin.add.freightage-type')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن روش ارسال</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.all.freightage-type' ? 'active' : ''}}" href="{{route('admin.all.freightage-type')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت روش های ارسال</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'admin.all.freightage-loader-type' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.add.freightage-loader-type' ? 'show' : ''}}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg fill="#b8b8b8" width="20px" height="20px" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs> <style> .cls-1 { fill: none; } </style> </defs> <path d="M17,13V6H8V22H24V13ZM10,8h5v5H10Zm0,7h5v5H10Zm12,5H17V15h5Z" transform="translate(0 0)"></path> <path d="M28,11H19V2h9ZM21,9h5V4H21Z" transform="translate(0 0)"></path> <path d="M28,20H26v2h2v6H4V22H6V20H4a2.0024,2.0024,0,0,0-2,2v6a2.0024,2.0024,0,0,0,2,2H28a2.0024,2.0024,0,0,0,2-2V22A2.0024,2.0024,0,0,0,28,20Z" transform="translate(0 0)"></path> <circle cx="7" cy="25" r="1"></circle> <rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32"></rect> </g></svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت نوع بارگیر</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.add.freightage-loader-type' ? 'active' : ''}}" href="{{route('admin.add.freightage-loader-type')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن نوع بارگیر</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.all.freightage-loader-type' ? 'active' : ''}}" href="{{route('admin.all.freightage-loader-type')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت انواع بارگیر</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'admin.all.freightage-vehicle' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.add.freightage-vehicle' ? 'show' : ''}}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon glyph">
+                                    <path d="M21.89,11.55,20.17,8.1A2,2,0,0,0,18.38,7H17V6a2,2,0,0,0-2-2H4A2,2,0,0,0,2,6V16a2,2,0,0,0,2,2H5.18a3,3,0,0,0,5.64,0h2.36a3,3,0,0,0,5.64,0H20a2,2,0,0,0,2-2V12A1,1,0,0,0,21.89,11.55ZM8,18a1,1,0,1,1,1-1A1,1,0,0,1,8,18Zm8,0a1,1,0,1,1,1-1A1,1,0,0,1,16,18Zm4-2H18.83s0-.05,0-.08a3.78,3.78,0,0,0-.17-.35l-.11-.21a3.29,3.29,0,0,0-.33-.41.8.8,0,0,0-.13-.13,3.29,3.29,0,0,0-.41-.33l-.21-.11-.35-.17-.08,0V9h1.39L20,12.24Z" style="fill:#b8b8b8">
+                                    </path>
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت وسیله حمل کالا</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.add.freightage-vehicle' ? 'active' : ''}}" href="{{route('admin.add.freightage-vehicle')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن وسیله حمل کالا</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.all.freightage-vehicle' ? 'active' : ''}}" href="{{route('admin.all.freightage-vehicle')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت وسایل حمل کالا</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+
             </div>
             <!--end::Menu-->
         </div>

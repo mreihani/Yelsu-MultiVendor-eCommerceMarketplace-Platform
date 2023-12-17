@@ -283,8 +283,7 @@
     <!-- End of Main -->
 
     <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuShipping.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageUserInformationAjax.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageVendorInformationAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shippingPageInformationAjax.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shippingPageFreightageInformationAjax.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shippingPageFreightageLoaderTypeAjax.js')}}"></script>
 

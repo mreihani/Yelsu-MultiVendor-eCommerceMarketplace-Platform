@@ -40,7 +40,7 @@ class UserShippingController extends Controller
         return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'products'));
     }
 
-    public function GetVendorAddressAjax(Request $request, NeshanApiService $neshanApiService) {
+    public function GetAddressAjax(Request $request, NeshanApiService $neshanApiService) {
 
         $outlet_id = Purify::clean($request->outlet_id);
         $user_outlet_id = Purify::clean($request->user_outlet_id);
@@ -50,27 +50,6 @@ class UserShippingController extends Controller
         }
 
         $vendor_outlet = Outlet::findOrFail($outlet_id, ["id","shop_address", "latitude", "longitude"]);
-        $user_outlet = Useroutlets::findOrFail($user_outlet_id);
-
-        $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
-        $destination = array('lt' => $user_outlet->latitude, 'ln' => $user_outlet->longitude);
-
-        $neshan_response = $neshanApiService->GetCoordsDistance($origin, $destination);
-        $image_arc_src = $neshanApiService->GetNeshanArcMapImage($origin, $destination);
-
-        return response(["vendor_outlet" => $vendor_outlet, "neshan_response" => $neshan_response, "image_arc_src" => $image_arc_src]);
-    }
-
-    public function GetUserAddressAjax(Request $request, NeshanApiService $neshanApiService) {
-
-        $outlet_id = Purify::clean($request->outlet_id);
-        $user_outlet_id = Purify::clean($request->user_outlet_id);
-
-        if($outlet_id == 0 || $user_outlet_id == 0) {
-            return;
-        }
-
-        $vendor_outlet = Outlet::findOrFail($outlet_id);
         $user_outlet = Useroutlets::findOrFail($user_outlet_id, ["id","address", "latitude", "longitude"]);
 
         $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
@@ -79,7 +58,7 @@ class UserShippingController extends Controller
         $neshan_response = $neshanApiService->GetCoordsDistance($origin, $destination);
         $image_arc_src = $neshanApiService->GetNeshanArcMapImage($origin, $destination);
 
-        return response(["user_outlet" => $user_outlet, "neshan_response" => $neshan_response, "image_arc_src" => $image_arc_src]);
+        return response(["user_outlet" => $user_outlet, "vendor_outlet" => $vendor_outlet, "neshan_response" => $neshan_response, "image_arc_src" => $image_arc_src]);
     }
 
     public function GetFreightageInformationAjax(Request $request) {
