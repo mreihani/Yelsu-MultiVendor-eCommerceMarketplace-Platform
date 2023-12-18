@@ -191,7 +191,7 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر داخل شهری</label>
+                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر داخل شهری (تومان)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
                                     <input type="number" step="0.01" name="freight_per_ton_intracity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intracity')}}" />
@@ -204,7 +204,7 @@
                                 <!--begin::Input group-->
                                  <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر بین شهری</label>
+                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر بین شهری (تومان)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
                                     <input type="number" step="0.01" name="freight_per_ton_intercity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intercity')}}" />
