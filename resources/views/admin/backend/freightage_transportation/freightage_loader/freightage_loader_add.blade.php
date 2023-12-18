@@ -121,6 +121,7 @@
                                         <option value="rail">ریلی</option>
                                         <option value="sea">آبی / دریایی</option>
                                         <option value="air">هوایی</option>
+                                        <option value="post">پست</option>
                                     </select>
                                     <!--end::Input-->
 

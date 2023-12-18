@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('parent');
             $table->string('value')->nullable();
             $table->string('description')->nullable();
-            $table->enum('freightagetype_title', ['road', 'rail', 'sea', 'air'])->default('road');
+            $table->enum('freightagetype_title', ['road', 'rail', 'sea', 'air', 'post'])->default('road');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

@@ -126,6 +126,7 @@
                                         <option {{$freightagetype->freightagetype_title == "rail" ? "selected" : ""}} value="rail">ریلی</option>
                                         <option {{$freightagetype->freightagetype_title == "sea" ? "selected" : ""}} value="sea">آبی / دریایی</option>
                                         <option {{$freightagetype->freightagetype_title == "air" ? "selected" : ""}} value="air">هوایی</option>
+                                        <option {{$freightagetype->freightagetype_title == "post" ? "selected" : ""}} value="post">پست</option>
                                     </select>
                                     <!--end::Input-->
 
