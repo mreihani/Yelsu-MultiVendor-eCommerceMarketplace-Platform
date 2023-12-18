@@ -430,14 +430,20 @@ class RetailerController extends Controller
             return back()->with('error', 'لطفا دسته بندی اصلی مرتبط با محصول را انتخاب نمایید.')->withInput();
         }
 
+        // get current user id and create a folder with id
+        $current_user_id = auth()->user()->id;
+        if (! LaravelFile::exists('storage/upload/products/thumbnail/' . $current_user_id)) {
+            LaravelFile::makeDirectory('storage/upload/products/thumbnail/' . $current_user_id);
+        }
+
         $image = Purify::clean($incomingFields['product_thumbnail']);
         $unique_image_name = hexdec(uniqid()) . time();
         $name_gen = $unique_image_name . '.' . 'jpg';
         $name_gen_sm = $unique_image_name . '_sm.' . 'jpg';
-        Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen);
-        Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen_sm);
-        $save_url = 'storage/upload/products/thumbnail/' . $name_gen;
-        $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
+        Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen);
+        Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm);
+        $save_url = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen;
+        $save_url_sm = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm;
 
 
         $product_id = Product::insertGetId([
@@ -614,15 +620,21 @@ class RetailerController extends Controller
         }
         // specialist verification section
 
+        // get current user id and create a folder with id
+        $current_user_id = auth()->user()->id;
+        if (! LaravelFile::exists('storage/upload/products/thumbnail/' . $current_user_id)) {
+            LaravelFile::makeDirectory('storage/upload/products/thumbnail/' . $current_user_id);
+        }
+
         if ($image) {
 
             $unique_image_name = hexdec(uniqid()) . time();
             $name_gen = $unique_image_name . '.' . 'jpg';
             $name_gen_sm = $unique_image_name . '_sm.' . 'jpg';
-            Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen);
-            Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen_sm);
-            $save_url = 'storage/upload/products/thumbnail/' . $name_gen;
-            $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
+            Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen);
+            Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm);
+            $save_url = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen;
+            $save_url_sm = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm;
 
             $old_img = Purify::clean($request->old_image);
             if (file_exists($old_img)) {
@@ -852,26 +864,32 @@ class RetailerController extends Controller
             return back()->with('error', 'لطفا دسته بندی اصلی مرتبط با محصول را انتخاب نمایید.')->withInput();
         }
 
+        // get current user id and create a folder with id
+        $current_user_id = auth()->user()->id;
+        if (! LaravelFile::exists('storage/upload/products/thumbnail/' . $current_user_id)) {
+            LaravelFile::makeDirectory('storage/upload/products/thumbnail/' . $current_user_id);
+        }
+
         if (Purify::clean($request->product_thumbnail)) {
             $image = Purify::clean($request->product_thumbnail);
 
             $unique_image_name = hexdec(uniqid()) . time();
             $name_gen = $unique_image_name . '.' . 'jpg';
             $name_gen_sm = $unique_image_name . '_sm.' . 'jpg';
-            Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen);
-            Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $name_gen_sm);
-            $save_url = 'storage/upload/products/thumbnail/' . $name_gen;
-            $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
+            Image::make($image)->fit(880, 990)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen);
+            Image::make($image)->fit(222, 250)->encode('jpg')->save('storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm);
+            $save_url = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen;
+            $save_url_sm = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm;
         } else {
             $unique_image_name = hexdec(uniqid()) . time();
             $name_gen = $unique_image_name . '.' . 'jpg';
             $name_gen_sm = $unique_image_name . '_sm.' . 'jpg';
 
-            \File::copy(Purify::clean($request->old_image), 'storage/upload/products/thumbnail/' . $name_gen);
-            \File::copy(Purify::clean($request->old_image_sm), 'storage/upload/products/thumbnail/' . $name_gen_sm);
+            \File::copy(Purify::clean($request->old_image), 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen);
+            \File::copy(Purify::clean($request->old_image_sm), 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm);
 
-            $save_url = 'storage/upload/products/thumbnail/' . $name_gen;
-            $save_url_sm = 'storage/upload/products/thumbnail/' . $name_gen_sm;
+            $save_url = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen;
+            $save_url_sm = 'storage/upload/products/thumbnail/' . $current_user_id . "/" . $name_gen_sm;
         }
 
 
