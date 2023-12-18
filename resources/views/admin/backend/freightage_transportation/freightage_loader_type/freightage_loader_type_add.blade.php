@@ -97,145 +97,15 @@
                                     <!--end::توضیحات-->
                                 </div>
 
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">حداقل ظرفیت (تن)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="min_capacity" class="form-control mb-2" placeholder="" value="{{old('min_capacity')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">حداقل ظرفیت بارگیر را به تن وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">حداکثر ظرفیت (تن)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="max_capacity" class="form-control mb-2" placeholder="" value="{{old('max_capacity')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">حداکثر ظرفیت بارگیر را به تن وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">طول بارگیر (متر)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="length" class="form-control mb-2" placeholder="" value="{{old('length')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">طول بارگیر را به تن وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">عرض بارگیر (متر)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="width" class="form-control mb-2" placeholder="" value="{{old('width')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">عرض بارگیر را به تن وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">ارتفاع بارگیر (متر)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="height" class="form-control mb-2" placeholder="" value="{{old('height')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">ارتفاع بارگیر را به تن وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-                                
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">حداقل حجم (متر مکعب)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="min_volume" class="form-control mb-2" placeholder="" value="{{old('min_volume')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">حداقل ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">حداکثر حجم (متر مکعب)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="max_volume" class="form-control mb-2" placeholder="" value="{{old('max_volume')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">حداکثر ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر داخل شهری (تومان)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="freight_per_ton_intracity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intracity')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر داخل شهری بارگیر را وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                 <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر بین شهری (تومان)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="number" step="0.01" name="freight_per_ton_intercity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intercity')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر بین شهری بارگیر را وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
-                                <!--begin::Input group-->
-                                <div class="mb-10 fv-row">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">لینک مقاله</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <input type="text" name="blog_link" class="form-control mb-2" placeholder="آدرس مقاله" value="{{old('blog_link')}}" />
-                                    <!--end::Input-->
-                                    <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">در صورتی که مقاله ای در این مورد وجود دارد برای لینک کردن آدرس آن را وارد نمایید</div>
-                                    <!--end::توضیحات-->
-                                </div>
-
                                 <div class="mb-10 fv-row" id="freightagetype_selection">
                                     <!--begin::Tags-->
                                     <label class=" form-label">تعیین روش ارسال </label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
                                     <select class="js-example-basic-single form-control" name="freightagetype_id">
-                                        <option value="0">روش ارسال را انتخاب نمایید</option>
+                                        <option value="0" freightagetype_title="none">روش ارسال را انتخاب نمایید</option>
                                         @foreach ($freightage_types as $freightage_type)
-                                            <option value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
+                                            <option value="{{$freightage_type->id}}" freightagetype_title="{{$freightage_type->freightagetype_title}}">{{$freightage_type->value}}</option>
                                         @endforeach
                                     </select>
                                     <!--end::Input-->
@@ -256,6 +126,294 @@
                                     <!--end::Input-->
                                 </div>
                                 <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="mb-10 fv-row">
+                                    <!--begin::Tags-->
+                                    <label class="form-label">لینک مقاله</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Input-->
+                                    <input type="text" name="blog_link" class="form-control mb-2" placeholder="آدرس مقاله" value="{{old('blog_link')}}" />
+                                    <!--end::Input-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7">در صورتی که مقاله ای در این مورد وجود دارد برای لینک کردن آدرس آن را وارد نمایید</div>
+                                    <!--end::توضیحات-->
+                                </div>
+
+                                <!--begin::Input group-->
+                                <div class="mb-10 fv-row">
+                                    <!--begin::Tags-->
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <label style="margin-left:10px;" for="lastChild">آخرین فرزند</label>
+                                        <input class="form-check-input w-45px h-30px mr-3 ml-3" type="checkbox" id="lastChild" name="last_child">
+                                    </div>
+                                    <!--end::Tags-->
+                                    <!--begin::توضیحات-->
+                                    <div class="text-muted fs-7 mt-3">اگر بارگیر مورد نظر آخرین آیتم یک مجموعه است این گزینه را فعال نمایید.</div>
+                                    <!--end::توضیحات-->
+                                </div>
+
+                                <div class="last-child d-none">
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">حداقل ظرفیت (کیلوگرم)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="min_capacity" class="form-control mb-2" placeholder="" value="{{old('min_capacity')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">حداقل ظرفیت بارگیر را به کیلوگرم وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">حداکثر ظرفیت (کیلوگرم)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="max_capacity" class="form-control mb-2" placeholder="" value="{{old('max_capacity')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">حداکثر ظرفیت بارگیر را به کیلوگرم وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">طول بارگیر (متر)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="length" class="form-control mb-2" placeholder="" value="{{old('length')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">طول بارگیر را به تن وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">عرض بارگیر (متر)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="width" class="form-control mb-2" placeholder="" value="{{old('width')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">عرض بارگیر را به تن وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">ارتفاع بارگیر (متر)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="height" class="form-control mb-2" placeholder="" value="{{old('height')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">ارتفاع بارگیر را به تن وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+                                    
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">حداقل حجم (متر مکعب)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="min_volume" class="form-control mb-2" placeholder="" value="{{old('min_volume')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">حداقل ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">حداکثر حجم (متر مکعب)</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="0.01" name="max_volume" class="form-control mb-2" placeholder="" value="{{old('max_volume')}}" />
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7">حداکثر ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Tags-->
+                                        <label class="form-label">تعیین واحد پولی کرایه حمل</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Input-->
+                                        <select class="form-control" name="freight_per_ton_currency">
+                                            <option value="toman">تومان</option>
+                                            <option value="dollar">دلار</option>
+                                            <option value="euro">یورو</option>
+                                        </select>
+                                        <!--end::Input-->
+                                        <!--begin::توضیحات-->
+                                        <div class="text-muted fs-7 mt-2">واحد پولی کرایه حمل را تعیین نمایید.</div>
+                                        <!--end::توضیحات-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    
+                                    <div class="road-loader d-none">
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر تن بر کیلومتر داخل شهری</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_ton_intracity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intracity')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر داخل شهری بارگیر را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر تن بر کیلومتر بین شهری</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_ton_intercity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intercity')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر بین شهری بارگیر را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+
+                                    <div class="rail-loader d-none">
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر تن بر کیلومتر حمل ریلی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_ton_rail" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_rail')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر حمل ریلی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">هزینه ترخیص هر تن کالا از طریق حمل ریلی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="clearance_per_ton_rail" class="form-control mb-2" placeholder="" value="{{old('clearance_per_ton_rail')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">هزینه ترخیص هر تن کالا در حمل ریلی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+
+                                    <div class="sea-loader d-none">
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر تن بر مایل از طریق حمل دریایی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_ton_sea" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_sea')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر تن بر مایل از طریق حمل دریایی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">هزینه ترخیص هر تن کالا از طریق حمل دریایی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="clearance_per_ton_sea" class="form-control mb-2" placeholder="" value="{{old('clearance_per_ton_sea')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">هزینه ترخیص هر تن کالا در حمل دریایی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+
+                                    <div class="air-loader d-none">
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر کیلوگرم بر کیلومتر</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_kg_air" class="form-control mb-2" placeholder="" value="{{old('freight_per_kg_air')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر کیلوگرم بر کیلومتر حمل هوایی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">هزینه ترخیص هر کیلوگرم کالا از طریق حمل هوایی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="clearance_per_kg_air" class="form-control mb-2" placeholder="" value="{{old('clearance_per_kg_air')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">هزینه ترخیص هر کیلوگرم کالا در حمل هوایی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+
+                                    <div class="post-loader d-none">
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">کرایه حمل هر کیلوگرم بر کیلومتر حمل پستی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="freight_per_kg_post" class="form-control mb-2" placeholder="" value="{{old('freight_per_kg_post')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">کرایه حمل هر کیلوگرم بر کیلومتر حمل پستی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Tags-->
+                                            <label class="form-label">هزینه ترخیص هر کیلوگرم کالا از طریق حمل پستی</label>
+                                            <!--end::Tags-->
+                                            <!--begin::Input-->
+                                            <input type="number" step="0.01" name="clearance_per_kg_post" class="form-control mb-2" placeholder="" value="{{old('clearance_per_kg_post')}}" />
+                                            <!--end::Input-->
+                                            <!--begin::توضیحات-->
+                                            <div class="text-muted fs-7">هزینه ترخیص هر کیلوگرم کالا در حمل پستی را وارد نمایید</div>
+                                            <!--end::توضیحات-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+
+                                </div>
 
                             </div>
                             <!--end::کارت header-->
@@ -291,5 +449,7 @@
 <!--end:::Main-->
 
 <script src="{{asset('adminbackend/assets/js/loadFreightageLoaderTypeAllAjax.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadFreightageLoaderTypeLastChildBtn.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/loadFreightageLoaderTypes.js')}}"></script>
 
 @endsection

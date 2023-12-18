@@ -24,7 +24,7 @@ class Freightagetype extends Model
 
         $last_items_array = [];
         foreach ($freightageLoaderTypeItems as $freightageLoaderTypeItem) {
-            $child_item = $freightageLoaderTypeItem->child()->get();
+            $child_item = $freightageLoaderTypeItem->getChildren()->get();
 
             if(!count($child_item)) {
                 $last_items_array[] = $freightageLoaderTypeItem;
@@ -32,6 +32,10 @@ class Freightagetype extends Model
         }
 
         return $last_items_array;
+    }
+
+    public function getChildren() {
+        return $this->hasMany(Freightagetype::class, 'parent', 'id');
     }
 
 }

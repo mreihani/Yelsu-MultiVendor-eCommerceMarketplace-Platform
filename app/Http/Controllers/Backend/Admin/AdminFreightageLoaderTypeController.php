@@ -57,6 +57,16 @@ class AdminFreightageLoaderTypeController extends Controller
             'freight_per_ton_intercity' => Purify::clean($request->freight_per_ton_intercity) ?: NULL,
             'blog_link' => Purify::clean($request->blog_link) ?: NULL,
             'freightagetype_id' => Purify::clean($request->freightagetype_id) ?: NULL,
+            'last_child' => Purify::clean($request->last_child) == "on" ? 1 : 0,
+            'freight_per_ton_currency' => Purify::clean($request->freight_per_ton_currency),
+            'freight_per_ton_rail' => Purify::clean($request->freight_per_ton_rail) ?: NULL,
+            'freight_per_ton_sea' => Purify::clean($request->freight_per_ton_sea) ?: NULL,
+            'freight_per_kg_air' => Purify::clean($request->freight_per_kg_air) ?: NULL,
+            'freight_per_kg_post' => Purify::clean($request->freight_per_kg_post) ?: NULL,
+            'clearance_per_ton_rail' => Purify::clean($request->clearance_per_ton_rail) ?: NULL,
+            'clearance_per_ton_sea' => Purify::clean($request->clearance_per_ton_sea) ?: NULL,
+            'clearance_per_kg_air' => Purify::clean($request->clearance_per_kg_air) ?: NULL,
+            'clearance_per_kg_post' => Purify::clean($request->clearance_per_kg_post) ?: NULL,
         ]);
        
         return redirect(route('admin.all.freightage-loader-type'))->with('success', 'بارگیر با موفقیت ایجاد گردید.');
@@ -82,7 +92,7 @@ class AdminFreightageLoaderTypeController extends Controller
     }
 
     public function UpdateFreightageLoaderType(Request $request) {
-
+        
         $id = Purify::clean($request->id);
 
         $incomingFields = $request->validate([
@@ -111,6 +121,16 @@ class AdminFreightageLoaderTypeController extends Controller
             'freight_per_ton_intercity' => Purify::clean($request->freight_per_ton_intercity) ?: NULL,
             'blog_link' => Purify::clean($request->blog_link) ?: NULL,
             'freightagetype_id' => Purify::clean($request->freightagetype_id) ?: NULL,
+            'last_child' => Purify::clean($request->last_child) == "on" ? 1 : 0,
+            'freight_per_ton_currency' => Purify::clean($request->freight_per_ton_currency),
+            'freight_per_ton_rail' => Purify::clean($request->freight_per_ton_rail) ?: NULL,
+            'freight_per_ton_sea' => Purify::clean($request->freight_per_ton_sea) ?: NULL,
+            'freight_per_kg_air' => Purify::clean($request->freight_per_kg_air) ?: NULL,
+            'freight_per_kg_post' => Purify::clean($request->freight_per_kg_post) ?: NULL,
+            'clearance_per_ton_rail' => Purify::clean($request->clearance_per_ton_rail) ?: NULL,
+            'clearance_per_ton_sea' => Purify::clean($request->clearance_per_ton_sea) ?: NULL,
+            'clearance_per_kg_air' => Purify::clean($request->clearance_per_kg_air) ?: NULL,
+            'clearance_per_kg_post' => Purify::clean($request->clearance_per_kg_post) ?: NULL,
         ]);
        
         return redirect(route('admin.all.freightage-loader-type'))->with('success', 'بارگیر با موفقیت بروز رسانی گردید.');

@@ -20,8 +20,8 @@ class Freightageloadertype extends Model
         return $this->belongsTo(Freightagetype::class, "freightagetype_id", "id");
     }
 
-    public function child() {
-        return $this->hasMany(Freightageloadertype::class, "parent", "id");
+    public function getChildren() {
+        return $this->hasMany(Freightageloadertype::class, 'parent', 'id');
     }
 }
 

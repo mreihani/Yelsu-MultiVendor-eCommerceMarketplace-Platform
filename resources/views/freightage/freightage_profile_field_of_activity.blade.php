@@ -224,234 +224,242 @@
                                 @endif
 
                                 <!--begin::Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">زمینه فعالیت شرکت حمل و نقل یا باربری</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <label class="form-label text-info">در کدام یک از موارد زیر فعالیت می نمایید؟ یک یا چند نوع را انتخاب کنید.</label>
-                                        <div class="form-group mb-5">
-                                            <ul class="list-style-none">
-                                                @foreach($freightageTypeArray as $freightageTypeItem)
-                                                    @if($freightageTypeItem->parent == 0)
-                                                        @if($freightageTypeItem->getChildren())
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $freightage_sector_arr))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $freightage_sector_arr))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @endif
+                                @if(count($freightageTypeArray))
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">زمینه فعالیت شرکت حمل و نقل یا باربری</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <label class="form-label text-info">در کدام یک از موارد زیر فعالیت می نمایید؟ یک یا چند نوع را انتخاب کنید.</label>
+                                            <div class="form-group mb-5">
+                                                <ul class="list-style-none">
+                                                    @foreach($freightageTypeArray as $freightageTypeItem)
+                                                        @if($freightageTypeItem->parent == 0)
+                                                            @if(count($freightageTypeItem->getChildren))
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $freightage_sector_arr))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @else
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $freightage_sector_arr))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @endif
 
-                                                        <div class="subCategoryBtn">
-                                                            @include('freightage.layouts.field_of_activity.field-of-activity-type-group', ['items' => $freightageTypeItem->getChildren()])
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </ul>        
+                                                            <div class="subCategoryBtn">
+                                                                @include('freightage.layouts.field_of_activity.field-of-activity-type-group', ['items' => $freightageTypeItem->getChildren])
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>        
+                                            </div>
                                         </div>
+                                        <!--end::Col-->
                                     </div>
-                                    <!--end::Col-->
-                                </div>
+                                @endif
                                 <!--end::Input group-->
 
                                 <!--begin::Input group-->
-                                <div class="row mb-6" id="loader_type_road" style="{{in_array(1, $freightage_sector_arr) ? '' : 'display: none;"'}}">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">انتخاب نوع بارگیر در حمل جاده ای</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <div class="form-group mb-5">
-                                            <label class="form-label text-info">به کدام یک از صاحبان خودروهای زیر می توانید خدمات دهید؟ حداقل یک یا چند نوع را انتخاب نمایید.</label>
+                                @if(count($freightageLoaderTypeRoadArray))
+                                    <div class="row mb-6" id="loader_type_road" style="{{in_array($freightageLoaderTypeRoadArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">انتخاب نوع بارگیر در حمل جاده ای</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-group mb-5">
+                                                <label class="form-label text-info">به کدام یک از صاحبان خودروهای زیر می توانید خدمات دهید؟ حداقل یک یا چند نوع را انتخاب نمایید.</label>
 
-                                            <ul class="list-style-none">
-                                                @foreach($freightageLoaderTypeRoadArray as $freightageTypeItem)
-                                                    @if($freightageTypeItem->parent == 0)
-                                                        @if($freightageTypeItem->getChildren())
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
+                                                <ul class="list-style-none">
+                                                    @foreach($freightageLoaderTypeRoadArray as $freightageTypeItem)
+                                                        @if($freightageTypeItem->parent == 0)
+                                                            @if(count($freightageTypeItem->getChildren))
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @else
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @endif
+
+                                                            <div class="subCategoryBtn">
+                                                                @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $freightageTypeItem->getChildren])
+                                                            </div>
                                                         @endif
+                                                    @endforeach
+                                                </ul>        
+                                                
+                                            </div>
 
-                                                        <div class="subCategoryBtn">
-                                                            @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $freightageTypeItem->getChildren()])
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </ul>        
-                                            
                                         </div>
-
+                                        <!--end::Col-->
                                     </div>
-                                    <!--end::Col-->
-                                </div>
+                                @endif
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                @if(count($freightageLoaderTypeRailArray))
+                                    <div class="row mb-6" id="loader_type_rail" style="{{in_array($freightageLoaderTypeRailArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
+                                            انتخاب نوع بارگیر حمل و نقل ریلی
+                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="حمل و نقل ریلی یکی از روش های حمل و نقل زمینی است که برای جابجایی بار و مسافر از خطوط راه آهن، قطار و ایستگاه های قطار استفاده می کند. حمل و نقل ریلی (railroad transportation) یکی از قسمتهای زنجیره لجستیکی حمل و نقل بار در سطح بین المللی است."></i>
+                                        </label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-group mb-5">
+                                                <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
+                                                
+                                                <ul class="list-style-none">
+                                                    @foreach($freightageLoaderTypeRailArray as $freightageTypeItem)
+                                                        @if($freightageTypeItem->parent == 0)
+                                                            @if(count($freightageTypeItem->getChildren))
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_rail_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @else
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_rail_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @endif
+
+                                                            <div class="subCategoryBtn">
+                                                                @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-rail-group', ['items' => $freightageTypeItem->getChildren])
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>        
+                                            </div>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                @endif
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                @if($freightageLoaderTypeSeaArray)
+                                    <div class="row mb-6" id="loader_type_sea" style="{{in_array($freightageLoaderTypeSeaArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
+                                            انتخاب نوع بارگیر حمل و نقل آبی / دریایی
+                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="حمل و نقل دریایی عبارتند از نقل و انتقال و جابجایی کالا و افراد از طریق شناور های دریایی مثل کشتی های باری، قایق، لنچ و… از کانال های آبی ، اقیانوس ها، دریاها و دریاچه ها. کالا هایی که از طریق حمل دریایی جابجا می شوند عموما تناژ بالایی دارند."></i>
+                                        </label>
+                                        
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-group mb-5">
+                                                <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
+
+                                                <ul class="list-style-none">
+                                                    @foreach($freightageLoaderTypeSeaArray as $freightageTypeItem)
+                                                        @if($freightageTypeItem->parent == 0)
+                                                            @if(count($freightageTypeItem->getChildren))
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_sea_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @else
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_sea_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @endif
+
+                                                            <div class="subCategoryBtn">
+                                                                @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-sea-group', ['items' => $freightageTypeItem->getChildren])
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>        
+                                            </div>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                @endif
                                 <!--end::Input group-->
 
 
                                 <!--begin::Input group-->
-                                <div class="row mb-6" id="loader_type_rail" style="{{in_array(7, $freightage_sector_arr) ? '' : 'display: none;"'}}">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
-                                        انتخاب نوع بارگیر حمل و نقل ریلی
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="حمل و نقل ریلی یکی از روش های حمل و نقل زمینی است که برای جابجایی بار و مسافر از خطوط راه آهن، قطار و ایستگاه های قطار استفاده می کند. حمل و نقل ریلی (railroad transportation) یکی از قسمتهای زنجیره لجستیکی حمل و نقل بار در سطح بین المللی است."></i>
-                                    </label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <div class="form-group mb-5">
-                                            <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
-                                            
-                                            <ul class="list-style-none">
-                                                @foreach($freightageLoaderTypeRailArray as $freightageTypeItem)
-                                                    @if($freightageTypeItem->parent == 0)
-                                                        @if($freightageTypeItem->getChildren())
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_rail_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_rail_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
+                                @if($freightageLoaderTypeAirArray)
+                                    <div class="row mb-6" id="loader_type_air" style="{{in_array($freightageLoaderTypeAirArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
+                                            انتخاب نوع بارگیر حمل و نقل هوایی
+                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="همه‌ی کالاها را نمی‌توانید با حمل و نقل هوایی جا به جا کنید چرا که ورود برخی کالاها به ایران غیرقانونی است. در برخی موارد نیز قانون‌هایی برای جلوگیری از ورود برخی از کالاها به طور موقت تصویب می‌شود. احشام، مایعات، کالاهایی که اشعه ساطع می‌کنند، اسلحه، دارو و چند ماده دیگر، کالاهایی هستند که ورود آن‌ها به کشور نیازمند مجوز است."></i>
+                                        </label>
+                                        
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-group mb-5">
+                                                <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
+
+                                                <ul class="list-style-none">
+                                                    @foreach($freightageLoaderTypeAirArray as $freightageTypeItem)
+                                                        @if($freightageTypeItem->parent == 0)
+                                                            @if(count($freightageTypeItem->getChildren))
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_air_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @else
+                                                                <li class="filterButtonShopPage rootCat list-style-none">
+                                                                    @if(in_array($freightageTypeItem->id, $loader_type_air_arr_selected))
+                                                                        <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @else
+                                                                        <input class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
+                                                                    @endif
+                                                                </li>
+                                                            @endif
+
+                                                            <div class="subCategoryBtn">
+                                                                @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-air-group', ['items' => $freightageTypeItem->getChildren])
+                                                            </div>
                                                         @endif
-
-                                                        <div class="subCategoryBtn">
-                                                            @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-rail-group', ['items' => $freightageTypeItem->getChildren()])
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </ul>        
+                                                    @endforeach
+                                                </ul>        
+                                                
+                                            </div>
                                         </div>
+                                        <!--end::Col-->
                                     </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6" id="loader_type_sea" style="{{in_array(8, $freightage_sector_arr) ? '' : 'display: none;"'}}">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
-                                        انتخاب نوع بارگیر حمل و نقل آبی / دریایی
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="حمل و نقل دریایی عبارتند از نقل و انتقال و جابجایی کالا و افراد از طریق شناور های دریایی مثل کشتی های باری، قایق، لنچ و… از کانال های آبی ، اقیانوس ها، دریاها و دریاچه ها. کالا هایی که از طریق حمل دریایی جابجا می شوند عموما تناژ بالایی دارند."></i>
-                                    </label>
-                                    
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <div class="form-group mb-5">
-                                            <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
-
-                                            <ul class="list-style-none">
-                                                @foreach($freightageLoaderTypeSeaArray as $freightageTypeItem)
-                                                    @if($freightageTypeItem->parent == 0)
-                                                        @if($freightageTypeItem->getChildren())
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_sea_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_sea_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @endif
-
-                                                        <div class="subCategoryBtn">
-                                                            @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-sea-group', ['items' => $freightageTypeItem->getChildren()])
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </ul>        
-                                        </div>
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6" id="loader_type_air" style="{{in_array(9, $freightage_sector_arr) ? '' : 'display: none;"'}}">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
-                                        انتخاب نوع بارگیر حمل و نقل هوایی
-                                        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="همه‌ی کالاها را نمی‌توانید با حمل و نقل هوایی جا به جا کنید چرا که ورود برخی کالاها به ایران غیرقانونی است. در برخی موارد نیز قانون‌هایی برای جلوگیری از ورود برخی از کالاها به طور موقت تصویب می‌شود. احشام، مایعات، کالاهایی که اشعه ساطع می‌کنند، اسلحه، دارو و چند ماده دیگر، کالاهایی هستند که ورود آن‌ها به کشور نیازمند مجوز است."></i>
-                                    </label>
-                                    
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <div class="form-group mb-5">
-                                            <label class="form-label text-info">به کدام یک از موارد زیر می توانید خدمات دهید؟</label>
-
-                                            <ul class="list-style-none">
-                                                @foreach($freightageLoaderTypeAirArray as $freightageTypeItem)
-                                                    @if($freightageTypeItem->parent == 0)
-                                                        @if($freightageTypeItem->getChildren())
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_air_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @else
-                                                            <li class="filterButtonShopPage rootCat list-style-none">
-                                                                @if(in_array($freightageTypeItem->id, $loader_type_air_arr_selected))
-                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @else
-                                                                    <input class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> {{$freightageTypeItem->value}} 
-                                                                @endif
-                                                            </li>
-                                                        @endif
-
-                                                        <div class="subCategoryBtn">
-                                                            @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-air-group', ['items' => $freightageTypeItem->getChildren()])
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </ul>        
-                                            
-                                        </div>
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
+                                @endif
                                 <!--end::Input group-->
 
 
