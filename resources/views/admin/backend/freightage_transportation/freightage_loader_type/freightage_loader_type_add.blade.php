@@ -80,7 +80,7 @@
                                     <input type="text" name="value" class="form-control mb-2" placeholder="عنوان بارگیر را وارد نمایید" value="{{old('value')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
-                                    <div class="text-muted fs-7">عنوان بارگیر بایستی منحصر به فرد باشد.</div>
+                                    <div class="text-muted fs-7">عنوان بارگیر را وارد نمایید.</div>
                                     <!--end::توضیحات-->
                                 </div>
 
@@ -100,10 +100,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">حداقل ظرفیت (تن)</label>
+                                    <label class="form-label">حداقل ظرفیت (تن)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="min_capacity" class="form-control mb-2" placeholder="" value="{{old('min_capacity')}}" />
+                                    <input type="number" step="0.01" name="min_capacity" class="form-control mb-2" placeholder="" value="{{old('min_capacity')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">حداقل ظرفیت بارگیر را به تن وارد نمایید</div>
@@ -113,10 +113,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">حداکثر ظرفیت (تن)</label>
+                                    <label class="form-label">حداکثر ظرفیت (تن)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="max_capacity" class="form-control mb-2" placeholder="" value="{{old('max_capacity')}}" />
+                                    <input type="number" step="0.01" name="max_capacity" class="form-control mb-2" placeholder="" value="{{old('max_capacity')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">حداکثر ظرفیت بارگیر را به تن وارد نمایید</div>
@@ -126,10 +126,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">طول بارگیر (متر)</label>
+                                    <label class="form-label">طول بارگیر (متر)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="length" class="form-control mb-2" placeholder="" value="{{old('length')}}" />
+                                    <input type="number" step="0.01" name="length" class="form-control mb-2" placeholder="" value="{{old('length')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">طول بارگیر را به تن وارد نمایید</div>
@@ -139,10 +139,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">عرض بارگیر (متر)</label>
+                                    <label class="form-label">عرض بارگیر (متر)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="width" class="form-control mb-2" placeholder="" value="{{old('width')}}" />
+                                    <input type="number" step="0.01" name="width" class="form-control mb-2" placeholder="" value="{{old('width')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">عرض بارگیر را به تن وارد نمایید</div>
@@ -152,10 +152,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">ارتفاع بارگیر (متر)</label>
+                                    <label class="form-label">ارتفاع بارگیر (متر)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="height" class="form-control mb-2" placeholder="" value="{{old('height')}}" />
+                                    <input type="number" step="0.01" name="height" class="form-control mb-2" placeholder="" value="{{old('height')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">ارتفاع بارگیر را به تن وارد نمایید</div>
@@ -165,10 +165,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">حداقل حجم (متر مکعب)</label>
+                                    <label class="form-label">حداقل حجم (متر مکعب)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="min_volume" class="form-control mb-2" placeholder="" value="{{old('min_volume')}}" />
+                                    <input type="number" step="0.01" name="min_volume" class="form-control mb-2" placeholder="" value="{{old('min_volume')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">حداقل ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
@@ -178,10 +178,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">حداکثر حجم (متر مکعب)</label>
+                                    <label class="form-label">حداکثر حجم (متر مکعب)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="max_volume" class="form-control mb-2" placeholder="" value="{{old('max_volume')}}" />
+                                    <input type="number" step="0.01" name="max_volume" class="form-control mb-2" placeholder="" value="{{old('max_volume')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">حداکثر ظرفیت حجمی بارگیر را به متر مکعب وارد نمایید</div>
@@ -191,10 +191,10 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">کرایه حمل هر تن بر کیلومتر داخل شهری</label>
+                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر داخل شهری</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="freight_per_ton_intracity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intracity')}}" />
+                                    <input type="number" step="0.01" name="freight_per_ton_intracity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intracity')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر داخل شهری بارگیر را وارد نمایید</div>
@@ -204,10 +204,10 @@
                                 <!--begin::Input group-->
                                  <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class=" form-label">کرایه حمل هر تن بر کیلومتر بین شهری</label>
+                                    <label class="form-label">کرایه حمل هر تن بر کیلومتر بین شهری</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="number" name="freight_per_ton_intercity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intercity')}}" />
+                                    <input type="number" step="0.01" name="freight_per_ton_intercity" class="form-control mb-2" placeholder="" value="{{old('freight_per_ton_intercity')}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">کرایه حمل هر تن بر کیلومتر بین شهری بارگیر را وارد نمایید</div>
