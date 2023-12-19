@@ -305,6 +305,15 @@ class FreightageController extends Controller
         $freightageLoaderTypeSeaArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'sea')->get();
         $freightageLoaderTypeAirArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'air')->get();
 
+        // تهیه آرایه داینامیکی از آی دی ها برای نمایش یا مخفی کردن
+        $freightageTypesIds = array(
+            "road" => $freightageTypeArray->where("freightagetype_title", 'road')->pluck('id'),
+            "rail" => $freightageTypeArray->where("freightagetype_title", 'rail')->pluck('id'),
+            "sea" => $freightageTypeArray->where("freightagetype_title", 'sea')->pluck('id'),
+            "air" => $freightageTypeArray->where("freightagetype_title", 'air')->pluck('id'),
+            "post" => $freightageTypeArray->where("freightagetype_title", 'post')->pluck('id'),
+        );
+        
         return view('freightage.freightage_profile_field_of_activity', 
         compact(
             'freightageData', 
@@ -324,6 +333,7 @@ class FreightageController extends Controller
             'freightageLoaderTypeRailArray',
             'freightageLoaderTypeSeaArray',
             'freightageLoaderTypeAirArray',
+            'freightageTypesIds',
         ));
     } //End method
 
@@ -337,8 +347,17 @@ class FreightageController extends Controller
             'category_id.required' => 'لطفا حداقل یک دسته بندی مرتبط با باربری را انتخاب نمایید.',
         ]);
 
+        $freightageTypeArray = Freightagetype::all();
+        $freightageTypesIds = array(
+            "road" => $freightageTypeArray->where("freightagetype_title", 'road')->pluck('id')->min(),
+            "rail" => $freightageTypeArray->where("freightagetype_title", 'rail')->pluck('id')->min(),
+            "sea" => $freightageTypeArray->where("freightagetype_title", 'sea')->pluck('id')->min(),
+            "air" => $freightageTypeArray->where("freightagetype_title", 'air')->pluck('id')->min(),
+            "post" => $freightageTypeArray->where("freightagetype_title", 'post')->pluck('id')->min(),
+        );
+
         // زمینه فعالیت زمینی
-        if (in_array(1, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["road"], $incomingFields['type'])) {
             if ($request->loader_type == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل جاده ای را مشخص نمایید.');
@@ -346,7 +365,7 @@ class FreightageController extends Controller
         }
 
         // زمینه فعالیت ریلی
-        if (in_array(6, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["rail"], $incomingFields['type'])) {
             if ($request->loader_type_rail == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل ریلی را مشخص نمایید.');
@@ -354,7 +373,7 @@ class FreightageController extends Controller
         }
 
         // زمینه فعالیت آبی
-        if (in_array(8, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["sea"], $incomingFields['type'])) {
             if ($request->loader_type_sea == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل آبی را مشخص نمایید.');
@@ -362,7 +381,7 @@ class FreightageController extends Controller
         }
 
         // زمینه فعالیت هوایی
-        if (in_array(7, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["air"], $incomingFields['type'])) {
             if ($request->loader_type_air == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل هوایی را مشخص نمایید.');

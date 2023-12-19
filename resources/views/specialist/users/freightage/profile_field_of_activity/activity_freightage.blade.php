@@ -85,7 +85,10 @@
                         <!--begin::Form-->
                         <form id="kt_account_profile_details_form" class="form" method="POST" action="{{route('specialist.freightage.profile.verify.store')}}">
                             @csrf
+
                             <input type="hidden" value="{{($id)}}" name="freightage_id">
+                            <input type="hidden" id="freightageTypesIds" value="{{json_encode($freightageTypesIds)}}">
+
                             <!--begin::کارت body-->
                             <div class="card-body border-top p-9">
                                 <h5 class="mb-10">
@@ -111,7 +114,7 @@
                                                         <ul class="list-style-none">
                                                             @foreach($freightageTypeArray as $freightageTypeItem)
                                                                 @if($freightageTypeItem->parent == 0)
-                                                                    @if($freightageTypeItem->getChildren())
+                                                                    @if(count($freightageTypeItem->getChildren))
                                                                         <li class="filterButtonShopPage rootCat list-style-none">
                                                                             @if(in_array($freightageTypeItem->id, $freightage_sector_arr))
                                                                                 <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
@@ -130,7 +133,7 @@
                                                                     @endif
             
                                                                     <div class="subCategoryBtn">
-                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-type-group', ['items' => $freightageTypeItem->getChildren()])
+                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-type-group', ['items' => $freightageTypeItem->getChildren])
                                                                     </div>
                                                                 @endif
                                                             @endforeach
@@ -143,7 +146,7 @@
                                             <!--end::Input group-->
             
                                             <!--begin::Input group-->
-                                            <div class="row mb-6" id="loader_type_road" style="{{in_array(1, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                            <div class="row mb-6" id="loader_type_road" style="{{in_array($freightageLoaderTypeRoadArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                                 <!--begin::Tags-->
                                                 <label class="col-lg-4 col-form-label fw-semibold fs-6 required">انتخاب نوع بارگیر در حمل جاده ای</label>
                                                 <!--end::Tags-->
@@ -155,7 +158,7 @@
                                                         <ul class="list-style-none">
                                                             @foreach($freightageLoaderTypeRoadArray as $freightageTypeItem)
                                                                 @if($freightageTypeItem->parent == 0)
-                                                                    @if($freightageTypeItem->getChildren())
+                                                                    @if(count($freightageTypeItem->getChildren))
                                                                         <li class="filterButtonShopPage rootCat list-style-none">
                                                                             @if(in_array($freightageTypeItem->id, $loader_type_arr_selected))
                                                                                 <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
@@ -174,7 +177,7 @@
                                                                     @endif
             
                                                                     <div class="subCategoryBtn">
-                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $freightageTypeItem->getChildren()])
+                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $freightageTypeItem->getChildren])
                                                                     </div>
                                                                 @endif
                                                             @endforeach
@@ -189,7 +192,7 @@
 
 
                                             <!--begin::Input group-->
-                                            <div class="row mb-6" id="loader_type_rail" style="{{in_array(7, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                            <div class="row mb-6" id="loader_type_rail" style="{{in_array($freightageLoaderTypeRailArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                                 <!--begin::Tags-->
                                                 <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
                                                     انتخاب نوع بارگیر حمل و نقل ریلی
@@ -204,7 +207,7 @@
                                                         <ul class="list-style-none">
                                                             @foreach($freightageLoaderTypeRailArray as $freightageTypeItem)
                                                                 @if($freightageTypeItem->parent == 0)
-                                                                    @if($freightageTypeItem->getChildren())
+                                                                    @if(count($freightageTypeItem->getChildren))
                                                                         <li class="filterButtonShopPage rootCat list-style-none">
                                                                             @if(in_array($freightageTypeItem->id, $loader_type_rail_arr_selected))
                                                                                 <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_rail[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
@@ -223,7 +226,7 @@
                                                                     @endif
             
                                                                     <div class="subCategoryBtn">
-                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-rail-group', ['items' => $freightageTypeItem->getChildren()])
+                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-rail-group', ['items' => $freightageTypeItem->getChildren])
                                                                     </div>
                                                                 @endif
                                                             @endforeach
@@ -237,7 +240,7 @@
 
 
                                             <!--begin::Input group-->
-                                            <div class="row mb-6" id="loader_type_sea" style="{{in_array(8, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                            <div class="row mb-6" id="loader_type_sea" style="{{in_array($freightageLoaderTypeSeaArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                                 <!--begin::Tags-->
                                                 <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
                                                     انتخاب نوع بارگیر حمل و نقل آبی / دریایی
@@ -253,7 +256,7 @@
                                                         <ul class="list-style-none">
                                                             @foreach($freightageLoaderTypeSeaArray as $freightageTypeItem)
                                                                 @if($freightageTypeItem->parent == 0)
-                                                                    @if($freightageTypeItem->getChildren())
+                                                                    @if(count($freightageTypeItem->getChildren))
                                                                         <li class="filterButtonShopPage rootCat list-style-none">
                                                                             @if(in_array($freightageTypeItem->id, $loader_type_sea_arr_selected))
                                                                                 <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_sea[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
@@ -272,7 +275,7 @@
                                                                     @endif
             
                                                                     <div class="subCategoryBtn">
-                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-sea-group', ['items' => $freightageTypeItem->getChildren()])
+                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-sea-group', ['items' => $freightageTypeItem->getChildren])
                                                                     </div>
                                                                 @endif
                                                             @endforeach
@@ -285,7 +288,7 @@
                                             <!--end::Input group-->
 
                                             <!--begin::Input group-->
-                                            <div class="row mb-6" id="loader_type_air" style="{{in_array(9, $freightage_sector_arr) ? '' : 'display: none;"'}}">
+                                            <div class="row mb-6" id="loader_type_air" style="{{in_array($freightageLoaderTypeAirArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                                 <!--begin::Tags-->
                                                 <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
                                                     انتخاب نوع بارگیر حمل و نقل هوایی
@@ -301,7 +304,7 @@
                                                         <ul class="list-style-none">
                                                             @foreach($freightageLoaderTypeAirArray as $freightageTypeItem)
                                                                 @if($freightageTypeItem->parent == 0)
-                                                                    @if($freightageTypeItem->getChildren())
+                                                                    @if(count($freightageTypeItem->getChildren))
                                                                         <li class="filterButtonShopPage rootCat list-style-none">
                                                                             @if(in_array($freightageTypeItem->id, $loader_type_air_arr_selected))
                                                                                 <input @checked(true) class="form-check-input" type="checkbox" name="loader_type_air[]" value="{{$freightageTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$freightageTypeItem->value}} 
@@ -320,7 +323,7 @@
                                                                     @endif
             
                                                                     <div class="subCategoryBtn">
-                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-air-group', ['items' => $freightageTypeItem->getChildren()])
+                                                                        @include('freightage.layouts.field_of_activity.field-of-activity-loader-type-air-group', ['items' => $freightageTypeItem->getChildren])
                                                                     </div>
                                                                 @endif
                                                             @endforeach
@@ -416,25 +419,35 @@
 </div>
 
 <script>
+    let loader_type_object = JSON.parse($("#freightageTypesIds").val());
+    let loader_type_road = loader_type_object.road;
+    let loader_type_rail = loader_type_object.rail;
+    let loader_type_sea = loader_type_object.sea;
+    let loader_type_air = loader_type_object.air;
+    let loader_type_post = loader_type_object.post;
+
     $(document).on('click', "input[name='type[]']", function(e) {
-        if($(e.target).is(":checked")) {
-            if($(e.target).val() == 1 || $(e.target).val() == 2 || $(e.target).val() == 3 || $(e.target).val() == 4 || $(e.target).val() == 5 || $(e.target).val() == 6) {
+        let target = $(e.target);
+        let targetValue = parseInt(target.val());
+
+        if(target.is(":checked")) {
+            if(loader_type_road.includes(targetValue)) {
                 $("#loader_type_road").slideDown();
-            } else if ($(e.target).val() == 7) {
+            } else if (loader_type_rail.includes(targetValue)) {
                 $("#loader_type_rail").slideDown();
-            } else if ($(e.target).val() == 8) {
+            } else if (loader_type_sea.includes(targetValue)) {
                 $("#loader_type_sea").slideDown();
-            } else if ($(e.target).val() == 9) {
+            } else if (loader_type_air.includes(targetValue)) {
                 $("#loader_type_air").slideDown();
             }
         } else {
-            if($(e.target).val() == 1) {
+            if(Math.min(...loader_type_road) == targetValue) {
                 $("#loader_type_road").slideUp();
-            } else if ($(e.target).val() == 7) {
+            } else if (Math.min(...loader_type_rail) == targetValue) {
                 $("#loader_type_rail").slideUp();
-            } else if ($(e.target).val() == 8) {
+            } else if (Math.min(...loader_type_sea) == targetValue) {
                 $("#loader_type_sea").slideUp();
-            } else if ($(e.target).val() == 9) {
+            } else if (Math.min(...loader_type_air) == targetValue) {
                 $("#loader_type_air").slideUp();
             }
         }

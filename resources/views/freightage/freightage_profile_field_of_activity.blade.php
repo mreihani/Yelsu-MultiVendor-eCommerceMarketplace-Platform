@@ -211,6 +211,8 @@
                         <!--begin::Form-->
                         <form id="kt_account_profile_details_form" class="form" method="POST" action={{route('freightage.profileFieldOfActivity.store')}} enctype="multipart/form-data">
                             @csrf
+
+                            <input type="hidden" id="freightageTypesIds" value="{{json_encode($freightageTypesIds)}}">
                             <!--begin::کارت body-->
                             <div class="card-body border-top p-9">
 
@@ -363,7 +365,7 @@
                                 <!--end::Input group-->
 
                                 <!--begin::Input group-->
-                                @if($freightageLoaderTypeSeaArray)
+                                @if(count($freightageLoaderTypeSeaArray))
                                     <div class="row mb-6" id="loader_type_sea" style="{{in_array($freightageLoaderTypeSeaArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                         <!--begin::Tags-->
                                         <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
@@ -413,7 +415,7 @@
 
 
                                 <!--begin::Input group-->
-                                @if($freightageLoaderTypeAirArray)
+                                @if(count($freightageLoaderTypeAirArray))
                                     <div class="row mb-6" id="loader_type_air" style="{{in_array($freightageLoaderTypeAirArray->first()->freightageType->id, $freightage_sector_arr) ? '' : 'display: none;"'}}">
                                         <!--begin::Tags-->
                                         <label class="col-lg-4 col-form-label fw-semibold fs-6 required">
@@ -613,29 +615,39 @@
 
 
 <script>
-$(document).on('click', "input[name='type[]']", function(e) {
-    if($(e.target).is(":checked")) {
-        if($(e.target).val() == 1 || $(e.target).val() == 2 || $(e.target).val() == 3 || $(e.target).val() == 4 || $(e.target).val() == 5 || $(e.target).val() == 6) {
-            $("#loader_type_road").slideDown();
-        } else if ($(e.target).val() == 7) {
-            $("#loader_type_rail").slideDown();
-        } else if ($(e.target).val() == 8) {
-            $("#loader_type_sea").slideDown();
-        } else if ($(e.target).val() == 9) {
-            $("#loader_type_air").slideDown();
+    let loader_type_object = JSON.parse($("#freightageTypesIds").val());
+    let loader_type_road = loader_type_object.road;
+    let loader_type_rail = loader_type_object.rail;
+    let loader_type_sea = loader_type_object.sea;
+    let loader_type_air = loader_type_object.air;
+    let loader_type_post = loader_type_object.post;
+
+    $(document).on('click', "input[name='type[]']", function(e) {
+        let target = $(e.target);
+        let targetValue = parseInt(target.val());
+
+        if(target.is(":checked")) {
+            if(loader_type_road.includes(targetValue)) {
+                $("#loader_type_road").slideDown();
+            } else if (loader_type_rail.includes(targetValue)) {
+                $("#loader_type_rail").slideDown();
+            } else if (loader_type_sea.includes(targetValue)) {
+                $("#loader_type_sea").slideDown();
+            } else if (loader_type_air.includes(targetValue)) {
+                $("#loader_type_air").slideDown();
+            }
+        } else {
+            if(Math.min(...loader_type_road) == targetValue) {
+                $("#loader_type_road").slideUp();
+            } else if (Math.min(...loader_type_rail) == targetValue) {
+                $("#loader_type_rail").slideUp();
+            } else if (Math.min(...loader_type_sea) == targetValue) {
+                $("#loader_type_sea").slideUp();
+            } else if (Math.min(...loader_type_air) == targetValue) {
+                $("#loader_type_air").slideUp();
+            }
         }
-    } else {
-        if($(e.target).val() == 1) {
-            $("#loader_type_road").slideUp();
-        } else if ($(e.target).val() == 7) {
-            $("#loader_type_rail").slideUp();
-        } else if ($(e.target).val() == 8) {
-            $("#loader_type_sea").slideUp();
-        } else if ($(e.target).val() == 9) {
-            $("#loader_type_air").slideUp();
-        }
-    }
-});
+    });
 </script>
 
 <script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>

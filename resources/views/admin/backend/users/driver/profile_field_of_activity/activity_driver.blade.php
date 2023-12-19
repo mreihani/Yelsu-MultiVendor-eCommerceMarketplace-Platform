@@ -101,92 +101,96 @@
                                         <div class="card-body border-top p-9">
             
                                             <!--begin::Input group-->
-                                            <div class="row mb-6">
-                                                <!--begin::Tags-->
-                                                <label class="col-lg-4 col-form-label fw-semibold fs-6 required">زمینه فعالیت راننده</label>
-                                                <!--end::Tags-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-8 fv-row">
-                                                    <label class="form-label text-info">در کدام یک از موارد زیر فعالیت می نمایید؟ یک یا چند نوع را انتخاب کنید.</label>
-                                                    <div class="form-group mb-5">
-                                                        
-                                                        <ul class="list-style-none">
-                                                            @foreach($driverTypeArray as $driverTypeItem)
-                                                                @if($driverTypeItem->parent == 0)
-                                                                    @if(count($driverTypeItem->getChildren()))
-                                                                        <li class="filterButtonShopPage rootCat list-style-none">
-                                                                            @if(in_array($driverTypeItem->id, $driver_sector_arr))
-                                                                                <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
-                                                                            @else
-                                                                                <input class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
-                                                                            @endif
-                                                                        </li>
-                                                                    @else
-                                                                        <li class="filterButtonShopPage rootCat list-style-none">
-                                                                            @if(in_array($driverTypeItem->id, $driver_sector_arr))
-                                                                                <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
-                                                                            @else
-                                                                                <input class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
-                                                                            @endif
-                                                                        </li>
-                                                                    @endif
-            
-                                                                    <div class="subCategoryBtn">
-                                                                        @include('driver.layouts.field_of_activity.field-of-activity-type-group', ['items' => $driverTypeItem->getChildren()])
-                                                                    </div>
-                                                                @endif    
-                                                            @endforeach
-                                                        </ul>        
-            
+                                            @if(count($driverTypeArray))
+                                                <div class="row mb-6">
+                                                    <!--begin::Tags-->
+                                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">زمینه فعالیت راننده</label>
+                                                    <!--end::Tags-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-lg-8 fv-row">
+                                                        <label class="form-label text-info">در کدام یک از موارد زیر فعالیت می نمایید؟ یک یا چند نوع را انتخاب کنید.</label>
+                                                        <div class="form-group mb-5">
+                                                            
+                                                            <ul class="list-style-none">
+                                                                @foreach($driverTypeArray as $driverTypeItem)
+                                                                    @if($driverTypeItem->parent == 0)
+                                                                        @if(count($driverTypeItem->getChildren))
+                                                                            <li class="filterButtonShopPage rootCat list-style-none">
+                                                                                @if(in_array($driverTypeItem->id, $driver_sector_arr))
+                                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
+                                                                                @else
+                                                                                    <input class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
+                                                                                @endif
+                                                                            </li>
+                                                                        @else
+                                                                            <li class="filterButtonShopPage rootCat list-style-none">
+                                                                                @if(in_array($driverTypeItem->id, $driver_sector_arr))
+                                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
+                                                                                @else
+                                                                                    <input class="form-check-input" type="checkbox" name="type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
+                                                                                @endif
+                                                                            </li>
+                                                                        @endif
+                
+                                                                        <div class="subCategoryBtn">
+                                                                            @include('driver.layouts.field_of_activity.field-of-activity-type-group', ['items' => $driverTypeItem->getChildren])
+                                                                        </div>
+                                                                    @endif    
+                                                                @endforeach
+                                                            </ul>        
+                
+                                                        </div>
                                                     </div>
+                                                    <!--end::Col-->
                                                 </div>
-                                                <!--end::Col-->
-                                            </div>
+                                            @endif
                                             <!--end::Input group-->
             
                                             <!--begin::Input group-->
-                                            <div class="row mb-6" id="loader_type_road" style="{{in_array(1, $driver_sector_arr) ? '' : 'display: none;"'}}">
-                                                <!--begin::Tags-->
-                                                <label class="col-lg-4 col-form-label fw-semibold fs-6 required">انتخاب نوع بارگیر در حمل جاده ای</label>
-                                                <!--end::Tags-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-8 fv-row">
-                                                    <div class="form-group mb-5">
-                                                        <label class="form-label text-info">به کدام یک از صاحبان خودروهای زیر می توانید خدمات دهید؟ حداقل یک یا چند نوع را انتخاب نمایید.</label>
-                                                        
-                                                        <ul class="list-style-none">
-                                                            @foreach($driverLoaderTypeRoadArray as $driverTypeItem)
-                                                                @if($driverTypeItem->parent == 0)
-                                                                    @if($driverTypeItem->getChildren())
-                                                                        <li class="filterButtonShopPage rootCat list-style-none">
-                                                                            @if(in_array($driverTypeItem->id, $loader_type_arr_selected))
-                                                                                <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
-                                                                            @else
-                                                                                <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
-                                                                            @endif
-                                                                        </li>
-                                                                    @else
-                                                                        <li class="filterButtonShopPage rootCat list-style-none">
-                                                                            @if(in_array($driverTypeItem->id, $loader_type_arr_selected))
-                                                                                <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
-                                                                            @else
-                                                                                <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
-                                                                            @endif
-                                                                        </li>
+                                            @if(count($driverLoaderTypeRoadArray))
+                                                <div class="row mb-6" id="loader_type_road">
+                                                    <!--begin::Tags-->
+                                                    <label class="col-lg-4 col-form-label fw-semibold fs-6 required">انتخاب نوع بارگیر در حمل جاده ای</label>
+                                                    <!--end::Tags-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-lg-8 fv-row">
+                                                        <div class="form-group mb-5">
+                                                            <label class="form-label text-info">به کدام یک از صاحبان خودروهای زیر می توانید خدمات دهید؟ حداقل یک یا چند نوع را انتخاب نمایید.</label>
+                                                            
+                                                            <ul class="list-style-none">
+                                                                @foreach($driverLoaderTypeRoadArray as $driverTypeItem)
+                                                                    @if($driverTypeItem->parent == 0)
+                                                                        @if($driverTypeItem->getChildren)
+                                                                            <li class="filterButtonShopPage rootCat list-style-none">
+                                                                                @if(in_array($driverTypeItem->id, $loader_type_arr_selected))
+                                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
+                                                                                @else
+                                                                                    <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$driverTypeItem->value}} 
+                                                                                @endif
+                                                                            </li>
+                                                                        @else
+                                                                            <li class="filterButtonShopPage rootCat list-style-none">
+                                                                                @if(in_array($driverTypeItem->id, $loader_type_arr_selected))
+                                                                                    <input @checked(true) class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
+                                                                                @else
+                                                                                    <input class="form-check-input" type="checkbox" name="loader_type[]" value="{{$driverTypeItem->id}}"> {{$driverTypeItem->value}} 
+                                                                                @endif
+                                                                            </li>
+                                                                        @endif
+                                                                    
+                                                                        <div class="subCategoryBtn">
+                                                                            @include('driver.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $driverTypeItem->getChildren])
+                                                                        </div>
                                                                     @endif
-                                                                
-                                                                    <div class="subCategoryBtn">
-                                                                        @include('driver.layouts.field_of_activity.field-of-activity-loader-type-road-group', ['items' => $driverTypeItem->getChildren()])
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>        
+                                                                @endforeach
+                                                            </ul>        
+
+                                                        </div>
 
                                                     </div>
-
+                                                    <!--end::Col-->
                                                 </div>
-                                                <!--end::Col-->
-                                            </div>
+                                            @endif
                                             <!--end::Input group-->
 
                                 

@@ -13,29 +13,25 @@ use App\Models\Freightage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AttributeItem;
+use App\Models\Freightagetype;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
 use App\Rules\AttributeIsRequired;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use App\Models\Freightageloadertype;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\File as LaravelFile;
-use App\Services\Users\Driver\DriverTypeServices\DriverTypeService;
-use App\Services\Users\Driver\DriverTypeServices\DriverTypeRoadService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
+
 
 class SpecialistController extends Controller
 {
@@ -1830,13 +1826,22 @@ class SpecialistController extends Controller
         $loader_type_sea_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_sea_temp);
         $loader_type_air_arr_selected = explode(',', $freightageData->freightage->freightage_loader_type_air_temp);
 
-        $freightageTypeArray = FreightageTypeService::getFreightageTypeArray();
-        $freightageLoaderTypeRoadArray = FreightageTypeRoadService::getFreightageLoaderTypeRoadArray();
-        $freightageLoaderTypeRailArray = FreightageTypeRailService::getFreightageLoaderTypeRailArray();
-        $freightageLoaderTypeSeaArray = FreightageTypeSeaService::getFreightageLoaderTypeSeaArray();
-        $freightageLoaderTypeAirArray = FreightageTypeAirService::getFreightageLoaderTypeAirArray();
+        $freightageTypeArray = Freightagetype::all();
+        $freightageLoaderTypeRoadArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'road')->get();
+        $freightageLoaderTypeRailArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'rail')->get();
+        $freightageLoaderTypeSeaArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'sea')->get();
+        $freightageLoaderTypeAirArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'air')->get();
 
-        return view('specialist.users.freightage.profile_field_of_activity.activity_freightage', compact('specialistData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected', 'freightageTypeArray', 'freightageLoaderTypeRoadArray', 'freightageLoaderTypeRailArray', 'freightageLoaderTypeSeaArray', 'freightageLoaderTypeAirArray'));
+         // تهیه آرایه داینامیکی از آی دی ها برای نمایش یا مخفی کردن
+         $freightageTypesIds = array(
+            "road" => $freightageTypeArray->where("freightagetype_title", 'road')->pluck('id'),
+            "rail" => $freightageTypeArray->where("freightagetype_title", 'rail')->pluck('id'),
+            "sea" => $freightageTypeArray->where("freightagetype_title", 'sea')->pluck('id'),
+            "air" => $freightageTypeArray->where("freightagetype_title", 'air')->pluck('id'),
+            "post" => $freightageTypeArray->where("freightagetype_title", 'post')->pluck('id'),
+         );
+
+        return view('specialist.users.freightage.profile_field_of_activity.activity_freightage', compact('specialistData', 'id', 'freightageData', 'freightage_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'loader_type_rail_arr_selected', 'loader_type_sea_arr_selected', 'loader_type_air_arr_selected', 'freightageTypeArray', 'freightageLoaderTypeRoadArray', 'freightageLoaderTypeRailArray', 'freightageLoaderTypeSeaArray', 'freightageLoaderTypeAirArray', 'freightageTypesIds'));
     }
 
     public function SpecialistFreightageProfileVerifyStore(Request $request)
@@ -1849,8 +1854,17 @@ class SpecialistController extends Controller
             'category_id.required' => 'لطفا حداقل یک دسته بندی مرتبط با باربری را انتخاب نمایید.',
         ]);
 
+        $freightageTypeArray = Freightagetype::all();
+        $freightageTypesIds = array(
+            "road" => $freightageTypeArray->where("freightagetype_title", 'road')->pluck('id')->min(),
+            "rail" => $freightageTypeArray->where("freightagetype_title", 'rail')->pluck('id')->min(),
+            "sea" => $freightageTypeArray->where("freightagetype_title", 'sea')->pluck('id')->min(),
+            "air" => $freightageTypeArray->where("freightagetype_title", 'air')->pluck('id')->min(),
+            "post" => $freightageTypeArray->where("freightagetype_title", 'post')->pluck('id')->min(),
+        );
+
         // زمینه فعالیت زمینی
-        if (in_array(1, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["road"], $incomingFields['type'])) {
             if ($request->loader_type == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل جاده ای را مشخص نمایید.');
@@ -1858,7 +1872,7 @@ class SpecialistController extends Controller
         }
 
         // زمینه فعالیت ریلی
-        if (in_array(6, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["rail"], $incomingFields['type'])) {
             if ($request->loader_type_rail == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل ریلی را مشخص نمایید.');
@@ -1866,7 +1880,7 @@ class SpecialistController extends Controller
         }
 
         // زمینه فعالیت آبی
-        if (in_array(8, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["sea"], $incomingFields['type'])) {
             if ($request->loader_type_sea == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل آبی را مشخص نمایید.');
@@ -1874,7 +1888,7 @@ class SpecialistController extends Controller
         }
 
         // زمینه فعالیت هوایی
-        if (in_array(7, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["air"], $incomingFields['type'])) {
             if ($request->loader_type_air == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل هوایی را مشخص نمایید.');
@@ -1991,8 +2005,8 @@ class SpecialistController extends Controller
 
         $loader_type_arr_selected = explode(',', $driverData->driver->freightage_loader_type_temp);
 
-        $driverTypeArray = DriverTypeService::getDriverTypeArray();
-        $driverLoaderTypeRoadArray = DriverTypeRoadService::getDriverLoaderTypeRoadArray();
+        $driverTypeArray = Freightagetype::where('freightagetype_title', 'road')->get();
+        $driverLoaderTypeRoadArray = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'road')->get();
 
         return view('specialist.users.driver.profile_field_of_activity.activity_driver', compact('specialistData', 'id', 'driverData', 'driver_sector_arr', 'vendor_sector_cat_arr', 'filter_category_array', 'vendorsName', 'category_sector_cat_arr_selected', 'vendor_arr_selected', 'loader_type_arr_selected', 'driverTypeArray', 'driverLoaderTypeRoadArray'));
     }
@@ -2007,29 +2021,34 @@ class SpecialistController extends Controller
             'category_id.required' => 'لطفا حداقل یک دسته بندی مرتبط با راننده را انتخاب نمایید.',
         ]);
 
+        $freightageTypeArray = Freightagetype::all();
+        $freightageTypesIds = array(
+            "road" => $freightageTypeArray->where("freightagetype_title", 'road')->pluck('id')->min(),
+        );
+
         // زمینه فعالیت زمینی
-        if (in_array(1, $incomingFields['type'])) {
+        if (in_array($freightageTypesIds["road"], $incomingFields['type'])) {
             if ($request->loader_type == NULL) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا نوع بارگیر در حمل جاده ای را مشخص نمایید.');
             }
         }
 
-        $data = Driver::find(Purify::clean($request->id));
+        $data = User::find(Purify::clean($request->id));
 
-        $data->type = implode(',', Purify::clean($incomingFields['type']));
-        $data->category_id = implode(',', Purify::clean($incomingFields['category_id']));
-        $data->vendor_id = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
-        $data->freightage_loader_type = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
+        $data->driver->type = implode(',', Purify::clean($incomingFields['type']));
+        $data->driver->category_id = implode(',', Purify::clean($incomingFields['category_id']));
+        $data->driver->vendor_id = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
+        $data->driver->freightage_loader_type = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
 
-        $data->type_temp = implode(',', Purify::clean($incomingFields['type']));
-        $data->category_id_temp = implode(',', Purify::clean($incomingFields['category_id']));
-        $data->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
-        $data->freightage_loader_type_temp = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
+        $data->driver->type_temp = implode(',', Purify::clean($incomingFields['type']));
+        $data->driver->category_id_temp = implode(',', Purify::clean($incomingFields['category_id']));
+        $data->driver->vendor_id_temp = $request->vendor_id ? implode(',', Purify::clean($request->vendor_id)) : NULL;
+        $data->driver->freightage_loader_type_temp = $request->loader_type ? implode(',', Purify::clean($request->loader_type)) : NULL;
 
-        $data->status = "active";
+        $data->driver->status = "active";
 
-        $data->save();
+        $data->driver->save();
 
         return redirect()->route('specialist.driver.profile.verifyAll')->with('success', 'اطلاعات با موفقیت ذخیره و منتشر گردید.');
     }
