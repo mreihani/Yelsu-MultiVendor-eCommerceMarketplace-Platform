@@ -582,6 +582,10 @@ class AdminController extends Controller
    public function AdminUpdateUser(Request $request)
    {
       $user_id = Purify::clean($request->user_id);
+      
+      if($user_id == 1) {
+         return back()->with('error', 'امکان ویرایش حساب کاربری مدیر وجود ندارد.')->withInput();
+      }
 
       $incomingFields = $request->validate([
          'firstname' => ['required', 'string', 'max:255'],
@@ -641,6 +645,10 @@ class AdminController extends Controller
 
    public function AdminDeleteUser($id)
    {
+      if($id == 1) {
+         return back()->with('error', 'امکان حذف حساب کاربری مدیر وجود ندارد.')->withInput();
+      }
+
       User::findOrFail(Purify::clean($id))->delete();
 
       return redirect(route('admin.users'))->with('success', 'حساب کاربری با موفقیت به حذف گردید.');

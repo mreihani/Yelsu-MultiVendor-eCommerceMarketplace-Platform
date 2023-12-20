@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Backend\Vendor;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Freightagetype;
 use App\Http\Controllers\Controller;
+use App\Models\Freightageloadertype;
 use Stevebauman\Purify\Facades\Purify;
 use App\Models\FreightageVendorInvitation;
 use App\Services\Categories\GetCategoryByStringIds\GetCategoryByStringIds;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 class VendorFreightageController extends Controller
 {
@@ -36,12 +33,44 @@ class VendorFreightageController extends Controller
             return redirect(route('vendor.all.freightage.verified'))->with('error', 'شما اجازه دسترسی ندارید.');
         }
 
-        $freightage_type_array = FreightageTypeService::getFreightageTypeValuesByIds($invitation->freightage->freightage->type);
-        $freightage_loader_type_road_array = FreightageTypeRoadService::getFreightageTypeValuesByIds($invitation->freightage->freightage->freightage_loader_type_sea);
-        $freightage_loader_type_rail_array = FreightageTypeRailService::getFreightageTypeValuesByIds($invitation->freightage->freightage->freightage_loader_type_sea);
-        $freightage_loader_type_sea_array = FreightageTypeSeaService::getFreightageTypeValuesByIds($invitation->freightage->freightage->freightage_loader_type_sea);
-        $freightage_loader_type_air_array = FreightageTypeAirService::getFreightageTypeValuesByIds($invitation->freightage->freightage->freightage_loader_type_sea);
-       
+        $freightage_type_array = [];
+        foreach (explode(",", $invitation->freightage->freightage->type) as $freightage_type) {
+            $freightage_type_array[] = Freightagetype::find($freightage_type)->value;
+        }
+
+        $freightage_loader_type_road_array = [];
+        $freightage_loader_type = $invitation->freightage->freightage->freightage_loader_type;
+        if($freightage_loader_type) {
+            foreach (explode(",", $invitation->freightage->freightage->freightage_loader_type) as $road_loader_type_id) {
+                $freightage_loader_type_road_array[] = Freightageloadertype::find($road_loader_type_id)->value;
+            }
+        }
+
+        $freightage_loader_type_rail_array = [];
+        $freightage_loader_type_rail = $invitation->freightage->freightage->freightage_loader_type_rail;
+        if($freightage_loader_type_rail) {
+            foreach (explode(",", $invitation->freightage->freightage->freightage_loader_type_rail) as $rail_loader_type_id) {
+                $freightage_loader_type_rail_array[] = Freightageloadertype::find($rail_loader_type_id)->value;
+            }
+        }
+
+        $freightage_loader_type_sea_array = [];
+        $freightage_loader_type_sea = $invitation->freightage->freightage->freightage_loader_type_sea;
+        if($freightage_loader_type_sea) {
+            foreach (explode(",", $freightage_loader_type_sea) as $sea_loader_type_id) {
+                $freightage_loader_type_sea_array[] = Freightageloadertype::find($sea_loader_type_id)->value;
+            }
+        }
+
+        $freightage_loader_type_air_array = [];
+        $freightage_loader_type_air = $invitation->freightage->freightage->freightage_loader_type_air;
+        if($freightage_loader_type_air) {
+            foreach (explode(",", $invitation->freightage->freightage->freightage_loader_type_air) as $air_loader_type_id) {
+                $freightage_loader_type_air_array[] = Freightageloadertype::find($air_loader_type_id)->value;
+            }
+        }
+      
+
         $freightage_category_id = GetCategoryByStringIds::getCategoryByIds($invitation->freightage->freightage->category_id);
 
         return view('vendor.backend.freightage.freightage_invitation_detail', 

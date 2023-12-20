@@ -11,7 +11,7 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
         },
         url: "/get-freightage-information",
         success: function (response) {
-            
+          
             removePreviousElementsInformationDropdown(freightage_company_name_element);
             freightage_company_name_element.append(createFreightageActivityFieldHTML(response, freightage_id));
         },

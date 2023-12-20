@@ -23,5 +23,29 @@ class Freightageloadertype extends Model
     public function getChildren() {
         return $this->hasMany(Freightageloadertype::class, 'parent', 'id');
     }
+
+    public function scopeGetFreightageLoaderTypeLastItems($query, $freightage_object_array) {
+        $last_items_array = [];
+        foreach ($freightage_object_array as $freightage_object_item) {
+            $child_item = $freightage_object_item->getChildren()->get();
+
+            if(!count($child_item)) {
+                $last_items_array[] = $freightage_object_item;
+            }
+        }
+
+        return $last_items_array;
+    }
+
+    public function scopeGetFreightageTypeValuesByIds($query, $freightage_loader_types) {
+
+        $freightage_object_array = [];
+
+        foreach ($freightage_loader_types as $freightage_loader_item) {
+            $freightage_object_array[] = $this->find($freightage_loader_item);
+        }
+
+        return $freightage_object_array;
+    }
 }
 

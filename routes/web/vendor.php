@@ -32,6 +32,7 @@ Route::middleware(['vendoraccess'])->group(function () {
         Route::get('copy/product/{id}', 'VendorCopyProduct')->name('vendor.copy.product');
         Route::post('storeCopy/product', 'VendorStoreCopyProduct')->name('vendor.storeCopy.product');
         Route::post('load-attributes','LoadAttributes');
+        Route::get('/all/freightage-loader-type-ajax', 'GetFreightageLoaderAjax');
     });
 
     //Vendor Order All Route

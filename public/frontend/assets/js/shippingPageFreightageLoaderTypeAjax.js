@@ -14,6 +14,7 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
         },
         url: "/get-freightage-loader-type",
         success: function (response) {
+         
             removePreviousElementsActivityField(freightage_loader_type_element);
             freightage_loader_type_element.append(createFreightageLoaderTypeHTML(response));
         },

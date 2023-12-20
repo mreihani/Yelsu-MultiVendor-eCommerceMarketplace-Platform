@@ -7,13 +7,11 @@ use App\Models\Order;
 use App\Models\Outlet;
 use App\Models\Useroutlets;
 use Illuminate\Http\Request;
+use App\Models\Freightagetype;
 use App\Http\Controllers\Controller;
+use App\Models\Freightageloadertype;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\NeshanServices\NeshanApiService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeAirService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeSeaService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRailService;
-use App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeRoadService;
 
 class UserShippingController extends Controller
 {
@@ -71,22 +69,32 @@ class UserShippingController extends Controller
     public function GetFreightageLoaderTypeAjax(Request $request) {
         $type_id = Purify::clean($request->type_id);
         $freightage_id = Purify::clean($request->freightage_id);
+
+        $freightageTypeItem = Freightagetype::find($type_id);
+        $freightagetype_title = $freightageTypeItem->freightagetype_title;
         
-        if($type_id == 1) {
-            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeRoad();
-            $freightage_object_array = FreightageTypeRoadService::getFreightageSelectedItems($freightage_type_array);
-        } elseif($type_id == 7) {
-            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeRail();
-            $freightage_object_array = FreightageTypeRailService::getFreightageSelectedItems($freightage_type_array);
-        } elseif($type_id == 8) {
-            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeSea();
-            $freightage_object_array = FreightageTypeSeaService::getFreightageSelectedItems($freightage_type_array);
-        } elseif($type_id == 9) {
-            $freightage_type_array = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeAir();
-            $freightage_object_array = FreightageTypeAirService::getFreightageSelectedItems($freightage_type_array);
+        if($freightagetype_title == "road") {
+
+            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'road')->get();
+            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
+
+        } elseif($freightagetype_title == "rail") {
+
+            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'rail')->get();
+            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
+
+        } elseif($freightagetype_title == "sea") {
+            
+            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'sea')->get();
+            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
+
+        } elseif($freightagetype_title == "air") {
+
+            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'air')->get();
+            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
         }
 
-        return response($freightage_object_array);
+        return response($freightageLoaderTypeLastItems);
     }
 
 }

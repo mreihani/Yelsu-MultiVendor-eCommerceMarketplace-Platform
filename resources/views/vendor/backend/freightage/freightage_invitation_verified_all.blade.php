@@ -152,7 +152,7 @@
                                         
                                         <td>
                                             <!--begin::Badges-->
-                                            @foreach (App\Services\Users\Freightage\FreightageTypeServices\FreightageTypeService::getFreightageTypeValuesByIds($invitation->freightage->freightage->type) as $freightage_type)
+                                            @foreach (App\Models\Freightagetype::getFreightageTypeValuesByIds($invitation->freightage->freightage->type) as $freightage_type)
                                                 <div class="badge badge-light-primary">
                                                     {{$freightage_type}}
                                                 </div>

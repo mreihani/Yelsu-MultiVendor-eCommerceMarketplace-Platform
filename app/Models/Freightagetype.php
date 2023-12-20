@@ -38,4 +38,28 @@ class Freightagetype extends Model
         return $this->hasMany(Freightagetype::class, 'parent', 'id');
     }
 
+    public function scopeGetFreightageParentItems($query, $freightage_type_array) {
+        $parent_items = $this->where('parent', 0)->get();
+        
+        $parent_items_array = [];
+        foreach ($parent_items as $parent_item) {
+            if(in_array($parent_item->id, $freightage_type_array)) {
+                $parent_items_array[] = $parent_item;
+            }
+        }
+
+        return $parent_items_array;
+    }
+
+    public function scopeGetFreightageTypeValuesByIds($query, $freightage_type_array) {
+        $freightage_array = explode(",", $freightage_type_array);
+
+        $freightage_value_array = [];
+        foreach ($freightage_array as $freightage_id) {
+            $freightage_value_array[] = $this->find($freightage_id)->value;
+        }
+
+        return $freightage_value_array;
+    }
+
 }

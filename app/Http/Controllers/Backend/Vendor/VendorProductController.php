@@ -9,15 +9,16 @@ use App\Models\MultiImg;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeItem;
+use App\Models\Freightagetype;
 use App\Models\CategoryProduct;
 use Illuminate\Validation\Rule;
 use App\Rules\AttributeIsRequired;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File as LaravelFile;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File as LaravelFile;
 
 class VendorProductController extends Controller
 {
@@ -53,7 +54,10 @@ class VendorProductController extends Controller
             $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'filter_category_array', 'vendorSectorArr'));
+        // بخش مدیریت حمل کالا
+        $freightage_types = Freightagetype::where("parent", 0)->get();
+
+        return view('vendor.backend.product.vendor_product_add', compact('vendorData', 'filter_category_array', 'vendorSectorArr', 'freightage_types'));
     }
 
     public function VendorStoreProduct(Request $request)
@@ -186,7 +190,18 @@ class VendorProductController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+
+        // بخش مدیریت حمل و نقل محصول
+        if($request->user_has_vehicle != "on") {
+            $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
+            
+            $product->freightageloadertype()->attach($freightageloadertype_id);
+        }
+        // بخش مدیریت حمل و نقل محصول
+
+
         $product->searchable();
+
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
@@ -718,6 +733,14 @@ class VendorProductController extends Controller
         }
 
         return response(['attributes' => $category_related_attributes_arr, 'product_selected_attribute_array' => $product_selected_attribute_array, 'product_selected_attribute_value_id_array' => $product_selected_attribute_value_id_array]);
+    }
+
+    public function GetFreightageLoaderAjax(Request $request) {
+        $freightagetype_id = $request->freightagetype_id;
+        $freightagetype = Freightagetype::find($freightagetype_id);
+        $freightageLoaderTypes = $freightagetype->freightageLoaderTypeLastItems();
+
+        return $freightageLoaderTypes;
     }
 
 } 

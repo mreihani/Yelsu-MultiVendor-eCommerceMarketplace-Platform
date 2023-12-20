@@ -11,6 +11,7 @@ use App\Models\AttributeItem;
 use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
+use App\Models\Freightageloadertype;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -489,6 +490,10 @@ class Product extends Model
             'product_specific_geolocation_internal', 
             'product_specific_geolocation_external'
         );
+    }
+
+    public function freightageloadertype() {
+        return $this->belongsToMany(Freightageloadertype::class);
     }
     
 }

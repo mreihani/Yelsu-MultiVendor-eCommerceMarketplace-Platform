@@ -133,6 +133,16 @@
                     </a>
                 </div>
             </div>     
+        @elseif($root_catgory_obj && $root_catgory_obj->id == 1405)
+            <div class="shop-default-banner shop-boxed-banner banner d-flex align-items-center"
+                style="background-image: url({{asset('frontend/assets/images/yelsu_images/dynamic_category_banner/chemical.jpg')}});">
+                
+                <div class="container banner-content d-flex">
+                    <a href="https://t.me/yelsu_com">
+                        <p class="telegram_channel"><img width="20" src="{{asset('frontend/assets/images/yelsu_images/social_media/telegram.png')}}" alt="یلسو"/>کانال صنایع شیمیایی و وابسته</p>
+                    </a>
+                </div>
+            </div>     
         @else
             <div class="shop-default-banner shop-boxed-banner banner d-flex align-items-center"
                 style="background-image: url({{asset('frontend/assets/images/yelsu_images/dynamic_category_banner/yelsu.jpg')}});">
