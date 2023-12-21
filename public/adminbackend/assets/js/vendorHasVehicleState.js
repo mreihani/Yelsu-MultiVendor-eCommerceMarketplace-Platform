@@ -12,3 +12,13 @@ transportation_section.on("change", userHasVehicle, function(e) {
         yelsu_freightage.slideDown();
     }
 });
+
+$(document).ready(function(){
+    let checkedStatus = userHasVehicle.is(':checked');
+
+    if(checkedStatus) {
+        yelsu_freightage.hide();
+    } else {
+        yelsu_freightage.show();
+    }
+});

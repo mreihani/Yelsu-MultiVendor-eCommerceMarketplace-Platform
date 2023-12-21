@@ -7,9 +7,12 @@ $('.repeater-body').on('click', '.add-repeater-btn', function(e) {
     $repeater = $this.closest(".repeater-body").find('[data-repeatable]').last();
     $clone = $repeater.first().clone();
 
+    let freightagetype_selection_cloned_element = $clone.find(".freightagetype_selection select option[value='0']");
+    freightagetype_selection_cloned_element.attr("selected", "selected");
+
     let freightageLoaderTypeOption = $clone.find(".freightageloadertype_selection select option");
     freightageLoaderTypeOption.remove();
-    $clone.find(".freightageloadertype_selection select").append("<option>نوع بارگیر را انتخاب نمایید<option>");
+    $clone.find(".freightageloadertype_selection select").append(`<option value="0">نوع بارگیر را انتخاب نمایید</option>`);
     
     $clone.insertAfter($repeater);
 });

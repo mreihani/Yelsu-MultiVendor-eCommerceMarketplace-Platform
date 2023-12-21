@@ -194,8 +194,13 @@ class VendorProductController extends Controller
         // بخش مدیریت حمل و نقل محصول
         if($request->user_has_vehicle != "on") {
             $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-            
-            $product->freightageloadertype()->attach($freightageloadertype_id);
+            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
+
+            if (in_array(0, $freightageloadertype_id_array_unique)) {
+                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
+            }
+
+            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
         }
         // بخش مدیریت حمل و نقل محصول
 
@@ -223,7 +228,10 @@ class VendorProductController extends Controller
             $filter_category_array[] = array($parentCategory, $all_children);
         }
 
-        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
+        // بخش مدیریت حمل کالا
+        $freightage_types = Freightagetype::where("parent", 0)->get();
+
+        return view('vendor.backend.product.vendor_product_edit', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr', 'freightage_types'));
     }
 
     public function VendorUpdateProduct(Request $request)
@@ -464,6 +472,25 @@ class VendorProductController extends Controller
         }    
         // بخش مدیریت ویژگی ها
 
+
+        // بخش مدیریت حمل و نقل محصول
+        if($request->user_has_vehicle != "on") {
+            $product->freightageloadertype()->detach();
+            
+            $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
+            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
+
+            if (in_array(0, $freightageloadertype_id_array_unique)) {
+                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
+            }
+            
+            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
+        } else {
+            $product->freightageloadertype()->detach();
+        }
+        // بخش مدیریت حمل و نقل محصول
+
+
         if ($product_verification == 'inactive') {
             return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی و پس از تایید کارشناس منتشر خواهد شد.');
         }
@@ -504,8 +531,11 @@ class VendorProductController extends Controller
             $all_children = Category::find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
         }
+
+        // بخش مدیریت حمل کالا
+        $freightage_types = Freightagetype::where("parent", 0)->get();
         
-        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr'));
+        return view('vendor.backend.product.vendor_product_copy', compact('vendorData', 'products', 'allAttributes', 'filter_category_array', 'vendorSectorArr', 'freightage_types'));
     }
 
     public function VendorStoreCopyProduct(Request $request)
@@ -685,6 +715,21 @@ class VendorProductController extends Controller
             }
         }    
         // بخش مدیریت ویژگی ها
+
+        
+        // بخش مدیریت حمل و نقل محصول
+        if($request->user_has_vehicle != "on") {
+            $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
+            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
+
+            if (in_array(0, $freightageloadertype_id_array_unique)) {
+                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
+            }
+
+            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
+        }
+        // بخش مدیریت حمل و نقل محصول
+
 
         $product->searchable();
         

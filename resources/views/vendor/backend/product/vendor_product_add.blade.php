@@ -484,7 +484,7 @@
                                                                             <!--end::Tags-->
                                                                             <!--begin::Input-->
                                                                             <select class="js-example-basic-single form-control" name="freightageloadertype_id[]">
-                                                                                <option value="">نوع بارگیر را انتخاب نمایید</option>
+                                                                                <option value="0">نوع بارگیر را انتخاب نمایید</option>
                                                                             </select>
                                                                             <!--end::Input-->
                                                                         </div>
@@ -976,9 +976,10 @@
 
 <script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
+
+{{-- اسکریپت های مربوط به مدیریت حمل --}}
 <script src="{{asset('adminbackend/assets/js/vendorHasVehicleState.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/LoadFreightageLoaderTypeAjaxVendor.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/freightageRepeaterVendor.js')}}"></script>
-
     
 @endsection
