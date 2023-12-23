@@ -3,17 +3,18 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
     let thisElement = $(this);
     let freightage_id = thisElement.val();
     let freightage_company_name_element = thisElement.closest(".freightage-company-name");
-    
+    let product_id = freightage_company_name_element.find("input.product_id").val()    ;
+
     $.ajax({
         type: "GET",
         data:{
             freightage_id,
+            product_id
         },
         url: "/get-freightage-information",
         success: function (response) {
-          
             removePreviousElementsInformationDropdown(freightage_company_name_element);
-            freightage_company_name_element.append(createFreightageActivityFieldHTML(response, freightage_id));
+            freightage_company_name_element.append(createFreightageActivityFieldHTML(response.freightage_obj_filtered, freightage_id));
         },
     });
 });
@@ -30,7 +31,7 @@ function createFreightageActivityFieldHTML(response, freightage_id) {
     });
 
     let html = 
-    `<div class="form-group freightage-company-activity-field mt-5">
+    `<div class="form-group freightage-company-activity-field" style="margin-top:42px;">
         <label>روش ارسال کالا</label>
         <input type="hidden" value="${freightage_id}" class="freightage_id">
         <div>

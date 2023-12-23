@@ -202,9 +202,12 @@
                                                 <h4>
                                                     تعیین شرکت باربری
                                                 </h4>
-                                                
+
                                                 <div class="form-group freightage-company-name">
                                                     <label>نام شرکت باربری</label>
+
+                                                    <input type="hidden" class="product_id" value="{{$product->id}}">
+
                                                     <div>
                                                         <select class="form-control form-control-md freightage-information-dropdown">
                                                                 <option value="">شرکت باربری را انتخاب نمایید</option>

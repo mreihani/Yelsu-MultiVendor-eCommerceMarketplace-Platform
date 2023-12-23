@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Outlet;
+use App\Models\Product;
 use App\Models\Useroutlets;
 use Illuminate\Http\Request;
 use App\Models\Freightagetype;
@@ -63,7 +64,23 @@ class UserShippingController extends Controller
         $freightage_id = Purify::clean($request->freightage_id);
         $freightage_obj = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent();
 
-        return response($freightage_obj);
+        // اینجا موارد نوع ارسال کالا که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
+        $product_id = Purify::clean($request->product_id);
+
+        $freightagetype_id_from_product = [];
+        foreach (Product::find($product_id)->freightageloadertype as $freightageloadertype_item) {
+            $freightagetype_id_from_product[] = $freightageloadertype_item->freightageType->id;
+        }
+
+        $freightage_obj_filtered = [];
+        foreach ($freightage_obj as $freightage_item) {
+            if(in_array($freightage_item->id, $freightagetype_id_from_product)) {
+                $freightage_obj_filtered[] = $freightage_item;
+            }
+        }
+        // اینجا موارد نوع ارسال کالا که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
+
+        return response(['freightage_obj_filtered' => $freightage_obj_filtered]);
     }
 
     public function GetFreightageLoaderTypeAjax(Request $request) {
@@ -74,27 +91,32 @@ class UserShippingController extends Controller
         $freightagetype_title = $freightageTypeItem->freightagetype_title;
         
         if($freightagetype_title == "road") {
-
-            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'road')->get();
-            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
-
+            $freightage_loader_type = User::find($freightage_id)->freightage->freightage_loader_type;
+            $freightage_loader_type_array = explode(",", $freightage_loader_type);
         } elseif($freightagetype_title == "rail") {
-
-            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'rail')->get();
-            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
-
+            $freightage_loader_type_rail = User::find($freightage_id)->freightage->freightage_loader_type_rail;
+            $freightage_loader_type_array = explode(",", $freightage_loader_type_rail);
         } elseif($freightagetype_title == "sea") {
-            
-            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'sea')->get();
-            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
-
+            $freightage_loader_type_sea = User::find($freightage_id)->freightage->freightage_loader_type_sea;
+            $freightage_loader_type_array = explode(",", $freightage_loader_type_sea);
         } elseif($freightagetype_title == "air") {
-
-            $freightage_object_array = Freightageloadertype::whereRelation('freightageType', 'freightagetype_title', '=', 'air')->get();
-            $freightageLoaderTypeLastItems = Freightageloadertype::getFreightageLoaderTypeLastItems($freightage_object_array);
+            $freightage_loader_type_air = User::find($freightage_id)->freightage->freightage_loader_type_air;
+            $freightage_loader_type_array = explode(",", $freightage_loader_type_air);
         }
 
-        return response($freightageLoaderTypeLastItems);
+        // اینجا موارد نوع بارگیر که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
+        $product_id = Purify::clean($request->product_id);
+        $freightageloadertype_object_from_product = Product::find($product_id)->freightageloadertype;
+
+        $freightage_loader_type_last_items_filtered = [];
+        foreach ($freightageloadertype_object_from_product as $freightageloadertype_item_from_product) {
+            if(in_array($freightageloadertype_item_from_product->id, $freightage_loader_type_array)) {
+                $freightage_loader_type_last_items_filtered[] = $freightageloadertype_item_from_product;
+            }
+        }
+        // اینجا موارد نوع بارگیر که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
+
+        return response($freightage_loader_type_last_items_filtered);
     }
 
 }
