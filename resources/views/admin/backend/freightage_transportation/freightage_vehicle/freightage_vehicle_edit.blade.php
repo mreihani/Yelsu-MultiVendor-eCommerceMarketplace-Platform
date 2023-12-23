@@ -62,7 +62,7 @@
                 <form method="post" action="{{route('admin.update.freightage-vehicle')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
 
-                    <input type="hidden" name="id" value="{{$freightagevehicle->id}}">
+                    <input type="hidden" name="id" value="{{$fvehicle->id}}">
                   
                     <!--begin::Main column-->
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
@@ -78,7 +78,7 @@
                                     <label class="required form-label">نام وسیله حمل کالا</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="value" class="form-control mb-2" placeholder="نام وسیله حمل کالا را وارد نمایید" value="{{old('value', $freightagevehicle->value)}}" />
+                                    <input type="text" name="value" class="form-control mb-2" placeholder="نام وسیله حمل کالا را وارد نمایید" value="{{old('value', $fvehicle->value)}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">نام وسیله حمل کالا بایستی منحصر به فرد باشد.</div>
@@ -91,7 +91,7 @@
                                     <label class="form-label">ملاحظات (اختیاری)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="description" class="form-control mb-2" placeholder="" value="{{old('description', $freightagevehicle->description)}}" />
+                                    <input type="text" name="description" class="form-control mb-2" placeholder="" value="{{old('description', $fvehicle->description)}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">در صورت نیاز می توانید یادداشت خود را وارد نمایید.</div>
@@ -106,7 +106,7 @@
                                     <select class="js-example-basic-single form-control" name="freightagetype_id">
                                         <option value="0">روش ارسال را انتخاب نمایید</option>
                                         @foreach ($freightage_types as $freightage_type)
-                                            <option {{$freightage_type->id == $freightagevehicle->freightageLoaderType->freightagetype_id ? "selected" : ""}} value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
+                                            <option {{$freightage_type->id == $fvehicle->freightageLoaderType->freightagetype_id ? "selected" : ""}} value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
                                         @endforeach
                                     </select>
                                     <!--end::Input-->
@@ -119,8 +119,8 @@
                                     <!--end::Tags-->
                                     <!--begin::Input-->
                                     <select class="js-example-basic-single form-control" name="freightageloadertype_id">
-                                        <option value="{{$freightagevehicle->freightageloadertype_id}}">
-                                            {{$freightagevehicle->freightageloadertype->description}}
+                                        <option value="{{$fvehicle->freightageloadertype_id}}">
+                                            {{$fvehicle->freightageloadertype->description}}
                                         </option>
                                     </select>
                                     <!--end::Input-->

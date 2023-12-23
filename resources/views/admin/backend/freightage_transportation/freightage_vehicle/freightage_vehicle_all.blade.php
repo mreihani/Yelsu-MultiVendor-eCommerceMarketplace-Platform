@@ -143,7 +143,7 @@
 
                                         <td>
                                             <!--begin::Badges-->
-                                            <div class="badge badge-light-success"><a href="">{{$freightage_vehicle->freightageLoaderType->description}}</a></div>
+                                            {{-- <div class="badge badge-light-success"><a href="">{{$freightage_vehicle->freightageLoaderType->description}}</a></div> --}}
                                             <!--end::Badges-->
                                         </td>
 

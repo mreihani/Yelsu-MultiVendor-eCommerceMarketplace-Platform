@@ -12,7 +12,7 @@ use Stevebauman\Purify\Facades\Purify;
 
 class AdminFreightageVehicleController extends Controller
 {
-    public function AllFreightageVehicle(Request $request)
+    public function AllFreightageVehicle()
     {
         $adminData = auth()->user();
         $freightage_vehicles = Fvehicle::all();
@@ -67,7 +67,7 @@ class AdminFreightageVehicleController extends Controller
         return view('admin.backend.freightage_transportation.freightage_vehicle.freightage_vehicle_edit', compact(
             'freightage_types',
             'adminData', 
-            'fvehicle'
+            '$fvehicle'
         ));
     }
 
@@ -84,9 +84,9 @@ class AdminFreightageVehicleController extends Controller
             'freightageloadertype_id.required' => 'لطفا نوع بارگیر را مشخص نمایید.'
         ]);
 
-        $freightagevehicle = Fvehicle::find($id);
+        $Fvehicle = Fvehicle::find($id);
 
-        $freightagevehicle->update([
+        $Fvehicle::all->update([
             'value' => Purify::clean($incomingFields['value']),
             'description' => Purify::clean($request->description) ?: NULL,
             'freightageloadertype_id' => Purify::clean($incomingFields['freightageloadertype_id']),

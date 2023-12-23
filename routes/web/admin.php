@@ -222,9 +222,9 @@ Route::controller(AdminFreightageVehicleController::class)->group(function () {
     Route::get('/all/freightage-vehicle', 'AllFreightageVehicle')->name('admin.all.freightage-vehicle');
     Route::get('/add/freightage-vehicle', 'AddFreightageVehicle')->name('admin.add.freightage-vehicle');
     Route::post('/store/freightage-vehicle', 'StoreFreightageVehicle')->name('admin.store.freightage-vehicle');
-    Route::get('/edit/freightage-vehicle/{freightagevehicle}', 'EditFreightageVehicle')->name('admin.edit.freightage-vehicle');
+    Route::get('/edit/freightage-vehicle/{fvehicle}', 'EditFreightageVehicle')->name('admin.edit.freightage-vehicle');
     Route::post('/update/freightage-vehicle', 'UpdateFreightageVehicle')->name('admin.update.freightage-vehicle');
-    Route::get('/delete/freightage-vehicle/{freightagevehicle}', 'DeleteFreightageVehicle')->name('admin.delete.freightage-vehicle');
+    Route::get('/delete/freightage-vehicle/{fvehicle}', 'DeleteFreightageVehicle')->name('admin.delete.freightage-vehicle');
     Route::get('/all/freightage-loader-type-ajax', 'GetFreightageLoaderAjax');
 });
 

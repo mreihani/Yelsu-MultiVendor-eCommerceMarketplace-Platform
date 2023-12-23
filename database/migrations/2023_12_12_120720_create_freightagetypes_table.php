@@ -57,7 +57,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->useCurrent();
         });
 
-        Schema::create('freightagevehicles', function (Blueprint $table) {
+        Schema::create('fvehicles', function (Blueprint $table) {
             $table->id();
             
             $table->string('value')->nullable();
@@ -77,7 +77,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('freightagevehicles');
+        Schema::dropIfExists('fvehicles');
         Schema::dropIfExists('freightageloadertype_product');
         Schema::dropIfExists('freightageloadertypes');
         Schema::dropIfExists('freightagetypes');

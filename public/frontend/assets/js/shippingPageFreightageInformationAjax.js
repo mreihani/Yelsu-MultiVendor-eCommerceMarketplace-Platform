@@ -3,7 +3,7 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
     let thisElement = $(this);
     let freightage_id = thisElement.val();
     let freightage_company_name_element = thisElement.closest(".freightage-company-name");
-    let product_id = freightage_company_name_element.find("input.product_id").val()    ;
+    let product_id = freightage_company_name_element.find("input.product_id").val();
 
     $.ajax({
         type: "GET",
