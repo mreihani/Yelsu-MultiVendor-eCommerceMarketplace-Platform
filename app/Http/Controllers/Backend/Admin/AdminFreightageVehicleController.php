@@ -47,7 +47,7 @@ class AdminFreightageVehicleController extends Controller
         Fvehicle::insert([
             'value' => Purify::clean($incomingFields['value']),
             'description' => Purify::clean($request->description) ?: NULL,
-            // 'freightageloadertype_id' => Purify::clean($incomingFields['freightageloadertype_id']),
+            'freightageloadertype_id' => Purify::clean($incomingFields['freightageloadertype_id']),
         ]);
        
         return redirect(route('admin.all.freightage-vehicle'))->with('success', 'وسیله حمل کالا با موفقیت ایجاد گردید.');
