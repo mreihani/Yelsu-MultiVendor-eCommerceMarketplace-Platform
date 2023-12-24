@@ -1,4 +1,4 @@
-$("#freightagetype_selection").change(function(){
+$("#yelsu_freightage").on("change", ".freightagetype_selection", function() {
     let thisElement = $(this);
 
     let selectElement = thisElement.find("select");
@@ -14,7 +14,9 @@ $("#freightagetype_selection").change(function(){
             }),
             success: function (data) {
                 let option_element = "";
-                let freightageloadertype_selection_element = $("#freightageloadertype_selection select");
+              
+                let freightageloadertype_selection_element = thisElement.closest(".freightage-loader-repeater").find(".freightageloadertype_selection select");
+                
                 freightageloadertype_selection_element.html("");
 
                 data.forEach(element => {

@@ -199,7 +199,6 @@ class VendorProductController extends Controller
             if (in_array(0, $freightageloadertype_id_array_unique)) {
                 unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
             }
-
             $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
         }
         // بخش مدیریت حمل و نقل محصول

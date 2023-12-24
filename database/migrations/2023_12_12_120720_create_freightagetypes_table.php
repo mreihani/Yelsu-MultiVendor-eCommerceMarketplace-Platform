@@ -63,9 +63,6 @@ return new class extends Migration
             $table->string('value')->nullable();
             $table->string('description')->nullable();
             
-            $table->unsignedBigInteger('freightageloadertype_id');
-            $table->foreign('freightageloadertype_id')->references('id')->on('freightageloadertypes')->onDelete('cascade');
-            
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

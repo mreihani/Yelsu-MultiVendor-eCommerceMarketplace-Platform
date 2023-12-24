@@ -18847,7 +18847,8 @@ body .product-popup {
     }
 }
 
-.home-banner-2 img {
+/* css for moving up and down */
+/* .home-banner-2 img {
     -webkit-animation: mover 1.5s infinite alternate;
     animation: mover 1.5s infinite alternate;
 }
@@ -18866,7 +18867,7 @@ body .product-popup {
     100% {
         transform: translateY(-15px);
     }
-}
+} */
 /* END OF - custom css for banner 2 in home page */
 
 /* footer custom css */

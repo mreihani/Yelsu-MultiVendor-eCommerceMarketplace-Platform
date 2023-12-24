@@ -59,8 +59,10 @@
             @endforeach
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl col-xl-8">
-                <form method="post" action="{{route('admin.store.freightage-vehicle')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
+                <form method="post" action="{{route('admin.store-copy.freightage-vehicle')}}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
                     @csrf
+
+                    <input type="hidden" name="id" value="{{$fvehicle->id}}">
                   
                     <!--begin::Main column-->
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
@@ -76,7 +78,7 @@
                                     <label class="required form-label">نام وسیله حمل کالا</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="value" class="form-control mb-2" placeholder="نام وسیله حمل کالا را وارد نمایید" value="{{old('value')}}" />
+                                    <input type="text" name="value" class="form-control mb-2" placeholder="نام وسیله حمل کالا را وارد نمایید" value="{{old('value', $fvehicle->value)}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">نام وسیله حمل کالا بایستی منحصر به فرد باشد.</div>
@@ -89,39 +91,12 @@
                                     <label class="form-label">ملاحظات (اختیاری)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
-                                    <input type="text" name="description" class="form-control mb-2" placeholder="" value="{{old('description')}}" />
+                                    <input type="text" name="description" class="form-control mb-2" placeholder="" value="{{old('description', $fvehicle->description)}}" />
                                     <!--end::Input-->
                                     <!--begin::توضیحات-->
                                     <div class="text-muted fs-7">در صورت نیاز می توانید یادداشت خود را وارد نمایید.</div>
                                     <!--end::توضیحات-->
                                 </div>
-
-                                {{-- <div class="mb-10 fv-row" id="freightagetype_selection">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">تعیین روش ارسال </label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <select class="js-example-basic-single form-control" name="freightagetype_id">
-                                        <option value="0">روش ارسال را انتخاب نمایید</option>
-                                        @foreach ($freightage_types as $freightage_type)
-                                            <option value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
-                                        @endforeach
-                                    </select>
-                                    <!--end::Input-->
-                                </div>
-                                <!--end::Input group-->
-
-                                <div class="mb-10 fv-row" id="freightageloadertype_selection">
-                                    <!--begin::Tags-->
-                                    <label class="form-label">تعیین نوع بارگیر </label>
-                                    <!--end::Tags-->
-                                    <!--begin::Input-->
-                                    <select class="js-example-basic-single form-control" name="freightageloadertype_id">
-                                        <option value="">نوع بارگیر را انتخاب نمایید</option>
-                                    </select>
-                                    <!--end::Input-->
-                                </div>
-                                <!--end::Input group--> --}}
 
                                 <!--begin::مدیریت حمل کالا-->
                                 <div class="card card-flush py-4" id="transportation_section">
@@ -129,53 +104,57 @@
                                     <div class="pt-0" id="yelsu_freightage">
                                         <div class="row repeater-body">
                                             <div class="col-lg-10">
-                                                <div class="repeater">
-                                                    <div data-repeatable="">
-                                                        <fieldset class="row">
-                                                            <!--begin::Row-->
-                                                            <div class="row col-md-10 freightage-loader-repeater">
-                                                                <div class="col-md-6">
-                                                                    <!--begin::کارت body-->
-                                                                    <div class="mb-10 fv-row freightagetype_selection">
-                                                                        <!--begin::Tags-->
-                                                                        <label class="form-label">تعیین روش ارسال </label>
-                                                                        <!--end::Tags-->
-                                                                        <!--begin::Input-->
-                                                                        <select class="js-example-basic-single form-control" name="freightagetype_id[]">
-                                                                            <option value="0">روش ارسال را انتخاب نمایید</option>
-                                                                            @foreach ($freightage_types as $freightage_type)
-                                                                                <option value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <!--end::Input-->
+                                                <!--begin::freightage loader types data from database -->          
+                                                @foreach($fvehicle->freightageloadertype as $freightageloadertype_item)
+                                                    <div class="repeater">
+                                                        <div data-repeatable="">
+                                                            <fieldset class="row">
+                                                                <!--begin::Row-->
+                                                                <div class="row col-md-10 freightage-loader-repeater">
+                                                                    <div class="col-md-6">
+                                                                        <!--begin::کارت body-->
+                                                                        <div class="mb-10 fv-row freightagetype_selection">
+                                                                            <!--begin::Tags-->
+                                                                            <label class="form-label">تعیین روش ارسال </label>
+                                                                            <!--end::Tags-->
+                                                                            <!--begin::Input-->
+                                                                            <select class="js-example-basic-single form-control" name="freightagetype_id[]">
+                                                                                <option value="0">روش ارسال را انتخاب نمایید</option>
+                                                                                @foreach ($freightage_types as $freightage_type)
+                                                                                    <option {{$freightage_type->id == $freightageloadertype_item->freightageType->id ? "selected" : ""}} value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
+                                                                                @endforeach
+                                                                            </select>    
+                                                                            <!--end::Input-->
+                                                                        </div>
+                                                                        <!--end::Input group-->
                                                                     </div>
-                                                                    <!--end::Input group-->
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="mb-10 fv-row freightageloadertype_selection">
-                                                                        <!--begin::Tags-->
-                                                                        <label class="form-label">تعیین نوع بارگیر </label>
-                                                                        <!--end::Tags-->
-                                                                        <!--begin::Input-->
-                                                                        <select class="js-example-basic-single form-control" name="freightageloadertype_id[]">
-                                                                            <option value="0">نوع بارگیر را انتخاب نمایید</option>
-                                                                        </select>
-                                                                        <!--end::Input-->
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-10 fv-row freightageloadertype_selection">
+                                                                            <!--begin::Tags-->
+                                                                            <label class="form-label">تعیین نوع بارگیر </label>
+                                                                            <!--end::Tags-->
+                                                                            <!--begin::Input-->
+                                                                            <select class="js-example-basic-single form-control" name="freightageloadertype_id[]">
+                                                                                <option value="{{$freightageloadertype_item->id}}">{{$freightageloadertype_item->description}}</option>
+                                                                            </select>
+                                                                            <!--end::Input-->
+                                                                        </div>
+                                                                        <!--end::Input group-->
                                                                     </div>
-                                                                    <!--end::Input group-->
                                                                 </div>
-                                                            </div>
-                                                            <!--end::Row-->
+                                                                <!--end::Row-->
 
-                                                            <div class="col-md-2 d-flex align-items-center">
-                                                                <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
-                                                                    حذف
-                                                                    <i class="bi bi-patch-minus-fill"></i>
-                                                                </button>
-                                                            </div>
-                                                        </fieldset>
+                                                                <div class="col-md-2 d-flex align-items-center">
+                                                                    <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                                        حذف
+                                                                        <i class="bi bi-patch-minus-fill"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endforeach
+                                                <!--end::freightage loader types data from database -->            
                                             </div>
 
                                             <div class="col-lg-2 d-flex align-items-start mt-3">
@@ -227,5 +206,6 @@
 {{-- اسکریپت های مربوط به مدیریت حمل --}}
 <script src="{{asset('adminbackend/assets/js/loadFreightageLoaderTypeAjaxAdmin.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/freightageRepeaterVendor.js')}}"></script>
+
 
 @endsection

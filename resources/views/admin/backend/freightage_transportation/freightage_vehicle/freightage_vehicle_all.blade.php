@@ -143,7 +143,13 @@
 
                                         <td>
                                             <!--begin::Badges-->
-                                            {{-- <div class="badge badge-light-success"><a href="">{{$freightage_vehicle->freightageLoaderType->description}}</a></div> --}}
+                                            @foreach ($freightage_vehicle->freightageloadertype as $freightageloadertype_item)
+                                                <div class="badge badge-light-success">
+                                                    <a href="">
+                                                        {{$freightageloadertype_item->description}}
+                                                    </a>
+                                                </div>    
+                                            @endforeach
                                             <!--end::Badges-->
                                         </td>
 
@@ -159,14 +165,22 @@
                                             <!--end::Svg Icon--></a>
                                             <!--begin::Menu-->
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     <a href="{{route('admin.edit.freightage-vehicle', $freightage_vehicle->id)}}" class="menu-link px-3">ویرایش</a>
                                                 </div>
                                                 <!--end::Menu item-->
+
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     <a href="{{route('admin.delete.freightage-vehicle', $freightage_vehicle->id)}}" class="menu-link px-3" onclick ="return confirm('آیا برای انجام این کار اطمینان دارید؟')">حذف</a>
+                                                </div>
+                                                <!--end::Menu item-->
+
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a href="{{route('admin.copy.freightage-vehicle', $freightage_vehicle->id)}}" class="menu-link px-3">رونوشت</a>
                                                 </div>
                                                 <!--end::Menu item-->
                                                
