@@ -1394,6 +1394,60 @@
                 <!--end:Menu item-->
 
 
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'admin.all.freightage-param' ? 'show' : ''}} {{Route::currentRouteName() == 'admin.add.freightage-param' ? 'show' : ''}}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg fill="#b8b8b8" width="20px" height="20px" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="m23 14.91a6.55 6.55 0 1 1 -6.52 6.55 6.53 6.53 0 0 1 6.52-6.55zm20.7 15.72a.58.58 0 0 0 0-.84l-4.12-4.12a.59.59 0 0 0 -.42-.18.61.61 0 0 0 -.43.18l-11.34 11.38-1.7 5.69a.8.8 0 0 0 .79 1 .55.55 0 0 0 .18 0l5.69-1.74zm-1.45-7.75 4.15 4.12a.63.63 0 0 0 .43.18.59.59 0 0 0 .42-.18c.73-.73 2.06-1.94 2.06-1.94a2 2 0 0 0 0-2.91l-2.18-2.15a2 2 0 0 0 -1.41-.54 2.34 2.34 0 0 0 -1.5.54s-1.33 1.31-1.93 2a.58.58 0 0 0 0 .88zm-2.15-14.61h-34.1a4 4 0 0 0 -3.93 4v19.07a4 4 0 0 0 3.93 3.94h18.84l3.95-3.94h-18.25a4.53 4.53 0 0 0 -4.54-4.58v-9.88a4.53 4.53 0 0 0 4.56-4.57h25a4.53 4.53 0 0 0 4.56 4.57v3l3.88-3.97v-3.6a4 4 0 0 0 -3.9-4.04z"></path></g></svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">ضرایب محاسباتی حمل و نقل</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.add.freightage-param' ? 'active' : ''}}" href="{{route('admin.add.freightage-param')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن ضریب حمل کالا</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'admin.all.freightage-param' ? 'active' : ''}}" href="{{route('admin.all.freightage-param')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت ضریب حمل کالا</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+
             </div>
             <!--end::Menu-->
         </div>

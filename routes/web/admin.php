@@ -6,11 +6,12 @@ use App\Http\Controllers\Backend\Admin\ProductController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
 use App\Http\Controllers\Backend\Admin\AdminBlogController;
 use App\Http\Controllers\Backend\Admin\AdminVisitController;
+use App\Http\Controllers\Backend\Admin\AdminFparamController;
 use App\Http\Controllers\Backend\Admin\AdminCustomsController;
 use App\Http\Controllers\Backend\Admin\AdminAttributeController;
 use App\Http\Controllers\Backend\Admin\AdminFreightageTypeController;
-use App\Http\Controllers\Backend\Admin\AdminFreightageLoaderTypeController;
 use App\Http\Controllers\Backend\Admin\AdminFreightageVehicleController;
+use App\Http\Controllers\Backend\Admin\AdminFreightageLoaderTypeController;
 
 
 //Admin Dashboard
@@ -228,5 +229,15 @@ Route::controller(AdminFreightageVehicleController::class)->group(function () {
     Route::get('/copy/freightage-vehicle/{fvehicle}', 'CopyFreightageVehicle')->name('admin.copy.freightage-vehicle');
     Route::post('/store-copy/freightage-vehicle', 'StoreCopyFreightageVehicle')->name('admin.store-copy.freightage-vehicle');
     Route::get('/all/freightage-loader-type-ajax', 'GetFreightageLoaderAjax');
+});
+
+// Freightage Parameters All Route
+Route::controller(AdminFparamController::class)->group(function () {
+    Route::get('/all/freightage-param', 'AllFreightageParameter')->name('admin.all.freightage-param');
+    Route::get('/add/freightage-param', 'AddFreightageParameter')->name('admin.add.freightage-param');
+    Route::post('/store/freightage-param', 'StoreFreightageParameter')->name('admin.store.freightage-param');
+    Route::get('/edit/freightage-param/{fparam}', 'EditFreightageParameter')->name('admin.edit.freightage-param');
+    Route::post('/update/freightage-param', 'UpdateFreightageParameter')->name('admin.update.freightage-param');
+    Route::get('/delete/freightage-param/{fparam}', 'DeleteFreightageParameter')->name('admin.delete.freightage-param');
 });
 

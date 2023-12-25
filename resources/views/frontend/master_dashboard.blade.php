@@ -62,6 +62,8 @@
     
     <script src="{{asset('frontend/assets/js/chatUX.js')}}"></script>
 
+
+
     <script>
         let productInitialPriceValue;
     </script>

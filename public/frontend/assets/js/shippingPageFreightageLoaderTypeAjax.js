@@ -25,6 +25,13 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
 
 function createFreightageLoaderTypeHTML(response) {
 
+    $(document).ready(function() {
+        $('.freightage-loader-type-dropdown').select2({
+            placeholder: 'نوع بارگیر را انتخاب نمایید',
+            dir: "rtl",
+        });
+    });
+
     let freightageLoaderType = '';
 
     $.each(response, function(key,value){
@@ -37,8 +44,7 @@ function createFreightageLoaderTypeHTML(response) {
     `<div class="form-group freightage-company-loader-type mt-8">
         <label>انتخاب نوع بارگیر</label>
         <div>
-            <select class="form-control form-control-md freightage-loader-type-dropdown">
-                <option value="">نوع بارگیر را انتخاب نمایید</option>
+            <select class="form-control form-control-md freightage-loader-type-dropdown" multiple="multiple">
                 ${freightageLoaderType}
             </select>
         </div>

@@ -22,6 +22,13 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
 
 function createFreightageActivityFieldHTML(response, freightage_id) {
 
+    $(document).ready(function() {
+        $('.freightage-activity-field-dropdown').select2({
+            placeholder: 'روش ارسال را انتخاب نمایید'
+        });
+        
+    });
+
     let freightageActivityField = '';
 
     $.each(response, function(key,value){
@@ -31,7 +38,7 @@ function createFreightageActivityFieldHTML(response, freightage_id) {
     });
 
     let html = 
-    `<div class="form-group freightage-company-activity-field" style="margin-top:42px;">
+    `<div class="form-group freightage-company-activity-field" style="margin-top:56px;">
         <label>روش ارسال کالا</label>
         <input type="hidden" value="${freightage_id}" class="freightage_id">
         <div>

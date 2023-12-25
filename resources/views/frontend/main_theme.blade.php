@@ -82,6 +82,10 @@
     
     <script src="{{asset('frontend/assets/js/chatUX.js')}}"></script>
 
+    <!-- SELECT2 -->
+    <link rel="stylesheet" type="text/css" href="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.css')}}">
+    <script src="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.js')}}"></script>
+
     <!--begin:: product details min value initiation -->
     <script>
         let productInitialPriceValue;

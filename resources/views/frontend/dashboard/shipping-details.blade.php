@@ -1,8 +1,14 @@
 @extends('frontend.main_theme')
 @section('main')
 
-
 <script src="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.js"></script>
+
+<!-- SELECT2 initialize -->
+<script>
+    $(document).ready(function() {
+        $('.yelsu-select2-basic-single').select2();
+    });
+</script>
 
     <!-- Start of Main -->
     <main class="main">
@@ -137,7 +143,7 @@
                                                 <div class="form-group">
                                                     <label>نام مبدا</label>
                                                     <div>
-                                                        <select class="form-control form-control-md vendor-address-information">
+                                                        <select class="form-control form-control-md vendor-address-information yelsu-select2-basic-single">
                                                             @foreach($product->determine_product_owner->vendor_outlets as $vendor_outlet)
                                                                 <option value="{{$vendor_outlet->id}}">{{$vendor_outlet->shop_name}}</option>
                                                             @endforeach
@@ -167,7 +173,7 @@
                                                 <div class="form-group">
                                                     <label>نام مقصد</label>
                                                     <div>
-                                                        <select class="form-control form-control-md user-address-information">
+                                                        <select class="form-control form-control-md user-address-information yelsu-select2-basic-single">
                                                                 {{-- <option value="">مقصد را انتخاب نمایید</option> --}}
                                                             @foreach($userData->outlets()->get() as $user_outlet)
                                                                 <option value="{{$user_outlet->id}}">{{$user_outlet->name}}</option>
@@ -209,7 +215,7 @@
                                                     <input type="hidden" class="product_id" value="{{$product->id}}">
 
                                                     <div>
-                                                        <select class="form-control form-control-md freightage-information-dropdown">
+                                                        <select class="form-control form-control-md freightage-information-dropdown yelsu-select2-basic-single">
                                                                 <option value="">شرکت باربری را انتخاب نمایید</option>
                                                             @foreach($product->determine_product_owner->verified_freightages_with_vendor_id as $freightage)
                                                                 <option value="{{$freightage->freightage->id}}">{{$freightage->freightage->shop_name}}</option>
@@ -273,10 +279,6 @@
                         </div>
                     @endif --}}
 
-                    
-                    
-
-                    
                     {{-- <a href="{{route('dashboard')}}" class="btn btn-dark btn-rounded btn-icon-left btn-back mt-6 mb-6"><i class="w-icon-long-arrow-left"></i>بازگشت به فهرست</a> --}}
                 </div>
             </div>
