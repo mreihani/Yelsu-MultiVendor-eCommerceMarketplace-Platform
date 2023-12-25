@@ -12,10 +12,6 @@ class Fvehicle extends Model
     use HasFactory;
     protected $guarded = [];
 
-    // public function freightageloadertype() {
-    //     return $this->belongsToMany(Freightageloadertype::class, "freightageloadertype_id", "id");
-    // }
-
     public function freightageloadertype() {
         return $this->belongsToMany(Freightageloadertype::class);
     }

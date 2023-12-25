@@ -36,27 +36,19 @@ class AdminFreightageVehicleController extends Controller
 
     public function StoreFreightageVehicle(Request $request) {
         $incomingFields = $request->validate([
-            'value' => ['required', Rule::unique('fvehicles', 'value')],
-            'freightageloadertype_id' => 'required',
+            'value' => ['required'],
+            'model' => 'required',
         ], [
             'value.required' => 'لطفا نام وسیله حمل کالا را وارد نمایید.',
             'value.unique' => 'نام وسیله حمل کالا قبلا ثبت شده است. لطفا یک نام دیگر وارد نمایید.',
-            'freightageloadertype_id.required' => 'لطفا نوع بارگیر را مشخص نمایید.'
+            'model.required' => 'لطفا مدل خودرو را مشخص نمایید.'
         ]);
 
         $fvehicle = Fvehicle::create([
             'value' => Purify::clean($incomingFields['value']),
+            'model' => Purify::clean($incomingFields['model']),
             'description' => Purify::clean($request->description) ?: NULL,
         ]);
-    
-        $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-        $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
-
-        if (in_array(0, $freightageloadertype_id_array_unique)) {
-            unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
-        }
-        
-        $fvehicle->freightageloadertype()->attach($freightageloadertype_id_array_unique);
 
         return redirect(route('admin.all.freightage-vehicle'))->with('success', 'وسیله حمل کالا با موفقیت ایجاد گردید.');
     }
@@ -84,30 +76,22 @@ class AdminFreightageVehicleController extends Controller
         $id = Purify::clean($request->id);
 
         $incomingFields = $request->validate([
-            'value' => ['required', Rule::unique('fvehicles', 'value')->ignore($id)],
-            'freightageloadertype_id' => 'required',
+            'value' => ['required'],
+            'model' => 'required',
         ], [
             'value.required' => 'لطفا نام وسیله حمل کالا را وارد نمایید.',
             'value.unique' => 'نام وسیله حمل کالا قبلا ثبت شده است. لطفا یک نام دیگر وارد نمایید.',
-            'freightageloadertype_id.required' => 'لطفا نوع بارگیر را مشخص نمایید.'
+            'model.required' => 'لطفا مدل خودرو را مشخص نمایید.'
         ]);
 
         $fvehicle = Fvehicle::find($id);
 
         $fvehicle->update([
             'value' => Purify::clean($incomingFields['value']),
+            'model' => Purify::clean($incomingFields['model']),
             'description' => Purify::clean($request->description) ?: NULL,
         ]);
        
-        $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-        $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
-
-        if (in_array(0, $freightageloadertype_id_array_unique)) {
-            unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
-        }
-        $fvehicle->freightageloadertype()->detach();
-        $fvehicle->freightageloadertype()->attach($freightageloadertype_id_array_unique);
-
         return redirect(route('admin.all.freightage-vehicle'))->with('success', 'وسیله حمل کالا با موفقیت بروز رسانی گردید.');
     }
 
@@ -137,27 +121,19 @@ class AdminFreightageVehicleController extends Controller
 
     public function StoreCopyFreightageVehicle(Request $request) {
         $incomingFields = $request->validate([
-            'value' => ['required', Rule::unique('fvehicles', 'value')],
-            'freightageloadertype_id' => 'required',
+            'value' => ['required'],
+            'model' => 'required',
         ], [
             'value.required' => 'لطفا نام وسیله حمل کالا را وارد نمایید.',
             'value.unique' => 'نام وسیله حمل کالا قبلا ثبت شده است. لطفا یک نام دیگر وارد نمایید.',
-            'freightageloadertype_id.required' => 'لطفا نوع بارگیر را مشخص نمایید.'
+            'model.required' => 'لطفا مدل خودرو را مشخص نمایید.'
         ]);
 
         $fvehicle = Fvehicle::create([
             'value' => Purify::clean($incomingFields['value']),
+            'model' => Purify::clean($incomingFields['model']),
             'description' => Purify::clean($request->description) ?: NULL,
         ]);
-    
-        $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-        $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
-
-        if (in_array(0, $freightageloadertype_id_array_unique)) {
-            unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
-        }
-        
-        $fvehicle->freightageloadertype()->attach($freightageloadertype_id_array_unique);
 
         return redirect(route('admin.all.freightage-vehicle'))->with('success', 'وسیله حمل کالا با موفقیت ایجاد گردید.');
     }

@@ -103,9 +103,9 @@
                                     <th class="w-50px pe-2">
                                        ردیف
                                     </th>
-                                    <th class="min-w-100px">نام وسیله حمل</th>
-                                    <th class="">ملاحضات</th>
-                                    <th class="">نوع بارگیر</th>
+                                    <th class="min-w-100px">برند خودرو</th>
+                                    <th class="">مدل خودرو</th>
+                                    <th class="">توضیحات</th>
                                     <th class="text-end min-w-70px">عملیات</th>
                                 </tr>
                                 <!--end::Table row-->
@@ -137,19 +137,13 @@
 
                                         <td>
                                             <!--begin::Badges-->
-                                            {{$freightage_vehicle->description}}
+                                            {{$freightage_vehicle->model}}
                                             <!--end::Badges-->
                                         </td>
 
                                         <td>
                                             <!--begin::Badges-->
-                                            @foreach ($freightage_vehicle->freightageloadertype as $freightageloadertype_item)
-                                                <div class="badge badge-light-success">
-                                                    <a href="">
-                                                        {{$freightageloadertype_item->description}}
-                                                    </a>
-                                                </div>    
-                                            @endforeach
+                                            {{$freightage_vehicle->description}}
                                             <!--end::Badges-->
                                         </td>
 
