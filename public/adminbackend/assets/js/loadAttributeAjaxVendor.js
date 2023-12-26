@@ -267,5 +267,5 @@ product_price_with_commission.keyup(function(){
 });
 $(document).ready(function(){
     newPrice = product_price_without_commission.val() * (1+$("#product_commission").val()/100);
-    newPrice ? product_price_with_commission.val(newPrice) : '';
+    newPrice ? product_price_with_commission.val(Math.floor(newPrice)) : '';
 });
