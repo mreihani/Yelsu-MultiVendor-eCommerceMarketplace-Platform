@@ -1,6 +1,15 @@
 @extends('driver.driver_dashboard')
 @section('driver')
 
+<!-- SELECT2 initialize -->
+<script>
+    $(document).ready(function() {
+        $('.yelsu-select2-fvehicle').select2({
+            placeholder: 'نوع بارگیر را انتخاب نمایید',
+        });
+    });
+</script>
+
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -252,45 +261,7 @@
                                     </div>
                                     <!--end::Col-->
                                 </div>
-
-                                <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر خودرو</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8">
-                                        <!--begin::Image input-->
-                                        <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                                            <!--begin::نمایش existing avatar-->
-                                            <div id="ShowImage" class="image-input-wrapper w-400px h-194px storeBanner" style="background-image: url({{!empty($driverData->store_banner) ? url('storage/upload/driver_images/' . $driverData->store_banner) : url('storage/upload/driver_banner.jpg') }})"></div>
-                                            <!--end::نمایش existing avatar-->
-                                            <!--begin::Tags-->
-                                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر سربرگ راننده">
-                                                <i class="bi bi-pencil-fill fs-7"></i>
-                                                <!--begin::Inputs-->
-                                                <input id="image" type="file" name="store_banner" accept=".png, .jpg, .jpeg" />
-                                                <input type="hidden" name="store_banner_remove" />
-                                                <!--end::Inputs-->
-                                            </label>
-                                            <!--end::Tags-->
-                                            <!--begin::انصراف-->
-                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف avatar">
-                                                <i class="bi bi-x fs-2"></i>
-                                            </span>
-                                            <!--end::انصراف-->
-                                            <!--begin::حذف-->
-                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
-                                                <i class="bi bi-x fs-2"></i>
-                                            </span>
-                                            <!--end::حذف-->
-                                        </div>
-                                        <!--end::Image input-->
-                                        <!--begin::Hint-->
-                                        <div class="form-text">ابعاد تصویر بایستی 930 در 446 پیکسل باشد.</div>
-                                        <!--end::Hint-->
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
+                            
 
                                 {{-- <!--begin::Input group-->
                                 <div class="row mb-6">
@@ -426,6 +397,104 @@
                                     <!--end::Col-->
                                 </div>
                                 <!--end::Input group--> --}}
+
+                                <!--begin::Menu separator-->
+                                <div class="separator pt-5 mb-5 opacity-75"></div>
+                                <!--end::Menu separator-->
+
+                                <div class="row mb-6 pt-6">
+                                    <!--begin::Tags-->
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر خودرو</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8">
+                                        <!--begin::Image input-->
+                                        <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                                            <!--begin::نمایش existing avatar-->
+                                            <div id="ShowImage" class="image-input-wrapper w-400px h-194px storeBanner" style="background-image: url({{!empty($driverData->store_banner) ? url('storage/upload/driver_images/' . $driverData->store_banner) : url('storage/upload/driver_banner.jpg') }})"></div>
+                                            <!--end::نمایش existing avatar-->
+                                            <!--begin::Tags-->
+                                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="تعویض تصویر سربرگ راننده">
+                                                <i class="bi bi-pencil-fill fs-7"></i>
+                                                <!--begin::Inputs-->
+                                                <input id="image" type="file" name="store_banner" accept=".png, .jpg, .jpeg" />
+                                                <input type="hidden" name="store_banner_remove" />
+                                                <!--end::Inputs-->
+                                            </label>
+                                            <!--end::Tags-->
+                                            <!--begin::انصراف-->
+                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="انصراف avatar">
+                                                <i class="bi bi-x fs-2"></i>
+                                            </span>
+                                            <!--end::انصراف-->
+                                            <!--begin::حذف-->
+                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="حذف آواتار">
+                                                <i class="bi bi-x fs-2"></i>
+                                            </span>
+                                            <!--end::حذف-->
+                                        </div>
+                                        <!--end::Image input-->
+                                        <!--begin::Hint-->
+                                        <div class="form-text">ابعاد تصویر بایستی 930 در 446 پیکسل باشد.</div>
+                                        <!--end::Hint-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+
+                                @if(count($fvehicles))
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6 pt-5">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">خودروی خود را انتخاب نمایید</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <select class="form-control form-control-lg yelsu-select2-fvehicle form-select" name="fvehicle_id">
+                                                @foreach($fvehicles as $fvehicle)
+                                                    <option {{$driverData->driver->fvehicle_id == $fvehicle->id ? "selected" : ""}} value="{{$fvehicle->id}}">{{$fvehicle->value}} - {{$fvehicle->model}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                @endif
+                             
+                                <!--begin::Input group-->
+                                <div class="row mb-6 pt-5">
+                                    <!--begin::Tags-->
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6 d-flex align-items-center">پلاک خودروی خود را وارد نمایید</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row yelsu-driver-vehicle-license-plate pt-3 pb-3">
+                                        <div class="row d-flex align-items-center justify-content-center">
+                                            <div class="col-md-1 d-flex align-items-center justify-content-end">
+                                                <h5 style="-webkit-transform: rotate(270deg);">ایران</h5>
+                                            </div>
+
+                                            <input type="hidden" name="license_plate[]" class="form-control form-control-md" value="IR" />
+
+                                            <div class="col-md-2">
+                                                <input type="number" name="license_plate[]" class="form-control form-control-md" placeholder="11" value="{{$license_plate ? $license_plate[1] : null}}" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" name="license_plate[]" class="form-control form-control-md" placeholder="111" value="{{$license_plate ? $license_plate[2] : null}}" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" name="license_plate[]" class="form-control form-control-md" placeholder="ع" value="{{$license_plate ? $license_plate[3] : null}}" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" name="license_plate[]" class="form-control form-control-md" placeholder="11" value="{{$license_plate ? $license_plate[4] : null}}" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <img src="{{asset('adminbackend\assets\media\driver-dashboard\iran_flag_license_plate.png')}}" alt="" width="30px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+
 
                                 <!--begin::Menu separator-->
                                 <div class="separator pt-5 mb-5 opacity-75"></div>

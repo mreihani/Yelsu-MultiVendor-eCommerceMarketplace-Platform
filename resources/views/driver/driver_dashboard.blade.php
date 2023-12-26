@@ -34,6 +34,11 @@
 		
 		<script src="{{asset('frontend/assets/vendor/jquery/jquery.min.js')}}"></script>      
 		<script src="{{asset('adminbackend/assets/js/tinymce/tinymce.min.js')}}"></script>
+
+		<!-- SELECT2 -->
+		<link rel="stylesheet" type="text/css" href="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.css')}}">
+		<script src="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.js')}}"></script>
+		
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

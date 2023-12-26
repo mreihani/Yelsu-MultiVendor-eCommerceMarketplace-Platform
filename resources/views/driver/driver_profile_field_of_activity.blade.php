@@ -225,6 +225,25 @@
                                     </div>
                                 @endif
 
+                                @if($driverData->driver->fvehicle_id)
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">خودرو انتخاب شده</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <label class="form-label text-info">خودرو را می توانید از بخش تنظیمات تغییر دهید.</label>
+                                            <div class="form-group mb-5">
+                                                <h5>
+                                                    {{$driverData->driver->fvehicle->value}}
+                                                    {{$driverData->driver->fvehicle->model}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                @endif
+
                                 <!--begin::Input group-->
                                 @if(count($driverTypeArray))
                                     <div class="row mb-6">
@@ -238,7 +257,7 @@
                                             
                                                 <ul class="list-style-none">
                                                     @foreach($driverTypeArray as $driverTypeItem)
-                                                        @if($driverTypeItem->parent == 0)
+                                                        @if($driverTypeItem->parent == 2)
                                                             @if(count($driverTypeItem->getChildren))
                                                                 <li class="filterButtonShopPage rootCat list-style-none">
                                                                     @if(in_array($driverTypeItem->id, $driver_sector_arr))

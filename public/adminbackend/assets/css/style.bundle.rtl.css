@@ -54209,3 +54209,18 @@ html { scroll-behavior: smooth; }
     background-color:#eff2f5;
 }
 /* disabled input greyed out */
+
+/* driver settings page */
+.yelsu-driver-vehicle-license-plate {
+    background-color: #fdca13;
+}
+
+.yelsu-driver-vehicle-license-plate input {
+    font-size: 22px;
+    text-align: center;
+}
+
+.yelsu-driver-vehicle-license-plate input::placeholder {
+    text-align: center;
+}
+/* driver settings page */

@@ -79,7 +79,7 @@
             <div class="main-content">
                 <div class="banner top-banner banner-fixed">
                     <figure class="banner-media">
-                        <img src="{{asset('frontend/assets/images/demos/demo13/banner/top-banner.jpg')}}" alt="Banner" width="1597"
+                        <img src="{{asset('frontend/assets/images/demos/demo13/banner/top-banner2.jpg')}}" alt="Banner" width="1597"
                             height="70" />
                     </figure>
                     @if(Auth::check())

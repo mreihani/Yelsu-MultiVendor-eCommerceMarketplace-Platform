@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Driver;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Fvehicle;
 use Illuminate\Http\Request;
 use App\Models\Freightagetype;
 use App\Http\Controllers\Controller;
@@ -52,7 +53,14 @@ class DriverController extends Controller
 
         $driver_sector_arr = explode(",", $driverData->driver->type);
 
-        return view('driver.driver_profile_settings', compact('driverData', 'driver_sector_arr'));
+        $fvehicles = Fvehicle::all();
+
+        $license_plate = $driverData->driver->license_plate;
+        if($license_plate) {
+            $license_plate = explode(",", $license_plate);
+        }
+
+        return view('driver.driver_profile_settings', compact('driverData', 'driver_sector_arr', 'fvehicles', 'license_plate'));
     } //End method
 
     public function DriverProfileStore(Request $request)
@@ -252,6 +260,13 @@ class DriverController extends Controller
         // }
 
         $data->save();
+
+        
+        // ذخیره خودرو و پلاک
+        $data->driver->fvehicle_id = Purify::clean($request->fvehicle_id);
+        $data->driver->license_plate = implode(",", Purify::clean($request->license_plate));
+        $data->driver->save();
+
 
         return back()->with('success', 'اطلاعات با موفقیت ذخیره شد.');
 
