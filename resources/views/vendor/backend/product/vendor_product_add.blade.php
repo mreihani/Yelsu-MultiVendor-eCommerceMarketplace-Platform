@@ -451,9 +451,14 @@
                                             </div>
                                             <!--end::Input group-->
                                         </div>
-
+                                        
                                         <div class="card-body pt-0" id="yelsu_freightage">
-                                            <div class="row repeater-body">
+
+                                            <div class="separator pt-5 mb-5 opacity-75"></div>
+
+                                            <p>لطفا روش ارسال و نوع بارگیر مورد نظر خود را از فرم زیر انتخاب نمایید.</p>
+
+                                            <div class="row repeater-body pt-5">
                                                 <div class="col-lg-10">
                                                     <div class="repeater">
                                                         <div data-repeatable="">
