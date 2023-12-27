@@ -158,7 +158,7 @@
 
 
     <!-- Start of Shop Category -->
-    <div class="container" style="max-width: 1320px;">
+    <div class="container">
         <div class="shop-default-category category-ellipse-section mb-6">                           
             <div style="display:flex; flex-wrap:wrap; justify-content: center;">
                 @foreach ($parentCategories as $parentCategory)                    

@@ -12,18 +12,14 @@
         <div class="grid-space col-1"></div>
     </div>
 
-    <!-- Beginning of Financial GIF BANNER -->
-    <div class="bg-white mt-6 mb-6">
-        {{-- <a href="{{route('blog.financing')}}"> --}}
-        <a href="">
-            <img src="{{asset('frontend/assets/images/financial_compressed.gif')}}" alt="financial banner">
-        </a>
-    </div>
-    <!-- End of Financial GIF BANNER -->
+    
+
+
+
 
     <!-- Start of Shop Category -->
-    <h2 class="title pr-4">دسته بندی محصولات و تجهیزات</h2>
-    <div class="container" style="max-width: 1320px;">
+    <h2 class="title pr-4 mt-10">دسته بندی محصولات و تجهیزات</h2>
+    <div class="container">
         <div class="shop-default-category category-ellipse-section mb-6" style="border-bottom:none;">                           
             <div style="display:flex; flex-wrap:wrap; justify-content: center;">
                 @if(count($parentCategories))
@@ -1068,6 +1064,19 @@
         </div>
     @endif    
     <!-- End of Blog Post -->
+
+
+
+    <!-- Beginning of Financial GIF BANNER -->
+    <div class="bg-white mt-6 mb-6">
+        {{-- <a href="{{route('blog.financing')}}"> --}}
+        <a href="">
+            <img src="{{asset('frontend/assets/images/financial_compressed.gif')}}" alt="financial banner">
+        </a>
+    </div>
+    <!-- End of Financial GIF BANNER -->
+
+
 
     @if($recently_viewed_product_arr)
         <div class="title-link-wrapper title-recent pt-1 mb-4 after-none appear-animate">
