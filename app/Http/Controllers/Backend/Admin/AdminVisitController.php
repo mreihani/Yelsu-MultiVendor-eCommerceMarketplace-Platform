@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\User;
 
+use App\Models\Cvisitww;
+use App\Models\Cvisitiran;
 use Illuminate\Http\Request;
 use App\Models\ShetabitVisit;
 use Illuminate\Support\Facades\DB;
@@ -69,10 +71,13 @@ class AdminVisitController extends Controller
 
         $adminData = auth()->user();
        
-        $all_visits = ShetabitVisit::select('ip', 'created_at', 'country_name')->get();
-        $visits_per_day = ShetabitVisit::determine_visits_per_day_number($all_visits);
-        $all_visits_iran = $all_visits->where('country_name', 'Iran');
-        $visits_per_day_iran = ShetabitVisit::determine_visits_per_day_number($all_visits_iran);
+        $visits_per_day = Cvisitww::all()->keyBy('date')->map(function($visits_item){
+            return $visits_item->visits_count;
+        });
+
+        $visits_per_day_iran = Cvisitiran::all()->keyBy('date')->map(function($visits_item){
+            return $visits_item->visits_count;
+        });
 
         return view('admin.backend.visit.visit_chart.visits', compact('adminData', 'visits_per_day', 'visits_per_day_iran'));
     }

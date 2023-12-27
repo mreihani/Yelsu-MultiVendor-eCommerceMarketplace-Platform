@@ -62,6 +62,7 @@ class ShetabitVisit extends Model
 
         return $visits_array;
     }
+
 }
 
 

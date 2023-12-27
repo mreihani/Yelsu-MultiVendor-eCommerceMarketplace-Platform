@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -37,5 +35,6 @@ require __DIR__ . '/auth.php';
 //     });
 
 
+    
 
 // });
