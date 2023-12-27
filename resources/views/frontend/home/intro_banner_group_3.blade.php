@@ -1,7 +1,7 @@
 <div class="grid-item grid-item3 banner col-lg-4 col-md-6 height-x1 overlay-zoom">
     <a href="{{URL::to("/register")}}">
     <figure class="banner-media br-sm">
-        <img src="{{asset('frontend/assets/images/demos/demo13/banner/driver_banner_2.png')}}" alt="Intro Banner" width="499"
+        <img src="{{asset('frontend/assets/images/demos/demo13/banner/driver_banner_3.png')}}" alt="Intro Banner" width="499"
             height="210" style="background-color: #0E0F10;">
     </figure>
     <div class="banner-content y-50" style="width:50%">

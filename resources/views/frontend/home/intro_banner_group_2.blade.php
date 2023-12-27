@@ -29,7 +29,7 @@
 <div class="grid-item grid-item2 banner col-lg-4 col-md-6 height-x2 home-banner-2">
     <a href="">
         <figure class="banner-media br-sm">
-        <img src="{{asset('frontend/assets/images/demos/demo13/banner/supply_chain.gif')}}" alt="Intro Banner" width="498" height="325">
+        <img src="{{asset('frontend/assets/images/demos/demo13/banner/supply_chain_2.gif')}}" alt="Intro Banner" width="498" height="325">
         <div class="banner-content">
             {{-- <h5 class="font-weight-bold mb-1">YELSU</h5> --}}
             {{-- <p class="font-weight-bold">part of the future</p> --}}
