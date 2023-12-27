@@ -33,8 +33,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:update-elastic-search-index')->everyTenMinutes();
 
         // به روز رسانی تعداد بازدید های پلتفرم برای نمایش نمودار
-        //$schedule->command('app:update-visitors-chart-ww')->dailyAt('3:00');
-        //$schedule->command('app:update-visitors-chart-iran')->dailyAt('3:00');
+        $schedule->command('app:update-visitors-chart-ww')->dailyAt('3:00');
+        $schedule->command('app:update-visitors-chart-iran')->dailyAt('3:00');
+        $schedule->command('app:update-visitors-chart-unique-ww')->dailyAt('3:00');
+        $schedule->command('app:update-visitors-chart-unique-iran')->dailyAt('3:00');
     }
 
     /**

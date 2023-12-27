@@ -42,7 +42,7 @@ class UpdateVisitorsChartWW extends Command
             }
         }
         
-        // get and update only for the yesterday visits
+        // get and update only for the yesterday visits - for performance issues
         // $lastday_jdate = jdate()->subDays(1)->format('Y/m/d');
         // $lastday = Carbon::now()->subDays(1)->format('Y/m/d');
         // $all_visits_count = ShetabitVisit::select('country_name', 'created_at')

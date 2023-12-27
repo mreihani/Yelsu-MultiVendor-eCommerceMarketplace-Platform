@@ -6,8 +6,10 @@ use App\Models\User;
 
 use App\Models\Cvisitww;
 use App\Models\Cvisitiran;
+use App\Models\Cvisitunique;
 use Illuminate\Http\Request;
 use App\Models\ShetabitVisit;
+use App\Models\Cvisituniqueiran;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Stevebauman\Purify\Facades\Purify;
@@ -59,10 +61,13 @@ class AdminVisitController extends Controller
 
         $adminData = auth()->user();
        
-        $all_visits = ShetabitVisit::select('ip', 'created_at', 'country_name')->get();
-        $unique_visits_per_day = ShetabitVisit::determine_unique_visits_per_day_number($all_visits);
-        $all_visits_iran = $all_visits->where('country_name', 'Iran');
-        $unique_visits_per_day_iran = ShetabitVisit::determine_unique_visits_per_day_number($all_visits_iran);
+        $unique_visits_per_day = Cvisitunique::all()->keyBy('date')->map(function($visits_item){
+            return $visits_item->visits_count;
+        });
+
+        $unique_visits_per_day_iran = Cvisituniqueiran::all()->keyBy('date')->map(function($visits_item){
+            return $visits_item->visits_count;
+        });
 
         return view('admin.backend.visit.visit_chart.unique-visitors', compact('adminData', 'unique_visits_per_day', 'unique_visits_per_day_iran'));
     }
