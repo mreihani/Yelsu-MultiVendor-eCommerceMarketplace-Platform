@@ -152,7 +152,12 @@
                 
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.all.product' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.add.product' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.orders' ? 'show' : ''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion 
+                    {{Route::currentRouteName() == 'vendor.all.product' ? 'show' : ''}} 
+                    {{Route::currentRouteName() == 'vendor.add.product' ? 'show' : ''}}
+                    {{Route::currentRouteName() == 'vendor.orders' ? 'show' : ''}}
+                    {{Route::currentRouteName() == 'vendor.add.schedule' ? 'show' : ''}}
+                    ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -172,6 +177,7 @@
                     <!--end:Menu link-->
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
+
                         <!--begin:Menu item-->
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.all.product' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.add.product' ? 'show' : ''}}">
                             <!--begin:Menu link-->
@@ -214,6 +220,40 @@
                             <!--end:Menu sub-->
                         </div>
                         <!--end:Menu item-->
+
+                        <!--begin:Menu item-->
+                        {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.add.schedule' ? 'show' : ''}}">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">زمان بندی محصولات</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{Route::currentRouteName() == 'vendor.add.schedule' ? 'active' : ''}}" href="{{route("vendor.add.schedule")}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">افزودن زمان بندی</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                
+                                
+                            </div>
+                            <!--end:Menu sub-->
+                        </div> --}}
+                        <!--end:Menu item-->
+
                         @php
                             $url = url()->full();
                             $orderURL = parse_url($url, PHP_URL_QUERY);
@@ -629,8 +669,6 @@
                 </div>
                 <!--end:Menu item-->
 
-
-
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
@@ -699,7 +737,6 @@
                 </div>
                 <!--end:Menu item-->
 
-
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
@@ -711,7 +748,7 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.all.freightage.verified' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.all.freightage.not-verified' ? 'show' : ''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -764,71 +801,501 @@
                 </div>
                 <!--end:Menu item-->
 
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مانیتورینگ فروش (بزودی)</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg width="20px" height="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#b8b8b8"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="Health_Icons" data-name="Health Icons"> <g> <path d="M43,4H5A2.9,2.9,0,0,0,2,7V18.9H7.3l1.8-3.7a1.9,1.9,0,0,1,1.8-1.1,2.1,2.1,0,0,1,1.8,1.1l2.9,6.1,4.8-10.2a2,2,0,0,1,3.6,0l3.7,7.8H30a2,2,0,0,1,0,4H26.4a2.2,2.2,0,0,1-1.8-1.2l-2.4-5L17.4,26.9A2.1,2.1,0,0,1,15.6,28a1.9,1.9,0,0,1-1.8-1.1l-2.9-6.1-.5.9a2,2,0,0,1-1.8,1.2H2V35a3,3,0,0,0,3,3H43a3,3,0,0,0,3-3V7A2.9,2.9,0,0,0,43,4ZM29.4,31.4A2,2,0,0,1,28,32H24a2,2,0,0,1-2-2,1.7,1.7,0,0,1,.6-1.4A2,2,0,0,1,24,28h4a2,2,0,0,1,2,2A1.7,1.7,0,0,1,29.4,31.4Zm10,0A2,2,0,0,1,38,32H34a2,2,0,0,1-2-2,1.7,1.7,0,0,1,.6-1.4A2,2,0,0,1,34,28h4a2,2,0,0,1,2,2A1.7,1.7,0,0,1,39.4,31.4Z"></path> <path d="M37,40H11a2,2,0,0,0,0,4H37a2,2,0,0,0,0-4Z"></path> </g> </g> </g> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مانیتورینگ فروش</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">فروش روزانه/ ماهیانه/سالیانه</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">تحویل روزانه/ ماهیانه/سالیانه</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">فروش نمایندگی  / عاملین</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">فروش منطقه جغرافیایی</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">گزارشات باربریها</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">رصد رانندگان</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت مناقصه ها / مزایده ها (بزودی)</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg fill="#b8b8b8" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M475.542,203.546c-15.705-15.707-38.776-18.531-57.022-9.796L296.42,71.648c8.866-18.614,5.615-41.609-9.775-56.999 c-19.528-19.531-51.307-19.531-70.837,0L144.97,85.486c-19.529,19.529-19.529,51.307,0,70.836 c15.351,15.353,38.31,18.678,56.999,9.775l25.645,25.645L14.902,404.454c-19.575,19.574-19.578,51.259,0,70.836 c19.575,19.576,51.259,19.579,70.837,0l212.712-212.711l25.642,25.641c-8.868,18.615-5.617,41.609,9.774,57 c9.46,9.46,22.039,14.672,35.419,14.672s25.957-5.21,35.418-14.672l70.837-70.837 C495.072,254.853,495.072,223.077,475.542,203.546z M192.196,132.71c-6.51,6.509-17.103,6.507-23.613,0 c-6.509-6.511-6.509-17.102,0-23.612l70.837-70.837c6.509-6.509,17.1-6.512,23.612,0c6.51,6.51,6.51,17.102,0.001,23.612 L192.196,132.71z M62.127,451.676c-6.526,6.525-17.086,6.526-23.612,0c-6.525-6.525-6.526-17.087,0-23.612l212.712-212.712 l23.612,23.613L62.127,451.676z M227.614,144.516l11.805-11.807l35.419-35.419L392.9,215.353l-47.224,47.225L227.614,144.516z M451.931,250.772l-70.837,70.837c-6.526,6.526-17.086,6.526-23.612,0c-6.51-6.51-6.51-17.103,0-23.613l70.838-70.837 c6.524-6.526,17.086-6.525,23.611,0C458.457,233.684,458.457,244.245,451.931,250.772z"></path> </g> </g> <g> <g> <path d="M461.691,411.822H328.12c-27.619,0-50.089,22.47-50.089,50.089v33.393c0,9.221,7.476,16.696,16.696,16.696h200.357 c9.221,0,16.696-7.476,16.696-16.696v-33.393C511.781,434.292,489.311,411.822,461.691,411.822z M478.388,478.607H311.424v-16.696 c0-9.206,7.49-16.696,16.696-16.696h133.571c9.206,0,16.696,7.49,16.696,16.696V478.607z"></path> </g> </g> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت مناقصه ها / مزایده ها </span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+                  
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مناقصه ها</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
                                 <!--begin:Menu item-->
-                                <div class="menu-item pt-5">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content">
-                                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت فایل</span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                </div>
-                                <!--end:Menu item-->
-                
-                                <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.media.add' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.media.files' ? 'show' : ''}}">
+                                <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <span class="menu-link">
-                                        <span class="menu-icon">
-                                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
-                                            <span class="svg-icon svg-icon-2">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
-                                                    <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
-                                                </svg>
-                                            </span>
-                                            <!--end::Svg Icon-->
+                                    <a class="menu-link " href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">گالری تصاویر</span>
-                                        <span class="menu-arrow"></span>
-                                    </span>
+                                        <span class="menu-title">ثبت مناقصه</span>
+                                    </a>
                                     <!--end:Menu link-->
-                
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link-->
-                                            <a class="menu-link {{Route::currentRouteName() == 'vendor.media.add' ? 'active' : ''}}" href="{{route('vendor.media.add')}}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">افزودن تصویر به گالری</span>
-                                            </a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link-->
-                                            <a class="menu-link {{Route::currentRouteName() == 'vendor.media.files' ? 'active' : ''}}" href="{{route('vendor.media.files')}}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">مدیریت گالری</span>
-                                            </a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                
                                 </div>
                                 <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link " href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">شرکت در مناقصه</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مزایده ها</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link " href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">ثبت مزایده</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link " href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">شرکت در مزایده</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت ارتباط با مشتریان CRM (بزودی)</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg fill="#b8b8b8" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M494.933,23.893H17.067C7.641,23.893,0,31.535,0,40.96v430.08c0,9.425,7.641,17.067,17.067,17.067h477.867 c9.425,0,17.067-7.641,17.067-17.067V40.96C512,31.535,504.359,23.893,494.933,23.893z M138.809,453.973H34.133V149.049h104.676 V453.973z M477.867,453.973H172.942V149.049h304.924V453.973z M477.867,114.916H155.886H34.133V58.027h443.733V114.916z"></path> </g> </g> <g> <g> <circle cx="64.865" cy="86.446" r="11.378"></circle> </g> </g> <g> <g> <circle cx="110.376" cy="86.446" r="11.378"></circle> </g> </g> <g> <g> <circle cx="155.887" cy="86.446" r="11.378"></circle> </g> </g> <g> <g> <path d="M106.567,201.387H66.834c-8.761,0-16.447,6.418-17.408,15.126c-1.135,10.295,6.894,19.008,16.96,19.008h39.732 c8.761,0,16.447-6.418,17.408-15.126C124.662,210.1,116.631,201.387,106.567,201.387z"></path> </g> </g> <g> <g> <path d="M106.567,284.444H66.834c-8.761,0-16.447,6.418-17.408,15.126c-1.135,10.295,6.894,19.008,16.96,19.008h39.732 c8.761,0,16.447-6.418,17.408-15.126C124.662,293.158,116.631,284.444,106.567,284.444z"></path> </g> </g> <g> <g> <path d="M106.567,367.502H66.834c-8.761,0-16.447,6.418-17.408,15.126c-1.135,10.295,6.894,19.008,16.96,19.008h39.732 c8.761,0,16.447-6.418,17.408-15.126C124.662,376.215,116.631,367.502,106.567,367.502z"></path> </g> </g> <g> <g> <path d="M367.857,301.1c41.653-38.535,14.341-108.5-42.453-108.5c-56.818,0-84.095,69.973-42.453,108.5 c-12.365,11.439-20.125,27.789-20.125,45.922v45.511c0,9.425,7.641,17.067,17.067,17.067h91.022 c9.425,0,17.067-7.641,17.067-17.067v-45.511C387.982,328.888,380.223,312.54,367.857,301.1z M325.409,227.136 c37.59,0,37.59,56.889,0,56.889S287.818,227.136,325.409,227.136z M353.849,375.467H296.96v-27.857 c0-14.513,11.791-27.864,26.263-28.95c16.665-1.249,30.626,11.957,30.626,28.363V375.467z"></path> </g> </g> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت CRM</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+                  
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">ارتباط با مشتری</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link " href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">نمایش ارتباطات</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت تخفیفات (بزودی)</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg width="20px" height="20px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 3.91992H6C3.79086 3.91992 2 5.71078 2 7.91992V17.9199C2 20.1291 3.79086 21.9199 6 21.9199H18C20.2091 21.9199 22 20.1291 22 17.9199V7.91992C22 5.71078 20.2091 3.91992 18 3.91992Z" stroke="#b8b8b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M7 17.9199L17 7.91992" stroke="#b8b8b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 11.9199C9.10457 11.9199 10 11.0245 10 9.91992C10 8.81535 9.10457 7.91992 8 7.91992C6.89543 7.91992 6 8.81535 6 9.91992C6 11.0245 6.89543 11.9199 8 11.9199Z" stroke="#b8b8b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M16 17.9199C17.1046 17.9199 18 17.0245 18 15.9199C18 14.8154 17.1046 13.9199 16 13.9199C14.8954 13.9199 14 14.8154 14 15.9199C14 17.0245 14.8954 17.9199 16 17.9199Z" stroke="#b8b8b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت تخفیفات</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">ایجاد کد تخفیف</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت شرکت بازرسی محصول</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <svg fill="#b8b8b8" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="XMLID_476_"> <path id="XMLID_477_" d="M152.552,140.717c0.956-0.794,1.931-1.565,2.92-2.319c0.107-0.082,0.214-0.165,0.321-0.247 c0.968-0.731,1.951-1.441,2.948-2.133c0.134-0.092,0.267-0.185,0.399-0.277c0.989-0.679,1.992-1.338,3.01-1.977 c0.145-0.091,0.291-0.182,0.436-0.273c1.021-0.633,2.054-1.248,3.101-1.841c0.143-0.081,0.285-0.16,0.429-0.24 c1.064-0.595,2.14-1.172,3.23-1.725c0.118-0.06,0.238-0.118,0.357-0.178c1.123-0.564,2.259-1.108,3.409-1.626 c0.068-0.031,0.138-0.06,0.206-0.09c1.2-0.536,2.412-1.05,3.639-1.534c0.002-0.001,0.006-0.002,0.008-0.003 c1.213-0.479,2.441-0.928,3.68-1.355c0.096-0.033,0.189-0.067,0.283-0.1c1.186-0.404,2.383-0.78,3.59-1.136 c0.15-0.044,0.3-0.09,0.45-0.134c1.177-0.34,2.365-0.654,3.561-0.947c0.182-0.044,0.363-0.089,0.545-0.133 c1.185-0.282,2.379-0.539,3.581-0.774c0.192-0.038,0.386-0.075,0.578-0.111c1.206-0.228,2.42-0.431,3.642-0.61 c0.188-0.027,0.374-0.052,0.561-0.079c1.239-0.173,2.486-0.324,3.74-0.446c0.162-0.016,0.324-0.028,0.485-0.043 c1.29-0.119,2.587-0.214,3.892-0.278c0.105-0.005,0.211-0.007,0.316-0.012c1.368-0.062,2.743-0.098,4.127-0.098 c2.568,0,5.111,0.114,7.625,0.325c0.139,0.012,0.276,0.024,0.414,0.037c12.23,1.083,23.756,4.61,34.086,10.093 c0,0,0.002,0,0.002,0.001c1.293,0.686,2.566,1.402,3.819,2.148c0.003,0.001,0.005,0.003,0.007,0.004 c1.253,0.746,2.486,1.521,3.699,2.324c0.002,0.001,0.004,0.002,0.006,0.004c1.213,0.804,2.406,1.637,3.576,2.497 c0.002,0.001,0.002,0.001,0.004,0.003c2.344,1.723,4.602,3.556,6.766,5.493V106.06V75.001c0-8.284-6.716-15-15-15h-45v-45 c0-8.284-6.716-15-15-15H75c-8.284,0-15,6.716-15,15v45H15c-8.284,0-15,6.716-15,15V235c0,8.284,6.716,15,15,15h81.834h32.524 c-4.578-9.212-7.624-19.318-8.806-29.988c0-0.008-0.002-0.016-0.002-0.024c-0.088-0.797-0.166-1.597-0.233-2.399 c-0.001-0.014-0.003-0.028-0.004-0.042c-0.066-0.802-0.123-1.606-0.169-2.414c-0.001-0.029-0.004-0.057-0.005-0.086 c-0.046-0.828-0.082-1.659-0.105-2.492c-0.001-0.027-0.003-0.054-0.003-0.081c-0.023-0.822-0.035-1.646-0.035-2.473 c0-0.767,0.01-1.531,0.029-2.293c0.018-0.721,0.046-1.44,0.081-2.156c0.001-0.036,0.002-0.073,0.004-0.109 c0.07-1.405,0.177-2.8,0.31-4.187c0.011-0.107,0.018-0.215,0.029-0.323c0.135-1.354,0.305-2.697,0.499-4.032 c0.014-0.093,0.025-0.186,0.039-0.278c0.192-1.288,0.415-2.566,0.66-3.835c0.026-0.133,0.05-0.266,0.077-0.399 c0.246-1.244,0.521-2.478,0.818-3.703c0.035-0.148,0.071-0.297,0.107-0.445c0.303-1.215,0.629-2.421,0.979-3.616 c0.043-0.145,0.087-0.291,0.13-0.436c0.359-1.201,0.74-2.391,1.147-3.57c0.043-0.124,0.087-0.246,0.13-0.37 c0.421-1.201,0.863-2.391,1.332-3.567c0.033-0.081,0.066-0.161,0.1-0.242c0.49-1.218,1.002-2.425,1.543-3.616 c0.004-0.009,0.009-0.019,0.014-0.028c1.108-2.439,2.325-4.818,3.639-7.135c0.037-0.065,0.073-0.131,0.109-0.196 c0.626-1.096,1.277-2.176,1.946-3.243c0.064-0.102,0.128-0.206,0.192-0.308c0.658-1.039,1.338-2.063,2.037-3.072 c0.084-0.121,0.168-0.242,0.252-0.363c0.696-0.996,1.413-1.977,2.148-2.943c0.092-0.12,0.184-0.239,0.275-0.358 c0.742-0.965,1.502-1.916,2.283-2.85c0.088-0.105,0.178-0.21,0.267-0.315c0.796-0.945,1.61-1.874,2.444-2.785 c0.068-0.075,0.139-0.148,0.208-0.224c0.864-0.936,1.745-1.858,2.648-2.757c0.025-0.025,0.052-0.05,0.076-0.075 c1.858-1.847,3.798-3.612,5.811-5.292C152.426,140.824,152.488,140.77,152.552,140.717z M90,60.001v-30h90v30H90z"></path> <path id="XMLID_481_" d="M325.606,304.393l-20.815-20.815l-21.434-21.432c-5.837,8.198-13.014,15.375-21.211,21.213l21.432,21.432 l20.815,20.815C307.322,328.535,311.161,330,315,330s7.678-1.464,10.606-4.393C331.465,319.748,331.465,310.251,325.606,304.393z"></path> <path id="XMLID_482_" d="M209.996,150c-0.957,0-1.907,0.028-2.854,0.072c-0.711,0.035-1.418,0.089-2.122,0.149 c-0.191,0.016-0.384,0.026-0.575,0.043c-23.102,2.121-42.395,17.338-50.425,38.162c-0.013,0.033-0.026,0.066-0.04,0.1 c-0.285,0.744-0.557,1.494-0.813,2.251c-0.021,0.062-0.045,0.124-0.066,0.186c-0.268,0.805-0.526,1.616-0.762,2.436 c-0.032,0.11-0.064,0.22-0.094,0.331c-0.186,0.655-0.361,1.314-0.524,1.977c-0.043,0.179-0.082,0.359-0.124,0.538 c-0.235,0.998-0.442,2.006-0.626,3.023c-0.076,0.419-0.158,0.836-0.226,1.259c-0.064,0.405-0.116,0.814-0.173,1.222 c-0.071,0.522-0.141,1.046-0.199,1.573c-0.042,0.374-0.078,0.751-0.113,1.127c-0.056,0.602-0.102,1.207-0.139,1.814 c-0.02,0.313-0.042,0.626-0.057,0.941c-0.042,0.927-0.07,1.858-0.07,2.795c0,15.37,5.785,29.384,15.29,40 c10.985,12.271,26.942,20,44.71,20s33.724-7.729,44.71-20c9.504-10.616,15.29-24.63,15.29-40 C269.996,176.862,243.133,150,209.996,150z"></path> </g> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">مدیریت شرکت بازرسی محصول</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">لیست شرکت های تأیید شده</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link " href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">لیست شرکت های تأیید نشده</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">مدیریت فایل</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.media.add' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.media.files' ? 'show' : ''}}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
+                                    <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">گالری تصاویر</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.media.add' ? 'active' : ''}}" href="{{route('vendor.media.add')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">افزودن تصویر به گالری</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.media.files' ? 'active' : ''}}" href="{{route('vendor.media.files')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">مدیریت گالری</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+                <!--end:Menu item-->
 
             </div>
             <!--end::Menu-->

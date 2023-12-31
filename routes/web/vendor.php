@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\Vendor\OutletController;
 use App\Http\Controllers\Backend\Vendor\VendorController;
 use App\Http\Controllers\Backend\Vendor\VendorOrderController;
 use App\Http\Controllers\Backend\Vendor\VendorProductController;
+use App\Http\Controllers\Backend\Vendor\VendorScheduleController;
 use App\Http\Controllers\Backend\Vendor\VendorFreightageController;
 use App\Http\Controllers\Backend\Vendor\VendorRepresentativeController;
 
@@ -73,6 +74,9 @@ Route::middleware(['vendoraccess'])->group(function () {
     Route::get('all/freightage/not-verified', [VendorFreightageController::class, 'VendorAllFreightageNotVerified'])->name('vendor.all.freightage.not-verified');
     Route::get('edit/freightage/{invitation}', [VendorFreightageController::class, 'VendorEditFreightage'])->name('vendor.edit.freightage');
     Route::post('update/freightage', [VendorFreightageController::class, 'VendorUpdateFreightage'])->name('vendor.update.freightage');
+
+    // Vendor Product Schedule all route
+    Route::get('add/schedule', [VendorScheduleController::class, 'VendorAddSchedule'])->name('vendor.add.schedule');
 });
 
 //Vendor Login

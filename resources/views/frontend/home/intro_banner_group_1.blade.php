@@ -1,7 +1,6 @@
 <div class="grid-item grid-item2 banner col-lg-4 col-md-6 height-x2 banner-g-1">
     <figure class="banner-media br-sm d-flex justify-content-center" >
-        {{-- <img src="{{asset('frontend/assets/images/demos/demo13/banner/chain_of_production2.jpg')}}" alt="Intro Banner" width="498" height="325"> --}}
-        <img src="{{asset('frontend/assets/images/demos/demo13/banner/chain_of_production2.jpg')}}" alt="Intro Banner">
+        <img src="{{asset('frontend/assets/images/demos/demo13/banner/chain_of_production3.jpg')}}" alt="Intro Banner">
     </figure>
     <a href="{{route('shop')}}" target="_blank" class="platform-marker-shop-a">
         <figure class="platform-marker-shop">

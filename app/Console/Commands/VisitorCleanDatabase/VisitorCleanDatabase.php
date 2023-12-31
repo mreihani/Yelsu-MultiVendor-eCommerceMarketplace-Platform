@@ -26,8 +26,8 @@ class VisitorCleanDatabase extends Command
      */
     public function handle()
     {
-        // پاک کردن ویزیت هایی که از 3 ماه گذشته باشن
-        $seconds = 3 * 30 * 24 * 3600;
+        // پاک کردن ویزیت هایی که از 1 ماه گذشته باشن
+        $seconds = 1 * 30 * 24 * 3600;
         
         $time = now()->subSeconds($seconds);
         $visits = ShetabitVisit::where("created_at",'<', $time->toDateTime())->delete();
