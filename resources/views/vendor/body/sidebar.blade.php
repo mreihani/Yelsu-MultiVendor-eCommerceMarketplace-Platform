@@ -242,7 +242,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">مدریت زمان بندی</span>
+                                        <span class="menu-title">مدیریت زمان بندی</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>

@@ -191,7 +191,7 @@
     <!-- Beginning of yelsu petrochemical carousel Wrapper -->
     @if(count($petroCategoryArray))
     <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-        <h2 class="title mr-auto">دسته بندی صنایع نفت، گاز و پتروشیمی</h2>
+        <h2 class="title mr-auto">محصولات صنایع نفت، گاز و پتروشیمی</h2>
         <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
             >
             <li><a href="javascript:void(0)" class="nav-filterpetro active" data-filter="all_categories_petro">تمامی موارد</a></li>
@@ -265,7 +265,7 @@
     <!-- Beginning of yelsu steel carousel Wrapper -->
     @if(count($steelCategoryArray))
     <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-        <h2 class="title mr-auto">دسته بندی محصولات فولادی فلزی</h2>
+        <h2 class="title mr-auto">محصولات فولادی و فلزی</h2>
         <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
             >
             <li><a href="javascript:void(0)" class="nav-filtersteel active" data-filter="all_categories_steel">تمامی موارد</a></li>
@@ -366,7 +366,7 @@
    <!-- Beginning of yelsu mining carousel Wrapper -->
 @if(count($miningCategoryArray))
 <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-    <h2 class="title mr-auto">دسته بندی محصولات معدنی و فرآوری</h2>
+    <h2 class="title mr-auto">محصولات معدنی و فرآوری</h2>
     <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
         >
         <li><a href="javascript:void(0)" class="nav-filtermining active" data-filter="all_categories_mining">تمامی موارد</a></li>
@@ -468,7 +468,7 @@
     <!-- Beginning of yelsu construction carousel Wrapper -->
     @if(count($constructionCategoryArray))
 <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-    <h2 class="title mr-auto">دسته بندی محصولات ساختمانی</h2>
+    <h2 class="title mr-auto">محصولات ساختمانی و عمرانی</h2>
     <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
         data-target="#products-3">
         <li><a href="javascript:void(0)" class="nav-filterconstruction active" data-filter="all_categories_construction">تمامی موارد</a></li>
