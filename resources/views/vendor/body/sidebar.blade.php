@@ -228,7 +228,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">زمان بندی محصولات</span>
+                                <span class="menu-title">زمان بندی تحویل محصولات</span>
                                 <span class="menu-arrow"></span>
                             </span>
                             <!--end:Menu link-->
