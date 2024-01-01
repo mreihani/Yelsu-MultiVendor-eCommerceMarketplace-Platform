@@ -50,13 +50,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">افزودن کاربر </h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">مدریت زمان بندی محصولات</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::آیتم-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">خانه</a>
+                            <a href="" class="text-muted text-hover-primary">خانه</a>
                         </li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
@@ -65,7 +65,7 @@
                         </li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
-                        <li class="breadcrumb-item text-muted">مدیریت کاربران </li>
+                        <li class="breadcrumb-item text-muted">زمان بندی محصولات</li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
                         <li class="breadcrumb-item">
@@ -73,7 +73,7 @@
                         </li>
                         <!--end::آیتم-->
                         <!--begin::آیتم-->
-                        <li class="breadcrumb-item text-muted">افزودن کاربر</li>
+                        <li class="breadcrumb-item text-muted">مدیریت زمان بندی</li>
                         <!--end::آیتم-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -88,7 +88,7 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
-                <form class="form" method="POST" action={{route('vendor.store.representative')}}>
+                <form class="form" method="POST" action={{route('vendor.store.schedule')}}>
                 @csrf
 
                     <!--begin::کارت-->
@@ -175,8 +175,13 @@
                                                                             ویرایش
                                                                         </button>
                                                                         
-                                                                        <input class="hidden-input-information" disabled type="hidden" name="product_obj[]" value='{{json_encode(["product_id" => $product_item->id, "product_in_stock" => "نامحدود", "change_price_permission" => false, "product_specific_geolocation_internal" => false, "product_specific_geolocation_external" => false, "product_geolocation_permission_city" => [], "product_geolocation_permission_export_country" => [], "product_geolocation_permission_province" => [] ])}}'>
-                                                                        <input class="hidden-input-information-server" disabled type="hidden" name="product_obj_server[]" value='{{json_encode(["product_id" => $product_item->id, "product_in_stock" => "نامحدود", "change_price_permission" => false, "product_specific_geolocation_internal" => false, "product_specific_geolocation_external" => false, "product_geolocation_permission_city" => [], "product_geolocation_permission_export_country" => [], "product_geolocation_permission_province" => [] ])}}'>
+                                                                        <input class="hidden-input-information" type="hidden" name="product_obj[]" value='{{json_encode([
+                                                                                "product_id" => $product_item->id,
+                                                                                "product_deliver_capacity" => false,
+                                                                                "daily_deliver_capacity" => null,
+                                                                                "specific_deliver_date" => null,
+                                                                                "specific_deliver_capacity" => null,
+                                                                            ])}}'>
                                                                     </td>
                                                                     <td></td>
                                                                 </tr>
@@ -197,7 +202,6 @@
                     </div>
                     <!--end::کارت-->
 
-
                     <!--begin::کارت-->
                     <div class="card mb-5 mb-xl-10" id="product-edit-specification-section" style="display: none;">
 
@@ -213,21 +217,102 @@
 
                         <!--begin::Content-->
                         <div class="collapse show">
-                            <!--begin::Actions-->
 
                             <!--begin::Input group-->
-                            <div class="row card-footer d-flex justify-content-end">
-                                <!--begin::Col-->
-                                <div class="col-lg-6" >
-                                    <input type="text" data-jdp="" data-jdp-min-date="today" data-jdp-only-date="" class="form-control form-control-solid" placeholder="زمان را انتخاب نمایید">
-                                    <div class="mt-2 text-muted fs-7 p-0">ابتدای تاریخ مورد نظر را انتخاب نمایید.</div>
+                            <div class="row d-flex justify-content-end mx-5 px-4 pb-5">
+                                <!--begin::Tags-->
+                                <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                    <label for="product-deliver-capacity">محدودیت ظرفیت تحویل</label>
+                                    <input class="form-check-input w-45px h-30px mx-2" type="checkbox" id="product-deliver-capacity" name="product_deliver_capacity">
                                 </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6" >
-                                    <input type="text" data-jdp="" data-jdp-min-date="today" data-jdp-only-date="" class="form-control form-control-solid" placeholder="زمان را انتخاب نمایید">
-                                    <div class="mt-2 text-muted fs-7 p-0">انتهای تاریخ مورد نظر را انتخاب نمایید.</div>
+                                <!--end::Tags-->
+                                <!--begin::توضیحات-->
+                                <div class="mt-2 text-muted fs-7 p-0">با تأیید این گزینه روی این محصول محدودیت ظرفیت تحویل اعمال خواهد شد.</div>
+                                <!--end::توضیحات-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="row d-flex justify-content-end mx-5 px-4 d-none" id="product-capacity-body">
+
+                                <div class="separator my-10"></div>
+
+                                <!--begin::Tags-->
+                                <label class="col-lg-12 col-form-label fw-semibold fs-6 required">
+                                    ظرفیت تحویل روزانه محصول را تعیین نمایید
+                                </label>
+                                <!--end::Tags-->
+
+                                <!--begin::Row-->
+                                <div class="row">
+                                    <div class="row gutter-sm">        
+                                        <!--begin::Input group-->
+                                        <div class="row d-flex justify-content-end">
+                                            <!--begin::Col-->
+                                            <div class="col-lg-4" >
+                                                <input name="daily_deliver_capacity" type="number" class="form-control form-control-solid" placeholder="به عنوان مثال 10000">
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::Col-->
                                 </div>
+                                <!--end::Row-->
+                                
+                                <div class="separator my-10"></div>
+
+                                <!--begin::Tags-->
+                                <label class="col-lg-12 col-form-label fw-semibold fs-6">
+                                    ظرفیت تحویل محصول برای تاریخ مورد نظر را تعیین نمایید
+                                </label>
+                                <!--end::Tags-->
+
+                                <!--begin::Col-->
+                                <div class="row repeater-body">
+                                    <div class="col-lg-10">
+                                        <div class="repeater-product">
+                                            <div data-repeatable class="my-5">
+                                                <fieldset class="row">
+                                                    <!--begin::Row-->
+                                                    <div class="row col-md-10">
+                                                        <div class="row gutter-sm">        
+                                                            <!--begin::Input group-->
+                                                            <div class="row d-flex justify-content-end">
+                                                                <!--begin::Col-->
+                                                                <div class="col-lg-6" >
+                                                                    <input name="specific_deliver_date[]" type="text" data-jdp="" data-jdp-min-date="today" data-jdp-only-date="" class="form-control form-control-solid" placeholder="تاریخ مورد نظر را انتخاب نمایید">
+                                                                </div>
+                                                                <!--end::Col-->
+                                                                <!--begin::Col-->
+                                                                <div class="col-lg-6" >
+                                                                    <input name="specific_deliver_capacity[]" type="number" class="form-control form-control-solid" placeholder="ظرفیت تحویل محصول را وارد نمایید">
+                                                                </div>
+                                                                <!--end::Col-->
+                                                            </div>
+                                                            <!--end::Input group-->
+                                                        </div>
+                                                        <!--end::Col-->
+                                                    </div>
+                                                    <!--end::Row-->
+                                                    <div class="col-md-2 d-flex align-items-center">
+                                                        <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                            حذف
+                                                            <i class="bi bi-patch-minus-fill"></i>
+                                                        </button>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 d-flex align-items-center mt-3">
+                                        <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn">
+                                            افزودن
+                                            <i class="bi bi-patch-plus-fill"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-muted fs-7">در صورتی که برای تاریخ به خصوصی قصد تعیین ظرفیت تحویل محصول دارید می توانید آن را از طریق فرم بالا تعیین نمایید، در غیر این صورت به صورت پیشفرض محاسبه بر اساس ظرفیت روزانه انجام خواهد شد.</div>
                                 <!--end::Col-->
                             </div>
                             <!--end::Input group-->
@@ -245,8 +330,8 @@
 
                                 <div class="mt-2 text-muted fs-7">با کلیک روی این دکمه می توانید مشخصات تعریف شده برای آن محصول را ذخیره نمایید.</div>
                             </div>
-
                             <!--end::Actions-->
+
                         </div>
                         <!--end::Content-->
                     </div>
@@ -277,6 +362,6 @@
     <!--end::Content wrapper-->
     </div>
 
-    <script src="{{asset('frontend/assets/plugins/datatables/yelsuProductTablesVendor.js')}}"></script>
+    <script src="{{asset('adminbackend/assets/js/vendorSchedule.js')}}"></script>
 
 @endsection

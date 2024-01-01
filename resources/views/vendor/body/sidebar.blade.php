@@ -222,7 +222,7 @@
                         <!--end:Menu item-->
 
                         <!--begin:Menu item-->
-                        {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.add.schedule' ? 'show' : ''}}">
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.add.schedule' ? 'show' : ''}}">
                             <!--begin:Menu link-->
                             <span class="menu-link">
                                 <span class="menu-bullet">
@@ -242,7 +242,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">افزودن زمان بندی</span>
+                                        <span class="menu-title">مدریت زمان بندی</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -251,7 +251,7 @@
                                 
                             </div>
                             <!--end:Menu sub-->
-                        </div> --}}
+                        </div>
                         <!--end:Menu item-->
 
                         @php

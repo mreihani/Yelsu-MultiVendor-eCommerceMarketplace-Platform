@@ -77,6 +77,7 @@ Route::middleware(['vendoraccess'])->group(function () {
 
     // Vendor Product Schedule all route
     Route::get('add/schedule', [VendorScheduleController::class, 'VendorAddSchedule'])->name('vendor.add.schedule');
+    Route::post('store/schedule', [VendorScheduleController::class, 'VendorStoreSchedule'])->name('vendor.store.schedule');
 });
 
 //Vendor Login
