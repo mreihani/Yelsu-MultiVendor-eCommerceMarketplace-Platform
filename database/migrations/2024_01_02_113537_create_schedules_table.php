@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('product_deliver_capacity')->default(false);
             $table->string('daily_deliver_capacity')->nullable();
             $table->string('daily_deliver_capacity_sold')->nullable();
+            $table->string('today_date')->nullable();
             $table->timestamps();
         });
 
