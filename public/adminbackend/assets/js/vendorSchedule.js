@@ -222,6 +222,18 @@ $("#list-btn-save-changes").click(function(){
     };
     product_obj_global.val(JSON.stringify(object_product));
 
+    // change table column related to product deliver capacity boolean
+    let product_stock_number_column_element = product_obj_global.closest("tr").find(".product-stock-number-table");
+    if(product_deliver_capacity) {
+        product_stock_number_column_element.html(object_product.daily_deliver_capacity ? object_product.daily_deliver_capacity : "نامشخص");
+        product_stock_number_column_element.removeClass('badge-info')
+        product_stock_number_column_element.addClass('badge-warning')
+    } else {
+        product_stock_number_column_element.html('نامحدود');
+        product_stock_number_column_element.removeClass('badge-warning')
+        product_stock_number_column_element.addClass('badge-info')
+    }
+
     $("#product-edit-specification-section").hide();
 });
 

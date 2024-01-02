@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
+use App\Models\Schedule;
 use App\Models\Attribute;
 use Illuminate\Support\Arr;
 use App\Models\AttributeItem;
@@ -494,6 +495,10 @@ class Product extends Model
 
     public function freightageloadertype() {
         return $this->belongsToMany(Freightageloadertype::class);
+    }
+
+    public function schedule() {
+        return $this->hasMany(Schedule::class);
     }
     
 }

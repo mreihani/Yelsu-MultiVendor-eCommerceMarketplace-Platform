@@ -124,11 +124,6 @@
 
                                                 <a href="{{route('shop.category', ['id'=> $category_id])}}">  {{App\Models\Category::find($category_id)->category_name}} </a>
                                             </div>
-
-                                            <div class="value-added-tax-div">
-                                                <input type="checkbox" class="value_added_tax_btn">
-                                                <label for="value_added_tax">نمایش قیمت با ارزش افزوده</label>
-                                            </div>
                                         </div>
                                         <div class="product-wrapper row">
                                             <div class="product-wrap">
@@ -138,8 +133,7 @@
                                                             <tr>
                                                                 <th class="text-center">ردیف</th>
                                                                 <th class="all text-center">نام محصول</th>
-                                                                <th class="all text-center">تعداد / مقدار محصول اختصاص داده شده</th>
-                                                                <th class="all text-center">قیمت</th>
+                                                                <th class="all text-center">ظرفیت تحویل</th>
                                                                 <th class="all text-center">ویرایش محصول</th>
                                                                 <th class="text-center">اطلاعات بیشتر</th>
                                                             </tr>
@@ -154,21 +148,12 @@
                                                                         </a>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge badge-info product-stock-number-table">نامحدود</span>
+                                                                        @if(count($product_item->schedule) && $product_item->schedule->first()->product_deliver_capacity) 
+                                                                            <span class="badge badge-warning product-stock-number-table">{{$product_item->schedule->first()->daily_deliver_capacity}}</span>
+                                                                        @else
+                                                                            <span class="badge badge-info product-stock-number-table">نامحدود</span>
+                                                                        @endif
                                                                     </td>
-                                                                    @if($product_item->selling_price != 0)
-                                                                        <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
-                                                                        <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
-                                                                        <td>
-                                                                            <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
-                                                                        </td>
-                                                                    @else
-                                                                        <td>
-                                                                            <a href="tel:02191692471">
-                                                                                تماس بگیرید
-                                                                            </a>
-                                                                        </td>
-                                                                    @endif
                                                                     <td>
                                                                         <button type="button" class="btn btn-sm btn-dark m-1 edit-button-specification">
                                                                             <i class="bi bi-pencil-fill"></i>
@@ -177,10 +162,10 @@
                                                                         
                                                                         <input class="hidden-input-information" type="hidden" name="product_obj[]" value='{{json_encode([
                                                                                 "product_id" => $product_item->id,
-                                                                                "product_deliver_capacity" => false,
-                                                                                "daily_deliver_capacity" => null,
-                                                                                "specific_deliver_date" => null,
-                                                                                "specific_deliver_capacity" => null,
+                                                                                "product_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->product_deliver_capacity ? true : false,
+                                                                                "daily_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->daily_deliver_capacity ? $product_item->schedule->first()->daily_deliver_capacity : null,
+                                                                                "specific_deliver_date" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_date() ? $product_item->schedule->first()->specific_deliver_date() : null,
+                                                                                "specific_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_capacity() ? $product_item->schedule->first()->specific_deliver_capacity() : null,
                                                                             ])}}'>
                                                                     </td>
                                                                     <td></td>
@@ -320,12 +305,12 @@
                             <div class="form-group card-body">
                                 <button type="button" class="btn btn-sm btn-success mx-1" id="list-btn-save-changes">
                                 <i class="bi bi-save"></i>
-                                ذخیره تغییرات
+                                    ذخیره تغییرات
                                 </button>
 
                                 <button type="button" class="btn btn-sm btn-dark mx-1" id="list-btn-discard-changes">
                                 <i class="bi bi-x-square"></i>
-                                انصراف
+                                    انصراف
                                 </button>
 
                                 <div class="mt-2 text-muted fs-7">با کلیک روی این دکمه می توانید مشخصات تعریف شده برای آن محصول را ذخیره نمایید.</div>
@@ -343,7 +328,7 @@
                         <div class="collapse show">
                             <!--begin::Actions-->
                             <div class="card-footer d-flex justify-content-end py-6 px-9">
-                                <a href="{{route('vendor.all.representative')}}" class="btn btn-light me-3">لغو</a>
+                                <a href="{{route('vendor.dashboard')}}" class="btn btn-light me-3">لغو</a>
                                 <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
                             </div>
                             <!--end::Actions-->
