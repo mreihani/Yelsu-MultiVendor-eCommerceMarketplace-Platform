@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->enum('trading_method', ['internal', 'export'])->default('internal');
+            $table->enum('trading_method', ['internal', 'export', 'import'])->default('internal');
         });
     }
 

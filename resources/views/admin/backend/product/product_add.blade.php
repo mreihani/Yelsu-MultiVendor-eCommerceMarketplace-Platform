@@ -212,6 +212,7 @@
                                 <select class="form-select mb-2" data-control="select2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_trading_method">
                                     <option value="internal" selected="selected">داخلی</option>
                                     <option value="export">صادراتی</option>
+                                    <option value="import">وارداتی</option>
                                 </select>
                                 <!--end::انتخاب2-->
                                 <!--begin::توضیحات-->

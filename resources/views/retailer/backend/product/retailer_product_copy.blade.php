@@ -216,6 +216,7 @@
                                 <select class="form-select mb-2" data-control="select2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_trading_method">
                                     <option value="internal" {{$products->trading_method == 'internal' ? "selected" : ""}}>داخلی</option>
                                     <option value="export" {{$products->trading_method == 'export' ? "selected" : ""}}>صادراتی</option>
+                                    <option value="import" {{$products->trading_method == 'import' ? "selected" : ""}}>وارداتی</option>
                                 </select>
                                 <!--end::انتخاب2-->
                                 <!--begin::توضیحات-->
