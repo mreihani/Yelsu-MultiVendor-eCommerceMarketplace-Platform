@@ -223,9 +223,14 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <div class="mt-2 tab tab-with-title pt-2 pb-5">
+                                                    <p>
+                                                        <span class="shipping-calculations"></span>
+                                                    </p>
+                                                </div>
                                                 
                                             </div>
-
                                         </div>
                                         
                                         <div class="col-md-5 shipping-page-map-div bg-grey mt-2 pt-2 pb-2">

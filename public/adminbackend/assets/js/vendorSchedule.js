@@ -74,10 +74,13 @@ $(".edit-button-specification").on("click", $(this), function() {
     // show specification section when click on edit button
     $("#product-edit-specification-section").show();
     let product_deliver_capacity_body = $("#product-capacity-body");
-
+   
     window.product_obj_global = $(this).next();
     let product_obj = JSON.parse($(this).next().val());
-
+    
+    let product_name = product_obj_global.closest("tr").find(".product-name-element").html().trim();
+    $("#product-name").html(product_name);
+   
     // create repeater html based on user input
     let repeater_product_html = '';
     if(product_obj.product_deliver_capacity) {

@@ -144,7 +144,9 @@
                                                                     <td>{{ $product_key + 1}}</td>
                                                                     <td>
                                                                         <a href="{{route('product.details', $product_item->product_slug)}}">
-                                                                            {{$product_item->product_name}}
+                                                                            <span class="product-name-element">
+                                                                                {{$product_item->product_name}}
+                                                                            </span>
                                                                         </a>
                                                                     </td>
                                                                     <td>
@@ -161,12 +163,12 @@
                                                                         </button>
                                                                         
                                                                         <input class="hidden-input-information" type="hidden" name="product_obj[]" value='{{json_encode([
-                                                                                "product_id" => $product_item->id,
-                                                                                "product_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->product_deliver_capacity ? true : false,
-                                                                                "daily_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->daily_deliver_capacity ? $product_item->schedule->first()->daily_deliver_capacity : null,
-                                                                                "specific_deliver_date" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_date() ? $product_item->schedule->first()->specific_deliver_date() : null,
-                                                                                "specific_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_capacity() ? $product_item->schedule->first()->specific_deliver_capacity() : null,
-                                                                            ])}}'>
+                                                                            "product_id" => $product_item->id,
+                                                                            "product_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->product_deliver_capacity ? true : false,
+                                                                            "daily_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->daily_deliver_capacity ? $product_item->schedule->first()->daily_deliver_capacity : null,
+                                                                            "specific_deliver_date" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_date() ? $product_item->schedule->first()->specific_deliver_date() : null,
+                                                                            "specific_deliver_capacity" => count($product_item->schedule) && $product_item->schedule->first()->specific_deliver_capacity() ? $product_item->schedule->first()->specific_deliver_capacity() : null,
+                                                                        ])}}'>
                                                                     </td>
                                                                     <td></td>
                                                                 </tr>
@@ -203,8 +205,16 @@
                         <!--begin::Content-->
                         <div class="collapse show">
 
+                            <div class="separator mx-10 px-4"></div>
+
+                            <div class="row d-flex justify-content-end mx-5 px-4 mt-10">
+                                <!--begin::Tags-->
+                                <h4 id="product-name"></h4>
+                                <!--end::Tags-->
+                            </div>
+
                             <!--begin::Input group-->
-                            <div class="row d-flex justify-content-end mx-5 px-4 pb-5">
+                            <div class="row d-flex justify-content-end mx-5 px-4 pb-5 mt-10">
                                 <!--begin::Tags-->
                                 <div class="form-check form-check-solid form-switch form-check-custom fv-row">
                                     <label for="product-deliver-capacity">محدودیت ظرفیت تحویل</label>
@@ -226,6 +236,9 @@
                                 <label class="col-lg-12 col-form-label fw-semibold fs-6 required">
                                     ظرفیت تحویل روزانه محصول را تعیین نمایید
                                 </label>
+                                <div class="text-muted fs-7">
+                                    بر اساس واحد اندازه گیری (وزن/بسته بندی/تعداد) مقدار ظرفیت تحویل کالا را تعیین نمایید.
+                                </div>
                                 <!--end::Tags-->
 
                                 <!--begin::Row-->

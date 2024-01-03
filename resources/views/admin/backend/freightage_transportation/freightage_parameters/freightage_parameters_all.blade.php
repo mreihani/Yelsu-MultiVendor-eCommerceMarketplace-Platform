@@ -105,7 +105,7 @@
                                     </th>
                                     <th class="min-w-100px">عنوان ضریب حمل</th>
                                     <th class="">کلمه کلیدی</th>
-                                    <th class="">مقدار ضریب</th>
+                                    <th class="">مقدار ضریب (درصد)</th>
                                     <th class="text-end min-w-70px">عملیات</th>
                                 </tr>
                                 <!--end::Table row-->

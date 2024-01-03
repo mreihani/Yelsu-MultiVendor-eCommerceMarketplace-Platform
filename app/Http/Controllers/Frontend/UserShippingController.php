@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Fparam;
 use App\Models\Outlet;
 use App\Models\Product;
 use App\Models\Useroutlets;
@@ -39,10 +40,56 @@ class UserShippingController extends Controller
         return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'products'));
     }
 
+    // این متد برای متد GetAddressAjax استفاده میشود 
+    private function calculatePriceOnDistance($neshan_response, $selected_loader_type_id) {
+        // دریاقت ضرایب حمل
+        $road_toll = Fparam::where("keyword", "road_toll")->first()->value;
+        $yelsu_commission = Fparam::where("keyword", "yelsu_commission")->first()->value;
+        $freight_commission = Fparam::where("keyword", "freight_commission")->first()->value;
+        $value_added = Fparam::where("keyword", "value_added")->first()->value;
+        $cargo_insurance = Fparam::where("keyword", "cargo_insurance")->first()->value;
+        $value_added_insurance = Fparam::where("keyword", "value_added_insurance")->first()->value;
+        $ad_insurance_driver = Fparam::where("keyword", "ad_insurance_driver")->first()->value;
+        $loading = Fparam::where("keyword", "loading")->first()->value;
+        $plus = Fparam::where("keyword", "plus")->first()->value;
+        $bad_road = Fparam::where("keyword", "bad_road")->first()->value;
+
+        $distance_by_kmeters = json_decode($neshan_response)->rows[0]->elements[0]->distance->value / 1000;
+        if($selected_loader_type_id) {
+            $selected_freightage_loader_type_obj = Freightageloadertype::find($selected_loader_type_id);
+            $freight_per_ton_currency = $selected_freightage_loader_type_obj->freight_per_ton_currency;
+            // $freight_per_ton_intracity = $selected_freightage_loader_type_obj->freight_per_ton_intracity;
+            $freight_per_ton_intercity = $selected_freightage_loader_type_obj->freight_per_ton_intercity;
+            // $freight_per_ton_rail = $selected_freightage_loader_type_obj->freight_per_ton_rail;
+            // $freight_per_ton_sea = $selected_freightage_loader_type_obj->freight_per_ton_sea;
+            // $freight_per_kg_air = $selected_freightage_loader_type_obj->freight_per_kg_air;
+            // $freight_per_kg_post = $selected_freightage_loader_type_obj->freight_per_kg_post;
+
+            $shipping_price = $distance_by_kmeters * $freight_per_ton_intercity;
+            $final_price = $shipping_price
+            + ($shipping_price * $road_toll)/100
+            + ($shipping_price * $yelsu_commission)/100 
+            + ($shipping_price * $freight_commission)/100
+            + ($shipping_price * $value_added)/100
+            + ($shipping_price * $cargo_insurance)/100
+            + ($shipping_price * $value_added_insurance)/100
+            + ($shipping_price * $ad_insurance_driver)/100
+            + ($shipping_price * $loading)/100
+            + ($shipping_price * $plus)/100
+            + ($shipping_price * $bad_road)/100;
+
+            return $shipping_calculations = array(
+                "currency" => $freight_per_ton_currency,
+                "price" => ceil($final_price),
+            );
+        } 
+    }
+
     public function GetAddressAjax(Request $request, NeshanApiService $neshanApiService) {
 
         $outlet_id = Purify::clean($request->outlet_id);
         $user_outlet_id = Purify::clean($request->user_outlet_id);
+        $selected_loader_type_id = Purify::clean($request->selected_loader_type_id);
 
         if($outlet_id == 0 || $user_outlet_id == 0) {
             return;
@@ -57,7 +104,16 @@ class UserShippingController extends Controller
         $neshan_response = $neshanApiService->GetCoordsDistance($origin, $destination);
         $image_arc_src = $neshanApiService->GetNeshanArcMapImage($origin, $destination);
 
-        return response(["user_outlet" => $user_outlet, "vendor_outlet" => $vendor_outlet, "neshan_response" => $neshan_response, "image_arc_src" => $image_arc_src]);
+        // بخش محاسبه قیمت بر اساس مسافت طی شده
+        $shipping_calculations = $this->calculatePriceOnDistance($neshan_response, $selected_loader_type_id);
+
+        return response([
+            "user_outlet" => $user_outlet,
+            "vendor_outlet" => $vendor_outlet,
+            "neshan_response" => $neshan_response, 
+            "image_arc_src" => $image_arc_src,
+            "shipping_calculations" => $shipping_calculations,
+        ]);
     }
 
     public function GetFreightageInformationAjax(Request $request) {

@@ -99,7 +99,7 @@
                                 <!--begin::Input group-->
                                 <div class="mb-10 fv-row">
                                     <!--begin::Tags-->
-                                    <label class="required form-label">مقدار ضریب</label>
+                                    <label class="required form-label">مقدار ضریب (درصد)</label>
                                     <!--end::Tags-->
                                     <!--begin::Input-->
                                     <input type="text" name="value" class="form-control mb-2" placeholder="مقدار ضریب حمل کالا را وارد نمایید" value="{{old('value')}}" />

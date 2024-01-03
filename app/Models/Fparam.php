@@ -9,6 +9,4 @@ class Fparam extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
-    
 }

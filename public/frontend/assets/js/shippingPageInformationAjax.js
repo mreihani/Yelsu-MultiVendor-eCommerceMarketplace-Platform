@@ -9,16 +9,20 @@ $(".shipping-element").on("click", ".shipping-calculate-btn", function () {
     let user_outlet_id = shipping_element.find(".user-address-information :selected").val();
 
     enableOverlayVendor(thisElement);
+
+    // get value of the first selected freightage loader type id
+    let selected_loader_type_id = $(".freightage-company-loader-type").find("select option:selected").val();
     
     $.ajax({
         type: "GET",
         data:{
             outlet_id,
-            user_outlet_id
+            user_outlet_id,
+            selected_loader_type_id
         },
         url: "/get-users-address-shipping",
         success: function (response) {
-
+            
             // removing dynamic map element after getting arc image
             let shipping_page_map_container_element = shipping_element.find(".shipping-page-map-container");
             shipping_page_map_container_element.hide();
@@ -31,6 +35,10 @@ $(".shipping-element").on("click", ".shipping-calculate-btn", function () {
             let distanceObject = getDistanceObject(response);
             let calculated_distance_element = shipping_element.find(".calculated-distance");
             calculated_distance_element.html(setDistanceHTMLVendor(distanceObject));
+
+            // update shipping calculations in shipping page
+            let calculated_calculations_element = shipping_element.find(".shipping-calculations");
+            calculated_calculations_element.html(setShippingCalculationsHTMLVendor(response));
             
             // update vendor address in shipping page
             let vendorAddressSpan = vendor_address_information_element.closest(".order-origin-address").find(".vendor-address");
@@ -80,3 +88,37 @@ function setDistanceHTMLVendor(distanceObject) {
 
     return distanceHTML;
 }
+
+function setShippingCalculationsHTMLVendor(response) {
+
+    let currency = "";
+    let currency_english = response.shipping_calculations.currency;
+
+    if(currency_english == "toman") {
+        currency = "تومان";
+    } else if(currency_english == "dollar") {
+        currency = "دلار";
+    } else if(currency_english == "euro") {
+        currency = "یورو";
+    }
+
+    let price = response.shipping_calculations.price;
+    price = formatNumber(price);
+
+    let distanceHTML = 
+    `
+        <div class="shipping-page-distance-box d-flex">
+            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#9d9d9d"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 14H17M14 10H17M9 9.5V8.5M9 9.5H11.0001M9 9.5C7.20116 9.49996 7.00185 9.93222 7.0001 10.8325C6.99834 11.7328 7.00009 12 9.00009 12C11.0001 12 11.0001 12.2055 11.0001 13.1667C11.0001 13.889 11.0001 14.5 9.00009 14.5M9.00009 14.5L9 15.5M9.00009 14.5H7.0001M6.2 19H17.8C18.9201 19 19.4802 19 19.908 18.782C20.2843 18.5903 20.5903 18.2843 20.782 17.908C21 17.4802 21 16.9201 21 15.8V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 4.09202 18.782C4.51984 19 5.07989 19 6.2 19Z" stroke="#9d9d9d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g>
+            </svg>
+            &nbsp;
+            هزینه حمل: &nbsp;<strong>${price} ${currency}</strong>
+        </div>
+    `;
+
+    return distanceHTML;
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
