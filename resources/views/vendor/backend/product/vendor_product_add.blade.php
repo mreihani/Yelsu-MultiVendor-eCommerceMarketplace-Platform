@@ -35,6 +35,18 @@
 <!--end:: TinyMCE-->
 
 
+<!-- SELECT2 -->
+<link rel="stylesheet" type="text/css" href="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.css')}}">
+<script src="{{asset('adminbackend/assets/plugins/custom/select2/select2.min.js')}}"></script>
+
+<!-- SELECT2 initialize -->
+<script>
+    $(document).ready(function() {
+        $('.yelsu-select2-basic-single').select2();
+    });
+</script>
+
+
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -454,9 +466,9 @@
                                         </div>
                                         
                                         <div class="card-body pt-0" id="yelsu_freightage">
-
+                                            <input type="hidden" value="{{json_encode($freightage_types->map->only('id', 'value'))}}" id="freightage-type-object">
                                             <div class="separator pt-5 mb-5 opacity-75"></div>
-
+                                            
                                             <p>لطفا روش ارسال و نوع بارگیر مورد نظر خود را از فرم زیر انتخاب نمایید.</p>
 
                                             <div class="row repeater-body pt-5">
@@ -473,7 +485,7 @@
                                                                             <label class="form-label">تعیین روش ارسال </label>
                                                                             <!--end::Tags-->
                                                                             <!--begin::Input-->
-                                                                            <select class="js-example-basic-single form-control" name="freightagetype_id[]">
+                                                                            <select class="js-example-basic-single form-control yelsu-select2-basic-single" name="freightagetype_id[]">
                                                                                 <option value="0">روش ارسال را انتخاب نمایید</option>
                                                                                 @foreach ($freightage_types as $freightage_type)
                                                                                     <option value="{{$freightage_type->id}}">{{$freightage_type->value}}</option>
@@ -489,7 +501,7 @@
                                                                             <label class="form-label">تعیین نوع بارگیر </label>
                                                                             <!--end::Tags-->
                                                                             <!--begin::Input-->
-                                                                            <select class="js-example-basic-single form-control" name="freightageloadertype_id[]">
+                                                                            <select class="js-example-basic-single form-control yelsu-select2-basic-single" name="freightageloadertype_id[]" >
                                                                                 <option value="0">نوع بارگیر را انتخاب نمایید</option>
                                                                             </select>
                                                                             <!--end::Input-->
@@ -509,7 +521,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-lg-2 d-flex align-items-start mt-3">
                                                     <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn mt-7">
                                                         افزودن
@@ -940,6 +952,7 @@
                             </div>
                             <!--end::Tab pane-->
                         </div>
+
                         <!--end::Tab content-->
                         <div class="d-flex justify-content-end">
                             <!--begin::Button-->
@@ -987,5 +1000,6 @@
 <script src="{{asset('adminbackend/assets/js/vendorHasVehicleState.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/LoadFreightageLoaderTypeAjaxVendor.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/freightageRepeaterVendor.js')}}"></script>
+
     
 @endsection
