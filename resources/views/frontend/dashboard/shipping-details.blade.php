@@ -69,14 +69,17 @@
                                     <ul class="nav nav-tabs" role="tablist">
                                         @foreach ($products as $key => $product)
                                             <li class="nav-item">
-                                                <a href="#tab5-{{$key + 1}}" class="nav-link {{$key == 0 ? 'active' : ''}}">{{$product->product_name}}</a>
+                                                <a href="#tab5-{{$key + 1}}" class="nav-link {{$key == 0 ? 'active' : ''}}">
+                                                    <i class="w-icon-verification price-verification-icon d-none" key="{{$key}}"></i>
+                                                    {{$product->product_name}}
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
                                     <div class="tab-content">
 
                                         @foreach ($products as $key => $product)
-                                            <div class="tab-pane {{$key == 0 ? 'active in' : ''}}" id="tab5-{{$key + 1}}">
+                                            <div class="tab-pane {{$key == 0 ? 'active in' : ''}}" id="tab5-{{$key + 1}}" key="{{$key}}">
                                                 <div class="row pt-5 pb-5 shipping-element d-flex justify-content-center">
 
                                                     <div class="col-md-11 bg-grey d-flex justify-content-between align-items-center">

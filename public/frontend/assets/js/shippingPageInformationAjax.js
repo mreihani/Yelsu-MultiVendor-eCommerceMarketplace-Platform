@@ -13,6 +13,9 @@ $(".shipping-element").on("click", ".shipping-calculate-btn", function () {
     // get value of the first selected freightage loader type id
     let selected_loader_type_id = $(".freightage-company-loader-type").find("select option:selected").val();
     
+    // hide verified btn icon
+    hideVerifiedBtn(thisElement)
+
     $.ajax({
         type: "GET",
         data:{
@@ -49,11 +52,23 @@ $(".shipping-element").on("click", ".shipping-calculate-btn", function () {
             userAddressSpan.html(response.user_outlet.address);
 
             disabledOverlayVendor(thisElement);
-
-            
         },
     });
 });
+
+// function to hide verified checkbox icon on calc btn click
+function hideVerifiedBtn(thisElement) {
+    let verifIconElem = thisElement.closest(".shipping").find(".price-verification-icon");
+    let tabContentElemKey = thisElement.closest(".tab-pane").attr("key");
+    
+    // match tab element with the body
+    $.each(verifIconElem, function(key, value) {
+        let elementKey = $(value).attr("key");
+        if(elementKey == tabContentElemKey) {
+            $(value).addClass("d-none");
+        }
+    });
+}
 
 // function to set art image
 function setArcImage(response, shipping_element) {
@@ -115,6 +130,16 @@ function setShippingCalculationsHTMLVendor(response) {
             &nbsp;
             هزینه حمل: &nbsp;<strong>${price} ${currency}</strong>
         </div>
+        <div class="d-flex justify-content-center mt-5">
+            <button type="button" class="btn btn-warning btn-outline btn-ellipse btn-sm shipping-calc-confirm-btn">
+                تایید هزینه حمل
+            </button>
+
+            <button type="button" class="btn btn-primary btn-ellipse btn-sm shipping-calc-confirmed-btn" style="display:none;">
+                <i class="w-icon-check"></i>
+                تایید شده!
+            </button>
+        </div>
     `;
 
     return distanceHTML;
@@ -124,3 +149,24 @@ function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
 
+// checkbox price vefification function
+$(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
+    let thisElem = $(this);
+    let verifIconElem = thisElem.closest(".shipping").find(".price-verification-icon");
+    let tabContentElemKey = thisElem.closest(".tab-pane").attr("key");
+
+    // hide verify btn on click
+    thisElem.hide();
+
+    // show confirmed btn
+    confirmedBtn = thisElem.closest("div").find(".shipping-calc-confirmed-btn");
+    confirmedBtn.show();
+    
+    // match tab element with the body
+    $.each(verifIconElem, function(key, value) {
+        let elementKey = $(value).attr("key");
+        if(elementKey == tabContentElemKey) {
+            $(value).removeClass("d-none");
+        }
+    });
+});
