@@ -65,7 +65,9 @@ class UserShippingController extends Controller
             // $freight_per_kg_air = $selected_freightage_loader_type_obj->freight_per_kg_air;
             // $freight_per_kg_post = $selected_freightage_loader_type_obj->freight_per_kg_post;
 
-            $shipping_price = $distance_by_kmeters * $freight_per_ton_intercity;
+            $freight_max_capacity = $selected_freightage_loader_type_obj->max_capacity;
+
+            $shipping_price = $distance_by_kmeters * $freight_per_ton_intercity * $freight_max_capacity / 1000;
             $final_price = $shipping_price
             + ($shipping_price * $road_toll)/100
             + ($shipping_price * $yelsu_commission)/100 

@@ -59,3 +59,12 @@ function removePreviousElementsActivityField(freightage_loader_type_element) {
         freightage_loader_type_dropdown_element.remove()
     }
 }
+
+// appear calculate btn when loader type is selected
+$(".shipping-element").on("change", ".freightage-loader-type-dropdown",function() {
+    let calcBtn = $(this).closest(".shipping-element").find("button");
+    calcBtn.removeClass("btn-info");
+    calcBtn.addClass("btn-primary");
+    calcBtn.attr("disabled", false);
+    calcBtn.css("cursor","pointer")
+})

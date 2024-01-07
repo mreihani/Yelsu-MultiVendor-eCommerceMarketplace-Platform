@@ -210,13 +210,13 @@
                         </div>
                         <!--end::وضعیت-->
                         
-                        <!--begin::داخلی یا صادراتی-->
+                        <!--begin::نوع فروش-->
                         <div class="card card-flush py-4">
                             <!--begin::کارت header-->
                             <div class="card-header">
                                 <!--begin::کارت title-->
                                 <div class="card-title">
-                                    <h2>داخلی یا صادراتی</h2>
+                                    <h2>نوع فروش</h2>
                                 </div>
                                 <!--end::کارت title-->
                             </div>
@@ -236,7 +236,7 @@
                             </div>
                             <!--end::کارت body-->
                         </div>
-                        <!--end::داخلی یا صادراتی-->
+                        <!--end::نوع فروش-->
 
                         <!--begin::دسته بندی & tags-->
                         <div class="card card-flush py-4">

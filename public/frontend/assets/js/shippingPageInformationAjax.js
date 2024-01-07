@@ -49,6 +49,8 @@ $(".shipping-element").on("click", ".shipping-calculate-btn", function () {
             userAddressSpan.html(response.user_outlet.address);
 
             disabledOverlayVendor(thisElement);
+
+            
         },
     });
 });

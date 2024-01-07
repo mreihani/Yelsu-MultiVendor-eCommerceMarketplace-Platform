@@ -23652,3 +23652,8 @@ td {
 /* shipping details page change quantity ajax loading overlay */
 
 
+/* shipping details page tab content width */
+.my-account .shipping-page-content .tab-content {
+    width: 100% !important;
+}
+/* shipping details page tab content width */

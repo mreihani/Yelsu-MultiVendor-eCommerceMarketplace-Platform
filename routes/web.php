@@ -21,18 +21,14 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
-//     ini_set('max_execution_time', 1800);
-//     App\Models\Product::chunk(1000, function($products) {
-//         foreach ($products as $product) {
-//             $product_currency = $product->determine_product_currency();
-//             if($product_currency != null && $product_currency != "تومان") {
-//                 $product->trading_method = "export";
-//                 $product->save();
-//             }
-//         }
-//     });
+    ini_set('max_execution_time', 1800);
+    App\Models\Product::chunk(1000, function($products) {
+        foreach ($products as $product) {
+            $product->selling_price = 0;
+            $product->save();
+        }
+    });
 
-
-// });
+});
