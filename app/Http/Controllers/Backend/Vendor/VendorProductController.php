@@ -62,6 +62,9 @@ class VendorProductController extends Controller
 
     public function VendorStoreProduct(Request $request)
     {
+
+       
+
         $incomingFields = $request->validate([
             'product_thumbnail' => ['required', 'image', 'max:5000'],
             'category_id' => 'required',
@@ -204,8 +207,24 @@ class VendorProductController extends Controller
         // بخش مدیریت حمل و نقل محصول
 
 
-        $product->searchable();
+        // بخش تخصیص مقتصات مکای به محصول
+        if($request->product_outlet_id && !in_array(null, $request->product_outlet_selling_price)) {
 
+            $product_outlet_id = Purify::clean($request->product_outlet_id);
+            $product_outlet_selling_price = Purify::clean($request->product_outlet_selling_price);
+
+            // create an array with product_outlet_id key
+            $product_outlet_attachment_array = [];
+            foreach ($product_outlet_id as $key => $value) {
+                $product_outlet_attachment_array[$value] = array("selling_price" => (int) $product_outlet_selling_price[$key]);
+            }
+            
+            $product->outlets()->attach($product_outlet_attachment_array);
+        }
+        // بخش تخصیص مقتصات مکای به محصول
+
+
+        $product->searchable();
 
         return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت ایجاد و پس از تایید کارشناس منتشر خواهد شد.');
     }
@@ -490,6 +509,25 @@ class VendorProductController extends Controller
         // بخش مدیریت حمل و نقل محصول
 
 
+        // بخش تخصیص مقتصات مکای به محصول
+        if($request->product_outlet_id && !in_array(null, $request->product_outlet_selling_price)) {
+
+            $product->outlets()->delete();
+
+            $product_outlet_id = Purify::clean($request->product_outlet_id);
+            $product_outlet_selling_price = Purify::clean($request->product_outlet_selling_price);
+
+            // create an array with product_outlet_id key
+            $product_outlet_attachment_array = [];
+            foreach ($product_outlet_id as $key => $value) {
+                $product_outlet_attachment_array[$value] = array("selling_price" => (int) $product_outlet_selling_price[$key]);
+            }
+            
+            $product->outlets()->attach($product_outlet_attachment_array);
+        }
+        // بخش تخصیص مقتصات مکای به محصول
+
+
         if ($product_verification == 'inactive') {
             return redirect()->route('vendor.all.product')->with('success', 'محصول مورد نظر با موفقیت به‌روزرسانی و پس از تایید کارشناس منتشر خواهد شد.');
         }
@@ -729,6 +767,24 @@ class VendorProductController extends Controller
         }
         // بخش مدیریت حمل و نقل محصول
 
+
+        // بخش تخصیص مقتصات مکای به محصول
+        if($request->product_outlet_id && !in_array(null, $request->product_outlet_selling_price)) {
+
+            // $product->outlets()->delete();
+
+            $product_outlet_id = Purify::clean($request->product_outlet_id);
+            $product_outlet_selling_price = Purify::clean($request->product_outlet_selling_price);
+
+            // create an array with product_outlet_id key
+            $product_outlet_attachment_array = [];
+            foreach ($product_outlet_id as $key => $value) {
+                $product_outlet_attachment_array[$value] = array("selling_price" => (int) $product_outlet_selling_price[$key]);
+            }
+            
+            $product->outlets()->attach($product_outlet_attachment_array);
+        }
+        // بخش تخصیص مقتصات مکای به محصول
 
         $product->searchable();
         

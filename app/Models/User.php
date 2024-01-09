@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
+use App\Models\Outlet;
 use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Merchant;
@@ -71,6 +72,11 @@ class User extends Authenticatable
         return $this->hasOne(Merchant::class, 'user_id', 'id');
     }
 
+    public function vendor_outlets()
+    {
+        return $this->hasMany(Outlet::class);
+    }
+
     public function outlets()
     {
         return $this->hasMany(Useroutlets::class);
@@ -92,11 +98,6 @@ class User extends Authenticatable
         }
 
         return $outletsArr;
-    }
-
-    public function vendor_outlets()
-    {
-        return $this->hasMany(Outlet::class);
     }
 
     public function verified_freightages_with_vendor_id() {

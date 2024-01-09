@@ -191,7 +191,7 @@
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
                                 <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="product_status" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_status_select">
+                                <select class="form-select mb-2" name="product_status" data-hide-search="true" data-placeholder="انتخاب">
                                     <option value="active" {{$products->status == 'active' ? "selected" : ""}}>منتشر شده</option>
                                     <option value="disabled" {{$products->status == 'disabled' ? "selected" : ""}}>در حال بازبینی</option>
                                 </select>
@@ -224,7 +224,7 @@
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
                                 <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_trading_method">
+                                <select class="form-select mb-2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب">
                                     <option value="internal" {{$products->trading_method == 'internal' ? "selected" : ""}}>داخلی</option>
                                     <option value="export" {{$products->trading_method == 'export' ? "selected" : ""}}>صادراتی</option>
                                     <option value="import" {{$products->trading_method == 'import' ? "selected" : ""}}>وارداتی</option>
@@ -540,8 +540,8 @@
                                             <div class="row repeater-body pt-5">
                                                 <div class="col-lg-10">
                                                     <!--begin::freightage loader types data from database -->            
-                                                    @foreach($products->freightageloadertype as $freightageloadertype_item)
-                                                        <div class="repeater">
+                                                    <div class="repeater">
+                                                        @foreach($products->freightageloadertype as $freightageloadertype_item)
                                                             <div data-repeatable="">
                                                                 <fieldset class="row">
                                                                     <!--begin::Row-->
@@ -587,8 +587,8 @@
                                                                     </div>
                                                                 </fieldset>
                                                             </div>
-                                                        </div>
-                                                    @endforeach
+                                                        @endforeach
+                                                    </div>
                                                     <!--end::freightage loader types data from database -->        
                                                     
                                                     @if(!count($products->freightageloadertype))
@@ -644,7 +644,7 @@
                                                 </div>
     
                                                 <div class="col-lg-2 d-flex align-items-start mt-3">
-                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn mt-7">
+                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn mt-5">
                                                         افزودن
                                                         <i class="bi bi-patch-plus-fill"></i>
                                                     </button>
@@ -654,6 +654,52 @@
                                         <!--end::کارت header-->
                                     </div>
                                     <!--end::مدیریت حمل کالا-->
+
+                                    <!--begin::ثبت نقاط مرتبط با محصول-->
+                                    @if(count($vendorData->vendor_outlets) > 1)
+                                        <div class="card card-flush py-4" id="product-outlet-body">
+
+                                            <!--begin::کارت header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>ثبت موقعیت مکانی محصول</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::کارت header-->
+
+                                            <div class="card-body pt-0">
+                                                <!--begin::Tags-->
+                                                <label class="form-label">لطفا موقعیت های مکانی که این محصول را از آنجا به فروش می رسانید انتخاب و قیمت محصول در آن مکان را وارد نمایید.</label>
+                                                <!--end::Tags-->
+                                            </div>
+
+                                            <div class="card-body pt-0 ">
+                                                <!--begin::Input group-->
+                                                <div class="fv-row">
+                                                    @foreach($vendorData->vendor_outlets as $outlet_item)
+                                                        <div class="row mt-2 outlet-row">
+                                                            <div class="col-md-3 d-flex align-items-center">
+                                                                <input {{in_array($outlet_item->id, $products->outlets->pluck('id')->toArray()) ? "checked" : ""}} class="form-check-input product_outlet_checkbox" type="checkbox" name="product_outlet_id[]" value="{{$outlet_item->id}}">
+                                                                <span class="form-check-label" style="margin-right: 5px;">
+                                                                    {{$outlet_item->shop_name}}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-6 d-flex align-items-center outlet-address {{!in_array($outlet_item->id, $products->outlets->pluck('id')->toArray()) ? 'text-muted' : ''}}">
+                                                                آدرس:
+                                                                {{$outlet_item->shop_address}}
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input {{!in_array($outlet_item->id, $products->outlets->pluck('id')->toArray()) ? 'disabled' : ''}} type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت محصول را وارد نمایید"  value="{{$products->outlets->where('id', $outlet_item->id)->first() ? $products->outlets->where('id', $outlet_item->id)->first()->pivot->selling_price : ''}}">
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <!--end::Input group-->
+                                            </div>
+                                            <!--end::کارت header-->
+                                        </div>
+                                    @endif
+                                    <!--end::ثبت نقاط مرتبط با محصول-->
 
                                     <!--begin::قیمت گذاری-->
                                     <div class="card card-flush py-4">
@@ -801,6 +847,7 @@
                                         <!--end::کارت header-->
                                     </div>
                                     <!--end::قیمت گذاری-->
+
                                 </div>
                             </div>
                             <!--end::Tab pane-->
@@ -967,20 +1014,6 @@
     
 </div>
 
-
-<!--begin::Vendors Javascript(used for this page only)-->
-{{-- <script src="{{asset('adminbackend/assets/plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script> --}}
-<!--end::Vendors Javascript-->
-<!--begin::سفارشی Javascript(used for this page only)-->
-{{-- <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/save-product.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
-<!--end::سفارشی Javascript-->
-
 <script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
 
@@ -988,5 +1021,8 @@
 <script src="{{asset('adminbackend/assets/js/vendorHasVehicleState.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/LoadFreightageLoaderTypeAjaxVendor.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/freightageRepeaterVendor.js')}}"></script>
+
+{{-- اسکریپت های مربوط به ثبت موقعیت مکانی محصول --}}
+<script src="{{asset('adminbackend/assets/js/vendorProductOutletForm.js')}}"></script>
 
 @endsection

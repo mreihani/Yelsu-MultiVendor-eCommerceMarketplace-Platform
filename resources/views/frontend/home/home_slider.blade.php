@@ -11,7 +11,7 @@
         <div class="swiper-wrapper row gutter-no cols-1">
 
             <div onclick="window.location='{{route('shop.category',['id'=> 1])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
-                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/slide-1.png')}}); cursor: pointer;">
+                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refah-bank-slider-1.jpg')}}); cursor: pointer;">
                 <div class="banner-content y-50" style="width: 350px">
                     <div class="slide-animate" data-animation-options="{
                         'name': 'fadeInUpShorter', 'duration': '1s','delay':'.3s'

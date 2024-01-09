@@ -188,7 +188,7 @@
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
                                 <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="product_status" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_add_product_status_select">
+                                <select class="form-select mb-2" name="product_status" data-hide-search="true" data-placeholder="انتخاب">
                                     <option value="active" selected="selected">منتشر شده</option>
                                     <option value="disabled">در حال بازبینی</option>
                                 </select>
@@ -221,7 +221,7 @@
                             <!--begin::کارت body-->
                             <div class="card-body pt-0">
                                 <!--begin::انتخاب2-->
-                                <select class="form-select mb-2" data-control="select2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب" id="kt_ecommerce_trading_method">
+                                <select class="form-select mb-2" name="trading_method" data-hide-search="true" data-placeholder="انتخاب">
                                     <option value="internal" selected="selected">داخلی</option>
                                     <option value="export">صادراتی</option>
                                     <option value="import">وارداتی</option>
@@ -523,7 +523,7 @@
                                                 </div>
 
                                                 <div class="col-lg-2 d-flex align-items-start mt-3">
-                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn mt-7">
+                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn mt-5">
                                                         افزودن
                                                         <i class="bi bi-patch-plus-fill"></i>
                                                     </button>
@@ -533,6 +533,52 @@
                                         <!--end::کارت header-->
                                     </div>
                                     <!--end::مدیریت حمل کالا-->
+
+                                    <!--begin::ثبت نقاط مرتبط با محصول-->
+                                    @if(count($vendorData->vendor_outlets) > 1)
+                                        <div class="card card-flush py-4" id="product-outlet-body">
+
+                                            <!--begin::کارت header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>ثبت موقعیت مکانی محصول</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::کارت header-->
+
+                                            <div class="card-body pt-0">
+                                                <!--begin::Tags-->
+                                                <label class="form-label">لطفا موقعیت های مکانی که این محصول را از آنجا به فروش می رسانید انتخاب و قیمت محصول در آن مکان را وارد نمایید.</label>
+                                                <!--end::Tags-->
+                                            </div>
+
+                                            <div class="card-body pt-0 ">
+                                                <!--begin::Input group-->
+                                                <div class="fv-row">
+                                                    @foreach($vendorData->vendor_outlets as $outlet_item)
+                                                        <div class="row mt-2 outlet-row">
+                                                            <div class="col-md-3 d-flex align-items-center">
+                                                                <input class="form-check-input product_outlet_checkbox" type="checkbox" name="product_outlet_id[]" value="{{$outlet_item->id}}">
+                                                                <span class="form-check-label" style="margin-right: 5px;">
+                                                                    {{$outlet_item->shop_name}}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-6 d-flex align-items-center outlet-address text-muted">
+                                                                آدرس:
+                                                                {{$outlet_item->shop_address}}
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت محصول را وارد نمایید">
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <!--end::Input group-->
+                                            </div>
+                                            <!--end::کارت header-->
+                                        </div>
+                                    @endif
+                                    <!--end::ثبت نقاط مرتبط با محصول-->
 
                                     <!--begin::قیمت گذاری-->
                                     <div class="card card-flush py-4">
@@ -760,139 +806,7 @@
                                         <!--end::کارت header-->
                                     </div>
                                     <!--end::Inventory-->
-                                    <!--begin::Variations-->
-                                    {{-- <div class="card card-flush py-4">
-                                        <!--begin::کارت header-->
-                                        <div class="card-header">
-                                            <div class="card-title">
-                                                <h2>متغیرها</h2>
-                                            </div>
-                                        </div>
-                                        <!--end::کارت header-->
-                                        <!--begin::کارت body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Input group-->
-                                            <div class="" data-kt-ecommerce-catalog-add-product="auto-options">
-                                                <!--begin::Tags-->
-                                                <label class="form-label">افزودن محصول متغیرها</label>
-                                                <!--end::Tags-->
-                                                <!--begin::Repeater-->
-                                                <div id="kt_ecommerce_add_product_options">
-                                                    <!--begin::Form group-->
-                                                    <div class="form-group">
-                                                        <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
-                                                            <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5">
-                                                                <!--begin::انتخاب2-->
-                                                                <div class="w-100 w-md-200px">
-                                                                    <select class="form-select" name="product_option" data-placeholder="یک متغییر انتخاب کنبد" data-kt-ecommerce-catalog-add-product="product_option">
-                                                                        <option></option>
-                                                                        <option value="color">Color</option>
-                                                                        <option value="size">Size</option>
-                                                                        <option value="material">Material</option>
-                                                                        <option value="style">Style</option>
-                                                                    </select>
-                                                                </div>
-                                                                <!--end::انتخاب2-->
-                                                                <!--begin::Input-->
-                                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value" placeholder="متغیر" />
-                                                                <!--end::Input-->
-                                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger">
-                                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
-                                                                    <span class="svg-icon svg-icon-1">
-                                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
-                                                                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
-                                                                        </svg>
-                                                                    </span>
-                                                                    <!--end::Svg Icon-->
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--end::Form group-->
-                                                    <!--begin::Form group-->
-                                                    <div class="form-group mt-5">
-                                                        <button type="button" data-repeater-create="" class="btn btn-sm btn-light-primary">
-                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr087.svg-->
-                                                        <span class="svg-icon svg-icon-2">
-                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor" />
-                                                                <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
-                                                            </svg>
-                                                        </span>
-                                                        <!--end::Svg Icon-->Add another variation</button>
-                                                    </div>
-                                                    <!--end::Form group-->
-                                                </div>
-                                                <!--end::Repeater-->
-                                            </div>
-                                            <!--end::Input group-->
-                                        </div>
-                                        <!--end::کارت header-->
-                                    </div> --}}
-                                    <!--end::Variations-->
-                                    <!--begin::حمل دریایی-->
-                                    {{-- <div class="card card-flush py-4">
-                                        <!--begin::کارت header-->
-                                        <div class="card-header">
-                                            <div class="card-title">
-                                                <h2>حمل دریایی</h2>
-                                            </div>
-                                        </div>
-                                        <!--end::کارت header-->
-                                        <!--begin::کارت body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Input group-->
-                                            <div class="fv-row">
-                                                <!--begin::Input-->
-                                                <div class="form-check form-check-custom form-check-solid mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="kt_ecommerce_add_product_shipping_checkbox" value="1" />
-                                                    <label class="form-check-label">این محصول فیزیکی می باشد</label>
-                                                </div>
-                                                <!--end::Input-->
-                                                <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">تنظیم کنید که آیا محصول یک کالای فیزیکی یا دیجیتالی است. محصولات فیزیکی ممکن است نیاز به حمل و نقل داشته باشند.</div>
-                                                <!--end::توضیحات-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::حمل دریایی form-->
-                                            <div id="kt_ecommerce_add_product_shipping" class="d-none mt-10">
-                                                <!--begin::Input group-->
-                                                <div class="mb-10 fv-row">
-                                                    <!--begin::Tags-->
-                                                    <label class="form-label">وزن</label>
-                                                    <!--end::Tags-->
-                                                    <!--begin::or-->
-                                                    <input type="text" name="weight" class="form-control mb-2" placeholder="محصولات weight" value="" />
-                                                    <!--end::or-->
-                                                    <!--begin::توضیحات-->
-                                                    <div class="text-muted fs-7">وزن محصول را بر حسب کیلوگرم (کیلوگرم) تنظیم کنید.</div>
-                                                    <!--end::توضیحات-->
-                                                </div>
-                                                <!--end::Input group-->
-                                                <!--begin::Input group-->
-                                                <div class="fv-row">
-                                                    <!--begin::Tags-->
-                                                    <label class="form-label">ابعاد</label>
-                                                    <!--end::Tags-->
-                                                    <!--begin::Input-->
-                                                    <div class="d-flex flex-wrap flex-sm-nowrap gap-3">
-                                                        <input type="number" name="width" class="form-control mb-2" placeholder="Width (w)" value="" />
-                                                        <input type="number" name="height" class="form-control mb-2" placeholder="Height (h)" value="" />
-                                                        <input type="number" name="length" class="form-control mb-2" placeholder="Lengtn (l)" value="" />
-                                                    </div>
-                                                    <!--end::Input-->
-                                                    <!--begin::توضیحات-->
-                                                    <div class="text-muted fs-7">ابعاد محصول را به سانتی متر (سانتی متر) وارد کنید.</div>
-                                                    <!--end::توضیحات-->
-                                                </div>
-                                                <!--end::Input group-->
-                                            </div>
-                                            <!--end::حمل دریایی form-->
-                                        </div>
-                                        <!--end::کارت header-->
-                                    </div> --}}
-                                    <!--end::حمل دریایی-->
+                                   
                                     <!--begin::Meta options-->
                                     <div class="card card-flush py-4">
                                         <!--begin::کارت header-->
@@ -980,19 +894,6 @@
 </div>
 
 
-<!--begin::Vendors Javascript(used for this page only)-->
-{{-- <script src="{{asset('adminbackend/assets/plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script> --}}
-<!--end::Vendors Javascript-->
-<!--begin::سفارشی Javascript(used for this page only)-->
-{{-- <script src="{{asset('adminbackend/assets/js/custom/apps/ecommerce/catalog/save-product.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/widgets.bundle.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/widgets.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/apps/chat/chat.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-<script src="{{asset('adminbackend/assets/js/custom/utilities/modals/users-search.js')}}"></script> --}}
-<!--end::سفارشی Javascript-->
-
 <script src="{{asset('adminbackend/assets/js/categoryFilterProduct.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/loadAttributeAjaxVendor.js')}}"></script>
 
@@ -1001,5 +902,7 @@
 <script src="{{asset('adminbackend/assets/js/LoadFreightageLoaderTypeAjaxVendor.js')}}"></script>
 <script src="{{asset('adminbackend/assets/js/freightageRepeaterVendor.js')}}"></script>
 
+{{-- اسکریپت های مربوط به ثبت موقعیت مکانی محصول --}}
+<script src="{{asset('adminbackend/assets/js/vendorProductOutletForm.js')}}"></script>
     
 @endsection

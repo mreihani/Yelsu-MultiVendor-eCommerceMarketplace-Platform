@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Outlet;
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\Attribute;
@@ -501,4 +503,7 @@ class Product extends Model
         return $this->hasMany(Schedule::class);
     }
     
+    public function outlets() {
+        return $this->belongsToMany(Outlet::class)->withPivot("selling_price");
+    }
 }

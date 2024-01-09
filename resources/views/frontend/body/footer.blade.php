@@ -137,10 +137,9 @@
                     <div class="footer-right">
                         {{-- <span class="payment-label mr-lg-8">ما از پرداخت مطمئن استفاده می کنیم</span> --}}
                         <figure >
-                            {{-- <img src="{{asset('frontend/assets/images/pay-pic-for-footer.png')}}" alt="payment" width="300"/> --}}
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/mellat.png')}}" alt="payment" width="42"/>
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="payment" width="42"/>
-                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/refah.png')}}" alt="payment" width="70"/>
+                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/refah2.png')}}" alt="payment" width="150"/>
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="payment" width="42"/>
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="payment" width="42"/>
                         </figure>

@@ -12,11 +12,6 @@
         <div class="grid-space col-1"></div>
     </div>
 
-    
-
-
-
-
     <!-- Start of Shop Category -->
     <h2 class="title pr-4 mt-10">دسته بندی محصولات و تجهیزات</h2>
     <div class="container">
@@ -962,49 +957,41 @@
         }">
         <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2">
             <figure class="swiper-slide">
-                <a href="https://encomgalaxy.com/">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/1.jpg')}}" alt="Brand" width="310"
+                <a href="https://www.sb24.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
             </figure>
             <figure class="swiper-slide">
-                <a href="http://galaxypetrol.com/">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/2.jpg')}}" alt="Brand" width="310"
+                <a href="https://www.bsi.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
             </figure>
             <figure class="swiper-slide">
-                <a href="https://encompassingtrade.com/">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/3.jpg')}}" alt="Brand" width="310"
+                <a href="https://bankmellat.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/mellat.png')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
             </figure>
             <figure class="swiper-slide">
-                    <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
-                        <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
-                        height="180" />
-                    </a>
-            </figure>
-            <figure class="swiper-slide">
-                <a href="https://helpingthem.org/">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/5.jpg')}}" alt="Brand" width="310"
+                <a href="https://www.bmi.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
             </figure>
             <figure class="swiper-slide">
-                <a href="http://moghanmining.com/">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/6.jpg')}}" alt="Brand" width="310"
-                    height="180" />
+                <a href="https://www.refah-bank.ir/beta">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/refah2.png')}}" alt="Brand" width="310"
+                    height="250" />
                 </a>
             </figure>
-            {{-- <figure class="swiper-slide">
-                <img src="{{asset('frontend/assets/images/demos/demo13/brands/7.jpg')}}" alt="Brand" width="310"
+            <figure class="swiper-slide">
+                <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
+                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
                     height="180" />
-            </figure> --}}
-            {{-- <figure class="swiper-slide">
-                <img src="{{asset('frontend/assets/images/demos/demo13/brands/8.jpg')}}" alt="Brand" width="310"
-                    height="180" />
-            </figure> --}}
+                </a>
+        </figure>
         </div>
     </div>
     <!-- End of Brands Wrapper -->
