@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Backend\Vendor;
 
 use App\Models\File;
 use App\Models\User;
+use App\Models\Vendor;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
+
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\File as LaravelFile;
-
-use App\Http\Controllers\Controller;
 
 class VendorController extends Controller
 {
@@ -70,7 +72,7 @@ class VendorController extends Controller
             $filter_category_array[] = array($parentCategory, $all_children);
         }
         // category for filter
-
+       
         return view('vendor.vendor_profile_settings', compact('vendorData', 'parentCategories', 'filter_category_array', 'vendor_sector_cat_arr_selected'));
     } //End method
 
@@ -102,15 +104,25 @@ class VendorController extends Controller
 
         } elseif (Purify::clean($request->person_type) == 'hoghoghi') {
 
-            if (Purify::clean($request->company_number) == null) {
+            if (Purify::clean($request->verification_company_registration_number) == null) {
                 session()->flashInput($request->input());
-                return back()->with('error', 'لطفا شماره شناسه شرکت راوارد نمایید.');
+                return back()->with('error', 'لطفا شماره ثبت شرکت را وارد نمایید.');
             }
 
-            if (strlen(Purify::clean($request->company_number)) != 11 || ! is_numeric(Purify::clean($request->company_number))) {
+            if (Purify::clean($request->verification_company_national_code) == null) {
+                session()->flashInput($request->input());
+                return back()->with('error', 'لطفا شماره شناسه شرکت را وارد نمایید.');
+            }
+
+            if (strlen(Purify::clean($request->verification_company_national_code)) != 11 || ! is_numeric(Purify::clean($request->verification_company_national_code))) {
                 session()->flashInput($request->input());
                 return back()->with('error', 'لطفا شماره شناسه صحیح وارد نمایید.');
             }
+
+            // if (Purify::clean($request->verification_company_economic_code) == null) {
+            //     session()->flashInput($request->input());
+            //     return back()->with('error', 'لطفا کد اقتصادی شرکت را وارد نمایید.');
+            // }
         }
 
         $id = Auth::user()->id;
@@ -138,10 +150,6 @@ class VendorController extends Controller
 
         if (Purify::clean($request->national_code)) {
             $data->national_code = Purify::clean($request->national_code);
-        }
-
-        if (Purify::clean($request->company_number)) {
-            $data->company_number = Purify::clean($request->company_number);
         }
 
         if (Purify::clean($request->agent_name)) {
@@ -176,6 +184,185 @@ class VendorController extends Controller
             $data['store_banner'] = $filename;
         }
 
+        // بخش احراز هویت
+        // ابتدا آی دی کاربر تامین کننده در جدول وندور ثبت می شود
+        $vendor_object = Vendor::firstOrCreate([
+            'user_id' => $id,
+        ]);
+
+        // شماره ثبت شرکت
+        if (Purify::clean($request->verification_company_registration_number)) {
+            $data->vendor->verification_company_registration_number = Purify::clean($request->verification_company_registration_number);
+        }
+
+        // شماره شناسه ملی شرکت
+        if (Purify::clean($request->verification_company_national_code)) {
+            $data->vendor->verification_company_national_code = Purify::clean($request->verification_company_national_code);
+        }
+
+        // کد اقتصادی شرکت
+        if (Purify::clean($request->verification_company_economic_code)) {
+            $data->vendor->verification_company_economic_code = Purify::clean($request->verification_company_economic_code);
+        }
+
+        // آدرس بر اساس استعلام سامانه ای وت
+        if (Purify::clean($request->verification_company_evat_address)) {
+            $data->vendor->verification_company_evat_address = Purify::clean($request->verification_company_evat_address);
+        }
+
+        // اینجا پوشه مدارک احراز هویت با توجه به نوع کاربر و شماره اش ساخته میشود
+        if (! LaravelFile::exists(Storage::path("secret/identity_verification_documents/$data->role"))) {
+            LaravelFile::makeDirectory(Storage::path("secret/identity_verification_documents/$data->role"));
+        }
+        if (! LaravelFile::exists(Storage::path("secret/identity_verification_documents/$data->role/$id"))) {
+            LaravelFile::makeDirectory(Storage::path("secret/identity_verification_documents/$data->role/$id"));
+        }
+
+        // بارگذاری تصویر گواهی ارزش افزوده
+        if (Purify::clean($request->file('verification_company_value_added_certificate'))) {
+            $file = Purify::clean($request->file('verification_company_value_added_certificate'));
+            if ($data->vendor->verification_company_value_added_certificate != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_value_added_certificate));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_value_added_certificate = $filename;
+        }
+
+        // تصویر ثبت نام مودیان مالیات بر ارزش افزوده
+        if (Purify::clean($request->file('verification_company_value_added_registration_image'))) {
+            $file = Purify::clean($request->file('verification_company_value_added_registration_image'));
+            if ($data->vendor->verification_company_value_added_registration_image != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_value_added_registration_image));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_value_added_registration_image = $filename;
+        }
+
+        // تصویر کارت ملی شخص حقیقی
+        if (Purify::clean($request->file('verification_company_national_card_image'))) {
+            $file = Purify::clean($request->file('verification_company_national_card_image'));
+            if ($data->vendor->verification_company_national_card_image != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_national_card_image));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_national_card_image = $filename;
+        }
+
+        // تصویر کارت ملی صاحبان حق امضا کنار هم
+        if (Purify::clean($request->file('verification_company_national_card_image_all'))) {
+            $file = Purify::clean($request->file('verification_company_national_card_image_all'));
+            if ($data->vendor->verification_company_national_card_image_all != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_national_card_image_all));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_national_card_image_all = $filename;
+        }
+
+        // تصویر آخرین تغییرات روزنامه رسمی
+        if (Purify::clean($request->file('verification_company_official_gazette_image'))) {
+            $file = Purify::clean($request->file('verification_company_official_gazette_image'));
+            if ($data->vendor->verification_company_official_gazette_image != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_official_gazette_image));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_official_gazette_image = $filename;
+        }
+
+        // تصویر آگهی تأسیس شرکت
+        if (Purify::clean($request->file('verification_company_establishment_announcement'))) {
+            $file = Purify::clean($request->file('verification_company_establishment_announcement'));
+            if ($data->vendor->verification_company_establishment_announcement != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_establishment_announcement));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_establishment_announcement = $filename;
+        }
+
+        // تصویر آخرین پروانه بهره برداری
+        if (Purify::clean($request->file('verification_company_operation_license'))) {
+            $file = Purify::clean($request->file('verification_company_operation_license'));
+            if ($data->vendor->verification_company_operation_license != null) {
+                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_operation_license));
+            }
+            $unique_image_name = hexdec(uniqid());
+            $filename = $unique_image_name . '.' . 'jpg';
+            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+            $data->vendor->verification_company_operation_license = $filename;
+        }
+
+        // دریافت آرایه اطلاعات مربوط به فرم ریپیتر صاحبین حق امضا
+        if(!in_array(null, $request->vendor_signature_firstname) && !in_array(null, $request->vendor_signature_lastname)) {
+            $data->vendor->vendor_signatures()->delete();
+
+            $signature_firstname_array = Purify::clean($request->vendor_signature_firstname);
+            $signature_lastname_array = Purify::clean($request->vendor_signature_lastname);
+            $signature_national_code_array = Purify::clean($request->vendor_signature_national_code);
+
+            foreach ($request->vendor_signature_firstname as $key => $signature_firstname_item) {
+                $data->vendor->vendor_signatures()->create([
+                    'vendor_id' => $vendor_object->id,
+                    'vendor_signature_firstname' => $signature_firstname_array[$key],
+                    'vendor_signature_lastname' => $signature_lastname_array[$key],
+                    'vendor_signature_national_code' => $signature_national_code_array[$key],
+                ]);
+            }
+        }
+
+        $data->vendor->save();
+        $data->save();
+
+        return back()->with('success', 'اطلاعات با موفقیت ذخیره شد.');
+
+    } //End method
+
+    public function VendorProfileFieldOfActivity() {
+        $id = Auth::user()->id;
+        $vendorData = User::find($id);
+
+        $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
+
+        // category for filter
+        $vendor_sector_cat_arr_selected =  explode(",", $vendorData->vendor_sector);
+        $filter_category_array = [];
+        foreach ($parentCategories as $parentCategory) {
+            $all_children = Category::find($parentCategory->id)->child;
+            $filter_category_array[] = array($parentCategory, $all_children);
+        }
+        // category for filter
+
+        return view('vendor.vendor_profile_field_of_activity', compact('vendorData', 'parentCategories', 'filter_category_array', 'vendor_sector_cat_arr_selected'));
+    }
+
+    public function VendorProfileFieldOfActivityStore(Request $request) {
+
+        $data = auth()->user();
+
         if (Purify::clean($request->vendor_sector) != null) {
             $data->vendor_sector = implode(',', Purify::clean($request->vendor_sector));
         } else {
@@ -184,8 +371,7 @@ class VendorController extends Controller
 
         $data->save();
         return back()->with('success', 'اطلاعات با موفقیت ذخیره شد.');
-
-    } //End method
+    }
 
     public function VendorProfileFinancialStatement()
     {
@@ -193,6 +379,7 @@ class VendorController extends Controller
         $vendorData = User::find($id);
         return view('vendor.vendor_profile_financial_statement', compact('vendorData'));
     }
+
     public function VendorProfileFinancialStatementStore(Request $request)
     {
         $incomingFields = $request->validate([

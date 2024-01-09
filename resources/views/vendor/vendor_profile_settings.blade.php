@@ -180,6 +180,12 @@
                            
                             <!--begin::Nav item-->
                             <li class="nav-item mt-2">
+                                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profileFieldOfActivity')}}">زمینه فعالیت</a>
+                            </li>
+                            <!--end::Nav item-->
+
+                            <!--begin::Nav item-->
+                            <li class="nav-item mt-2">
                                 <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profileFinancialStatement')}}">صورتحساب</a>
                             </li>
                             <!--end::Nav item-->
@@ -193,13 +199,11 @@
                 <!--begin::پایه info-->
                 <div class="card mb-5 mb-xl-10">
                     <!--begin::کارت header-->
-                    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expوed="true" aria-controls="kt_account_profile_details">
-                        <!--begin::کارت title-->
-                        <div class="card-title m-0">
-                            <h3 class="fw-bold m-0">تنظیمات پروفایل</h3>
-                        </div>
-                        <!--end::کارت title-->
+                    <div class="card-title pt-5 mb-5" style="margin-right:25px;">
+                        <h3 class="fw-bold m-0">تنظیمات پروفایل و احراز هویت</h3>
+                        <span class="form-text" style="color: #ff7676">در صورت فعالیت در پلتفرم یلسو می بایست احراز هویت انجام شود</span>
                     </div>
+                    
                     <!--begin::کارت header-->
                     <!--begin::Content-->
                     <div id="kt_account_settings_profile_details" class="collapse show">
@@ -301,17 +305,6 @@
                                  </div>
                                 <!--end::Input group-->
 
-                                {{-- <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">نام کاربری</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input disabled type="text" class="form-control form-control-lg form-control-solid" placeholder="نام کاربری" value="{{$vendorData->username}}" />
-                                    </div>
-                                    <!--end::Col-->
-                                </div> --}}
-
                                 <!--begin::Input group-->
                                  <div class="row mb-6">
                                     <!--begin::Tags-->
@@ -338,115 +331,440 @@
                                 </div>
                                 <!--end::Input group-->
 
-                                <!--begin::Input group-->
-                                <div class="row mb-6 haghighi">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8">
-                                        <!--begin::Row-->
-                                        <div class="row">
-                                            <!--begin::Col-->
-                                            <div class="col-lg-12 fv-row">
-                                                <input type="text" name="firstname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام" value="{{$vendorData->firstname}}" />
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Row-->
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
-                                <div class="row mb-6 haghighi">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام خانوادگی</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8">
-                                        <!--begin::Row-->
-                                        <div class="row">
-                                            <!--begin::Col-->
-                                            <div class="col-lg-12 fv-row">
-                                                <input type="text" name="lastname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام خانوادگی" value="{{$vendorData->lastname}}" />
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Row-->
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6 haghighi">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">کد ملی</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input type="text" name="national_code" class="form-control form-control-lg form-control-solid" placeholder="کد ملی" value="{{$vendorData->national_code}}" />
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6 hoghoghi">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">شماره شناسه شرکت</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input type="text" name="company_number" class="form-control form-control-lg form-control-solid" placeholder="شماره شناسه شرکت" value="{{$vendorData->company_number}}" />
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6 hoghoghi">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">نام نماینده</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input type="text" name="agent_name" class="form-control form-control-lg form-control-solid" placeholder="نام نماینده" value="{{$vendorData->agent_name}}" />
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Input group-->
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">زمینه فعالیت فروشگاه</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <ul class="list-style-none">
-                                            @foreach ($filter_category_array as $category)
-                                                <li class="filterButtonShopPage rootCat">
-                                                    @if(in_array($category[0]->id, $vendor_sector_cat_arr_selected))
-                                                        <input class="form-check-input" @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                                    @else
-                                                        <input class="form-check-input" type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
-                                                    @endif
-                                                </li>
-                                                <div class="subCategoryBtn">
-                                                    @include('vendor.body.layouts.vendor_category.edit-categories-group', ['categories' => $category[1]])
+                                <div class="haghighi">
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <!--begin::Row-->
+                                            <div class="row">
+                                                <!--begin::Col-->
+                                                <div class="col-lg-12 fv-row">
+                                                    <input type="text" name="firstname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام" value="{{$vendorData->firstname}}" />
                                                 </div>
-                                            @endforeach
-                                        </ul>    
+                                                <!--end::Col-->
+                                                <!--begin::Col-->
+                                                
+                                                <!--end::Col-->
+                                            </div>
+                                            <!--end::Row-->
+                                        </div>
+                                        <!--end::Col-->
                                     </div>
-                                    <!--end::Col-->
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام خانوادگی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <!--begin::Row-->
+                                            <div class="row">
+                                                <!--begin::Col-->
+                                                <div class="col-lg-12 fv-row">
+                                                    <input type="text" name="lastname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="نام خانوادگی" value="{{$vendorData->lastname}}" />
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+                                            <!--end::Row-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">کد ملی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="national_code" class="form-control form-control-lg form-control-solid" placeholder="کد ملی" value="{{$vendorData->national_code}}" />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
                                 </div>
-                                <!--end::Input group-->
+
+                                <div class="hoghoghi">
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">شماره ثبت شرکت</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="verification_company_registration_number" class="form-control form-control-lg form-control-solid" placeholder="شماره ثبت شرکت" value="{{$vendorData->vendor ? $vendorData->vendor->verification_company_registration_number : ''}}" />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">شماره شناسه ملی شرکت</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="verification_company_national_code" class="form-control form-control-lg form-control-solid" placeholder="شماره شناسه ملی شرکت" value="{{$vendorData->vendor ? $vendorData->vendor->verification_company_national_code : ''}}" />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row ">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">کد اقتصادی شرکت</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="verification_company_economic_code" class="form-control form-control-lg form-control-solid" placeholder="کد اقتصادی شرکت" value="{{$vendorData->vendor ? $vendorData->vendor->verification_company_economic_code : ''}}" />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--begin::Hint-->
+                                    <div class="form-text">در صورتی که کد اقتصادی همان شناسه ملی است، باکس کد اقتصادی را خالی بگذارید.</div>
+                                    <!--end::Hint-->
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6 mt-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">نام نماینده</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="agent_name" class="form-control form-control-lg form-control-solid" placeholder="نام نماینده" value="{{$vendorData->agent_name}}" />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">آدرس بر اساس استعلام سامانه evat</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input type="text" name="verification_company_evat_address" class="form-control form-control-lg form-control-solid" placeholder="آدرس را وارد نمایید" value="{{$vendorData->vendor ? $vendorData->vendor->verification_company_evat_address : ''}}" />
+                                        </div>
+                                        <!--begin::Hint-->
+                                        <div class="form-text">در صورتی که آدرس تغییر کرده باشد، بارگذاری روزنامه تغییرات آدرس، همراه با روزنامه رسمی الزامی است.</div>
+                                        <!--end::Hint-->
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">مشخصات صاحبین حق امضا مطابق با روزنامه رسمی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <!--begin::Col-->
+                                            <div class="row repeater-body">
+                                                <div class="col-lg-10">
+                                                    <div class="repeater-product">
+                                                        @if($vendorData->vendor && count($vendorData->vendor->vendor_signatures))
+                                                            @foreach ($vendorData->vendor->vendor_signatures as $signature_item)
+                                                                <div data-repeatable class="mb-5">
+                                                                    <fieldset class="row">
+                                                                        <!--begin::Row-->
+                                                                        <div class="row col-md-10">
+                                                                            <div class="row gutter-sm">        
+                                                                                <!--begin::Input group-->
+                                                                                <div class="row d-flex justify-content-end">
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام" value="{{$signature_item->vendor_signature_firstname}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی" value="{{$signature_item->vendor_signature_lastname}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی" value="{{$signature_item->vendor_signature_national_code}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                </div>
+                                                                                <!--end::Input group-->
+                                                                            </div>
+                                                                            <!--end::Col-->
+                                                                        </div>
+                                                                        <!--end::Row-->
+                                                                        <div class="col-md-2 d-flex align-items-center">
+                                                                            <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                                                حذف
+                                                                                <i class="bi bi-patch-minus-fill"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <div data-repeatable class="mb-5">
+                                                                <fieldset class="row">
+                                                                    <!--begin::Row-->
+                                                                    <div class="row col-md-10">
+                                                                        <div class="row gutter-sm">        
+                                                                            <!--begin::Input group-->
+                                                                            <div class="row d-flex justify-content-end">
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                            </div>
+                                                                            <!--end::Input group-->
+                                                                        </div>
+                                                                        <!--end::Col-->
+                                                                    </div>
+                                                                    <!--end::Row-->
+                                                                    <div class="col-md-2 d-flex align-items-center">
+                                                                        <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                                            حذف
+                                                                            <i class="bi bi-patch-minus-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 d-flex align-items-start mt-1">
+                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn">
+                                                        افزودن
+                                                        <i class="bi bi-patch-plus-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+
+                                <!--begin::Menu separator-->
+                                <div class="separator pt-5 mb-5 opacity-75"></div>
+                                <!--end::Menu separator-->
+
+                                <div class="card-title pt-5 mb-5 pb-5">
+                                    <h3 class="fw-bold m-0">بارگذاری تصاویر احراز هویت</h3>
+                                </div>
+
+                                <div class="haghighi">
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر گواهی ارزش افزوده</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                در صورتی که شامل مالیات بر ارزش افزوده هستید، تصویر گواهی ارزش افزوده نیز مورد نیاز است. لطفا در بخش بررسی ثبت نام الکترونیک مالیات بر ارزش افزوده، شماره ملی خود را وارد نمایید و از آن گواهی عکس بگیرید. سپس در این بخش بارگذاری کنید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_value_added_certificate" name="verification_company_value_added_certificate" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_value_added_certificate)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_value_added_certificate])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_value_added_certificate])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی شخص حقیقی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر پشت و روی کارت ملی شخص حقیقی را بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_national_card_image" name="verification_company_national_card_image" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_national_card_image)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+
+                                <div class="hoghoghi">
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر ثبت نام مودیان مالیات بر ارزش افزوده</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                عکس از صفحه بررسی ثبت نام مودیان مالیات بر ارزش افزوده واقع در نشانی اینترنتی evat.ir با وارد کردن شماره شناسه ملی یا شماره اقتصادی
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_value_added_registration_image" name="verification_company_value_added_registration_image" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_value_added_registration_image)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_value_added_registration_image])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_value_added_registration_image])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی همه صاحبان حق امضا</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر پشت و روی کارت ملی همه صاحبان حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_national_card_image_all" name="verification_company_national_card_image_all" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_national_card_image_all)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر آخرین تغییرات روزنامه رسمی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر آخرین تغییرات روزنامه رسمی را بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_official_gazette_image" name="verification_company_official_gazette_image" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_official_gazette_image)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_official_gazette_image])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_official_gazette_image])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر آگهی تأسیس شرکت</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر آگهی تأسیس شرکت را بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_establishment_announcement" name="verification_company_establishment_announcement" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_establishment_announcement)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_establishment_announcement])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_establishment_announcement])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پروانه بهره برداری</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر پروانه بهره برداری را بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_operation_license" name="verification_company_operation_license" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_operation_license)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_operation_license])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_operation_license])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
 
                             </div>
                             <!--end::کارت body-->
@@ -462,53 +780,6 @@
                     <!--end::Content-->
                 </div>
                 <!--end::پایه info-->
-               
-                <!--begin::اعلان ها-->
-                
-                <!--end::اعلان ها-->
-                <!--begin::ریست پسورد-->
-                {{-- <div class="card mb-5 mb-xl-10">
-                    
-                    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
-                        <div class="card-title m-0">
-                            <h3 class="fw-bold m-0">تغییر کلمه عبور</h3>
-                        </div>
-                    </div>
-                    
-                    <div id="kt_signin_password_edit" class="flex-row-fluid m-10">
-                        
-                        <form  class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{route('vendor.update.password')}}">
-                            @csrf
-                            <div class="row mb-1">
-                                <div class="col-lg-4">
-                                    <div class="fv-row mb-0 fv-plugins-icon-container">
-                                        <label for="currentpassword" class="form-label fs-6 fw-bold mb-3">کلمه عبور فعلی</label>
-                                        <input type="password" class="form-control form-control-lg form-control-solid" name="old_password" id="currentpassword">
-                                    <div class="fv-plugins-message-container invalid-feedback"></div></div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="fv-row mb-0 fv-plugins-icon-container">
-                                        <label for="newpassword" class="form-label fs-6 fw-bold mb-3">کلمه عبور جدید</label>
-                                        <input type="password" class="form-control form-control-lg form-control-solid" name="new_password" id="newpassword">
-                                    <div class="fv-plugins-message-container invalid-feedback"></div></div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="fv-row mb-0 fv-plugins-icon-container">
-                                        <label for="confirmpassword" class="form-label fs-6 fw-bold mb-3">تکرار کلمه عبور جدید</label>
-                                        <input type="password" class="form-control form-control-lg form-control-solid" name="new_password_confirmation" id="confirmpassword">
-                                    <div class="fv-plugins-message-container invalid-feedback"></div></div>
-                                </div>
-                            </div>
-                            <div class="form-text mb-5">کلمه عبور باید حداقل 8 کاراکتر باشد</div>
-                            <div class="d-flex">
-                                <button id="kt_password_submit" type="submit" class="btn btn-primary me-2 px-6">بروزرسانی کلمه عبور</button>
-                                <button id="kt_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">انصراف</button>
-                            </div>
-                        </form>
-                       
-                    </div>
-                    
-                </div> --}}
                
             </div>
             <!--end::Content container-->
@@ -539,9 +810,29 @@
             $(".hoghoghi").hide();
         }
     });
-</script>
 
-<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
+    // repeater form function
+    $('.repeater-body').on('click', '.add-repeater-btn', function(e) {
+        e.preventDefault();
+        
+        $this = $(this);
+
+        $repeater = $this.closest(".repeater-body").find('[data-repeatable]').last();
+        $clone = $repeater.first().clone();
+
+        let input_element = $clone.find("input");
+        input_element.val("");
+
+        $clone.insertAfter($repeater);
+    });
+
+    // remove repeater function
+    $(".repeater-product").click(function(e) {
+        if($(e.target).hasClass("del-repeater-btn") && $(e.target).closest(".repeater-body").find($("[data-repeatable]")).length > 1) {
+            $(e.target).closest('[data-repeatable]').remove();
+        }
+    });
+</script>
 
 @endsection
 

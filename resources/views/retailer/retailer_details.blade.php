@@ -330,7 +330,7 @@
                                                 <td>{{$product->selling_price}} {{$product->determine_product_currency()}}</td>
                                             @else
                                                 <td>
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         تماس بگیرید
                                                     </a>
                                                 </td>

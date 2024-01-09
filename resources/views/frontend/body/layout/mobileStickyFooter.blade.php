@@ -18,7 +18,7 @@
         </div>
         
         <div id="call_button_sticky_footer">
-            <a href="tel:02191692471"><img width="36" height="36" src="{{asset('frontend/assets/images/phone-volume-solid.png')}}" alt=""></a>
+            <a href="tel:02126402540"><img width="36" height="36" src="{{asset('frontend/assets/images/phone-volume-solid.png')}}" alt=""></a>
         </div>
         <div class="sticky-footer-container-double">
             <div>

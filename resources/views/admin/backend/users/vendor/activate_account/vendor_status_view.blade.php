@@ -176,11 +176,78 @@
                 <!--begin::Input group-->
                 <div class="row mb-7">
                     <!--begin::Tags-->
-                    <label class="col-lg-6 fw-semibold text-muted">شماره شناسه شرکت</label>
+                    <label class="col-lg-6 fw-semibold text-muted">شماره ثبت شرکت</label>
                     <!--end::Tags-->
                     <!--begin::Col-->
                     <div class="col-lg-6 fv-row">
-                        <span class="fw-semibold text-gray-800 fs-6">{{$data->company_number ?? 'ثبت نشده'}}</span>
+                        <span class="fw-semibold text-gray-800 fs-6">{{$data->vendor ? $data->vendor->verification_company_registration_number : 'ثبت نشده'}}</span>
+                        
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">شماره شناسه ملی شرکت</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-semibold text-gray-800 fs-6">{{$data->vendor ? $data->vendor->verification_company_national_code : 'ثبت نشده'}}</span>
+                        
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">کد اقتصادی شرکت</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-semibold text-gray-800 fs-6">{{$data->vendor ? $data->vendor->verification_company_economic_code : 'ثبت نشده'}}</span>
+                        
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">آدرس بر اساس استعلام سامانه evat</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-semibold text-gray-800 fs-6">{{$data->vendor ? $data->vendor->verification_company_evat_address : 'ثبت نشده'}}</span>
+                        
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">مشخصات صاحبین حق امضا مطابق با روزنامه رسمی</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        @if($data->vendor && count($data->vendor->vendor_signatures))
+                            @foreach ($data->vendor->vendor_signatures as $signature_item)
+                                <span class="fw-semibold text-gray-800 fs-6">
+                                    {{$signature_item->vendor_signature_firstname}} {{$signature_item->vendor_signature_lastname}} {{$signature_item->vendor_signature_national_code}}
+                                </span>
+                                <br>
+                            @endforeach
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">
+                                ثبت نشده
+                            </span>
+                        @endif
                     </div>
                     <!--end::Col-->
                 </div>
@@ -251,7 +318,138 @@
                 </div>
                 <!--end::Input group-->
                
-                
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر گواهی ارزش افزوده</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_value_added_certificate)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_value_added_certificate])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_value_added_certificate])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر ثبت نام مودیان مالیات بر ارزش افزوده</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_value_added_registration_image)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_value_added_registration_image])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_value_added_registration_image])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر پشت و روی کارت ملی شخص حقیقی</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_national_card_image)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر پشت و روی کارت ملی شخص حقوقی</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_national_card_image_all)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image_all])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image_all])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر آخرین تغییرات روزنامه رسمی</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_official_gazette_image)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_official_gazette_image])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_official_gazette_image])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر آگهی تأسیس شرکت</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_establishment_announcement)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_establishment_announcement])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_establishment_announcement])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">تصویر پروانه بهره برداری</label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @if($data->vendor && $data->vendor->verification_company_operation_license)
+                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_operation_license])}}">
+                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_operation_license])}}" alt="">
+                            </a>
+                        @else 
+                            <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
+                        @endif
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
 
             </div>
             <!--end::کارت body-->

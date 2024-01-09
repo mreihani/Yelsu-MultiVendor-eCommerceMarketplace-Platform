@@ -307,7 +307,7 @@
                                                 <div class="product-price">
                                                     @if ($product->selling_price == 0)
                                                         <div class="product-price">
-                                                            <a href="tel:02191692471">
+                                                            <a href="tel:02126402540">
                                                                 <i class="w-icon-phone"></i>
                                                                 تماس بگیرید
                                                             </a>
@@ -467,7 +467,7 @@
                                                                 </td>
                                                             @else
                                                                 <td>
-                                                                    <a href="tel:02191692471">
+                                                                    <a href="tel:02126402540">
                                                                         تماس بگیرید
                                                                     </a>
                                                                 </td>

@@ -107,7 +107,7 @@
 
                                 @if ($product->selling_price == 0)
                                     <div class="product-price">
-                                        <a href="tel:02191692471">
+                                        <a href="tel:02126402540">
                                             <i class="w-icon-phone"></i>
                                             تماس بگیرید
                                         </a>
@@ -1113,7 +1113,7 @@
 
                                             @if ($relatedProduct->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>
@@ -1184,7 +1184,7 @@
                                         <div class="product-pa-wrapper">
                                             @if ($recently_viewed_product_item->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>

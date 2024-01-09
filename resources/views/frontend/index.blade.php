@@ -240,7 +240,7 @@
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>
@@ -313,7 +313,7 @@
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>
@@ -414,7 +414,7 @@
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>
@@ -517,7 +517,7 @@
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->selling_price == 0)
                                                 <div class="product-price">
-                                                    <a href="tel:02191692471">
+                                                    <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
                                                         تماس بگیرید
                                                     </a>

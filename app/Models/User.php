@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
+use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Merchant;
 use App\Models\Attribute;
@@ -136,6 +137,11 @@ class User extends Authenticatable
     public function driver()
     {
         return $this->hasOne(Driver::class);
+    }
+
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
     }
 
     public function chat() {

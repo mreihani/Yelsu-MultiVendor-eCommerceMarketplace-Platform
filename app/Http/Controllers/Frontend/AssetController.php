@@ -25,7 +25,6 @@ class AssetController extends Controller
         abort_unless(Storage::exists($path), Response::HTTP_NOT_FOUND);
 
         if (Auth::user()->id == $user_id || Auth::user()->role == 'admin' || Auth::user()->role == 'specialist') {
-
             return response()->file(
                 Storage::path($path)
             );

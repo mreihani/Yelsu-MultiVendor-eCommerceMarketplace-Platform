@@ -76,7 +76,11 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->              
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Route::currentRouteName() == 'vendor.profile' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.profileSettings' ? 'show' : ''}} {{Route::currentRouteName() == 'vendor.profileFinancialStatement' ? 'show' : ''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion 
+                {{Route::currentRouteName() == 'vendor.profile' ? 'show' : ''}} 
+                {{Route::currentRouteName() == 'vendor.profileSettings' ? 'show' : ''}} 
+                {{Route::currentRouteName() == 'vendor.profileFieldOfActivity' ? 'show' : ''}} 
+                {{Route::currentRouteName() == 'vendor.profileFinancialStatement' ? 'show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -117,6 +121,18 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">تنظیمات</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.profileFieldOfActivity' ? 'active' : ''}}" href="{{route('vendor.profileFieldOfActivity')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">زمینه فعالیت</span>
                             </a>
                             <!--end:Menu link-->
                         </div>

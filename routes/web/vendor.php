@@ -17,6 +17,10 @@ Route::get('settings', [VendorController::class, 'VendorProfileSettings'])->name
 Route::post('profile/store', [VendorController::class, 'VendorProfileStore'])->name('vendor.profile.store');
 Route::post('update/password', [VendorController::class, 'VendorUpdatePassword'])->name('vendor.update.password');
 
+//field of activity
+Route::get('field-of-activity', [VendorController::class, 'VendorProfileFieldOfActivity'])->name('vendor.profileFieldOfActivity');
+Route::post('field-of-activity/store', [VendorController::class, 'VendorProfileFieldOfActivityStore'])->name('vendor.profileFieldOfActivity.store');
+
 //fincancial statement section
 Route::get('financialStatement', [VendorController::class, 'VendorProfileFinancialStatement'])->name('vendor.profileFinancialStatement');
 Route::post('financialStatement/store', [VendorController::class, 'VendorProfileFinancialStatementStore'])->name('vendor.profileFinancialStatement.store');

@@ -169,9 +169,10 @@
                         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
                             <!--begin::Nav item-->
                             <li class="nav-item mt-2">
-                                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profile')}}">پروفایل من</a>
+                                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profile')}}">پروفایل من </a>
                             </li>
                             <!--end::Nav item-->
+
                             <!--begin::Nav item-->
                             <li class="nav-item mt-2">
                                 <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profileSettings')}}">تنظیمات</a>
@@ -180,16 +181,15 @@
                            
                             <!--begin::Nav item-->
                             <li class="nav-item mt-2">
-                                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profileFieldOfActivity')}}">زمینه فعالیت</a>
+                                <a class="nav-link text-active-primary ms-0 me-10 py-5 active" href="{{route('vendor.profileFieldOfActivity')}}">زمینه فعالیت</a>
                             </li>
                             <!--end::Nav item-->
-                            
+
                             <!--begin::Nav item-->
                             <li class="nav-item mt-2">
-                                <a class="nav-link text-active-primary ms-0 me-10 py-5 active" href="{{route('vendor.profileFinancialStatement')}}">صورتحساب</a>
+                                <a class="nav-link text-active-primary ms-0 me-10 py-5" href="{{route('vendor.profileFinancialStatement')}}">صورتحساب</a>
                             </li>
                             <!--end::Nav item-->
-                           
                            
                         </ul>
                         <!--begin::Navs-->
@@ -202,10 +202,7 @@
                     <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expوed="true" aria-controls="kt_account_profile_details">
                         <!--begin::کارت title-->
                         <div class="card-title m-0">
-                            <h3 class="fw-bold m-0">جزئیات امور مالی</h3>
-                        </div>
-                        <div class="card-title" style="color: red">
-                            <p>این اطلاعات محرمانه می باشد و نزد یلسو محفوظ می ماند</p>
+                            <h3 class="fw-bold m-0">تنظیمات پروفایل</h3>
                         </div>
                         <!--end::کارت title-->
                     </div>
@@ -213,62 +210,34 @@
                     <!--begin::Content-->
                     <div id="kt_account_settings_profile_details" class="collapse show">
                         <!--begin::Form-->
-                        <form id="kt_account_profile_details_form" class="form" method="POST" action={{route('vendor.profileFinancialStatement.store')}} enctype="multipart/form-data">
+                        <form id="kt_account_profile_details_form" class="form" method="POST" action={{route('vendor.profileFieldOfActivity.store')}} enctype="multipart/form-data">
                             @csrf
                             <!--begin::کارت body-->
                             <div class="card-body border-top p-9">
-                                <h5 class="mb-10">
-                                    لطفا شماره شبا و کارت شرکت جهت واریز وجه فروش کالا را وارد نمایید.
-                                </h5>
-                                <!--begin::Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">شماره شبا (اعداد انگلیسی تایپ شود)</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col--> 
-                                    <div class="col-lg-8 fv-row d-flex">
-                                        <input id="shaba_number_input" type="text" name="shaba_number" class="form-control form-control-lg form-control-solid" placeholder="به عنوان نمونه: 250190000000101416297007" value="{{old('shaba_number') ? old('shaba_number') : $vendorData->shaba_number}}" /><span id="shaba_number">IR</span>
-                                    </div>
-                                    <!--end::Col-->         
-                                </div>
-                                <!--end::Input group-->
 
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6"> شماره کارت (اعداد انگلیسی تایپ شود) </label>
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">زمینه فعالیت فروشگاه</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <input id="cart_number" type="text" name="cart_number" class="form-control form-control-lg form-control-solid" placeholder="به عنوان نمونه: 6104337770039251" value="{{old('cart_number') ? old('cart_number') : $vendorData->cart_number}}" />
+                                        <ul class="list-style-none">
+                                            @foreach ($filter_category_array as $category)
+                                                <li class="filterButtonShopPage rootCat">
+                                                    @if(in_array($category[0]->id, $vendor_sector_cat_arr_selected))
+                                                        <input class="form-check-input" @checked(true) type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    @else
+                                                        <input class="form-check-input" type="checkbox" name="vendor_sector[]" value="{{$category[0]->id}}"> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                                    @endif
+                                                </li>
+                                                <div class="subCategoryBtn">
+                                                    @include('vendor.body.layouts.vendor_category.edit-categories-group', ['categories' => $category[1]])
+                                                </div>
+                                            @endforeach
+                                        </ul>    
                                     </div>
-                                    <!--end::Col-->         
-                                </div>
-                                <!--end::Input group-->
-
-                                <!--begin::Input group-->
-                                 <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام و نام خانوادگی صاحب حساب / شرکت</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input type="text" name="cart_owner_info" class="form-control form-control-lg form-control-solid" placeholder="به عنوان نمونه: علی کیهانی" value="{{old('cart_owner_info') ? old('cart_owner_info') : $vendorData->cart_owner_info}}" />
-                                    </div>
-                                    <!--end::Col-->         
-                                </div>
-                                <!--end::Input group-->
-
-                                <!--begin::Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام بانک</label>
-                                    <!--end::Tags-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        <input type="text" name="cart_bank_info" class="form-control form-control-lg form-control-solid" placeholder="به عنوان نمونه: صادرات" value="{{old('cart_bank_info') ? old('cart_bank_info') : $vendorData->cart_bank_info}}" />
-                                    </div>
-                                    <!--end::Col-->         
+                                    <!--end::Col-->
                                 </div>
                                 <!--end::Input group-->
 
@@ -286,7 +255,7 @@
                     <!--end::Content-->
                 </div>
                 <!--end::پایه info-->
-               
+             
             </div>
             <!--end::Content container-->
         </div>
@@ -296,6 +265,7 @@
     
 </div>
 
+<script src="{{asset('adminbackend/assets/js/categoryFilter.js')}}"></script>
 
 @endsection
 

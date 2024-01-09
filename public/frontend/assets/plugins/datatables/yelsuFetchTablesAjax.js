@@ -96,7 +96,7 @@ function loadTables(pagination_vendor_id) {
                     } else {
                         priceElement = `
                             <td>
-                                <a href="tel:02191692471">
+                                <a href="tel:02126402540">
                                     تماس بگیرید
                                 </a>
                             </td>

@@ -26,7 +26,7 @@
                                     <li><b>کدپستی:</b> 1919991986</li>
                                     <li><b>تلفن دفتر مرکزی:</b><a href="tel:02126402540"> 9-02126402540</a></li>
                                     <li><b>فکس:</b><a href="tel:02126402550"> 02126402550</a></li>
-                                    {{-- <li><b>تلفن گویا:</b><a href="tel:02191692471"> 02191692471</a></li> --}}
+                                    {{-- <li><b>تلفن گویا:</b><a href="tel:02126402540"> 02126402540</a></li> --}}
                                     <li><b>ایمیل:</b><a href="mailto:info@yelsu.com"> info@yelsu.com</a></li>
                                 </ul>
                             </div>
@@ -38,13 +38,13 @@
                                 <ul class="widget-body">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6">
-                                            <li><a href="">آمریکا</a></li>
+                                            {{-- <li><a href="">آمریکا</a></li> --}}
                                             <li><a href="">آلمان</a></li>
                                             <li><a href="#">اتریش</a></li>
                                             <li><a href="#">قزاقستان</a></li>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
-                                            <li><a href="#">روسیه </a></li>
+                                            {{-- <li><a href="#">روسیه </a></li> --}}
                                             <li><a href="#">امارات </a></li>
                                             <li><a href="#">عمان</a></li>
                                             <li><a href="#">ترکیه</a></li>
