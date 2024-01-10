@@ -146,7 +146,7 @@ class OutletController extends Controller
 
     public function VendorDeleteOutlet($outlet_id)
     {
-        Outlet::findOrFail(Purify::clean($outlet_id))->delete();
+        // Outlet::findOrFail(Purify::clean($outlet_id))->delete();
         return redirect(route('vendor.all.outlet'))->with('success', 'آدرس مورد نظر با موفقیت حذف گردید.');
     }
 

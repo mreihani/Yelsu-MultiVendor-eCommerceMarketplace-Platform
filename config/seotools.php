@@ -13,7 +13,7 @@ return [
             'titleBefore'  => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
             'description'  => 'قیمت سیمان قیمت بتن قیمت فولاد خرید اینترنتی محصولات معدنی و ماشین آلات کشاورزی', // set false to total remove
             'separator'    => ' | ',
-            'keywords'     => ['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'ارمغان تجارت مغان', 'یل سو'],
+            'keywords'     => ['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'یلسو'],
             'canonical'    => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'robots'       => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],

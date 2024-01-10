@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
+use App\Rules\VendorProductPriceOutlet;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File as LaravelFile;
 
@@ -62,16 +63,13 @@ class VendorProductController extends Controller
 
     public function VendorStoreProduct(Request $request)
     {
-
-       
-
         $incomingFields = $request->validate([
             'product_thumbnail' => ['required', 'image', 'max:5000'],
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => ['required', 'numeric'],
             'attribute' => ['required', new AttributeIsRequired()],
+            'id' => new VendorProductPriceOutlet($request),
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'product_thumbnail.image' => 'لطفا فایل JPG یا PNG بارگذاری نمایید.',
@@ -81,8 +79,6 @@ class VendorProductController extends Controller
             'product_name.unique' => 'نام محصول قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
             'product_slug.required' => 'لطفا اسلاگ را وارد نمایید.',
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
-            'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
-            'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
             'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
 
@@ -133,7 +129,6 @@ class VendorProductController extends Controller
             'product_name' => Purify::clean($incomingFields['product_name']),
             'product_slug' => strtolower(str_replace(' ', '-', Purify::clean($incomingFields['product_slug']))),
             'product_code' => Purify::clean($request->product_code),
-            'selling_price' => Purify::clean($incomingFields['selling_price']),
             'long_desc' => ($request->long_desc),
             'vendor_id' => Auth::user()->id,
             'product_thumbnail' => $save_url,
@@ -149,6 +144,7 @@ class VendorProductController extends Controller
             'specification' => ($request->specification),
             'owner_id' => Auth::user()->id,
             'trading_method' => Purify::clean($request->trading_method),
+            'selling_price' => 0,
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {
@@ -260,16 +256,14 @@ class VendorProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')->ignore($product_id)],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
-            'selling_price' => ['required', 'numeric'],
             'attribute' => ['required', new AttributeIsRequired()],
+            'id' => new VendorProductPriceOutlet($request),
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
             'product_name.unique' => 'نام محصول قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
             'product_slug.required' => 'لطفا اسلاگ را وارد نمایید.',
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
-            'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
-            'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
             'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
         
@@ -364,7 +358,6 @@ class VendorProductController extends Controller
                 'product_name' => Purify::clean($incomingFields['product_name']),
                 'product_slug' => strtolower(str_replace(' ', '-', Purify::clean($incomingFields['product_slug']))),
                 'product_code' => Purify::clean($request->product_code),
-                'selling_price' => Purify::clean($incomingFields['selling_price']),
                 'long_desc' => ($request->long_desc),
                 'product_thumbnail' => $save_url,
                 'product_thumbnail_sm' => $save_url_sm,
@@ -379,6 +372,7 @@ class VendorProductController extends Controller
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
                 'trading_method' => Purify::clean($request->trading_method),
+                'selling_price' => 0,
             ]);
 
         } else {
@@ -390,7 +384,6 @@ class VendorProductController extends Controller
                 'product_name' => Purify::clean($incomingFields['product_name']),
                 'product_slug' => strtolower(str_replace(' ', '-', Purify::clean($incomingFields['product_slug']))),
                 'product_code' => Purify::clean($request->product_code),
-                'selling_price' => Purify::clean($incomingFields['selling_price']),
                 'long_desc' => ($request->long_desc),
                 'product_qty' => Purify::clean($request->product_qty) >= 0 ? Purify::clean($request->product_qty) : 0,
                 'short_desc' => ($request->short_desc),
@@ -403,6 +396,7 @@ class VendorProductController extends Controller
                 'specification' => ($request->specification),
                 'product_verification' => Purify::clean($product_verification),
                 'trading_method' => Purify::clean($request->trading_method),
+                'selling_price' => 0,
             ]);
         }
 
@@ -579,16 +573,14 @@ class VendorProductController extends Controller
             'category_id' => 'required',
             'product_name' => ['required', Rule::unique('products', 'product_name')],
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
-            'selling_price' => ['required', 'numeric'],
             'attribute' => ['required', new AttributeIsRequired()],
+            'id' => new VendorProductPriceOutlet($request),
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
             'product_name.unique' => 'نام محصول قبلا ثبت شده است. لطفا یک نام دیگر وارد کنید.',
             'product_slug.required' => 'لطفا اسلاگ را وارد نمایید.',
             'product_slug.unique' => 'اسلاگ قبلا ثبت شده است. لطفا یک عبارت دیگر وارد کنید.',
-            'selling_price.required' => 'لطفا قیمت محصول را وارد نمایید.',
-            'selling_price.numeric' => 'لطفا قیمت محصول را به درستی وارد نمایید.',
             'attribute.required' => 'لطفا حداقل یک ویژگی مرتبط با محصول انتخاب نمایید.',
         ]);
 
@@ -652,7 +644,6 @@ class VendorProductController extends Controller
             'product_name' => Purify::clean($incomingFields['product_name']),
             'product_slug' => strtolower(str_replace(' ', '-', Purify::clean($incomingFields['product_slug']))),
             'product_code' => Purify::clean($request->product_code),
-            'selling_price' => Purify::clean($incomingFields['selling_price']),
             'long_desc' => ($request->long_desc),
             'vendor_id' => Auth::user()->id,
             'product_thumbnail' => $save_url,
@@ -668,6 +659,7 @@ class VendorProductController extends Controller
             'specification' => ($request->specification),
             'owner_id' => Auth::user()->id,
             'trading_method' => Purify::clean($request->trading_method),
+            'selling_price' => 0,
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {
@@ -724,7 +716,6 @@ class VendorProductController extends Controller
                                 "attribute_value" => NULL
                             );
                         }
-                        
                     }
 
                 } elseif($attribute_in_loop->attribute_item_type == "input_field" && $attribute_item["attribute_value"] != '' && !$attribute_in_loop->multiple_selection_attribute) {

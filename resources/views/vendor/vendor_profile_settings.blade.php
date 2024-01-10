@@ -308,11 +308,11 @@
                                 <!--begin::Input group-->
                                  <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">نام فروشگاه / شرکت</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">عنوان فروشگاه / شرکت / کسب و کار</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <input type="text" name="shop_name" class="form-control form-control-lg form-control-solid" placeholder="نام فروشگاه یا شرکت" value="{{$vendorData->shop_name}}" />
+                                        <input type="text" name="shop_name" class="form-control form-control-lg form-control-solid" placeholder="عنوان فروشگاه یا شرکت" value="{{$vendorData->shop_name}}" />
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -321,11 +321,24 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">آدرس دفتر مرکزی</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">آدرس پستی / دفتر مرکزی</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="shop_address" class="form-control form-control-lg form-control-solid" placeholder="آدرس فروشگاه / شرکت" value="{{$vendorData->shop_address}}" />
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Tags-->
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">کدپستی</label>
+                                    <!--end::Tags-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <input type="number" name="home_postalcode" class="form-control form-control-lg form-control-solid" placeholder="کد پستی" value="{{$vendorData->home_postalcode}}" />
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -582,7 +595,7 @@
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row">
                                             <div class="form-text mb-2">
-                                                در صورتی که شامل مالیات بر ارزش افزوده هستید، تصویر گواهی ارزش افزوده نیز مورد نیاز است. لطفا در بخش بررسی ثبت نام الکترونیک مالیات بر ارزش افزوده، شماره ملی خود را وارد نمایید و از آن گواهی عکس بگیرید. سپس در این بخش بارگذاری کنید.
+                                                در صورتی که شامل مالیات بر ارزش افزوده هستید، تصویر گواهی ارزش افزوده خود را در این قسمت بارگزاری نمایید. اگر گواهی ارزش افزوده خود را ندارید، در بخش بررسی ثبت نام الکترونیک مالیات بر ارزش افزوده، evat.ir با وارد کردن مشخصات موردنیاز، آنرا دریافت نمایید و سپس آن را در قالب یک عکس در این بخش بارگذاری کنید.
                                             </div>
                                             <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_value_added_certificate" name="verification_company_value_added_certificate" />
                                             <div class="form-text">
@@ -604,12 +617,12 @@
                                     <!--begin::Input group-->
                                     <div class="row mb-6">
                                         <!--begin::Tags-->
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی شخص حقیقی</label>
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی شخص حقیقی </label>
                                         <!--end::Tags-->
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row">
                                             <div class="form-text mb-2">
-                                                تصویر پشت و روی کارت ملی شخص حقیقی را بارگذاری نمایید.
+                                                تصویر پشت و روی کارت ملی شخص حقیقی را در قالب یک عکس بارگذاری نمایید.
                                             </div>
                                             <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_national_card_image" name="verification_company_national_card_image" />
                                             <div class="form-text">
@@ -638,7 +651,7 @@
                                         <!--begin::Col-->
                                         <div class="col-lg-8 fv-row">
                                             <div class="form-text mb-2">
-                                                عکس از صفحه بررسی ثبت نام مودیان مالیات بر ارزش افزوده واقع در نشانی اینترنتی evat.ir با وارد کردن شماره شناسه ملی یا شماره اقتصادی
+                                                تصویری که از صفحه بررسی ثبت نام مودیان مالیات بر ارزش افزوده واقع در نشانی اینترنتی evat.ir با وارد کردن شماره شناسه ملی یا شماره اقتصادی دریافت نموده اید را در قالب یک عکس بارگزاری نمایید.
                                             </div>
                                             <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_value_added_registration_image" name="verification_company_value_added_registration_image" />
                                             <div class="form-text">

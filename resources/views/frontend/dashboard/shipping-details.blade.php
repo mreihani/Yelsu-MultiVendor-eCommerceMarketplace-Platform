@@ -107,7 +107,7 @@
                                                             <button style="cursor: auto" disabled class="btn btn-sm btn-info btn-ellipse shipping-calculate-btn">محاسبه</button>
                                                         </div>
                                                     </div>
-            
+                                                   
                                                     <div class="col-md-3 bg-grey mt-2">
             
                                                         <div class="order-origin-address pt-3">
@@ -119,7 +119,7 @@
                                                                 <label>نام مبدا</label>
                                                                 <div>
                                                                     <select class="form-control form-control-md vendor-address-information yelsu-select2-basic-single">
-                                                                        @foreach($product->determine_product_owner->vendor_outlets as $vendor_outlet)
+                                                                        @foreach($product->outlets as $vendor_outlet)
                                                                             <option value="{{$vendor_outlet->id}}">{{$vendor_outlet->shop_name}}</option>
                                                                         @endforeach
                                                                     </select>
@@ -131,7 +131,7 @@
                                                                     <i class="w-icon-map-marker"></i>
                                                                     آدرس:
                                                                     <span class="vendor-address">
-                                                                        {{$product->determine_product_owner->vendor_outlets->first()->shop_address}}
+                                                                        {{$product->outlets->first()->shop_address}}
                                                                     </span>
                                                                 </p>
                                                             </div>

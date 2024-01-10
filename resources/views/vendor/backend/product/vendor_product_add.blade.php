@@ -535,27 +535,27 @@
                                     <!--end::مدیریت حمل کالا-->
 
                                     <!--begin::ثبت نقاط مرتبط با محصول-->
-                                    @if(count($vendorData->vendor_outlets) > 1)
+                                    @if(count($vendorData->vendor_outlets))
                                         <div class="card card-flush py-4" id="product-outlet-body">
 
                                             <!--begin::کارت header-->
                                             <div class="card-header">
                                                 <div class="card-title">
-                                                    <h2>ثبت موقعیت مکانی محصول</h2>
+                                                    <h2>ثبت قیمت با توجه به موقعیت مکانی محصول</h2>
                                                 </div>
                                             </div>
                                             <!--end::کارت header-->
 
-                                            <div class="card-body pt-0">
+                                            <div class="card-body pt-0 pb-0">
                                                 <!--begin::Tags-->
-                                                <label class="form-label">لطفا موقعیت های مکانی که این محصول را از آنجا به فروش می رسانید انتخاب و قیمت محصول در آن مکان را وارد نمایید.</label>
+                                                <label class="form-label">لطفا موقعیت های مکانی که این محصول را از آنجا به فروش می رسانید انتخاب و <u>قیمت پایه</u> آن را وارد نمایید.</label>
                                                 <!--end::Tags-->
                                             </div>
 
-                                            <div class="card-body pt-0 ">
+                                            <div class="card-body pt-0">
                                                 <!--begin::Input group-->
                                                 <div class="fv-row">
-                                                    @foreach($vendorData->vendor_outlets as $outlet_item)
+                                                    @foreach($vendorData->vendor_outlets as $outlet_item_key => $outlet_item)
                                                         <div class="row mt-2 outlet-row">
                                                             <div class="col-md-3 d-flex align-items-center">
                                                                 <input class="form-check-input product_outlet_checkbox" type="checkbox" name="product_outlet_id[]" value="{{$outlet_item->id}}">
@@ -568,226 +568,101 @@
                                                                 {{$outlet_item->shop_address}}
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت محصول را وارد نمایید">
+                                                                <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت پایه محصول را وارد نمایید">
                                                             </div>
                                                         </div>
-
-
-
-                                                        <div class="">
-                                                            <div class="m-0">
-                                                                <!--begin::Heading-->
-                                                                <div class="d-flex align-items-center collapsible py-3 toggle mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#kt_job_1_1" aria-expanded="false">
-                                                                    <!--begin::Icon-->
-                                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
-                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
-                                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
-                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
-                                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
-                                                                            </svg>
-                                                                        </span>
-                                                                        <!--end::Svg Icon-->
-                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
-                                                                        <span class="svg-icon toggle-off svg-icon-1">
-                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
-                                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
-                                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
-                                                                            </svg>
-                                                                        </span>
-                                                                        <!--end::Svg Icon-->
-                                                                    </div>
-                                                                    <!--end::Icon-->
-                                                                    <!--begin::Title-->
-                                                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">الزامات</h4>
-                                                                    <!--end::Title-->
-                                                                </div>
-                                                                <!--end::Heading-->
-                                                                <!--begin::Body-->
-                                                                <div id="kt_job_1_1" class="fs-6 ms-1 collapse" style="">
-            
-                                                                    <!--begin::آیتم-->
-                                                                    <div class="mb-4">
-                                                                        <!--begin::آیتم-->
-                                                                        <div class="d-flex align-items-center ps-10 mb-n1">
-                                                                            <!--begin::Bullet-->
-                                                                            <span class="bullet me-3"></span>
-                                                                            <!--end::Bullet-->
-                                                                            <!--begin::Tags-->
-                                                                            <div class="text-gray-600 fw-semibold fs-6">تجربه جاوا اسکریپت</div>
-                                                                            <!--end::Tags-->
-                                                                        </div>
-                                                                        <!--end::آیتم-->
-                                                                    </div>
-                                                                    <!--end::آیتم-->
-                                                                    
-                                                                </div>
-                                                                <!--end::Content-->
-                                                            </div>
-                                                        </div>   
-
-
                                                     @endforeach
+                                                </div>
+                                                <!--end::Input group-->
+
+                                                <div class="d-flex align-items-center justify-content-between border border-dashed border-gray-300 rounded px-7 py-3 mt-10">
+                                                    <!--begin::Title-->
+                                                    <div class="fs-5 text-dark text-hover-primary fw-semibold w-375px ">
+                                                        
+                                                        <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                                            viewBox="0 0 512 512" xml:space="preserve">
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M187.935,136.886c-28.148,0-51.049,22.9-51.049,51.049c0,28.148,22.9,51.047,51.049,51.047
+                                                                        c28.148,0,51.049-22.9,51.049-51.047C238.984,159.787,216.084,136.886,187.935,136.886z M187.937,204.95
+                                                                        c-9.383,0-17.016-7.632-17.016-17.015c0-9.383,7.633-17.016,17.016-17.016c9.383,0,17.016,7.633,17.016,17.016
+                                                                        C204.953,197.317,197.319,204.95,187.937,204.95z"/>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M324.066,273.017c-28.148,0-51.049,22.9-51.049,51.047c0,28.148,22.9,51.049,51.049,51.049
+                                                                        c28.148,0,51.049-22.9,51.049-51.049C375.115,295.916,352.214,273.017,324.066,273.017z M324.066,341.08
+                                                                        c-9.383,0-17.016-7.633-17.016-17.016c0-9.383,7.633-17.015,17.016-17.015c9.383,0,17.016,7.633,17.016,17.015
+                                                                        C341.082,333.447,333.449,341.08,324.066,341.08z"/>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M340.222,171.784c-6.644-6.644-17.419-6.644-24.064,0L171.771,316.171c-6.645,6.644-6.645,17.419,0,24.064
+                                                                        c3.323,3.323,7.678,4.985,12.032,4.985c4.354,0,8.71-1.662,12.032-4.985l144.388-144.387
+                                                                        C346.868,189.203,346.868,178.428,340.222,171.784z"/>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M256.001,0C114.843,0,0.002,114.84,0.002,255.999c0,52.1,15.442,101.818,44.77,144.491L1.877,486.277
+                                                                        c-3.221,6.441-2.236,14.189,2.493,19.62C7.807,509.844,12.725,512,17.777,512c1.9,0,3.82-0.306,5.685-0.935l102.502-34.619
+                                                                        c39.336,23.284,84.11,35.552,130.037,35.552C397.158,511.999,512,397.159,512,255.999S397.16,0,256.001,0z M256.001,476.453
+                                                                        c-42.028,0-82.923-11.927-118.266-34.491c-2.891-1.846-6.214-2.793-9.565-2.793c-1.911,0-3.832,0.307-5.686,0.934l-69.517,23.478
+                                                                        l28.398-56.794c3.013-6.027,2.36-13.241-1.689-18.627c-28.87-38.408-44.129-84.109-44.129-132.16
+                                                                        c0-121.558,98.895-220.454,220.454-220.454s220.454,98.896,220.454,220.454S377.559,476.453,256.001,476.453z"/>
+                                                                </g>
+                                                            </g>
+                                                        </svg>
+                                                        <span id="commission-type-title">
+                                                            میزان کمیسیون دریافتی از خریدار
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Title-->
+    
+                                                    <input type="hidden" value="" id="product_commission" commission-type="">
+                                                   
+                                                    <!--begin::پردازش-->
+                                                    <div class="pe-2">
+                                                        <span id="commission_value" class="badge badge-light-danger">
+                                                            ناموجود
+                                                        </span>
+                                                    </div>
+                                                    <!--end::پردازش-->
+                                                </div>
+
+                                            </div>
+                                            <!--end::کارت header-->
+                                        </div>
+                                    @else
+                                        <div class="card card-flush py-4">
+                                            <!--begin::کارت header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>ثبت قیمت با توجه به موقعیت مکانی محصول</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::کارت header-->
+
+                                            <div class="card-body pt-0 pb-0">
+                                                <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.1" d="M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z" fill="#323232"></path> <path d="M12 8L12 13" stroke="#323232" stroke-width="2" stroke-linecap="round"></path> <path d="M12 16V15.9888" stroke="#323232" stroke-width="2" stroke-linecap="round"></path> <path d="M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z" stroke="#323232" stroke-width="2"></path> </g></svg>
+                                                <!--begin::Tags-->
+                                                <label class="form-label">لطفا برای ثبت قیمت بر روی کالا، ابتدا از بخش <a href="{{route('vendor.all.outlet')}}">مدیریت آدرس ها</a> حداقل یک آدرس اضافه نمایید.</label>
+                                                <!--end::Tags-->
+                                            </div>
+
+                                            <div class="card-body pt-0">
+                                                <!--begin::Input group-->
+                                                <div class="fv-row">
+                                                    
                                                 </div>
                                                 <!--end::Input group-->
                                             </div>
                                             <!--end::کارت header-->
-
-                                            
-
                                         </div>
                                     @endif
                                     <!--end::ثبت نقاط مرتبط با محصول-->
-
-                                    <!--begin::قیمت گذاری-->
-                                    <div class="card card-flush py-4">
-                                        <!--begin::کارت header-->
-                                        <div class="card-header">
-                                            <div class="card-title">
-                                                <h2>قیمت گذاری</h2>
-                                            </div>
-                                        </div>
-                                        <!--end::کارت header-->
-
-                                        <!--begin::کارت body-->
-                                        <div class="card-body pt-0">
-
-                                            <!--begin::Input group-->
-                                            <div class="mb-10 fv-row">
-                                                <!--begin::Tags-->
-                                                <label class="required form-label">قیمت بدون احتساب کمیسیون را وارد نمایید</label>
-                                                <!--end::Tags-->
-
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <!--begin::Input-->
-                                                        <input type="text" id="product-price-without-commission" name="selling_price" class="form-control mb-2" placeholder="قیمت محصول بدون کمیسیون" value="{{old('selling_price')}}" />
-                                                        <!--end::Input-->
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="border border-gray-300 border-dashed rounded">
-                                                            <!--begin::Tags-->
-                                                            <div class="fw-semibold fs-6 text-gray-400 text-center">با احتساب مالیات بر ارزش افزوده</div>
-                                                            <!--end::Tags-->
-                
-                                                            <!--begin::شماره کارت-->
-                                                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                                                <span class="badge badge-light-primary" id="no-commission-added-tax">
-                                                                   نامشخص
-                                                                </span>
-                                                            </div>
-                                                            <!--end::شماره کارت-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">قیمت پایه محصول برای تأمین کننده بدون احتساب کمیسیون (بدون ارزش افزوده)</div>
-                                                <!--end::توضیحات-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            
-                                            <!--begin::Input group-->
-                                            <div class="mb-10 fv-row">
-                                                <!--begin::Tags-->
-                                                <label class="required form-label">قیمت با احتساب کمیسیون را وارد نمایید</label>
-                                                <!--end::Tags-->
-
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <!--begin::Input-->
-                                                        <!--begin::Input-->
-                                                        <input type="text" id="product-price-with-commission" class="form-control mb-2" placeholder="قیمت محصول با کمیسیون"/>
-                                                        <!--end::Input-->
-                                                        <!--end::Input-->
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="border border-gray-300 border-dashed rounded">
-                                                            <!--begin::Tags-->
-                                                            <div class="fw-semibold fs-6 text-gray-400 text-center">با احتساب مالیات بر ارزش افزوده</div>
-                                                            <!--end::Tags-->
-                
-                                                            <!--begin::شماره کارت-->
-                                                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                                                <span class="badge badge-light-primary" id="commission-added-tax">
-                                                                   نامشخص
-                                                                </span>
-                                                            </div>
-                                                            <!--end::شماره کارت-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!--begin::توضیحات-->
-                                                <div class="text-muted fs-7">قیمت نهایی محصول برای مشتری با احتساب کمیسیون (بدون ارزش افزوده)</div>
-                                                <!--end::توضیحات-->
-                                            </div>
-                                            <!--end::Input group-->
-
-                                            <div class="d-flex align-items-center justify-content-between border border-dashed border-gray-300 rounded px-7 py-3 mb-5">
-                                                <!--begin::Title-->
-                                                <div class="fs-5 text-dark text-hover-primary fw-semibold w-375px ">
-                                                    
-                                                    <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                                        viewBox="0 0 512 512" xml:space="preserve">
-                                                        <g>
-                                                            <g>
-                                                                <path d="M187.935,136.886c-28.148,0-51.049,22.9-51.049,51.049c0,28.148,22.9,51.047,51.049,51.047
-                                                                    c28.148,0,51.049-22.9,51.049-51.047C238.984,159.787,216.084,136.886,187.935,136.886z M187.937,204.95
-                                                                    c-9.383,0-17.016-7.632-17.016-17.015c0-9.383,7.633-17.016,17.016-17.016c9.383,0,17.016,7.633,17.016,17.016
-                                                                    C204.953,197.317,197.319,204.95,187.937,204.95z"/>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M324.066,273.017c-28.148,0-51.049,22.9-51.049,51.047c0,28.148,22.9,51.049,51.049,51.049
-                                                                    c28.148,0,51.049-22.9,51.049-51.049C375.115,295.916,352.214,273.017,324.066,273.017z M324.066,341.08
-                                                                    c-9.383,0-17.016-7.633-17.016-17.016c0-9.383,7.633-17.015,17.016-17.015c9.383,0,17.016,7.633,17.016,17.015
-                                                                    C341.082,333.447,333.449,341.08,324.066,341.08z"/>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M340.222,171.784c-6.644-6.644-17.419-6.644-24.064,0L171.771,316.171c-6.645,6.644-6.645,17.419,0,24.064
-                                                                    c3.323,3.323,7.678,4.985,12.032,4.985c4.354,0,8.71-1.662,12.032-4.985l144.388-144.387
-                                                                    C346.868,189.203,346.868,178.428,340.222,171.784z"/>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M256.001,0C114.843,0,0.002,114.84,0.002,255.999c0,52.1,15.442,101.818,44.77,144.491L1.877,486.277
-                                                                    c-3.221,6.441-2.236,14.189,2.493,19.62C7.807,509.844,12.725,512,17.777,512c1.9,0,3.82-0.306,5.685-0.935l102.502-34.619
-                                                                    c39.336,23.284,84.11,35.552,130.037,35.552C397.158,511.999,512,397.159,512,255.999S397.16,0,256.001,0z M256.001,476.453
-                                                                    c-42.028,0-82.923-11.927-118.266-34.491c-2.891-1.846-6.214-2.793-9.565-2.793c-1.911,0-3.832,0.307-5.686,0.934l-69.517,23.478
-                                                                    l28.398-56.794c3.013-6.027,2.36-13.241-1.689-18.627c-28.87-38.408-44.129-84.109-44.129-132.16
-                                                                    c0-121.558,98.895-220.454,220.454-220.454s220.454,98.896,220.454,220.454S377.559,476.453,256.001,476.453z"/>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                    <span id="commission-type-title">
-                                                        میزان کمیسیون
-                                                    </span>
-                                                </div>
-                                                <!--end::Title-->
-
-                                                <input type="hidden" value="" id="product_commission" commission-type="">
-                                                <input type="hidden" value="" id="value_added_tax">
-                                                
-                                                <!--begin::پردازش-->
-                                                <div class="pe-2">
-                                                    <span id="commission_value" class="badge badge-light-danger">
-                                                        ناموجود
-                                                    </span>
-                                                </div>
-                                                <!--end::پردازش-->
-                                            </div>
-
-                                        </div>
-                                        <!--end::کارت header-->
-                                    </div>
-                                    <!--end::قیمت گذاری-->
-
                                 </div>
                             </div>
                             <!--end::Tab pane-->

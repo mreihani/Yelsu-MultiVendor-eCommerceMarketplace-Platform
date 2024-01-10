@@ -83,11 +83,13 @@ class VendorController extends Controller
             'lastname' => 'required',
             'shop_address' => 'required',
             'shop_name' => 'required',
+            'home_postalcode' => 'required',
         ], [
             'firstname.required' => 'لطفا نام خود را وارد نمایید.',
             'lastname.required' => 'لطفا نام خانوادگی خود را وارد نمایید.',
             'shop_address.required' => 'لطفا آدرس فروشگاه/شرکت خود را وارد نمایید.',
             'shop_name.required' => 'لطفا نام فروشگاه/شرکت خود را وارد نمایید.',
+            'home_postalcode.required' => 'لطفا کد پستی خود را وارد نمایید.',
         ]);
 
         if (Purify::clean($request->person_type) == 'haghighi') {
@@ -138,6 +140,10 @@ class VendorController extends Controller
 
         if (Purify::clean($incomingFields['shop_address'])) {
             $data->shop_address = Purify::clean($incomingFields['shop_address']);
+        }
+
+        if (Purify::clean($incomingFields['home_postalcode'])) {
+            $data->home_postalcode = Purify::clean($incomingFields['home_postalcode']);
         }
 
         if (Purify::clean($incomingFields['shop_name'])) {

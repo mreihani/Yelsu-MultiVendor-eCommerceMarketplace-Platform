@@ -863,9 +863,9 @@ class IndexController extends Controller
     {
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
         SEOMeta::setDescription('قیمت سیمان قیمت بتن قیمت فولاد خرید اینترنتی محصولات معدنی و ماشین آلات کشاورزی');
-        SEOMeta::setKeywords(['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'ارمغان تجارت مغان', 'یل سو']);
+        SEOMeta::setKeywords(['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'یلسو']);
 
-        OpenGraph::setTitle('پلتفرم اقتصادی یلسو');
+        OpenGraph::setTitle('یلسو');
         OpenGraph::setDescription('قیمت سیمان, قیمت بتن, قیمت فولاد, خرید اینترنتی محصولات معدنی, ماشین آلات کشاورزی');
 
         // exclude products which store has been disabled
