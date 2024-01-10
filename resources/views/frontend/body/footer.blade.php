@@ -141,7 +141,7 @@
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="payment" width="42"/>
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/refah2.png')}}" alt="payment" width="150"/>
                             <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="payment" width="42"/>
-                            <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="payment" width="42"/>
+                            {{-- <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="payment" width="42"/> --}}
                         </figure>
                     </div>
                 </div>

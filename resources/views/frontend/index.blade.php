@@ -948,35 +948,17 @@
                 'slidesPerView': 4
             },
             '992': {
-                'slidesPerView': 6
+                'slidesPerView': 5
             },
             '1200': {
-                'slidesPerView': 6
+                'slidesPerView': 5
             }
         }
         }">
         <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2">
             <figure class="swiper-slide">
-                <a href="https://www.sb24.ir/">
-                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="Brand" width="310"
-                    height="180" />
-                </a>
-            </figure>
-            <figure class="swiper-slide">
-                <a href="https://www.bsi.ir/">
-                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="Brand" width="310"
-                    height="180" />
-                </a>
-            </figure>
-            <figure class="swiper-slide">
-                <a href="https://bankmellat.ir/">
-                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/mellat.png')}}" alt="Brand" width="310"
-                    height="180" />
-                </a>
-            </figure>
-            <figure class="swiper-slide">
-                <a href="https://www.bmi.ir/">
-                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="Brand" width="310"
+                <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
+                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
             </figure>
@@ -987,11 +969,29 @@
                 </a>
             </figure>
             <figure class="swiper-slide">
-                <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
-                    <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
+                <a href="https://www.bmi.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/melli.png')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
-        </figure>
+            </figure>
+            <figure class="swiper-slide">
+                <a href="https://bankmellat.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/mellat.png')}}" alt="Brand" width="310"
+                    height="180" />
+                </a>
+            </figure>
+            <figure class="swiper-slide">
+                <a href="https://www.bsi.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saderat.png')}}" alt="Brand" width="310"
+                    height="180" />
+                </a>
+            </figure>
+            {{-- <figure class="swiper-slide">
+                <a href="https://www.sb24.ir/">
+                    <img src="{{asset('frontend/assets/images/yelsu_images/banks/saman.png')}}" alt="Brand" width="310"
+                    height="180" />
+                </a>
+            </figure> --}}
         </div>
     </div>
     <!-- End of Brands Wrapper -->
