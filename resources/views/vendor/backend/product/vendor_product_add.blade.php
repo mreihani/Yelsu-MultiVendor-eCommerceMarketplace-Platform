@@ -571,11 +571,71 @@
                                                                 <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت محصول را وارد نمایید">
                                                             </div>
                                                         </div>
+
+
+
+                                                        <div class="">
+                                                            <div class="m-0">
+                                                                <!--begin::Heading-->
+                                                                <div class="d-flex align-items-center collapsible py-3 toggle mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#kt_job_1_1" aria-expanded="false">
+                                                                    <!--begin::Icon-->
+                                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
+                                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
+                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <!--end::Svg Icon-->
+                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                                                                        <span class="svg-icon toggle-off svg-icon-1">
+                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </div>
+                                                                    <!--end::Icon-->
+                                                                    <!--begin::Title-->
+                                                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">الزامات</h4>
+                                                                    <!--end::Title-->
+                                                                </div>
+                                                                <!--end::Heading-->
+                                                                <!--begin::Body-->
+                                                                <div id="kt_job_1_1" class="fs-6 ms-1 collapse" style="">
+            
+                                                                    <!--begin::آیتم-->
+                                                                    <div class="mb-4">
+                                                                        <!--begin::آیتم-->
+                                                                        <div class="d-flex align-items-center ps-10 mb-n1">
+                                                                            <!--begin::Bullet-->
+                                                                            <span class="bullet me-3"></span>
+                                                                            <!--end::Bullet-->
+                                                                            <!--begin::Tags-->
+                                                                            <div class="text-gray-600 fw-semibold fs-6">تجربه جاوا اسکریپت</div>
+                                                                            <!--end::Tags-->
+                                                                        </div>
+                                                                        <!--end::آیتم-->
+                                                                    </div>
+                                                                    <!--end::آیتم-->
+                                                                    
+                                                                </div>
+                                                                <!--end::Content-->
+                                                            </div>
+                                                        </div>   
+
+
                                                     @endforeach
                                                 </div>
                                                 <!--end::Input group-->
                                             </div>
                                             <!--end::کارت header-->
+
+                                            
+
                                         </div>
                                     @endif
                                     <!--end::ثبت نقاط مرتبط با محصول-->

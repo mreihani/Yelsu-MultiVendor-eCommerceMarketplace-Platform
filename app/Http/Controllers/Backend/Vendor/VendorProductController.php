@@ -512,8 +512,6 @@ class VendorProductController extends Controller
         // بخش تخصیص مقتصات مکای به محصول
         if($request->product_outlet_id && !in_array(null, $request->product_outlet_selling_price)) {
 
-            $product->outlets()->delete();
-
             $product_outlet_id = Purify::clean($request->product_outlet_id);
             $product_outlet_selling_price = Purify::clean($request->product_outlet_selling_price);
 
@@ -523,7 +521,7 @@ class VendorProductController extends Controller
                 $product_outlet_attachment_array[$value] = array("selling_price" => (int) $product_outlet_selling_price[$key]);
             }
             
-            $product->outlets()->attach($product_outlet_attachment_array);
+            $product->outlets()->sync($product_outlet_attachment_array, true);
         }
         // بخش تخصیص مقتصات مکای به محصول
 
@@ -771,8 +769,6 @@ class VendorProductController extends Controller
         // بخش تخصیص مقتصات مکای به محصول
         if($request->product_outlet_id && !in_array(null, $request->product_outlet_selling_price)) {
 
-            // $product->outlets()->delete();
-
             $product_outlet_id = Purify::clean($request->product_outlet_id);
             $product_outlet_selling_price = Purify::clean($request->product_outlet_selling_price);
 
@@ -782,7 +778,7 @@ class VendorProductController extends Controller
                 $product_outlet_attachment_array[$value] = array("selling_price" => (int) $product_outlet_selling_price[$key]);
             }
             
-            $product->outlets()->attach($product_outlet_attachment_array);
+            $product->outlets()->sync($product_outlet_attachment_array, true);
         }
         // بخش تخصیص مقتصات مکای به محصول
 
