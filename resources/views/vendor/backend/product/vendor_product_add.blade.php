@@ -568,7 +568,7 @@
                                                                 {{$outlet_item->shop_address}}
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت پایه محصول را وارد نمایید">
+                                                                <input @disabled(true) type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت پایه">
                                                             </div>
                                                         </div>
                                                     @endforeach

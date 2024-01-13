@@ -686,7 +686,7 @@
                                                                 {{$outlet_item->shop_address}}
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <input {{!in_array($outlet_item->id, $products->outlets->pluck('id')->toArray()) ? 'disabled' : ''}} type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت پایه محصول را وارد نمایید"  value="{{$products->outlets->where('id', $outlet_item->id)->first() ? $products->outlets->where('id', $outlet_item->id)->first()->pivot->selling_price : ''}}">
+                                                                <input {{!in_array($outlet_item->id, $products->outlets->pluck('id')->toArray()) ? 'disabled' : ''}} type="number" class="form-control product_outlet_selling_price" name="product_outlet_selling_price[]" placeholder="قیمت پایه" value="{{$products->outlets->where('id', $outlet_item->id)->first() ? $products->outlets->where('id', $outlet_item->id)->first()->pivot->selling_price : ''}}">
                                                             </div>
                                                         </div>
                                                     @endforeach
