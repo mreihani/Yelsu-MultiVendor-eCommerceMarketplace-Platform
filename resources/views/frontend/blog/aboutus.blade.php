@@ -174,7 +174,7 @@
                     <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-sm-2 cols-1">
                         <div class="swiper-slide member-wrap">
                             <figure class="br-lg">
-                                <img src="{{asset('frontend/assets/images/pages/about_us/mehrdad_mohammadi_sm.jpg')}}" alt="Member" width="295" height="332" />
+                                <img src="{{asset('frontend/assets/images/pages/about_us/mehrdad_mohammadi_sm_2.jpg')}}" alt="Member" width="295" height="332" />
                             </figure>
                             <div class="member-info text-center">
                                 <h4 class="member-name mt-5 mb-0">مهرداد محمدی</h4>
