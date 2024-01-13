@@ -266,19 +266,7 @@ class VendorController extends Controller
             $data->vendor->verification_company_national_card_image = $filename;
         }
 
-        // تصویر کارت ملی صاحبان حق امضا کنار هم
-        if (Purify::clean($request->file('verification_company_national_card_image_all'))) {
-            $file = Purify::clean($request->file('verification_company_national_card_image_all'));
-            if ($data->vendor->verification_company_national_card_image_all != null) {
-                unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $data->vendor->verification_company_national_card_image_all));
-            }
-            $unique_image_name = hexdec(uniqid());
-            $filename = $unique_image_name . '.' . 'jpg';
-            Image::make($file)->encode('jpg')->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
-            $data->vendor->verification_company_national_card_image_all = $filename;
-        }
+        
 
         // تصویر آخرین تغییرات روزنامه رسمی
         if (Purify::clean($request->file('verification_company_official_gazette_image'))) {
@@ -321,22 +309,45 @@ class VendorController extends Controller
             })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
             $data->vendor->verification_company_operation_license = $filename;
         }
-
+        
         // دریافت آرایه اطلاعات مربوط به فرم ریپیتر صاحبین حق امضا
-        if(!in_array(null, $request->vendor_signature_firstname) && !in_array(null, $request->vendor_signature_lastname)) {
-            $data->vendor->vendor_signatures()->delete();
-
+        if(!in_array(null, $request->vendor_signature_firstname)
+        && !in_array(null, $request->vendor_signature_lastname)
+        && $request->verification_company_national_card_image_all != null
+        && !in_array(null, $request->verification_company_national_card_image_all)
+        && count($request->vendor_signature_firstname) == count($request->vendor_signature_lastname)
+        && count($request->vendor_signature_lastname) == count($request->verification_company_national_card_image_all)
+        ) {
             $signature_firstname_array = Purify::clean($request->vendor_signature_firstname);
             $signature_lastname_array = Purify::clean($request->vendor_signature_lastname);
             $signature_national_code_array = Purify::clean($request->vendor_signature_national_code);
+            
+            if(!in_array(null, $data->vendor->vendor_signatures->pluck("verification_company_national_card_image_all")->toArray())) {
+                foreach ($data->vendor->vendor_signatures as $vendor_signature_item) {
+                    unlink(Storage::path("secret/identity_verification_documents/$data->role/$id/" . $vendor_signature_item->verification_company_national_card_image_all));
+                }  
+            }
+
+            $data->vendor->vendor_signatures()->delete();
 
             foreach ($request->vendor_signature_firstname as $key => $signature_firstname_item) {
-                $data->vendor->vendor_signatures()->create([
+
+                $signature_item_created = $data->vendor->vendor_signatures()->create([
                     'vendor_id' => $vendor_object->id,
                     'vendor_signature_firstname' => $signature_firstname_array[$key],
                     'vendor_signature_lastname' => $signature_lastname_array[$key],
                     'vendor_signature_national_code' => $signature_national_code_array[$key],
                 ]);
+
+                // تصویر کارت ملی صاحبان حق امضا
+                $unique_image_name = hexdec(uniqid());
+                $filename = $unique_image_name . '.' . 'jpg';
+                Image::make($request->verification_company_national_card_image_all[$key])->encode('jpg')->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(Storage::path("secret/identity_verification_documents/$data->role/$id/$filename"));
+
+                $signature_item_created->verification_company_national_card_image_all = $filename;
+                $signature_item_created->save();
             }
         }
 

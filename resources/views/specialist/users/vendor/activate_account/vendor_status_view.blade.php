@@ -381,10 +381,12 @@
                     <!--end::Tags-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        @if($data->vendor && $data->vendor->verification_company_national_card_image_all)
-                            <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image_all])}}">
-                                <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $data->vendor->verification_company_national_card_image_all])}}" alt="">
-                            </a>
+                        @if($data->vendor && count($data->vendor->vendor_signatures))
+                            @foreach($data->vendor->vendor_signatures as $vendor_signature_item)
+                                <a class="d-flex justify-content-start" href="{{route('assets', [$data->role, $data->id, $vendor_signature_item->verification_company_national_card_image_all])}}">
+                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$data->role, $data->id, $vendor_signature_item->verification_company_national_card_image_all])}}" alt="">
+                                </a>
+                            @endforeach
                         @else 
                             <span class="fw-semibold text-gray-800 fs-6">ثبت نشده</span>
                         @endif

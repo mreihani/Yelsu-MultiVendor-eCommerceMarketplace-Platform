@@ -254,7 +254,7 @@
 
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر سربرگ فروشگاه / شرکت / کارخانه</label>
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">تصویر فروشگاه / شرکت / کارخانه</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
@@ -308,7 +308,8 @@
                                 <!--begin::Input group-->
                                  <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">عنوان فروشگاه / شرکت / کسب و کار</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6 hoghoghi">عنوان شرکت</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6 haghighi">عنوان فروشگاه / کسب و کار</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
@@ -321,7 +322,8 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
                                     <!--begin::Tags-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">آدرس پستی / دفتر مرکزی</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6 hoghoghi">آدرس دفتر مرکزی</label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6 haghighi">آدرس پستی / فروشگاه</label>
                                     <!--end::Tags-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
@@ -475,107 +477,7 @@
                                     </div>
                                     <!--end::Input group-->
 
-                                    <!--begin::Input group-->
-                                    <div class="row mb-6">
-                                        <!--begin::Tags-->
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">مشخصات صاحبین حق امضا مطابق با روزنامه رسمی</label>
-                                        <!--end::Tags-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row">
-                                            <!--begin::Col-->
-                                            <div class="row repeater-body">
-                                                <div class="col-lg-10">
-                                                    <div class="repeater-product">
-                                                        @if($vendorData->vendor && count($vendorData->vendor->vendor_signatures))
-                                                            @foreach ($vendorData->vendor->vendor_signatures as $signature_item)
-                                                                <div data-repeatable class="mb-5">
-                                                                    <fieldset class="row">
-                                                                        <!--begin::Row-->
-                                                                        <div class="row col-md-10">
-                                                                            <div class="row gutter-sm">        
-                                                                                <!--begin::Input group-->
-                                                                                <div class="row d-flex justify-content-end">
-                                                                                    <!--begin::Col-->
-                                                                                    <div class="col-lg-4" >
-                                                                                        <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام" value="{{$signature_item->vendor_signature_firstname}}">
-                                                                                    </div>
-                                                                                    <!--end::Col-->
-                                                                                    <!--begin::Col-->
-                                                                                    <div class="col-lg-4" >
-                                                                                        <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی" value="{{$signature_item->vendor_signature_lastname}}">
-                                                                                    </div>
-                                                                                    <!--end::Col-->
-                                                                                    <!--begin::Col-->
-                                                                                    <div class="col-lg-4" >
-                                                                                        <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی" value="{{$signature_item->vendor_signature_national_code}}">
-                                                                                    </div>
-                                                                                    <!--end::Col-->
-                                                                                </div>
-                                                                                <!--end::Input group-->
-                                                                            </div>
-                                                                            <!--end::Col-->
-                                                                        </div>
-                                                                        <!--end::Row-->
-                                                                        <div class="col-md-2 d-flex align-items-center">
-                                                                            <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
-                                                                                حذف
-                                                                                <i class="bi bi-patch-minus-fill"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            @endforeach
-                                                        @else
-                                                            <div data-repeatable class="mb-5">
-                                                                <fieldset class="row">
-                                                                    <!--begin::Row-->
-                                                                    <div class="row col-md-10">
-                                                                        <div class="row gutter-sm">        
-                                                                            <!--begin::Input group-->
-                                                                            <div class="row d-flex justify-content-end">
-                                                                                <!--begin::Col-->
-                                                                                <div class="col-lg-4" >
-                                                                                    <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام">
-                                                                                </div>
-                                                                                <!--end::Col-->
-                                                                                <!--begin::Col-->
-                                                                                <div class="col-lg-4" >
-                                                                                    <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی">
-                                                                                </div>
-                                                                                <!--end::Col-->
-                                                                                <!--begin::Col-->
-                                                                                <div class="col-lg-4" >
-                                                                                    <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی">
-                                                                                </div>
-                                                                                <!--end::Col-->
-                                                                            </div>
-                                                                            <!--end::Input group-->
-                                                                        </div>
-                                                                        <!--end::Col-->
-                                                                    </div>
-                                                                    <!--end::Row-->
-                                                                    <div class="col-md-2 d-flex align-items-center">
-                                                                        <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
-                                                                            حذف
-                                                                            <i class="bi bi-patch-minus-fill"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2 d-flex align-items-start mt-1">
-                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn">
-                                                        افزودن
-                                                        <i class="bi bi-patch-plus-fill"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Input group-->
+                                    
                                 </div>
 
                                 <!--begin::Menu separator-->
@@ -632,7 +534,7 @@
                                             <!--begin::نمایش existing avatar-->
                                             @if($vendorData->vendor && $vendorData->vendor->verification_company_national_card_image)
                                                 <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image])}}">
-                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image])}}" alt="">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image])}}" alt="{{$vendorData->vendor->verification_company_national_card_image}}">
                                                 </a>
                                             @endif
                                             <!--end::نمایش existing avatar-->
@@ -668,34 +570,7 @@
                                         </div>
                                         <!--end::Col-->
                                     </div>
-                                    <!--end::Input group-->
-
-                                    <!--begin::Input group-->
-                                    <div class="row mb-6">
-                                        <!--begin::Tags-->
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی همه صاحبان حق امضا</label>
-                                        <!--end::Tags-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row">
-                                            <div class="form-text mb-2">
-                                                تصویر پشت و روی کارت ملی همه صاحبان حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
-                                            </div>
-                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_national_card_image_all" name="verification_company_national_card_image_all" />
-                                            <div class="form-text">
-                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
-                                            </div>
-
-                                            <!--begin::نمایش existing avatar-->
-                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_national_card_image_all)
-                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}">
-                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}" alt="">
-                                                </a>
-                                            @endif
-                                            <!--end::نمایش existing avatar-->
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Input group-->
+                                    <!--end::Input group-->                                   
 
                                     <!--begin::Input group-->
                                     <div class="row mb-6">
@@ -777,6 +652,173 @@
                                         <!--end::Col-->
                                     </div>
                                     <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    {{-- <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">بارگذاری تصویر پشت و روی کارت ملی همه صاحبان حق امضا</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <div class="form-text mb-2">
+                                                تصویر پشت و روی کارت ملی همه صاحبان حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
+                                            </div>
+                                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control" id="verification_company_national_card_image_all" name="verification_company_national_card_image_all" />
+                                            <div class="form-text">
+                                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                            </div>
+
+                                            <!--begin::نمایش existing avatar-->
+                                            @if($vendorData->vendor && $vendorData->vendor->verification_company_national_card_image_all)
+                                                <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}">
+                                                    <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $vendorData->vendor->verification_company_national_card_image_all])}}" alt="">
+                                                </a>
+                                            @endif
+                                            <!--end::نمایش existing avatar-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div> --}}
+                                    <!--end::Input group-->
+
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Tags-->
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">مشخصات صاحبین حق امضا مطابق با روزنامه رسمی</label>
+                                        <!--end::Tags-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <!--begin::Col-->
+                                            <div class="row repeater-body">
+                                                <div class="col-lg-10">
+                                                    <div class="repeater-product">
+                                                        @if($vendorData->vendor && count($vendorData->vendor->vendor_signatures))
+                                                            @foreach ($vendorData->vendor->vendor_signatures as $signature_item)
+                                                                <div data-repeatable class="mb-5">
+                                                                    <fieldset class="row">
+                                                                        <!--begin::Row-->
+                                                                        <div class="row col-md-10 mb-10">
+                                                                            <div class="row gutter-sm ">        
+                                                                                <!--begin::Input group-->
+                                                                                <div class="row d-flex justify-content-end">
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام" value="{{$signature_item->vendor_signature_firstname}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی" value="{{$signature_item->vendor_signature_lastname}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                    <!--begin::Col-->
+                                                                                    <div class="col-lg-4" >
+                                                                                        <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی" value="{{$signature_item->vendor_signature_national_code}}">
+                                                                                    </div>
+                                                                                    <!--end::Col-->
+                                                                                </div>
+                                                                                <!--end::Input group-->
+
+                                                                                <!--begin::Input group-->
+                                                                                <div class="row d-flex justify-content-end notice d-flex bg-light-primary rounded border-primary border border-dashed p-6 mt-5">
+                                                                                    
+                                                                                    <input type="file" accept=".png, .jpg, .jpeg" class="form-control mt-5" name="verification_company_national_card_image_all[]" />
+                                                                                    
+                                                                                    <div class="form-text mb-2">
+                                                                                        تصویر پشت و روی کارت ملی صاحب حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
+                                                                                    </div>
+                                                                                    <div class="form-text">
+                                                                                        نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                                                                    </div>
+                                                                                    
+                                                                                    <!--begin::نمایش existing avatar-->
+                                                                                    @if($vendorData->vendor && $signature_item->verification_company_national_card_image_all)
+                                                                                        <a class="d-flex justify-content-center" href="{{route('assets', [$vendorData->role, $vendorData->id, $signature_item->verification_company_national_card_image_all])}}">
+                                                                                            <img style="border: 3px solid var(--kt-body-bg); box-shadow: var(--kt-box-shadow);" class="mt-5 mb-5" width="250px" src="{{route('assets', [$vendorData->role, $vendorData->id, $signature_item->verification_company_national_card_image_all])}}" alt="{{$signature_item->verification_company_national_card_image_all}}">
+                                                                                        </a>
+                                                                                    @endif
+                                                                                    <!--end::نمایش existing avatar-->
+                                                                                </div>
+                                                                                <!--end::Input group-->
+                                                                            </div>
+                                                                            <!--end::Col-->
+                                                                        </div>
+                                                                        <!--end::Row-->
+                                                                        <div class="col-md-2 d-flex align-items-start">
+                                                                            <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                                                حذف
+                                                                                <i class="bi bi-patch-minus-fill"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <div data-repeatable class="mb-5">
+                                                                <fieldset class="row">
+                                                                    <!--begin::Row-->
+                                                                    <div class="row col-md-10 mb-10">
+                                                                        <div class="row gutter-sm">        
+                                                                            <!--begin::Input group-->
+                                                                            <div class="row d-flex justify-content-end">
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                                <!--begin::Col-->
+                                                                                <div class="col-lg-4" >
+                                                                                    <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی">
+                                                                                </div>
+                                                                                <!--end::Col-->
+                                                                            </div>
+                                                                            <!--end::Input group-->
+
+                                                                            <!--begin::Input group-->
+                                                                            <div class="row d-flex justify-content-end">
+
+                                                                                <input type="file" accept=".png, .jpg, .jpeg" class="form-control mt-5" name="verification_company_national_card_image_all[]" />
+
+                                                                                <div class="form-text mb-2">
+                                                                                    تصویر پشت و روی کارت ملی صاحب حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
+                                                                                </div>
+                                                                                <div class="form-text">
+                                                                                    نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                                                                                </div>
+                                    
+                                                                            </div>
+                                                                            <!--end::Input group-->
+                                                                        </div>
+                                                                        <!--end::Col-->
+                                                                    </div>
+                                                                    <!--end::Row-->
+                                                                    <div class="col-md-2 d-flex align-items-start">
+                                                                        <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                                                                            حذف
+                                                                            <i class="bi bi-patch-minus-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 d-flex align-items-start mt-1">
+                                                    <button type="button" class="btn btn-sm btn-light-primary add-repeater-btn">
+                                                        افزودن
+                                                        <i class="bi bi-patch-plus-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+
                                 </div>
 
                             </div>
@@ -830,19 +872,100 @@
         
         $this = $(this);
 
-        $repeater = $this.closest(".repeater-body").find('[data-repeatable]').last();
-        $clone = $repeater.first().clone();
+        let repeaterBodyElement = `
+        <div data-repeatable class="mb-5">
+            <fieldset class="row">
+                <!--begin::Row-->
+                <div class="row col-md-10 mb-10">
+                    <div class="row gutter-sm">        
+                        <!--begin::Input group-->
+                        <div class="row d-flex justify-content-end">
+                            <!--begin::Col-->
+                            <div class="col-lg-4" >
+                                <input name="vendor_signature_firstname[]" type="text" class="form-control form-control-solid" placeholder="نام">
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-lg-4" >
+                                <input name="vendor_signature_lastname[]" type="text" class="form-control form-control-solid" placeholder="نام خانوادگی">
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-lg-4" >
+                                <input name="vendor_signature_national_code[]" type="number" class="form-control form-control-solid" placeholder="کد ملی">
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
 
-        let input_element = $clone.find("input");
-        input_element.val("");
+                        <!--begin::Input group-->
+                        <div class="row d-flex justify-content-end">
 
-        $clone.insertAfter($repeater);
+                            <input type="file" accept=".png, .jpg, .jpeg" class="form-control mt-5" name="verification_company_national_card_image_all[]" />
+
+                            <div class="form-text mb-2">
+                                تصویر پشت و روی کارت ملی صاحب حق امضا را در قالب یک عکس کنار هم بارگذاری نمایید.
+                            </div>
+                            <div class="form-text">
+                                نوع فایل مجاز برای آپلود: png, jpg, jpeg.
+                            </div>
+
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <div class="col-md-2 d-flex align-items-start">
+                    <button type="button" class="btn btn-sm btn-light-danger del-repeater-btn">
+                        حذف
+                        <i class="bi bi-patch-minus-fill"></i>
+                    </button>
+                </div>
+            </fieldset>
+        </div>
+        `;
+
+        let repeaterProductElement = $(".repeater-product");
+        repeaterProductElement.append(repeaterBodyElement);
     });
 
     // remove repeater function
     $(".repeater-product").click(function(e) {
         if($(e.target).hasClass("del-repeater-btn") && $(e.target).closest(".repeater-body").find($("[data-repeatable]")).length > 1) {
             $(e.target).closest('[data-repeatable]').remove();
+        }
+    });
+
+    // add image as blob to input file element
+    let verification_company_national_card_image_all_input = $('input[name="verification_company_national_card_image_all[]"]');
+
+    $.each(verification_company_national_card_image_all_input, function(index, imageInputValue) {
+        let imageElement = $(imageInputValue).closest(".row").find("img");
+       
+        if(imageElement.length) {
+            let url = imageElement.attr("src");
+            let fileName = imageElement.attr("alt");
+
+            loadURLToInputFiled(url);
+            function loadURLToInputFiled(url){
+                getImgURL(url, (imgBlob)=>{
+                    let file = new File([imgBlob], fileName,{type:"image/jpeg", lastModified:new Date().getTime()}, 'utf-8');
+                    let container = new DataTransfer(); 
+                    container.items.add(file);
+                    imageInputValue.files = container.files;
+                })
+            }
+            // xmlHTTP return blob respond
+            function getImgURL(url, callback){
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    callback(xhr.response);
+                };
+                xhr.open('GET', url);
+                xhr.responseType = 'blob';
+                xhr.send();
+            }
         }
     });
 </script>
