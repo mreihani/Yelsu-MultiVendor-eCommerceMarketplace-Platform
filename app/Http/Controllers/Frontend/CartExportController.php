@@ -104,7 +104,7 @@ class CartExportController extends Controller
             return [
                 $product['product']->id
                 =>
-                ['quantity' => $product['quantity'], 'price' => (int) $product['product']->selling_price]
+                ['quantity' => $product['quantity'], 'price' => (int) $product['product']->price_with_commission]
             ];
         });
 

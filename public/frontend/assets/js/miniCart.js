@@ -19,7 +19,7 @@ $(".cart-toggle").click(function () {
                 $.each(response, function (key, value) {
                     
                     miniCartTotalPrice +=
-                        value.products.selling_price * value.cart.quantity;
+                        value.price_with_commission * value.cart.quantity;
 
                     miniCart += `
                                        
@@ -28,7 +28,7 @@ $(".cart-toggle").click(function () {
                             <a href="" class="product-name">${value.products.product_name}</a>
                             <div class="price-box">
                                 <span class="product-quantity">${value.cart.quantity}</span>
-                                <span class="product-price">${formatNumber(value.products.selling_price)} ${value.currency}</span>
+                                <span class="product-price">${formatNumber(value.price_with_commission)} ${value.currency}</span>
                             </div>
                         </div>
                         <figure class="product-media">

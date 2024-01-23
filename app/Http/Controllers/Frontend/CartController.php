@@ -51,7 +51,12 @@ class CartController extends Controller
         foreach (Cart::all() as $cart) {
             if (isset($cart['product'])) {
                 $product = $cart['product'];
-                $productsArray[] = ['products' => $product, 'cart' => $cart, 'currency' => $product->determine_product_currency()];
+                $productsArray[] = [
+                    'products' => $product, 
+                    'cart' => $cart, 
+                    'currency' => $product->determine_product_currency(),
+                    'price_with_commission' => $product->price_with_commission
+                ];
             }
         }
         return $productsArray;
