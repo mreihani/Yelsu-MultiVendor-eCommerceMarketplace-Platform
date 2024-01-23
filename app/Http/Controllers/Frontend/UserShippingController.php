@@ -17,27 +17,34 @@ use App\Services\NeshanServices\NeshanApiService;
 
 class UserShippingController extends Controller
 {
-    public function ShippingDetails($id) {
+    public function ShippingProduct($id) {
 
         $userData = auth()->user();
         $user_id = $userData->id;
 
         $order = Order::findOrFail(Purify::clean($id));
 
-        // products with lazy loading
         $products = $order->products()->get();
-
-        // products with eager loading
-        // $products = Order::where("id",Purify::clean($id))
-        // ->with(["products", "products.determine_product_owner", "products.determine_product_owner.vendor_outlets"])
-        // ->first()
-        // ->products;
 
         if ($order->user_id != $user_id) {
             return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
         }
 
-        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'products'));
+        return view('frontend.dashboard.shipping-product', compact('userData', 'order', 'products'));
+    }
+
+    public function ShippingDetails($orderId, $productId) {
+        $userData = auth()->user();
+        $user_id = $userData->id;
+
+        $order = Order::find(Purify::clean($orderId));
+        $product = $order->products()->where('product_id', $productId)->first();
+
+        if ($order->user_id != $user_id) {
+            return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
+        }
+
+        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'product'));
     }
 
     // این متد برای متد GetAddressAjax استفاده میشود 
@@ -120,6 +127,11 @@ class UserShippingController extends Controller
 
     public function GetFreightageInformationAjax(Request $request) {
         $freightage_id = Purify::clean($request->freightage_id);
+
+        if($freightage_id == 0) {
+            return;
+        }
+
         $freightage_obj = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent();
 
         // اینجا موارد نوع ارسال کالا که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
@@ -127,7 +139,7 @@ class UserShippingController extends Controller
 
         $freightagetype_id_from_product = [];
         foreach (Product::find($product_id)->freightageloadertype as $freightageloadertype_item) {
-            $freightagetype_id_from_product[] = $freightageloadertype_item->freightageType->id;
+            $freightagetype_id_from_product[] = $freightageloadertype_item->loader_type->freightageType->id;
         }
 
         $freightage_obj_filtered = [];
@@ -144,7 +156,7 @@ class UserShippingController extends Controller
     public function GetFreightageLoaderTypeAjax(Request $request) {
         $type_id = Purify::clean($request->type_id);
         $freightage_id = Purify::clean($request->freightage_id);
-
+        $outlet_id = Purify::clean($request->outlet_id);
         $freightageTypeItem = Freightagetype::find($type_id);
         $freightagetype_title = $freightageTypeItem->freightagetype_title;
         
@@ -164,12 +176,20 @@ class UserShippingController extends Controller
 
         // اینجا موارد نوع بارگیر که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
         $product_id = Purify::clean($request->product_id);
-        $freightageloadertype_object_from_product = Product::find($product_id)->freightageloadertype;
+        $product_obj = Product::find($product_id);
+        $freightageloadertype_object_from_product = $product_obj->freightageloadertype;
+
+        $order_id = Purify::clean($request->order_id);
+        $order_quantity = $product_obj->orders()->where("order_id", $order_id)->first()->pivot->quantity;
 
         $freightage_loader_type_last_items_filtered = [];
         foreach ($freightageloadertype_object_from_product as $freightageloadertype_item_from_product) {
-            if(in_array($freightageloadertype_item_from_product->id, $freightage_loader_type_array)) {
-                $freightage_loader_type_last_items_filtered[] = $freightageloadertype_item_from_product;
+            if(
+                in_array($freightageloadertype_item_from_product->loader_type->id, $freightage_loader_type_array)
+                && ((int) $freightageloadertype_item_from_product->loader_type_min <= $order_quantity)
+                && ((int) $outlet_id == (int) $freightageloadertype_item_from_product->origin_loadertype_outlet)
+            ) {
+                $freightage_loader_type_last_items_filtered[] = $freightageloadertype_item_from_product->loader_type;
             }
         }
         // اینجا موارد نوع بارگیر که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند

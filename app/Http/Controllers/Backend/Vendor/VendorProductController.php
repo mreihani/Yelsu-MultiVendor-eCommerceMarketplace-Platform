@@ -19,6 +19,7 @@ use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use App\Rules\VendorProductPriceOutlet;
 use Illuminate\Support\Facades\Storage;
+use App\Rules\VendorMinMaxLoaderTypeValue;
 use Illuminate\Support\Facades\File as LaravelFile;
 
 class VendorProductController extends Controller
@@ -70,6 +71,7 @@ class VendorProductController extends Controller
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
             'attribute' => ['required', new AttributeIsRequired()],
             'id' => new VendorProductPriceOutlet($request),
+            'loader_type_min' => new VendorMinMaxLoaderTypeValue($request),
         ], [
             'product_thumbnail.required' => 'لطفا تصویر محصول را بارگذاری نمایید.',
             'product_thumbnail.image' => 'لطفا فایل JPG یا PNG بارگذاری نمایید.',
@@ -193,12 +195,24 @@ class VendorProductController extends Controller
         // بخش مدیریت حمل و نقل محصول
         if($request->user_has_vehicle != "on") {
             $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
 
-            if (in_array(0, $freightageloadertype_id_array_unique)) {
-                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
+            $freightageloadertype_attach = [];
+            $loader_type_min = Purify::clean($request->loader_type_min);
+            $loader_type_max = Purify::clean($request->loader_type_max);
+            $origin_loadertype_outlet = Purify::clean($request->origin_loadertype_outlet);
+            foreach ($freightageloadertype_id as $freightageloadertype_key => $freightageloadertype_item) {
+                $freightageloadertype_attach[] = array(
+                    'product_id' => $product->id,
+                    'freightageloadertype_id' => $freightageloadertype_item,
+                    'loader_type_min' => $loader_type_min[$freightageloadertype_key],
+                    'loader_type_max' => $loader_type_max[$freightageloadertype_key],
+                    'origin_loadertype_outlet' => $origin_loadertype_outlet[$freightageloadertype_key],
+                );
             }
-            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
+
+            $product->freightageloadertype()->insert(
+                $freightageloadertype_attach
+            );
         }
         // بخش مدیریت حمل و نقل محصول
 
@@ -258,6 +272,7 @@ class VendorProductController extends Controller
             'product_slug' => ['required', Rule::unique('products', 'product_slug')->ignore($product_id)],
             'attribute' => ['required', new AttributeIsRequired()],
             'id' => new VendorProductPriceOutlet($request),
+            'loader_type_min' => new VendorMinMaxLoaderTypeValue($request),
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -487,18 +502,30 @@ class VendorProductController extends Controller
 
         // بخش مدیریت حمل و نقل محصول
         if($request->user_has_vehicle != "on") {
-            $product->freightageloadertype()->detach();
-            
-            $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
 
-            if (in_array(0, $freightageloadertype_id_array_unique)) {
-                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
-            }
+            $product->freightageloadertype()->delete();
+
+            $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
             
-            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
+            $freightageloadertype_attach = [];
+            $loader_type_min = Purify::clean($request->loader_type_min);
+            $loader_type_max = Purify::clean($request->loader_type_max);
+            $origin_loadertype_outlet = Purify::clean($request->origin_loadertype_outlet);
+            foreach ($freightageloadertype_id as $freightageloadertype_key => $freightageloadertype_item) {
+                $freightageloadertype_attach[] = array(
+                    'product_id' => $product->id,
+                    'freightageloadertype_id' => $freightageloadertype_item,
+                    'loader_type_min' => $loader_type_min[$freightageloadertype_key],
+                    'loader_type_max' => $loader_type_max[$freightageloadertype_key],
+                    'origin_loadertype_outlet' => $origin_loadertype_outlet[$freightageloadertype_key],
+                );
+            }
+
+            $product->freightageloadertype()->insert(
+                $freightageloadertype_attach
+            );
         } else {
-            $product->freightageloadertype()->detach();
+            $product->freightageloadertype()->delete();
         }
         // بخش مدیریت حمل و نقل محصول
 
@@ -575,6 +602,7 @@ class VendorProductController extends Controller
             'product_slug' => ['required', Rule::unique('products', 'product_slug')],
             'attribute' => ['required', new AttributeIsRequired()],
             'id' => new VendorProductPriceOutlet($request),
+            'loader_type_min' => new VendorMinMaxLoaderTypeValue($request),
         ], [
             'category_id.required' => 'لطفا یک دسته بندی مرتبط برای محصول انتخاب نمایید.',
             'product_name.required' => 'لطفا نام محصول را وارد نمایید.',
@@ -746,13 +774,27 @@ class VendorProductController extends Controller
         // بخش مدیریت حمل و نقل محصول
         if($request->user_has_vehicle != "on") {
             $freightageloadertype_id = Purify::clean($request->freightageloadertype_id);
-            $freightageloadertype_id_array_unique = array_unique($freightageloadertype_id);
 
-            if (in_array(0, $freightageloadertype_id_array_unique)) {
-                unset($freightageloadertype_id_array_unique[array_search(0, $freightageloadertype_id_array_unique)]);
+            $freightageloadertype_attach = [];
+            $loader_type_min = Purify::clean($request->loader_type_min);
+            $loader_type_max = Purify::clean($request->loader_type_max);
+            $origin_loadertype_outlet = Purify::clean($request->origin_loadertype_outlet);
+            foreach ($freightageloadertype_id as $freightageloadertype_key => $freightageloadertype_item) {
+                $freightageloadertype_attach[] = array(
+                    'product_id' => $product->id,
+                    'freightageloadertype_id' => $freightageloadertype_item,
+                    'loader_type_min' => $loader_type_min[$freightageloadertype_key],
+                    'loader_type_max' => $loader_type_max[$freightageloadertype_key],
+                    'origin_loadertype_outlet' => $origin_loadertype_outlet[$freightageloadertype_key],
+                );
             }
 
-            $product->freightageloadertype()->attach($freightageloadertype_id_array_unique);
+            $product->freightageloadertype()->insert(
+                $freightageloadertype_attach
+            );
+            
+        } else {
+            $product->freightageloadertype()->delete();
         }
         // بخش مدیریت حمل و نقل محصول
 

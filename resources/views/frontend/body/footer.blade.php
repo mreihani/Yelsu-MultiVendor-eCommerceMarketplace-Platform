@@ -102,7 +102,7 @@
                                             <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=313787&amp;Code=erJJIfPCgieNo3BaeAyT"><img referrerpolicy="origin" src="{{asset('frontend/assets/images/e-namad-logo.png')}}" width="100" alt="" style="cursor:pointer" id="erJJIfPCgieNo3BaeAyT"></a>
                                         </div>
                                         <div class="col-4">
-                                            <a href="{{asset('frontend/assets/images/ecom_license.jpg')}}" data-lightbox="image-3" data-title="پروانه کسب">
+                                            <a href="{{asset('frontend/assets/images/ecom_license2.jpg')}}" data-lightbox="image-3" data-title="پروانه کسب">
                                                 <img width="100" src="{{asset('frontend/assets/images/ecom_union.png')}}" alt="پروانه کسب"/>
                                             </a>
                                         </div>

@@ -270,7 +270,7 @@
                                             @if(isset($cart['product']))
                                             @php
                                                 $product = $cart['product'];
-                                                $totalPrice = $cart['quantity']*$product->selling_price;
+                                                $totalPrice = $cart['quantity']*$product->price_with_commission;
                                             @endphp
                                                 <tr class="bb-no">
                                                     <td class="product-name" style="text-align: start;">
@@ -282,7 +282,7 @@
                                                         </span>
                                                     </td>
                                                    <td class="product-total">
-                                                        {{number_format($cart['quantity']*$product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} 
+                                                        {{number_format($cart['quantity']*$product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
                                             @endif    
@@ -290,7 +290,7 @@
 
                                         @php
                                             $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                                                return $cart['product']->selling_price * $cart['quantity'];
+                                                return $cart['product']->price_with_commission * $cart['quantity'];
                                             });
                                         @endphp
                                

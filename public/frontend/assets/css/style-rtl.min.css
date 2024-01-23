@@ -23349,11 +23349,13 @@ td {
 
 /* leaflet shipping page custom styles */
 .shipping-page-map-container {
-    height: 500px;
+    width: 450px;
+    height: 450px;
     border: 2px solid #14b6cb;
 }
 .shipping-page-map-container-img {
-    height: 500px;
+    width: 450px;
+    height: 450px;
     border: 2px solid #14b6cb;
 }
 .shipping-page-content .product-name {
@@ -23371,7 +23373,7 @@ td {
 
 .shipping-page-content .shipping-page-distance-box {
     background-color: #d7e8f8;
-    padding: 12px 26px;
+    padding: 9px 9px;
     border-radius: 50px
 }
 /* leaflet shipping page custom styles */

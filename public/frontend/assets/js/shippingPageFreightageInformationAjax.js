@@ -4,6 +4,26 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
     let freightage_id = thisElement.val();
     let freightage_company_name_element = thisElement.closest(".freightage-company-name");
     let product_id = freightage_company_name_element.find("input.product_id").val();
+    let shippingPage= thisElement.closest(".shipping-element");
+
+    // hide confirmation btn
+    let confIconElem = shippingPage.find(".shipping-calc-confirm-btn");
+    confIconElem.addClass("d-none");
+    confIconElem.removeClass("d-flex");
+
+    // hide cancel btn
+    let cancelIconElem = shippingPage.find(".shipping-calc-cancel-btn");
+    cancelIconElem.addClass("d-none");
+    cancelIconElem.removeClass("d-flex");
+
+    // hide calc btn
+    let calcBtnElement = shippingPage.find(".shipping-calculate-btn");
+    calcBtnElement.addClass("d-none");
+    calcBtnElement.removeClass("d-flex");
+
+    // hide shipping calculation element
+    let shippingCalculations = thisElement.closest(".shipping-page-content").find('.shipping-calculations');
+    shippingCalculations.addClass("d-none");
 
     $.ajax({
         type: "GET",
@@ -13,8 +33,10 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
         },
         url: "/get-freightage-information",
         success: function (response) {
-            removePreviousElementsInformationDropdown(freightage_company_name_element);
-            freightage_company_name_element.append(createFreightageActivityFieldHTML(response.freightage_obj_filtered, freightage_id));
+            if(response) {
+                removePreviousElementsInformationDropdown(freightage_company_name_element);
+                freightage_company_name_element.append(createFreightageActivityFieldHTML(response.freightage_obj_filtered, freightage_id));
+            }
         },
     });
 });
@@ -26,7 +48,6 @@ function createFreightageActivityFieldHTML(response, freightage_id) {
         $('.freightage-activity-field-dropdown').select2({
             placeholder: 'روش ارسال را انتخاب نمایید'
         });
-        
     });
 
     let freightageActivityField = '';
@@ -43,7 +64,7 @@ function createFreightageActivityFieldHTML(response, freightage_id) {
         <input type="hidden" value="${freightage_id}" class="freightage_id">
         <div>
             <select class="form-control form-control-md freightage-activity-field-dropdown">
-                <option value="">روش ارسال را انتخاب نمایید</option>
+                <option value="0">روش ارسال را انتخاب نمایید</option>
                 ${freightageActivityField}
             </select>
         </div>

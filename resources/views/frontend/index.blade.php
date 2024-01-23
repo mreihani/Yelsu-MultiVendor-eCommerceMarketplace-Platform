@@ -233,7 +233,7 @@
                                         </div> --}}
                                         <div class="product-price">
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->selling_price == 0)
+                                            @if ($item->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -241,7 +241,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -306,7 +306,7 @@
                                         </div> --}}
                                         <div class="product-price">
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->selling_price == 0)
+                                            @if ($item->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -314,7 +314,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -407,7 +407,7 @@
                                         </div> --}}
                                         <div class="product-price">
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->selling_price == 0)
+                                            @if ($item->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -415,7 +415,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>
@@ -510,7 +510,7 @@
                                         </div> --}}
                                         <div class="product-price">
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->selling_price == 0)
+                                            @if ($item->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -518,7 +518,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <ins class="new-price">{{number_format($item->selling_price, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                <ins class="new-price">{{number_format($item->price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                             @endif
                                         </div>
                                     </div>

@@ -423,7 +423,7 @@
                                                     <i class="w-icon-orders"></i>
                                                     جزئیات سفارش 
                                                 </a>
-                                                <a href="{{route('shipping-details', $order->id)}}" class="btn btn-primary btn-rounded btn-default btn-sm btn-block mt-1">
+                                                <a href="{{route('shipping-product', $order->id)}}" class="btn btn-primary btn-rounded btn-default btn-sm btn-block mt-1">
                                                     <i class="w-icon-shipping"></i>
                                                     حمل و نقل
                                                 </a>

@@ -105,7 +105,7 @@
 
                                 <hr class="product-divider">
 
-                                @if ($product->selling_price == 0)
+                                @if ($product->price_with_commission == 0)
                                     <div class="product-price">
                                         <a href="tel:02126402540">
                                             <i class="w-icon-phone"></i>
@@ -114,7 +114,7 @@
                                     </div>
                                 @else
                                     <div class="d-flex align-items-center pt-2 pb-2">
-                                        <div class="product-price"><ins class="new-price">{{number_format($product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </ins></div>
+                                        <div class="product-price"><ins class="new-price">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} </ins></div>
                                     </div>
                                 @endif
 
@@ -1111,7 +1111,7 @@
                                         <div class="product-pa-wrapper">
                                             
 
-                                            @if ($relatedProduct->selling_price == 0)
+                                            @if ($relatedProduct->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -1119,7 +1119,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="product-price">{{number_format($relatedProduct->selling_price, 0, '', ',')}} {{$relatedProduct->determine_product_currency()}}</div>
+                                                <div class="product-price">{{number_format($relatedProduct->price_with_commission, 0, '', ',')}} {{$relatedProduct->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -1182,7 +1182,7 @@
                                     </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-pa-wrapper">
-                                            @if ($recently_viewed_product_item->selling_price == 0)
+                                            @if ($recently_viewed_product_item->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
                                                         <i class="w-icon-phone"></i>
@@ -1190,7 +1190,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="product-price">{{number_format($recently_viewed_product_item->selling_price, 0, '', ',')}} {{$recently_viewed_product_item->determine_product_currency()}}</div>
+                                                <div class="product-price">{{number_format($recently_viewed_product_item->price_with_commission, 0, '', ',')}} {{$recently_viewed_product_item->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>

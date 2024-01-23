@@ -214,7 +214,7 @@
                                                 class="fas fa-times"></i> <span
                                                 class="product-quantity">{{$quantity}}</span>
                                             </td>
-                                            <td class="product-total">{{number_format($quantity*$product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </td>
+                                            <td class="product-total">{{number_format($quantity*$product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>

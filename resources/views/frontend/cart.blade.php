@@ -60,18 +60,18 @@
                                             </a>
                                         </td>
 
-                                        <td class="product-price"><span class="amount">{{number_format($product->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
+                                        <td class="product-price"><span class="amount">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
                                             
                                             <div class="input-group">
-                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',1)" class="w-icon-plus add-yelsu"></button>
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->selling_price}}',1)" class="w-icon-minus sub-yelsu"></button>
+                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',1)" class="w-icon-plus add-yelsu"></button>
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',1)" class="w-icon-minus sub-yelsu"></button>
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->selling_price * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
+                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->price_with_commission * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
                                         </td>
                                     </tr>
                                     @endif
@@ -108,7 +108,7 @@
                                     <label class="ls-25">مجموع</label>
                                     @php
                                         $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                                            return $cart['product']->selling_price * $cart['quantity'];
+                                            return $cart['product']->price_with_commission * $cart['quantity'];
                                         });
                                     @endphp
                                     <span><span id="totalPrice">{{number_format($totalPrice, 0, '', ',')}}</span> تومان</span>

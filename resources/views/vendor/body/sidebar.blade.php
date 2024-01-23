@@ -1342,6 +1342,26 @@
                     </div>
 
                     <!--begin:Menu item-->
+                    <div class="menu-item pt-5">
+                        <!--begin:Menu content-->
+                        <div>
+                            <a class="menu-link {{Route::currentRouteName() == 'vendor.dashboard' ? 'active' : ''}}" href="{{route('vendor.dashboard')}}">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                </svg>
+                                <span style="margin-right:4px;">
+                                    پیشخوان تأمین کننده
+                                </span>
+                            </a>
+                        </div>
+                        <!--end:Menu content-->
+                    </div>
+                    <!--end:Menu item-->
+
+                    <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->
                     <div class="menu-content">
@@ -1352,11 +1372,7 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->              
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion 
-                {{Route::currentRouteName() == 'vendor.profile' ? 'show' : ''}} 
-                {{Route::currentRouteName() == 'vendor.profileSettings' ? 'show' : ''}} 
-                {{Route::currentRouteName() == 'vendor.profileFieldOfActivity' ? 'show' : ''}} 
-                {{Route::currentRouteName() == 'vendor.profileFinancialStatement' ? 'show' : ''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion show">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">

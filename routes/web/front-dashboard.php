@@ -19,7 +19,8 @@ Route::post('/dashboard/address/update', [UserController::class, 'DashboardAddre
 Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardAddressDelete'])->name('dashboard.address.delete');
 
 // dashboard shipping all routes
-Route::get('/shipping-details/{id}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
+Route::get('/shipping-product/{id}', [UserShippingController::class, 'ShippingProduct'])->name('shipping-product');
+Route::get('/shipping-details/{orderId}/{productId}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
 Route::get('/get-users-address-shipping', [UserShippingController::class, 'GetAddressAjax']);
 Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
 Route::get('/get-freightage-loader-type', [UserShippingController::class, 'GetFreightageLoaderTypeAjax']);

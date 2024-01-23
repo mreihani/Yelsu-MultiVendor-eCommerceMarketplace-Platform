@@ -38,13 +38,13 @@ class VendorScheduleController extends Controller
             ]);
             
             // check if specific date and specific capacity have been equally submitted
+            $specific_values_array = [];
             if(
                 ($product_item->specific_deliver_date && $product_item->specific_deliver_capacity) && 
                 sizeof($product_item->specific_deliver_date) == sizeof($product_item->specific_deliver_capacity)
             ) 
             {
                 // generate an assoc array for specific values
-                $specific_values_array = [];
                 foreach ($product_item->specific_deliver_date as $key => $specific_value) {
                     $date_item = $product_item->specific_deliver_date[$key];
                     $specific_deliver_date_format = Jalalian::fromFormat('Y/m/d', $date_item)->toCarbon()->toDateTimeString();

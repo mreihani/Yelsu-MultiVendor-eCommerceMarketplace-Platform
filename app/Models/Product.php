@@ -14,10 +14,12 @@ use App\Models\AttributeItem;
 use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
+use App\Models\ProductLoadertype;
 use App\Models\Freightageloadertype;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute as AttributeMutator;
 
 
 class Product extends Model
@@ -54,7 +56,7 @@ class Product extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot('quantity','price');
     }
 
     public function attributes()
@@ -260,6 +262,23 @@ class Product extends Model
         $added_value_tax = $this->determine_product_value_added_tax();
 
         return floor($this->selling_price * ($added_value_tax / 100 + 1));
+    }
+
+    // تعیین واحد سفارش
+    public function determine_product_unit() {
+        $product_unit = null;
+
+        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
+            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "unit") {
+                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
+                    $product_unit = $attribute_value_array['attribute_value_obj'][0]->value;
+                } else {
+                    $product_unit = $attribute_value_array["attribute_value"];
+                }
+            }
+        }
+
+        return $product_unit;
     }
 
     // تابع برای بررسی تغییر یک ویژگی که برای تاییدیه ارسال بشه
@@ -496,7 +515,7 @@ class Product extends Model
     }
 
     public function freightageloadertype() {
-        return $this->belongsToMany(Freightageloadertype::class);
+        return $this->hasMany(ProductLoadertype::class);
     }
 
     public function schedule() {
@@ -505,5 +524,26 @@ class Product extends Model
     
     public function outlets() {
         return $this->belongsToMany(Outlet::class)->withPivot("selling_price");
+    }
+
+    // show selling_price with added commission
+    // use $product->price_with_commission
+    public function getPriceWithCommissionAttribute()
+    {
+        $value = $this->selling_price;
+        $commission_type = $this->determine_product_commission_type();
+        $commission_value = $this->determine_product_commission();
+
+        if($value != 0 && $commission_value) {
+            if($commission_type == "percent_commission") {
+                return $value + $commission_value * $value / 100;
+            }
+
+            if($commission_type == "fix_commission") {
+                return $value + $commission_value;
+            }
+        } else {
+            return $value;
+        }
     }
 }

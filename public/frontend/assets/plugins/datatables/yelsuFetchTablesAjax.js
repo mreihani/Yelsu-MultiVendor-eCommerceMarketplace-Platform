@@ -121,7 +121,6 @@ function loadTables(pagination_vendor_id) {
                                         <h4>
                                             تعداد جداول بارگذاری شده: ${numberOfTotalPages} 
                                         </h4>
-                                        
                                     </div>
                                     <div class="yelsuDataTablesHead d-flex align-items-center">
                                         <div class="vendor-image-div">
@@ -133,11 +132,8 @@ function loadTables(pagination_vendor_id) {
                                         </div>
                                     </div>
                                     <div class="product-wrapper row">
-                                    
-
                                         <div class="product-wrap">
                                             <div class="product text-center">
-
                                                 <table class="display yelsuDataTables" style="width:100%">
                                                     <thead>
                                                         ${theadElement}
@@ -157,7 +153,6 @@ function loadTables(pagination_vendor_id) {
                                                         ${paginationElements}
                                                     </ul>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>   
