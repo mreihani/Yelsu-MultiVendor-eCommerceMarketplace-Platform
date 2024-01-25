@@ -39,7 +39,7 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         },
         url: "/get-origin-addresses-filtered",
         success: function (response) {
-
+            
             // Remove the class "d-flex" from the shippingControllerPanel
             shippingControllerPanel.removeClass("d-none");
 
