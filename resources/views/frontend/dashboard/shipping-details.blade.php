@@ -453,12 +453,19 @@
     </main>
     <!-- End of Main -->
     
-    <script src="{{asset('frontend/assets/plugins/leaflet/leafletYelsuShipping.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageInformationAjax.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageFreightageInformationAjax.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageFreightageLoaderTypeAjax.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageTable.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageOriginAddressFilterAjax.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/shippingPageFreightageCompanyFilterAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/leafletYelsuShipping.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageInformationAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageCancelBtn.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageFreightageInformationAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageFreightageLoaderTypeAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/showCalcBtnLoaderType.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/resetLoaderTypeOrigin.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/resetLoaderTypeDestination.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageTable.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingTableCrud.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/quantityChangeEventHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/rowEditHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageOriginAddressFilterAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPageFreightageCompanyFilterAjax.js')}}"></script>
 
 @endsection
