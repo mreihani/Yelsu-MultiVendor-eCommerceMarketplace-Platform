@@ -127,19 +127,30 @@ class UserShippingController extends Controller
 
     public function GetFreightageInformationAjax(Request $request) {
         $freightage_id = Purify::clean($request->freightage_id);
+        $numberItemsRequest = (int) Purify::clean($request->numberItemsRequest);
 
         if($freightage_id == 0) {
             return;
         }
-
+        
+        // Get the freightage type
         $freightage_obj = User::find($freightage_id)->verified_freightages_with_freightage_id->first()->getFreightageTypeParent();
 
         // اینجا موارد نوع ارسال کالا که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
         $product_id = Purify::clean($request->product_id);
 
+        // Find the product and its related freightage load type
+        $productObj = Product::find($product_id);
+        $freightageloadertype = $productObj->freightageloadertype;
+
         $freightagetype_id_from_product = [];
-        foreach (Product::find($product_id)->freightageloadertype as $freightageloadertype_item) {
-            $freightagetype_id_from_product[] = $freightageloadertype_item->loader_type->freightageType->id;
+        // Iterate through each freightageloadertype item
+        foreach ($freightageloadertype as $freightageloadertypeItem) {
+            // Check if the number of items requested falls within the loader type range
+            if($freightageloadertypeItem->loader_type_min <= $numberItemsRequest && $freightageloadertypeItem->loader_type_max >= $numberItemsRequest) {
+                // Find the outlet based on the origin_loadertype_outlet and add it to the filtered array
+                $freightagetype_id_from_product[] = $freightageloadertypeItem->loader_type->freightageType->id;;
+            }
         }
 
         $freightage_obj_filtered = [];
@@ -148,7 +159,7 @@ class UserShippingController extends Controller
                 $freightage_obj_filtered[] = $freightage_item;
             }
         }
-        // اینجا موارد نوع ارسال کالا که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
+        
 
         return response(['freightage_obj_filtered' => $freightage_obj_filtered]);
     }
@@ -159,6 +170,7 @@ class UserShippingController extends Controller
         $outlet_id = Purify::clean($request->outlet_id);
         $freightageTypeItem = Freightagetype::find($type_id);
         $freightagetype_title = $freightageTypeItem->freightagetype_title;
+        $numberItemsRequest = (int) Purify::clean($request->numberItemsRequest);
         
         if($freightagetype_title == "road") {
             $freightage_loader_type = User::find($freightage_id)->freightage->freightage_loader_type;
@@ -188,13 +200,165 @@ class UserShippingController extends Controller
                 in_array($freightageloadertype_item_from_product->loader_type->id, $freightage_loader_type_array)
                 && ((int) $freightageloadertype_item_from_product->loader_type_min <= $order_quantity)
                 && ((int) $outlet_id == (int) $freightageloadertype_item_from_product->origin_loadertype_outlet)
+                && $freightageloadertype_item_from_product->loader_type_min <= $numberItemsRequest 
+                && $freightageloadertype_item_from_product->loader_type_max >= $numberItemsRequest
             ) {
                 $freightage_loader_type_last_items_filtered[] = $freightageloadertype_item_from_product->loader_type;
             }
         }
-        // اینجا موارد نوع بارگیر که روی این محصول ست شده رو آی دی آن را به صورت آرایه استخراج می کند که با موارد شرکت باربری هم پوشانی کند
 
         return response($freightage_loader_type_last_items_filtered);
+    }
+
+    /**
+     * Get filtered origin addresses via AJAX request
+     *
+     * @param Request $request The HTTP request
+     * @return \Illuminate\Http\Response The filtered origin addresses
+     */
+    public function getOriginAddressesFilteredAjax(Request $request)
+    {
+        // Clean and retrieve request parameters
+        $numberItemsRequest = (int) Purify::clean($request->numberItemsRequest);
+        $productId = (int) Purify::clean($request->product_id);
+        $orderId = (int) Purify::clean($request->order_id);
+
+        // Find the product and its related freightage load type
+        $productObj = Product::find($productId);
+        $freightageloadertype = $productObj->freightageloadertype;
+        
+        $filteredOriginOutletArray = [];
+        // Iterate through each freightageloadertype item
+        foreach ($freightageloadertype as $freightageloadertypeItem) {
+            // Check if the number of items requested falls within the loader type range
+            if($freightageloadertypeItem->loader_type_min <= $numberItemsRequest && $freightageloadertypeItem->loader_type_max >= $numberItemsRequest) {
+                // Find the outlet based on the origin_loadertype_outlet and add it to the filtered array
+                $filteredOriginOutletArray[] = Outlet::find($freightageloadertypeItem->origin_loadertype_outlet, ['id', 'shop_name', 'shop_address']);
+            }
+        }
+
+        // Return the response
+        return response($filteredOriginOutletArray);
+    }
+
+    /**
+     * Get filtered freightage company data through AJAX request
+     *
+     * @param Request $request The request object
+     * @return \Illuminate\Http\JsonResponse The JSON response
+     */
+    public function getFreightageCompanyFilteredAjax(Request $request)
+    {
+        // Clean and retrieve request parameters
+        $numberItemsRequest = (int) Purify::clean($request->numberItemsRequest);
+        $productId = (int) Purify::clean($request->product_id);
+        $orderId = (int) Purify::clean($request->order_id);
+
+        // Find the product and its related freightage load type
+        $productObj = Product::find($productId);
+        $freightageloadertype = $productObj->freightageloadertype;
+        
+        // Initialize an empty array to store freightage company data
+        $freightageCompanyArray = [];
+        
+        // Get the verified freightages with vendor ID from the product object
+        $verifiedFreightagesWithVendorId = $productObj->determine_product_owner->verified_freightages_with_vendor_id;
+        
+        // Iterate through the verified freightages and add them to the freightage company array
+        foreach ($verifiedFreightagesWithVendorId as $key => $verifiedFreightagesWithVendorItem) {
+            $freightageCompanyArray[] = $verifiedFreightagesWithVendorItem;
+        }
+
+        // Initialize an empty array to store filtered freightage loader types
+        $filteredFreightageLoaderTypeArray = [];
+        
+        // Iterate through each freightage loader type
+        foreach ($freightageloadertype as $freightageloadertypeItem) {
+            // Check if the loader type min is less than or equal to the number of items requested
+            // and the loader type max is greater than or equal to the number of items requested
+            if ($freightageloadertypeItem->loader_type_min <= $numberItemsRequest &&
+                $freightageloadertypeItem->loader_type_max >= $numberItemsRequest) {
+                // If the condition is met, add the freightage loader type ID to the filtered array
+                $filteredFreightageLoaderTypeArray[] = $freightageloadertypeItem->freightageloadertype_id;
+            }
+        }
+
+        // Initialize an empty array to store filtered freightage company data
+        $filteredFreightageCompanyArray = [];
+
+        // Iterate through each freightage company
+        foreach ($freightageCompanyArray as $freightageCompanyItem) {
+
+            // road loader type
+            $freightageLoaderTypeArrayRoad = explode(",", $freightageCompanyItem->freightage->freightage->freightage_loader_type);
+            // Iterate through each freightage loader type
+            foreach ($freightageLoaderTypeArrayRoad as $freightageLoaderTypeItem) {
+                // Check if the loader type is in the filtered array
+                if(in_array($freightageLoaderTypeItem, $filteredFreightageLoaderTypeArray)) {
+                    // Add relevant information to the filtered freightage company array
+                    $filteredFreightageCompanyArray[] = array(
+                        'id' => $freightageCompanyItem->freightage->id, 
+                        'shop_name' => $freightageCompanyItem->freightage->shop_name
+                    );
+                    // Exit the loop after adding one item
+                    break;
+                }
+            }
+
+            // air loader type
+            // Split the string by comma and store the result in an array
+            $freightageLoaderTypeArrayAir = explode(",", $freightageCompanyItem->freightage->freightage->freightage_loader_type_air);
+            // Iterate through each item in the array
+            foreach ($freightageLoaderTypeArrayAir as $freightageLoaderTypeItem) {
+                // Check if the item exists in the filtered array
+                if(in_array($freightageLoaderTypeItem, $filteredFreightageLoaderTypeArray)) {
+                    // Add the freightage company details to the filtered array and break the loop
+                    $filteredFreightageCompanyArray[] = array(
+                        'id' => $freightageCompanyItem->freightage->id, 
+                        'shop_name' => $freightageCompanyItem->freightage->shop_name
+                    );
+                    break;
+                }
+            }
+
+            // sea loader type
+            // Split the string into an array using comma as the delimiter
+            $freightageLoaderTypeArraySea = explode(",", $freightageCompanyItem->freightage->freightage->freightage_loader_type_sea);
+            
+            // Iterate through each item in the array
+            foreach ($freightageLoaderTypeArraySea as $freightageLoaderTypeItem) {
+                // Check if the current item is in the filteredFreightageLoaderTypeArray
+                if (in_array($freightageLoaderTypeItem, $filteredFreightageLoaderTypeArray)) {
+                    // Add freightage company details to the filteredFreightageCompanyArray and break the loop
+                    $filteredFreightageCompanyArray[] = array(
+                        'id' => $freightageCompanyItem->freightage->id, 
+                        'shop_name' => $freightageCompanyItem->freightage->shop_name
+                    );
+                    break;
+                }
+            }
+
+            // rail loader type
+            // Explode the string by comma to get an array of rail freightage loader types
+            $freightageLoaderTypeArrayRail = explode(",", $freightageCompanyItem->freightage->freightage->freightage_loader_type_rail);
+            // Iterate through each rail freightage loader type
+            foreach ($freightageLoaderTypeArrayRail as $freightageLoaderTypeItem) {
+                // Check if the rail freightage loader type is in the filtered array
+                if(in_array($freightageLoaderTypeItem, $filteredFreightageLoaderTypeArray)) {
+                    // Add the freightage company details to the filtered array
+                    $filteredFreightageCompanyArray[] = array(
+                        'id' => $freightageCompanyItem->freightage->id, 
+                        'shop_name' => $freightageCompanyItem->freightage->shop_name
+                    );
+                    // Break the loop after adding the details
+                    break;
+                }
+            }
+
+        }
+
+        // Return the response
+        return response($filteredFreightageCompanyArray);
     }
 
 }

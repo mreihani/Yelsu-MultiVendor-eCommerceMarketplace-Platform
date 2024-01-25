@@ -147,6 +147,12 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
     let thisElem = $(this);
     let shipping_element = thisElem.closest(".shipping-element");
 
+    // Get the value of the element with the ID "loader_type_min" using jQuery and store it in the variable loader_type_min
+    let loader_type_min = $("#loader_type_min").val();
+
+    // Get the value of the element with the ID "loader_type_max" using jQuery and store it in the variable loader_type_max
+    let loader_type_max = $("#loader_type_max").val();
+
     // schedule element validation
     let schedule_element = shipping_element.find(".shipping-schedule input");
     let schedule_element_alert = $("#shedule-alert");
@@ -173,13 +179,15 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
         number_items_request_empty_alert.addClass("d-none");
     }
 
-    if(number_items_request.val() && number_items_request.val() <= 10) {
+    if(parseInt(number_items_request.val()) && parseInt(number_items_request.val()) < parseInt(loader_type_min)) {
+        number_items_request_min_alert.find("span").html(parseInt(loader_type_min));
         number_items_request_min_alert.removeClass("d-none");
     } else {
         number_items_request_min_alert.addClass("d-none");
     }
 
-    if(number_items_request.val() && number_items_request.val() >= 1000) {
+    if(parseInt(number_items_request.val()) && parseInt(number_items_request.val()) > parseInt(loader_type_max)) {
+        number_items_request_max_alert.find("span").html(parseInt(loader_type_max));
         number_items_request_max_alert.removeClass("d-none");
     } else {
         number_items_request_max_alert.addClass("d-none");
@@ -187,9 +195,9 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
     
     if(
         schedule_element.val()
-     && number_items_request.val()
-     && number_items_request.val() > 10
-     && number_items_request.val() < 1000
+     && parseInt(number_items_request.val())
+     && parseInt(number_items_request.val()) >= parseInt(loader_type_min)
+     && parseInt(number_items_request.val()) <= parseInt(loader_type_max)
      ) {
         // hide verify btn on click
         thisElem.addClass("d-none");

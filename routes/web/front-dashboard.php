@@ -24,6 +24,8 @@ Route::get('/shipping-details/{orderId}/{productId}', [UserShippingController::c
 Route::get('/get-users-address-shipping', [UserShippingController::class, 'GetAddressAjax']);
 Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
 Route::get('/get-freightage-loader-type', [UserShippingController::class, 'GetFreightageLoaderTypeAjax']);
+Route::get('/get-origin-addresses-filtered', [UserShippingController::class, 'GetOriginAddressesFilteredAjax']);
+Route::get('/get-freightage-company-filtered', [UserShippingController::class, 'GetFreightageCompanyFilteredAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

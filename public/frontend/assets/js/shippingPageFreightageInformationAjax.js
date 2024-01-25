@@ -25,11 +25,15 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
     let shippingCalculations = thisElement.closest(".shipping-page-content").find('.shipping-calculations');
     shippingCalculations.addClass("d-none");
 
+    // Get the closest element with the class "number-items-request" relative to 'thisElement'
+    let numberItemsRequest = parseInt(shippingPage.find(".number-items-request input").val());
+
     $.ajax({
         type: "GET",
         data:{
             freightage_id,
-            product_id
+            product_id,
+            numberItemsRequest
         },
         url: "/get-freightage-information",
         success: function (response) {
@@ -43,6 +47,7 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
 
 
 function createFreightageActivityFieldHTML(response, freightage_id) {
+    let html = "";
 
     $(document).ready(function() {
         $('.freightage-activity-field-dropdown').select2({
@@ -57,18 +62,32 @@ function createFreightageActivityFieldHTML(response, freightage_id) {
             <option value="${value.id}">${value.value}</option>
         `;
     });
-
-    let html = 
-    `<div class="form-group freightage-company-activity-field" style="margin-top:56px;">
-        <label>روش ارسال کالا</label>
-        <input type="hidden" value="${freightage_id}" class="freightage_id">
-        <div>
-            <select class="form-control form-control-md freightage-activity-field-dropdown">
-                <option value="0">روش ارسال را انتخاب نمایید</option>
-                ${freightageActivityField}
-            </select>
-        </div>
-    </div>`;
+    
+    if(response.length > 0) {
+        html = 
+        `<div class="form-group freightage-company-activity-field" style="margin-top:56px;">
+            <label>روش ارسال کالا</label>
+            <input type="hidden" value="${freightage_id}" class="freightage_id">
+            <div>
+                <select class="form-control form-control-md freightage-activity-field-dropdown">
+                    <option value="0">روش ارسال را انتخاب نمایید</option>
+                    ${freightageActivityField}
+                </select>
+            </div>
+        </div>`;
+    } else {
+        html = 
+        `<div class="form-group freightage-company-activity-field" style="margin-top:56px;">
+            <label>روش ارسال کالا</label>
+            <input type="hidden" value="${freightage_id}" class="freightage_id">
+            <div>
+                <select class="form-control form-control-md freightage-activity-field-dropdown">
+                    <option value="0">هیچ روش ارسالی یافت نشد</option>
+                </select>
+            </div>
+        </div>`;
+    }
+    
 
     return html;
 }

@@ -27,41 +27,83 @@ class Product extends Model
     use HasFactory, Searchable;
     protected $guarded = [];
 
+    /**
+     * Converts the object to a searchable array.
+     *
+     * @return array
+     */
     public function toSearchableArray()
     {
+        // Convert the object to an array
         $array = $this->toArray();
 
+        // Return only the 'id' and 'product_name' fields from the array
         return Arr::only($array, ['id','product_name']);
     }
 
+    /**
+     * Define a many-to-many relationship with the Category model through the 'category_products' pivot table.
+     */
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_products');
+        return $this->belongsToMany(
+            Category::class, 
+            'category_products'
+        );
     }
 
+    /**
+     * Define a relationship where the current model belongs to a User model.
+     * It uses the 'vendor_id' column of the current model and the 'id' column of the User model.
+     */
     public function vendor()
     {
         return $this->belongsTo(User::class, 'vendor_id', 'id');
     }
 
+    /**
+     * Define a relationship where a particular model belongs to a user as a merchant.
+     * The user is identified by the 'merchant_id' foreign key, and the user's primary key is 'id'.
+     */
     public function merchant()
     {
         return $this->belongsTo(User::class, 'merchant_id', 'id');
     }
 
+    /**
+     * Define a relationship with the User model for the retailer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function retailer()
     {
-        return $this->belongsTo(User::class, 'retailer_id', 'id');
+        return $this->belongsTo(
+            User::class,  // Related model
+            'retailer_id', // Foreign key
+            'id' // Owner key
+        );
     }
 
+    /**
+     * Define a many-to-many relationship with the Order model,
+     * including the quantity and price pivot columns.
+     */
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('quantity','price');
+        return $this->belongsToMany(Order::class)->withPivot('quantity', 'price');
     }
 
+    /**
+     * Define the relationship between the model and the Attribute model.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function attributes()
     {
-        return $this->belongsToMany(Attribute::class)->withPivot('attribute_item_id', 'attribute_value_id','attribute_value');
+        // Define a many-to-many relationship with the Attribute model
+        return $this->belongsToMany(Attribute::class)
+                    // Include the pivot columns in the query result
+                    ->withPivot('attribute_item_id', 'attribute_value_id', 'attribute_value');
     }
 
     // این تابع برای برگرداندن کلیه ویژگی های یک محصول است
@@ -79,7 +121,7 @@ class Product extends Model
             }
             
         }
-       
+
         return $attribute_loop_array;
     }
 
@@ -257,11 +299,21 @@ class Product extends Model
         return $added_value_tax;
     }
 
-    // تابع برای تعیین مالیات بر ارزش افزوده به درصد
-    public function determine_product_value_added_tax_by_percent() {
-        $added_value_tax = $this->determine_product_value_added_tax();
+    /**
+     * Calculate the product value added tax by percentage.
+     * 
+     * @return int The calculated value added tax
+     */
+    public function determineProductValueAddedTaxByPercent() {
+        // Determine the product value added tax
+        $addedValueTax = $this->determine_product_value_added_tax();
 
-        return floor($this->selling_price * ($added_value_tax / 100 + 1));
+        // Calculate the value added tax by percentage
+        if($addedValueTax) {
+            return floor($this->price_with_commission * ($addedValueTax / 100 + 1));
+        } else {
+            return $this->price_with_commission;
+        }
     }
 
     // تعیین واحد سفارش
@@ -471,79 +523,108 @@ class Product extends Model
         return $product_array;
     }
 
-    // برای ایجاد آرایه ای از محصولات نسبت داده شده به کاربر عامل
-    public function scopeDetermine_representative_selected_product_server_array($query, $product_item, $representative) {
+    /**
+     * Returns an array of products associated with a given user representative
+     *
+     * @param $query
+     * @param $productItem
+     * @param $representative
+     * @return array
+     */
+    public function scopeDetermineRepresentativeSelectedProductServerArray($query, $productItem, $representative)
+    {
+        // Check if the representative has the product
+        $product = $representative->products()->where("product_id", $productItem->id)->first();
 
-        if(count($representative->products()->where("product_id", $product_item->id)->get())) {
-            $product_array = array(
-                "product_id" => $product_item->id,
-                "product_in_stock" => $representative->products()->where("product_id", $product_item->id)->pluck('product_in_stock')->first() ?: "",
-                "change_price_permission" => $representative->products()->where("product_id", $product_item->id)->pluck('change_price_permission')->first() ? true : false,
-                "product_specific_geolocation_internal" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_internal')->first() ? true : false,
-                "product_specific_geolocation_external" => $representative->products()->where("product_id", $product_item->id)->pluck('product_specific_geolocation_external')->first() ? true : false,
-                "product_geolocation_permission_city" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_city')->first() ?: [],
-                "product_geolocation_permission_export_country" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_export_country')->first() ?: [],
-                "product_geolocation_permission_province" => $representative->products()->where("product_id", $product_item->id)->pluck('product_geolocation_permission_province')->first() ?: [],
-            );
-        } else {
-            $product_array = array(
-                "product_id" => $product_item->id, 
-                "product_in_stock" => "نامحدود", 
-                "change_price_permission" => false, 
-                "product_specific_geolocation_internal" => false, 
-                "product_specific_geolocation_external" => false, 
-                "product_geolocation_permission_city" => [], 
-                "product_geolocation_permission_export_country" => [], 
-                "product_geolocation_permission_province" => [] 
-            );
-        }
+        // Populate the product array with data based on representative having the product or not
+        $productArray = [
+            "product_id" => $productItem->id,
+            "product_in_stock" => $product ? $product->product_in_stock : "",
+            "change_price_permission" => (bool)($product ? $product->change_price_permission : false),
+            "product_specific_geolocation_internal" => (bool)($product ? $product->product_specific_geolocation_internal : false),
+            "product_specific_geolocation_external" => (bool)($product ? $product->product_specific_geolocation_external : false),
+            "product_geolocation_permission_city" => $product ? $product->product_geolocation_permission_city : [],
+            "product_geolocation_permission_export_country" => $product ? $product->product_geolocation_permission_export_country : [],
+            "product_geolocation_permission_province" => $product ? $product->product_geolocation_permission_province : [],
+        ];
 
-        return $product_array;
+        return $productArray;
     }
 
+    /**
+     * Define a many-to-many relationship with the Representative model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function representative()
     {
         return $this->belongsToMany(Representative::class)->withPivot(
-            'product_in_stock',
-            'change_price_permission', 
-            'product_geolocation_permission_province', 
-            'product_geolocation_permission_city', 
-            'product_geolocation_permission_export_country', 
-            'product_specific_geolocation_internal', 
-            'product_specific_geolocation_external'
+            'product_in_stock', // Pivot column for product in stock
+            'change_price_permission', // Pivot column for change price permission
+            'product_geolocation_permission_province', // Pivot column for product geolocation permission province
+            'product_geolocation_permission_city', // Pivot column for product geolocation permission city
+            'product_geolocation_permission_export_country', // Pivot column for product geolocation permission export country
+            'product_specific_geolocation_internal', // Pivot column for product specific geolocation internal
+            'product_specific_geolocation_external' // Pivot column for product specific geolocation external
         );
     }
 
-    public function freightageloadertype() {
+    /**
+     * Get the freightage loadertype associated with the product.
+     */
+    public function freightageLoadertype()
+    {
         return $this->hasMany(ProductLoadertype::class);
     }
 
+    /**
+     * Get the schedules associated with the user.
+     */
     public function schedule() {
         return $this->hasMany(Schedule::class);
     }
     
-    public function outlets() {
+    /**
+     * Define a many-to-many relationship with the Outlet model,
+     * including the "selling_price" pivot column.
+     */
+    public function outlets() 
+    {
         return $this->belongsToMany(Outlet::class)->withPivot("selling_price");
     }
 
-    // show selling_price with added commission
-    // use $product->price_with_commission
+    /**
+     * Get the price of the product including commission.
+     *
+     * @return float
+     */
     public function getPriceWithCommissionAttribute()
     {
-        $value = $this->selling_price;
-        $commission_type = $this->determine_product_commission_type();
-        $commission_value = $this->determine_product_commission();
+        // Get the selling price of the product
+        $sellingPrice = $this->selling_price;
 
-        if($value != 0 && $commission_value) {
-            if($commission_type == "percent_commission") {
-                return $value + $commission_value * $value / 100;
+        // Determine the type of commission for the product
+        $commissionType = $this->determine_product_commission_type();
+        
+        // Determine the value of commission for the product
+        $commissionValue = $this->determine_product_commission();
+
+        // If the selling price is not zero and there is a commission value
+        if ($sellingPrice != 0 && $commissionValue) {
+            // If the commission type is percentage-based
+            if ($commissionType == "percent_commission") {
+                // Calculate the price with the percentage-based commission
+                return $sellingPrice + $commissionValue * $sellingPrice / 100;
             }
 
-            if($commission_type == "fix_commission") {
-                return $value + $commission_value;
+            // If the commission type is fixed
+            if ($commissionType == "fix_commission") {
+                // Calculate the price with the fixed commission
+                return $sellingPrice + $commissionValue;
             }
-        } else {
-            return $value;
         }
+
+        // Return the selling price if no commission applies
+        return $sellingPrice;
     }
 }

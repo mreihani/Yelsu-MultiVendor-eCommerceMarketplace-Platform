@@ -27,6 +27,9 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
     let shippingCalculations = shippingPageElement.find('.shipping-calculations');
     shippingCalculations.addClass("d-none");
 
+    // Get the value of the input element and parse it as an integer
+    let numberItemsRequest = parseInt($(".number-items-request input").val());
+
     $.ajax({
         type: "GET",
         data:{
@@ -34,7 +37,8 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
             freightage_id,
             product_id,
             order_id,
-            outlet_id
+            outlet_id,
+            numberItemsRequest
         },
         url: "/get-freightage-loader-type",
         success: function (response) {

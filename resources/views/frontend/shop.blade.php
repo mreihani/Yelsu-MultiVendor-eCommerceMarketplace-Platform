@@ -461,7 +461,7 @@
                                                             @endforeach
                                                             @if($product_item->price_with_commission != 0)
                                                                 <input type="hidden" value="{{$product_item->price_with_commission}}" class="price_before_value_added_tax">
-                                                                <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                                <input type="hidden" value="{{$product_item->determineProductValueAddedTaxByPercent()}}" class="price_after_value_added_tax">
                                                                 <td>
                                                                     <span class="price_tag">{{number_format($product_item->price_with_commission, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
                                                                 </td>

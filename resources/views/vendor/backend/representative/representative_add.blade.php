@@ -185,8 +185,8 @@
                                     <!--end::Tags-->
                                     <div class="col-lg-10 fv-row">
                                         <select id="person" name="person_type" class="form-select form-select-lg form-control-solid">
-                                            <option {{$vendorData->person_type == "haghighi" ? "selected" : ""}} value="haghighi">شخص حقیقی</option>
-                                            <option {{$vendorData->person_type == "hoghoghi" ? "selected" : ""}} value="hoghoghi">شخص حقوقی</option>
+                                            <option value="haghighi">شخص حقیقی</option>
+                                            <option value="hoghoghi">شخص حقوقی</option>
                                         </select>
                                     </div>
                                 </div>
@@ -615,7 +615,7 @@
                                                                     </td>
                                                                     @if($product_item->selling_price != 0)
                                                                         <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
-                                                                        <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                                        <input type="hidden" value="{{$product_item->determineProductValueAddedTaxByPercent()}}" class="price_after_value_added_tax">
                                                                         <td>
                                                                             <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
                                                                         </td>

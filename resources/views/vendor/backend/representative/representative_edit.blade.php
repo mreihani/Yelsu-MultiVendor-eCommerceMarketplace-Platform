@@ -677,7 +677,7 @@
                                                                     </td>
                                                                     @if($product_item->selling_price != 0)
                                                                         <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
-                                                                        <input type="hidden" value="{{$product_item->determine_product_value_added_tax_by_percent()}}" class="price_after_value_added_tax">
+                                                                        <input type="hidden" value="{{$product_item->determineProductValueAddedTaxByPercent()}}" class="price_after_value_added_tax">
                                                                         <td>
                                                                             <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
                                                                         </td>
@@ -695,7 +695,7 @@
                                                                             ویرایش
                                                                         </button>
                                                                         <input class="hidden-input-information" {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="hidden" name="product_obj[]" value='{{ json_encode(App\Models\Product::determine_representative_product_array($product_item, $representative), JSON_UNESCAPED_UNICODE) }}'>
-                                                                        <input class="hidden-input-information-server" {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="hidden" name="product_obj_server[]" value='{{ json_encode(App\Models\Product::determine_representative_selected_product_server_array($product_item, $representative), JSON_UNESCAPED_UNICODE) }}'>
+                                                                        <input class="hidden-input-information-server" {{in_array($product_item->id, $representative->products()->pluck("id")->toArray()) ? "" : "disabled"}} type="hidden" name="product_obj_server[]" value='{{ json_encode(App\Models\Product::determineRepresentativeSelectedProductServerArray($product_item, $representative), JSON_UNESCAPED_UNICODE) }}'>
                                                                     </td>
                                                                     <td></td>
                                                                     {{-- @dd(count($representative->products()->where("product_id", $product_item->id)->get())) --}}

@@ -66,6 +66,12 @@
             border-color: #48486c;
         }
         /* datatables custom css */
+
+        /* set select2 width to 100% */
+        .select2.select2-container {
+            width: 100% !important;
+        }
+        /* set select2 width to 100% */
     </style>
 
     <!-- SELECT2 initialize -->
@@ -140,11 +146,11 @@
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-min-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            حداقل درخواست باید بیشتر از 10 باشد
+                                            حداقل درخواست باید بیشتر از <span></span> باشد
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-max-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            حداکثر درخواست باید کمتر از 1000 باشد
+                                            حداکثر درخواست باید کمتر از <span></span> باشد
                                         </div>
 
                                         <div class="shipping-loop-item tab-pane active in" id="tab5-1" key="1">
@@ -177,9 +183,11 @@
                                                         <h5 class="mt-3">
                                                             مقدار باقی مانده جهت بارگیری:
 
-                                                                <b>{{number_format(10000, 0, '', ',')}}</b>
+                                                            <b>
+                                                                {{number_format(10000, 0, '', ',')}}
+                                                            </b>
 
-                                                                {{$product->determine_product_unit()}}
+                                                            {{$product->determine_product_unit()}}
                                                         </h5>
                                                     </div>
                                                 </div>
@@ -260,38 +268,49 @@
 
                                                 <div class="col-md-12 ml-2 mr-2">
                                                     <div class="row d-flex justify-content-between align-items-center">
-                                                        <div class="row col-md-4 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
+                                                        <div class="row col-md-3 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
                                                             <span class="ml-2">
-                                                                مقدار حداقل جهت بارگیری 10
+                                                                مقدار حداقل جهت بارگیری
 
+                                                                <b>
+                                                                    {{number_format($product->freightageLoadertype->pluck('loader_type_min')->min(), 0, '', ',')}}
+                                                                </b>
+                                                                
                                                                 {{$product->determine_product_unit()}}
                                                             </span>
                                                             <span class="ml-2">
-                                                                مقدار حداکثر جهت بارگیری 1000
+                                                                مقدار حداکثر جهت بارگیری
+
+                                                                <b>
+                                                                    {{number_format($product->freightageLoadertype->pluck('loader_type_max')->max(), 0, '', ',')}}
+                                                                </b>
 
                                                                 {{$product->determine_product_unit()}}
                                                             </span>
+
+                                                            <input type="hidden" id="loader_type_min" value="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}}">
+                                                            <input type="hidden" id="loader_type_max" value="{{$product->freightageLoadertype->pluck('loader_type_max')->max()}}">
                                                         </div>
                                                        
-                                                        <div class="row col-md-4 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
-                                                            <div class="col-md-4">
+                                                        <div class="row col-md-6 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
+                                                            <div class="col-md-4 d-flex justify-content-center">
                                                                 <label>
                                                                     مقدار درخواست
                                                                 </label>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input type="number" class="form-control form-control-sm">
+                                                                <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <span class="ml-2">
-                                                                    {{$product->determine_product_unit()}}
-                                                                </span>
+                                                                <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
+                                                                    ثبت
+                                                                </button>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row col-md-4 bg-grey shipping-schedule pt-2 pb-2 d-flex align-items-center" style="padding-left: 30px;">
+                                                        <div class="row col-md-3 bg-grey shipping-schedule pt-2 pb-2 d-flex align-items-center" style="padding-left: 30px;">
                                                             <div class="col-md-6">
-                                                                <label>انتخاب تاریخ بارگیری کالا</label>
+                                                                <label>انتخاب تاریخ بارگیری</label>
                                                             </div>
 
                                                             <div class="col-md-6">
@@ -301,117 +320,118 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
+                                                <div class="shipping-controller-panel justify-content-between d-none">
+                                                    <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
         
-                                                    <div class="order-origin-address pt-3">
-                                                        <h4>
-                                                            تعیین مبدا
-                                                        </h4>
-        
-                                                        <div class="form-group">
-                                                            <label>نام مبدا</label>
-                                                            <div>
-                                                                <select class="form-control form-control-md vendor-address-information yelsu-select2-basic-single">
-                                                                    @foreach($product->outlets as $vendor_outlet)
-                                                                        <option value="{{$vendor_outlet->id}}">{{$vendor_outlet->shop_name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-        
-                                                        <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2 order-origin-address-html">
-                                                            <p>
-                                                                <i class="w-icon-map-marker"></i>
-                                                                آدرس:
-                                                                <span class="vendor-address">
-                                                                    {{$product->outlets->first()->shop_address}}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    
-                                                    <hr class="divider mb-5 mt-5">
-        
-                                                    <div class="order-destination-address">
-                                                        <h4>
-                                                            تعیین مقصد
-                                                        </h4>
-        
-                                                        <div class="form-group">
-                                                            <label>نام مقصد</label>
-                                                            <div>
-                                                                <select class="form-control form-control-md user-address-information yelsu-select2-basic-single">
-                                                                    @foreach($userData->outlets()->get() as $user_outlet)
-                                                                        <option value="{{$user_outlet->id}}">{{$user_outlet->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-        
-                                                        <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2 order-destination-address-html">
-                                                            <p>
-                                                                <i class="w-icon-map-marker"></i>
-                                                                آدرس:
-                                                                <span class="user-address">
-                                                                    {{$userData->outlets()->first()->address}}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        
-                                                    </div>
-        
-                                                    <div class="mt-2 tab tab-with-title pt-2 pb-5 d-flex justify-content-center">
-                                                        <p>
-                                                            {{-- فاصله بین مبدا و مقصد: --}}
-                                                            <span class="calculated-distance"></span>
-                                                        </p>
-                                                    </div>
-        
-                                                </div>
-                                            
-                                                <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
-
-                                                    <div class="order-shipping-service">
-                                                        <h4>
-                                                            تعیین شرکت باربری
-                                                        </h4>
-        
-                                                        <div class="freightage-company-name">
-                                                            <div class="company-name-div">
-                                                                <label>نام شرکت باربری</label>
-        
-                                                                <input type="hidden" class="product_id" value="{{$product->id}}">
-                                                                <input type="hidden" class="order_id" value="{{$order->id}}">
+                                                        <div class="order-origin-address pt-3">
+                                                            <h4>
+                                                                تعیین مبدا
+                                                            </h4>
             
+                                                            <div class="form-group">
+                                                                <label>نام مبدا</label>
                                                                 <div>
-                                                                    <select class="form-control form-control-md freightage-information-dropdown yelsu-select2-basic-single">
-                                                                            <option value="0">شرکت باربری را انتخاب نمایید</option>
-                                                                        @foreach($product->determine_product_owner->verified_freightages_with_vendor_id as $freightage)
-                                                                            <option value="{{$freightage->freightage->id}}">{{$freightage->freightage->shop_name}}</option>
+                                                                    <select class="form-control form-control-md vendor-address-information yelsu-select2-basic-single">
+                                                                        @foreach($product->outlets as $vendor_outlet)
+                                                                            <option value="{{$vendor_outlet->id}}">{{$vendor_outlet->shop_name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-        
-                                                        <div class="mt-5 tab tab-with-title d-flex justify-content-center">
-                                                            <p>
-                                                                <span class="shipping-calculations"></span>
-                                                            </p>
+            
+                                                            <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2 order-origin-address-html">
+                                                                <p>
+                                                                    <i class="w-icon-map-marker"></i>
+                                                                    آدرس:
+                                                                    <span class="vendor-address">
+                                                                        {{$product->outlets->first()->shop_address}}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            
                                                         </div>
                                                         
-                                                        <div class="d-flex justify-content-center">
-                                                            <button class="btn btn-sm btn-primary btn-ellipse shipping-calculate-btn d-none">
-                                                                <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><line class="cls-1" x1="0.52" y1="5.28" x2="10.09" y2="5.28"></line><line class="cls-1" x1="5.3" y1="0.5" x2="5.3" y2="10.07"></line><line class="cls-1" x1="1.48" y1="14.85" x2="9.13" y2="22.5"></line><line class="cls-1" x1="9.13" y1="14.85" x2="1.48" y2="22.5"></line><line class="cls-1" x1="13.91" y1="5.28" x2="23.48" y2="5.28"></line><line class="cls-1" x1="13.91" y1="18.67" x2="23.48" y2="18.67"></line><line class="cls-1" x1="17.74" y1="14.85" x2="19.65" y2="14.85"></line><line class="cls-1" x1="17.74" y1="22.5" x2="19.65" y2="22.5"></line></g></svg>
-                                                                محاسبه هزینه حمل
-                                                            </button>
+                                                        <hr class="divider mb-5 mt-5">
+            
+                                                        <div class="order-destination-address">
+                                                            <h4>
+                                                                تعیین مقصد
+                                                            </h4>
+            
+                                                            <div class="form-group">
+                                                                <label>نام مقصد</label>
+                                                                <div>
+                                                                    <select class="form-control form-control-md user-address-information yelsu-select2-basic-single">
+                                                                        @foreach($userData->outlets()->get() as $user_outlet)
+                                                                            <option value="{{$user_outlet->id}}">{{$user_outlet->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+            
+                                                            <div class="mt-2 tab tab-with-title tab-nav-link pt-2 pb-2 order-destination-address-html">
+                                                                <p>
+                                                                    <i class="w-icon-map-marker"></i>
+                                                                    آدرس:
+                                                                    <span class="user-address">
+                                                                        {{$userData->outlets()->first()->address}}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            
+                                                        </div>
+            
+                                                        <div class="mt-2 tab tab-with-title pt-2 pb-5 d-flex justify-content-center">
+                                                            <p>
+                                                                {{-- فاصله بین مبدا و مقصد: --}}
+                                                                <span class="calculated-distance"></span>
+                                                            </p>
+                                                        </div>
+            
+                                                    </div>
+                                                
+                                                    <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
+                                                        <div class="order-shipping-service">
+                                                            <h4>
+                                                                تعیین شرکت باربری
+                                                            </h4>
+            
+                                                            <div class="freightage-company-name">
+                                                                <div class="company-name-div">
+                                                                    <label>نام شرکت باربری</label>
+            
+                                                                    <input type="hidden" class="product_id" value="{{$product->id}}">
+                                                                    <input type="hidden" class="order_id" value="{{$order->id}}">
+                
+                                                                    <div>
+                                                                        <select class="form-control form-control-md freightage-information-dropdown yelsu-select2-basic-single">
+                                                                                <option value="0">شرکت باربری را انتخاب نمایید</option>
+                                                                            @foreach($product->determine_product_owner->verified_freightages_with_vendor_id as $freightage)
+                                                                                <option value="{{$freightage->freightage->id}}">{{$freightage->freightage->shop_name}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+            
+                                                            <div class="mt-5 tab tab-with-title d-flex justify-content-center">
+                                                                <p>
+                                                                    <span class="shipping-calculations"></span>
+                                                                </p>
+                                                            </div>
+                                                            
+                                                            <div class="d-flex justify-content-center">
+                                                                <button class="btn btn-sm btn-primary btn-ellipse shipping-calculate-btn d-none">
+                                                                    <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><line class="cls-1" x1="0.52" y1="5.28" x2="10.09" y2="5.28"></line><line class="cls-1" x1="5.3" y1="0.5" x2="5.3" y2="10.07"></line><line class="cls-1" x1="1.48" y1="14.85" x2="9.13" y2="22.5"></line><line class="cls-1" x1="9.13" y1="14.85" x2="1.48" y2="22.5"></line><line class="cls-1" x1="13.91" y1="5.28" x2="23.48" y2="5.28"></line><line class="cls-1" x1="13.91" y1="18.67" x2="23.48" y2="18.67"></line><line class="cls-1" x1="17.74" y1="14.85" x2="19.65" y2="14.85"></line><line class="cls-1" x1="17.74" y1="22.5" x2="19.65" y2="22.5"></line></g></svg>
+                                                                    محاسبه هزینه حمل
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                               
-                                                <div class="row col-md-6 shipping-page-map-div bg-grey mt-2 pr-5 pt-5 pb-5 d-flex align-items-center justify-content-center">
-                                                    <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
+                                                   
+                                                    <div class="row col-md-6 shipping-page-map-div bg-grey mt-2 pr-5 pt-5 pb-5 d-flex align-items-center justify-content-center">
+                                                        <div id="map_{{$product->id}}" class="shipping-page-map-container" user_coords="{{json_encode($userData->user_outlets_array())}}" vendor_coords="{{json_encode($product->determine_product_owner->vendor_outelts_array())}}" >
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -438,5 +458,7 @@
     <script src="{{asset('frontend/assets/js/shippingPageFreightageInformationAjax.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shippingPageFreightageLoaderTypeAjax.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shippingPageTable.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shippingPageOriginAddressFilterAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shippingPageFreightageCompanyFilterAjax.js')}}"></script>
 
 @endsection
