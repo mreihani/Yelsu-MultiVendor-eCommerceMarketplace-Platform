@@ -268,7 +268,7 @@
 
                                                 <div class="col-md-12 ml-2 mr-2">
                                                     <div class="row d-flex justify-content-between align-items-center">
-                                                        <div class="row col-md-3 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
+                                                        <div class="row col-md-4 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
                                                             <span class="ml-2">
                                                                 مقدار حداقل جهت بارگیری
 
@@ -292,23 +292,7 @@
                                                             <input type="hidden" id="loader_type_max" value="{{$product->freightageLoadertype->pluck('loader_type_max')->max()}}">
                                                         </div>
                                                        
-                                                        <div class="row col-md-6 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
-                                                            <div class="col-md-4 d-flex justify-content-center">
-                                                                <label>
-                                                                    مقدار درخواست
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
-                                                                    ثبت
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row col-md-3 bg-grey shipping-schedule pt-2 pb-2 d-flex align-items-center" style="padding-left: 30px;">
+                                                        <div class="row col-md-4 bg-grey shipping-schedule pt-2 pb-2 d-flex align-items-center" style="padding-left: 30px;">
                                                             <div class="col-md-6">
                                                                 <label>انتخاب تاریخ بارگیری</label>
                                                             </div>
@@ -317,10 +301,26 @@
                                                                 <input name="deliver_date" type="text" data-jdp="" data-jdp-only-date="" data-jdp-min-date="{{jdate()->addDays(3)->format('Y/m/d')}}" data-jdp-max-date="{{jdate()->addDays(29)->format('Y/m/d')}}" class="form-control form-control-sm deliver-date-input" placeholder="تاریخ مورد نظر را انتخاب نمایید">    
                                                             </div>
                                                         </div>
+
+                                                        <div class="row col-md-4 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
+                                                            <div class="col-md-2 d-flex justify-content-center">
+                                                                <label>
+                                                                    مقدار درخواست
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
+                                                                    ثبت
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="shipping-controller-panel justify-content-between d-none">
+                                                <div class="shipping-controller-panel justify-content-between d-flex">
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
         
                                                         <div class="order-origin-address pt-3">

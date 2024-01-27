@@ -5,8 +5,18 @@ let table_row_number_card = $("#table-row-number-card");
 // add a row in table when confirm btn is clicked
 $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
 
+    // get this element
     let thisElem = $(this);
     let shippingElement = thisElem.closest(".shipping");
+
+    // get table body
+    let tableBody = "";
+
+    // get table body length
+    let tableBodyLength = table_body_elements.find("tbody").length;
+
+    // get row number
+    let shippingRow = 1;
     
     // create origin address object
     let order_origin_address_obj_array = [];
@@ -112,8 +122,49 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
     }
     
     let shipping_row_object_json = JSON.stringify(shipping_row_object);
-
-    let tableBody = `
+    
+    if(tableBodyLength) {
+        tableBody = `
+            <tr class="even">
+                <td class="shipping-row">${shippingRow}</td>
+                <td>${order_origin_address_selected.html()}</td>
+                <td>${order_destination_address_selected.html()}</td>
+                <td>${freightage_information_dropdown_selected.html()}</td>
+                <td>${freightage_activity_field_dropdown_selected.html()}</td>
+                <td>${freightage_loader_type_dropdown_selected.html()}</td>
+                <td>${deliver_date_input}</td>
+                <td>
+                    پرداخت شده و در حال ارسال
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <div class="input-group" style="width: 130px;">
+                            <input name="quantity" class="quantity form-control" type="number" min="1" max="10000000" value="1">
+                            <button type="button" class="quantity-plus w-icon-plus"></button>
+                            <button type="button" class="quantity-minus w-icon-minus"></button>
+                        </div>
+                        <button type="button" class="btn btn-dark btn-ellipse btn-sm ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="رونوشت">
+                            <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M18.5703 22H14.0003C11.7103 22 10.5703 20.86 10.5703 18.57V11.43C10.5703 9.14 11.7103 8 14.0003 8H18.5703C20.8603 8 22.0003 9.14 22.0003 11.43V18.57C22.0003 20.86 20.8603 22 18.5703 22Z" fill="#292D32"></path> <path d="M13.43 5.43V6.77C10.81 6.98 9.32 8.66 9.32 11.43V16H5.43C3.14 16 2 14.86 2 12.57V5.43C2 3.14 3.14 2 5.43 2H10C12.29 2 13.43 3.14 13.43 5.43Z" fill="#292D32"></path> <path d="M18.1291 14.2501H17.2491V13.3701C17.2491 12.9601 16.9091 12.6201 16.4991 12.6201C16.0891 12.6201 15.7491 12.9601 15.7491 13.3701V14.2501H14.8691C14.4591 14.2501 14.1191 14.5901 14.1191 15.0001C14.1191 15.4101 14.4591 15.7501 14.8691 15.7501H15.7491V16.6301C15.7491 17.0401 16.0891 17.3801 16.4991 17.3801C16.9091 17.3801 17.2491 17.0401 17.2491 16.6301V15.7501H18.1291C18.5391 15.7501 18.8791 15.4101 18.8791 15.0001C18.8791 14.5901 18.5391 14.2501 18.1291 14.2501Z" fill="#292D32"></path> </g></svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <input type="hidden" value='${shipping_row_object_json}' class="shipping-row-object-json">
+                        <button type="button" class="btn btn-dark btn-ellipse btn-sm d-flex align-items-center row-edit-btn">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>
+                            ویرایش
+                        </button>
+                        <button type="button" class="btn btn-warning btn-ellipse btn-sm d-flex align-items-center ml-2">
+                            <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            حذف
+                        </button>
+                    </div>
+                </td>
+                <td></td>
+            </tr>`;
+    } else {
+        tableBody = `
         <div class="col-md-12 pt-5 pb-5">
             <table class="display yelsuDataTables" style="width:100%">
                 <thead>
@@ -136,7 +187,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
+                        <td class="shipping-row">${shippingRow}</td>
                         <td>${order_origin_address_selected.html()}</td>
                         <td>${order_destination_address_selected.html()}</td>
                         <td>${freightage_information_dropdown_selected.html()}</td>
@@ -176,6 +227,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                 </tbody>
             </table>
         </div>`;
+    }
 
     let schedule_element = shippingElement.find(".shipping-schedule input");
     let number_items_request = shippingElement.find(".number-items-request input");
@@ -195,11 +247,16 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
     && parseInt(number_items_request.val()) >= loader_type_min
     && parseInt(number_items_request.val()) <= loader_type_max
     ) {
-        table_body_elements.append(tableBody);
+        if (tableBodyLength) {
+            table_body_elements.find("tbody").append(tableBody);
+        } else {
+            table_body_elements.append(tableBody);
+            startDataTables();
+        }
         resetAllForm();
     }
 
-    startDataTables();
+    
 });
 
 

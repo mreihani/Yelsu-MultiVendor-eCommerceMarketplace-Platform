@@ -158,14 +158,14 @@ class PaymentController extends Controller
             $order->products()->attach($orderItems);
 
             // Create new invoice.
-            // $invoice = (new Invoice)->amount(1000);
-            // return ShetabitPayment::callbackUrl(route('payment.callback'))->purchase($invoice, function ($driver, $transactionId) use ($order, $cart, $invoice) {
-            //     $order->payments()->create([
-            //         'resnumber' => $invoice->getUuid(),
-            //     ]);
+            $invoice = (new Invoice)->amount(1000);
+            return ShetabitPayment::callbackUrl(route('payment.callback'))->purchase($invoice, function ($driver, $transactionId) use ($order, $cart, $invoice) {
+                $order->payments()->create([
+                    'resnumber' => $invoice->getUuid(),
+                ]);
 
-            //     //$cart->flush();
-            // })->pay()->render();
+                //$cart->flush();
+            })->pay()->render();
 
 
         }

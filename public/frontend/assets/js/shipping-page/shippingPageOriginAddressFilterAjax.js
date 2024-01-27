@@ -40,11 +40,11 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         url: "/get-origin-addresses-filtered",
         success: function (response) {
             
-            // Remove the class "d-flex" from the shippingControllerPanel
-            shippingControllerPanel.removeClass("d-none");
+            // Remove the class "d-none" from the shippingControllerPanel
+            //shippingControllerPanel.removeClass("d-none");
 
             // Add the class "d-flex" to the shippingControllerPanel
-            shippingControllerPanel.addClass("d-flex");
+            //shippingControllerPanel.addClass("d-flex");
 
             // Clear the order origin address select element
             orderOriginAddressSelectElement.empty();

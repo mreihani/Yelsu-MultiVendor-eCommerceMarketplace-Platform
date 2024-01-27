@@ -27,7 +27,7 @@ $(".shipping").on("click", ".row-edit-btn", function(){
     // Set image when edit button is clicked
     setBackImageFromRow(inputElmentValueObj, shipping_element);
 
-    // Show edit button
+    // Update the shipping element to show the calculated shipping details and buttons
     updateShippingDetails(inputElmentValueObj, shipping_element);
 });
 

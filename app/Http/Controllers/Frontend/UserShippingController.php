@@ -239,7 +239,6 @@ class UserShippingController extends Controller
 
         // Remove duplicates
         $filteredOriginOutletArray = array_map("unserialize", array_unique(array_map("serialize", $filteredOriginOutletArray))); 
-        
 
         // Return the response
         return response(array_unique($filteredOriginOutletArray));

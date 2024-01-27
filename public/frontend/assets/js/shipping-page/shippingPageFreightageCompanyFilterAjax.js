@@ -48,10 +48,10 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
             if (response.length) {
 
                 // Remove the class "d-flex" from the shippingControllerPanel
-                shippingControllerPanel.removeClass("d-none");
+                //shippingControllerPanel.removeClass("d-none");
 
                 // Add the class "d-flex" to the shippingControllerPanel
-                shippingControllerPanel.addClass("d-flex");
+                //shippingControllerPanel.addClass("d-flex");
 
                 // Set optionElement to an empty string      
                 optionElement = `
