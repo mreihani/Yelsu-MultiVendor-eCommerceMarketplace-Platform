@@ -1,19 +1,34 @@
+window.selectedElementRequestInput = 0;
+
 // Event listener for shipping element click
 $(".shipping").on("click", ".row-edit-btn", function(){
+
     // Get the clicked element
     let thisElement = $(this);
+
+    // Get the selected row id
+    selectedRowId = thisElement.closest("tr").find(".shipping-row").html();
+
     // Get the shipping element
     let shipping_element = $(".shipping-element");
+
     // Get the value of the previous shipping-row-object-json element
     let inputElmentValue = thisElement.prev(".shipping-row-object-json").val();
+
     // Parse the input element value to an object
     let inputElmentValueObj = JSON.parse(inputElmentValue);
+
+    // Set the value of the input element and use it in shippingTableCrud file to calculate the remaining quantity
+    selectedElementRequestInput = inputElmentValueObj.numberOfRequestInput;
 
     // Set origin address dropdown HTML
     setOriginAddressHTML(inputElmentValueObj, shipping_element);
 
     // Set destination address dropdown HTML
     setDestinationAddressHTML(inputElmentValueObj, shipping_element);
+
+    // Set shipping distance
+    setShippingDistanceHTML(inputElmentValueObj, shipping_element);
 
     // Set freightage information dropdown HTML
     updateFreightageDropdown(inputElmentValueObj, shipping_element);
@@ -29,6 +44,12 @@ $(".shipping").on("click", ".row-edit-btn", function(){
 
     // Update the shipping element to show the calculated shipping details and buttons
     updateShippingDetails(inputElmentValueObj, shipping_element);
+
+    // Set date
+    setDate(inputElmentValueObj, shipping_element);
+
+    // Set request input
+    setRequestInputValue(inputElmentValueObj, shipping_element);
 });
 
 /**
@@ -111,6 +132,28 @@ function setDestinationAddressHTML(inputElmentValueObj, shipping_element) {
         `;
     });
     select_element.append(optionElement);
+}
+
+/**
+ * Sets the shipping distance HTML based on the input element value object.
+ * 
+ * @param {object} inputElementValueObj - The object containing input element values.
+ * @param {HTMLElement} shippingElement - The HTML element to update with shipping distance.
+ */
+function setShippingDistanceHTML(inputElementValueObj, shippingElement) {
+
+    // Add code here to set the shipping distance HTML based on the input element value object
+    let shippingDistanceElment = `
+    <div class="shipping-page-distance-box d-flex">
+        <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#9d9d9d" fill="none"><path d="M17.94,54.81a.1.1,0,0,1-.14,0c-1-1.11-11.69-13.23-11.69-21.26,0-9.94,6.5-12.24,11.76-12.24,4.84,0,11.06,2.6,11.06,12.24C28.93,41.84,18.87,53.72,17.94,54.81Z"></path><circle cx="17.52" cy="31.38" r="4.75"></circle><path d="M49.58,34.77a.11.11,0,0,1-.15,0c-.87-1-9.19-10.45-9.19-16.74,0-7.84,5.12-9.65,9.27-9.65,3.81,0,8.71,2,8.71,9.65C58.22,24.52,50.4,33.81,49.58,34.77Z"></path><circle cx="49.23" cy="17.32" r="3.75"></circle><path d="M17.87,54.89a28.73,28.73,0,0,0,3.9.89"></path><path d="M24.68,56.07c2.79.12,5.85-.28,7.9-2.08,5.8-5.09,2.89-11.25,6.75-14.71a16.72,16.72,0,0,1,4.93-3" stroke-dasharray="7.8 2.92"></path><path d="M45.63,35.8a23,23,0,0,1,3.88-.95"></path></svg>
+        &nbsp;فاصله:&nbsp;<strong class="shipping-distance-text">${inputElementValueObj.shipping_distance_text}</strong>
+    </div>`;
+
+    // Append the shipping distance HTML
+    let calculatedDistanceElement = shippingElement.find(".calculated-distance");
+    calculatedDistanceElement.removeClass("d-none");
+    calculatedDistanceElement.empty();
+    calculatedDistanceElement.append(shippingDistanceElment);    
 }
 
 /**
@@ -273,4 +316,33 @@ function updateShippingDetails(inputElementValueObj, shippingElement) {
     // Show the cancel button
     const shippingCalcCancelBtn = shippingElement.find(".shipping-calc-cancel-btn");
     shippingCalcCancelBtn.removeClass("d-none").addClass("d-flex");
+}
+
+/**
+ * Set the date value of an input element based on the value of a shipping element.
+ * 
+ * @param {Object} inputElementValueObj - The input element value object to update.
+ * @param {Element} shippingElement - The shipping element to get the date value from.
+ */
+function setDate(inputElementValueObj, shippingElement) {
+
+  // Get the date value from the shipping element
+  let deliverDateInputValue = inputElementValueObj.deliverDateInputValue;
+  
+  // Set the date value of the input element
+  $(".deliver-date-input").val(deliverDateInputValue);
+}
+
+/**
+ * Set the value of the input element based on the provided object
+ * @param {Object} inputElementValueObj - The object containing the input element values
+ * @param {Element} shippingElement - The shipping element to set the value on
+ */
+function setRequestInputValue(inputElementValueObj, shippingElement) {
+    
+    // Set the value of the input element
+    let numberOfRequestInput = inputElementValueObj.numberOfRequestInput;
+
+    // Set the value of the input element
+    $(".number-items-request input").val(numberOfRequestInput);
 }

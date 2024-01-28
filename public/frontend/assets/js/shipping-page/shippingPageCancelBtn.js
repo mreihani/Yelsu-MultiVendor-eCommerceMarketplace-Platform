@@ -1,5 +1,9 @@
 // cancel btn reset everything
 $(".shipping").on("click", ".shipping-calc-cancel-btn", function() {
+
+    // null row idl
+    selectedRowId = null;
+
     resetAllForm();
 });
 
@@ -41,4 +45,10 @@ function resetAllForm() {
 
     // مخفی کردن تصویر ARC
     shippingElement.find("img.shipping-page-map-container-img").remove();
+
+    // پاک کردن انتخاب تاریخ تحویل
+    $(".deliver-date-input").val("");
+
+    // پاک کردن فیلد درخواست 
+    $(".number-items-request input").val("");
 }
