@@ -26,6 +26,7 @@
             <li><a href="{{route('shop.category',['id'=> 659])}}">ورق آلومینیوم</a></li>                                  
         </ul>
     </li>
+
     <li>
         <h4 class="menu-title"><img width="25px" src = "{{asset('frontend/assets/images/yelsu_images/mega_menu/beam-150x150.png')}}" alt="beam"/><a href="{{route('shop.category',['id'=> 12])}}">&nbsp;پروفیل و قوطی</a> </h4>
         <hr class="divider">
@@ -54,6 +55,7 @@
             <li><a href="{{route('shop.category',['id'=> 631])}}">سپری</a></li>
         </ul>
     </li>
+
     <li>
         <h4 class="menu-title"><img width="35px" src = "{{asset('frontend/assets/images/yelsu_images/mega_menu/8.png')}}" alt="beam"/><a href="{{route('shop.category',['id'=> 14])}}">ورق سرد - پوشش دار</a></h4>
         <hr class="divider">
@@ -74,13 +76,10 @@
             <li><a href="{{route('shop.category',['id'=> 640])}}">توری</a></li>
             <li><a href="{{route('shop.category',['id'=> 643])}}">مش</a></li>
             <li><a href="{{route('shop.category',['id'=> 641])}}">رابیتس</a></li>
-            {{-- <li><a href="{{route('shop.category',['id'=> 636])}}">زیگزاگ</a></li> --}}
             <li><a href="{{route('shop.category',['id'=> 644])}}">خرپا</a></li>
             <li><a href="{{route('shop.category',['id'=> 645])}}">تیر حصار (پایه فنس)</a></li>
             <li><a href="{{route('shop.category',['id'=> 646])}}">سیم خاردار</a></li>
         </ul>
-
-        
     </li>
 
     <li>
@@ -92,7 +91,6 @@
             <li><a href="{{route('shop.category',['id'=> 655])}}">ورق A516</a></li>
             <li><a href="{{route('shop.category',['id'=> 650])}}">ورق A283</a></li>
             <li><a href="{{route('shop.category',['id'=> 651])}}">ورق ST52</a></li>
-            {{-- <li><a href="{{route('shop.category',['id'=> 642])}}">ورق آلومینیوم آجدار</a></li> --}}
             <li><a href="{{route('shop.category',['id'=> 652])}}">اسلب</a></li>
         </ul>
 
@@ -135,8 +133,6 @@
             <li><a href="{{route('shop.category',['id'=> 624])}}">تیرآهن IPE</a></li>
         </ul>
 
-       
-
         <h4 class="menu-title"><img width="25px" src = "{{asset('frontend/assets/images/yelsu_images/mega_menu/iron-bar.png')}}" alt="beam"/><a href="{{route('shop.category',['id'=> 18])}}">&nbsp;میلگرد</a></h4>
         <hr class="divider">
         <ul>
@@ -152,11 +148,8 @@
         </ul>
     </li>
 
-
-
     <li>
         <div class="menu-banner banner-fixed menu-banner3">
-           
             <div class="banner-content">
                 
             </div>
