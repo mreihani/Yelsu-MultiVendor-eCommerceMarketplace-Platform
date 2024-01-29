@@ -75,7 +75,7 @@
                             <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
                                 <img width="30px" src = "{{asset($parentCategory->category_image)}}" alt="steel"/> {{$parentCategory->category_name}}
                             </a>
-                            {{-- @includeIf("frontend.body.layout.megamenu." . $parentCategory->id) --}}
+                            @includeIf("frontend.body.layout.megamenu.dynamic-menu-mobile", ['category' => $parentCategory])
                         </li>
                     @endforeach
                     
