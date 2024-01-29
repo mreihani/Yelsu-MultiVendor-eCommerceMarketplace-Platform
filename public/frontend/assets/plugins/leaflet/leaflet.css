@@ -102,7 +102,7 @@
 /* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
 .leaflet-overlay-pane svg {
 	-moz-user-select: none;
-	}
+}
 
 .leaflet-pane         { z-index: 400; }
 
@@ -125,8 +125,6 @@
 	display: inline-block;
 	position: absolute;
 	}
-
-
 /* control positioning */
 
 .leaflet-control {
