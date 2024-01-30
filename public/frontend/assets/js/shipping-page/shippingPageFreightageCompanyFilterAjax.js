@@ -3,9 +3,6 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
     // Store the current element in a variable for easier access
     let thisElement = $(this);
 
-    // Find the shippingControllerPanel element in the DOM
-    let shippingControllerPanel = $(".shipping-controller-panel");
-
     // Get the closest element with the class "number-items-request" relative to 'thisElement'
     let closestNumberItemsRequestElement = thisElement.closest(".number-items-request");
     
@@ -27,6 +24,20 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
     // Select the element with class "freightage-information-dropdown"
     let freightageInformationDropdownElement = $(".freightage-information-dropdown");
     
+    // Validate the number of items requested
+    let inputValidationResult = inputValidationFreightageCompanyAddress(numberItemsRequest);
+
+    // Validate the schedule
+    let scheduleInputValidationResult = scheduleInputValidationCompanyHandler();
+   
+    // If the validation is not successful, return
+    if(!inputValidationResult || !scheduleInputValidationResult) {
+        disableControlPanelSelectElements();
+        return;
+    } else {
+        enableControlPanelSelectElements();
+    }
+    
     // Call the AJAX function with the product ID and order ID
     $.ajax({
         type: "GET",
@@ -46,12 +57,6 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
 
             // Check if the response array has elements
             if (response.length) {
-
-                // Remove the class "d-flex" from the shippingControllerPanel
-                //shippingControllerPanel.removeClass("d-none");
-
-                // Add the class "d-flex" to the shippingControllerPanel
-                //shippingControllerPanel.addClass("d-flex");
 
                 // Set optionElement to an empty string      
                 optionElement = `
@@ -78,3 +83,38 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         }
     });
 });
+
+/**
+ * Validates the origin address based on the number of items requested.
+ * @param {number} numberItemsRequest - The number of items requested.
+ * @returns {boolean} - True if the origin address is valid, false otherwise.
+ */
+function inputValidationFreightageCompanyAddress(numberItemsRequest) {
+    // Get the minimum loader type value from the element with ID "loader_type_min"
+    let loader_type_min = parseInt($("#loader_type_min").val());
+
+    // Get the maximum loader type value from the element with ID "loader_type_max"
+    let loader_type_max = parseInt($("#loader_type_max").val());
+
+    // Validate the number of items requested
+    if (numberItemsRequest < loader_type_min || numberItemsRequest > loader_type_max || numberItemsRequest <= 0 || !numberItemsRequest) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * Handle input validation for the schedule element
+ */
+function scheduleInputValidationCompanyHandler() {
+    // Get the deliver date input value
+    let deliverDateInputValue = $(".shipping-schedule input").val();
+
+    // Validate the schedule element
+    if (!deliverDateInputValue) {
+        return false;
+    } else {
+        return true;
+    }
+}

@@ -154,19 +154,23 @@
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-empty-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            فیلد درخواست نباید خالی باشد
+                                            فیلد درخواست نباید خالی باشد.
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-min-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            حداقل درخواست باید بیشتر از <span></span> باشد
+                                            حداقل درخواست باید بیشتر از <span></span> باشد.
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-max-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            حداکثر درخواست باید کمتر از <span></span> باشد
+                                            حداکثر درخواست باید کمتر از <span></span> باشد.
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-greater-than-remaining-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
                                             درخواست شما بیشتر از مقدار باقی مانده است!
+                                        </div>
+                                        <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-value-alert">
+                                            <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
+                                            مقدار درخواست خارج از بازه تعیین شده برای بارگیری است.
                                         </div>
 
                                         <div class="shipping-loop-item tab-pane active in" id="tab5-1" key="1">
@@ -222,9 +226,9 @@
                                                                 <th class="all text-center">ردیف</th>
                                                                 <th class="text-center">مبدا</th>
                                                                 <th class="text-center">مقصد</th>
-                                                                <th class="text-center">باربری</th>
+                                                                <th class="text-center">نام شرکت باربری</th>
+                                                                <th class="text-center">روش ارسال</th>
                                                                 <th class="text-center">نوع بارگیر</th>
-                                                                <th class="text-center">مقدار</th>
                                                                 <th class="text-center">تاریخ</th>
                                                                 <th class="text-center">مقدار درخواستی</th>
                                                                 <th class="text-center">وضعیت</th>
@@ -288,11 +292,21 @@
                                                     </h4>
                                                 </div>
 
+                                                <div class="mb-2 request-btn-show-all-forms d-none">
+                                                    <div class="alert-icon alert-warning alert-bg alert-inline text-center">
+                                                        برای فعالسازی مبدا، مقصد و شرکت باربری در فرم زیر، ابتدا باید روی دکمه 
+                                                        <b>
+                                                            ثبت
+                                                        </b> 
+                                                        کلیک کنید.
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-12 ml-2 mr-2">
                                                     <div class="row d-flex justify-content-between align-items-center">
                                                         <div class="row col-md-4 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
                                                             <span class="ml-2">
-                                                                مقدار حداقل جهت بارگیری
+                                                                مقدار حداقل بارگیری
 
                                                                 <b>
                                                                     {{number_format($product->freightageLoadertype->pluck('loader_type_min')->min(), 0, '', ',')}}
@@ -301,7 +315,7 @@
                                                                 {{$product->determine_product_unit()}}
                                                             </span>
                                                             <span class="ml-2">
-                                                                مقدار حداکثر جهت بارگیری
+                                                                مقدار حداکثر بارگیری
 
                                                                 <b>
                                                                     {{number_format($product->freightageLoadertype->pluck('loader_type_max')->max(), 0, '', ',')}}
@@ -325,22 +339,24 @@
                                                         </div>
 
                                                         <div class="row col-md-4 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
-                                                            <div class="col-md-2 d-flex justify-content-center">
-                                                                <label>
-                                                                    مقدار درخواست
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
-                                                                    ثبت
-                                                                </button>
+                                                            <div class="row">
+                                                                <div class="col-md-2 d-flex justify-content-center">
+                                                                    <label>
+                                                                        مقدار درخواست
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
+                                                                        ثبت
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                           
 
                                                 <div class="shipping-controller-panel justify-content-between d-flex">
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
@@ -410,7 +426,7 @@
                                                     </div>
                                                 
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
-                                                        <div class="order-shipping-service">
+                                                        <div class="order-shipping-service pt-3">
                                                             <h4>
                                                                 تعیین شرکت باربری
                                                             </h4>
@@ -474,6 +490,10 @@
     
     <script src="{{asset('frontend/assets/js/shipping-page/formatDigits.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/leafletYelsuShipping.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/controlPanelSelectElementStateHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/inputValueResetFormHander.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/resetAllFormsHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/resetAllControlPanelFormsHandler.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/shippingPageInformationAjax.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/shippingPageCancelBtn.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/shippingPageFreightageInformationAjax.js')}}"></script>
@@ -492,5 +512,6 @@
     <script src="{{asset('frontend/assets/js/shipping-page/resetRowClassesHandler.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/rowDeleteHandler.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/rowDuplicateHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/panelBtnRemainingErrorHandler.js')}}"></script>
 
 @endsection

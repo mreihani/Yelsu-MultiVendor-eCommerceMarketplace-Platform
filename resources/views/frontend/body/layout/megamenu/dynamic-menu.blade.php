@@ -1,10 +1,12 @@
 <style>
     .megamenu {
         height: 650px;
-        overflow: auto;
         border-top: 2px solid #d2d2d2;
         border-bottom: 2px solid #d2d2d2;
         z-index: 100000 !important;
+        overflow-y: auto;
+        scrollbar-color: #0165d5 #C2D2E4;
+        scrollbar-width: thin;
     }
     .megamenu::-webkit-scrollbar {
         width: 3px;

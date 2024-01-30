@@ -14,6 +14,9 @@ function calculateRemainingQuantity(numberOfRequests) {
         // Add number-items-greater-than-remaining-alert
         $("#number-items-greater-than-remaining-alert").removeClass("d-none");
 
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        
         return false;
     }
 

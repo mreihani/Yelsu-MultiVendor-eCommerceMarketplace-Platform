@@ -201,9 +201,9 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                         <th class="all text-center">ردیف</th>
                         <th class="text-center">مبدا</th>
                         <th class="text-center">مقصد</th>
-                        <th class="text-center">باربری</th>
+                        <th class="text-center">نام شرکت باربری</th>
+                        <th class="text-center">روش ارسال</th>
                         <th class="text-center">نوع بارگیر</th>
-                        <th class="text-center">مقدار</th>
                         <th class="text-center">تاریخ</th>
                         <th class="text-center">مقدار درخواستی</th>
                         <th class="text-center">وضعیت</th>
@@ -355,6 +355,10 @@ function shippingValidationHandler(thisElem,loader_type_min,loader_type_max) {
     
     // Validate schedule element
     if(!schedule_element.val()) {
+
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
         schedule_element_alert.removeClass("d-none");
     } else {
         schedule_element_alert.addClass("d-none");
@@ -362,6 +366,10 @@ function shippingValidationHandler(thisElem,loader_type_min,loader_type_max) {
 
     // Validate number of items input
     if(!number_items_request.val()) {
+
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
         number_items_request_empty_alert.removeClass("d-none");
     } else {
         number_items_request_empty_alert.addClass("d-none");
@@ -370,6 +378,10 @@ function shippingValidationHandler(thisElem,loader_type_min,loader_type_max) {
     // Validate minimum number of items
     if(parseInt(number_items_request.val()) && parseInt(number_items_request.val()) < parseInt(loader_type_min)) {
         number_items_request_min_alert.find("span").html(parseInt(loader_type_min));
+
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
         number_items_request_min_alert.removeClass("d-none");
     } else {
         number_items_request_min_alert.addClass("d-none");
@@ -378,6 +390,10 @@ function shippingValidationHandler(thisElem,loader_type_min,loader_type_max) {
     // Validate maximum number of items
     if(parseInt(number_items_request.val()) && parseInt(number_items_request.val()) > parseInt(loader_type_max)) {
         number_items_request_max_alert.find("span").html(parseInt(loader_type_max));
+
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
         number_items_request_max_alert.removeClass("d-none");
     } else {
         number_items_request_max_alert.addClass("d-none");

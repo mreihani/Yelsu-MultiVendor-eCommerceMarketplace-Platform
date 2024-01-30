@@ -29,7 +29,22 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
 
     // Find the HTML element with class "order-origin-address-html" within the shipping_element
     let orderOriginAddressHtmlElement = shipping_element.find(".order-origin-address-html");
-    
+
+    // Validate the number of items requested
+    let inputValidationResult = inputValidationOriginAddress(numberItemsRequest);
+
+    // Validate the schedule
+    let scheduleInputValidationResult = scheduleInputValidationOriginAddressHandler();
+
+    // If the input validation result is false, return
+    if(!inputValidationResult || !scheduleInputValidationResult) {
+        disableControlPanelSelectElements();
+        return;
+    } else {
+        enableControlPanelSelectElements();
+    }
+
+    // Send an AJAX request to get the origin addresses
     $.ajax({
         type: "GET",
         data:{
@@ -39,16 +54,11 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         },
         url: "/get-origin-addresses-filtered",
         success: function (response) {
-            
-            // Remove the class "d-none" from the shippingControllerPanel
-            //shippingControllerPanel.removeClass("d-none");
-
-            // Add the class "d-flex" to the shippingControllerPanel
-            //shippingControllerPanel.addClass("d-flex");
 
             // Clear the order origin address select element
             orderOriginAddressSelectElement.empty();
 
+            // Set optionElement to an empty string
             let optionElement = "";
 
             // Check if the response array has elements
@@ -85,3 +95,68 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         }
     });
 });
+
+
+/**
+ * Validates the origin address based on the number of items requested.
+ * @param {number} numberItemsRequest - The number of items requested.
+ * @returns {boolean} - True if the origin address is valid, false otherwise.
+ */
+function inputValidationOriginAddress(numberItemsRequest) {
+
+    // Find the HTML element with class "number-items-request-value-alert" within the shipping_element
+    let number_items_request_value_alert = $("#number-items-request-value-alert");
+
+    // Get the minimum loader type value from the element with ID "loader_type_min"
+    let loader_type_min = parseInt($("#loader_type_min").val());
+
+    // Get the maximum loader type value from the element with ID "loader_type_max"
+    let loader_type_max = parseInt($("#loader_type_max").val());
+
+    // Validate the number of items requested
+    if (numberItemsRequest < loader_type_min || numberItemsRequest > loader_type_max || numberItemsRequest <= 0 || !numberItemsRequest) {
+
+        // Add the "d-none" class to the number_items_request_value_alert
+        number_items_request_value_alert.removeClass("d-none");
+
+        // move to top of screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+        return false;
+    } else {
+
+        // Remove the "d-none" class from the number_items_request_value_alert
+        number_items_request_value_alert.addClass("d-none");
+
+        return true;
+    }
+}
+
+/**
+ * Handle input validation for the schedule element
+ */
+function scheduleInputValidationOriginAddressHandler() {
+    // Get the schedule element alert
+    let scheduleAlertElement = $("#shedule-alert");
+
+    // Get the deliver date input value
+    let deliverDateInputValue = $(".shipping-schedule input").val();
+
+    // Validate the schedule element
+    if (!deliverDateInputValue) {
+        
+        // Remove the hidden class to show the alert
+        scheduleAlertElement.removeClass("d-none");
+
+        // Scroll to the top of the screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+        return false;
+    } else {
+
+        // Add the hidden class to hide the alert
+        scheduleAlertElement.addClass("d-none");
+
+        return true;
+    }
+}
