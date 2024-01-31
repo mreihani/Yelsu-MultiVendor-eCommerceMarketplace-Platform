@@ -154,7 +154,7 @@
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-empty-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
-                                            فیلد درخواست نباید خالی باشد.
+                                            فیلد درخواست نمی تواند خالی باشد!
                                         </div>
                                         <div class="alert alert-warning alert-bg alert-inline d-none mt-3" id="number-items-request-min-alert">
                                             <i class="w-icon-exclamation-triangle" style="color: #f93"></i>
@@ -294,7 +294,7 @@
 
                                                 <div class="mb-2 request-btn-show-all-forms d-none">
                                                     <div class="alert-icon alert-warning alert-bg alert-inline text-center">
-                                                        برای فعالسازی مبدا، مقصد و شرکت باربری در فرم زیر، ابتدا باید روی دکمه 
+                                                        برای فعالسازی مبدا، مقصد و شرکت باربری در فرم زیر، ابتدا تاریخ و سپس مقدار درخواست را تکمیل نموده و می بایست روی دکمه
                                                         <b>
                                                             ثبت
                                                         </b> 
@@ -303,7 +303,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 ml-2 mr-2">
-                                                    <div class="row d-flex justify-content-between align-items-center">
+                                                    <div class="row min-max-loader-range">
                                                         <div class="row col-md-4 bg-grey pt-2 pb-2 d-flex align-items-center" style="height: 60px;">
                                                             <span class="ml-2">
                                                                 مقدار حداقل بارگیری
@@ -340,7 +340,7 @@
 
                                                         <div class="row col-md-4 bg-grey number-items-request pt-2 pb-2 d-flex align-items-center">
                                                             <div class="row">
-                                                                <div class="col-md-2 d-flex justify-content-center">
+                                                                <div class="col-md-2">
                                                                     <label>
                                                                         مقدار درخواست
                                                                     </label>
@@ -348,7 +348,7 @@
                                                                 <div class="col-md-6">
                                                                     <input type="number" class="form-control form-control-sm" placeholder="{{$product->freightageLoadertype->pluck('loader_type_min')->min()}} الی {{$product->freightageLoadertype->pluck('loader_type_max')->max()}} {{$product->determine_product_unit()}}">
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-4 d-flex justify-content-center">
                                                                     <button class="btn btn-dark btn-rounded btn-sm ml-2 shipping-panel-btn">
                                                                         ثبت
                                                                     </button>
@@ -358,7 +358,7 @@
                                                     </div>
                                                 </div>                                           
 
-                                                <div class="shipping-controller-panel row justify-content-between d-flex">
+                                                <div class="shipping-controller-panel row">
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
                                                         
                                                         <div class="order-origin-address pt-3">

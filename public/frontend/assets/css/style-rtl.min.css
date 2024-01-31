@@ -23659,3 +23659,30 @@ td {
     width: 100% !important;
 }
 /* shipping details page tab content width */
+
+
+/* shipping page custom styles */
+.min-max-loader-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.shipping-controller-panel {
+    display: flex;
+    justify-content: space-between;
+}
+@media (max-width: 768px) {
+    .min-max-loader-range {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .shipping-controller-panel {
+        display: flex;
+        justify-content: end;
+    }
+    .number-items-request button {
+        margin-top: 10px;
+    }
+}
+/* shipping page custom styles */
