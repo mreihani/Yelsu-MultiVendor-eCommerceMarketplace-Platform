@@ -50,6 +50,9 @@ $(".shipping").on("click", ".row-edit-btn", function(){
 
     // Set request input
     setRequestInputValue(inputElmentValueObj, shipping_element);
+
+    // Set row number
+    setRowNumber();
 });
 
 /**
@@ -345,4 +348,22 @@ function setRequestInputValue(inputElementValueObj, shippingElement) {
 
     // Set the value of the input element
     $(".number-items-request input").val(numberOfRequestInput);
+}
+
+/**
+ * Set the row number for the given input element value object.
+ * 
+ * @param {object} inputElementValueObj - The input element value object.
+ * @param {string} shippingElement - The shipping element.
+ */
+function setRowNumber() {
+
+    // Select row number wrapper element
+    let rowNumberInfoElement = $(".row-number-info");
+
+    // Show row number wrapper element
+    rowNumberInfoElement.removeClass("d-none");
+
+    // Set the row number
+    rowNumberInfoElement.find("span.row-number").html(selectedRowId);
 }

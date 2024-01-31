@@ -8,7 +8,7 @@ function calculateRemainingQuantity(numberOfRequests) {
 
     // Calculate remaining quantity
     let remainingQuantityValue = remainingQuantityInput.val() - numberOfRequests;
-    
+
     if(remainingQuantityValue < 0) {
 
         // Add number-items-greater-than-remaining-alert

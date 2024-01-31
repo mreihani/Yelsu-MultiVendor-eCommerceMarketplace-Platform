@@ -43,4 +43,10 @@ function resetAllForm() {
 
     // پاک کردن فیلد درخواست 
     $(".number-items-request input").val("");
+
+    // Select row number wrapper element
+    let rowNumberInfoElement = $(".row-number-info");
+
+    // Show row number wrapper element
+    rowNumberInfoElement.addClass("d-none");
 }

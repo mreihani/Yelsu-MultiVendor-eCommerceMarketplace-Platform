@@ -285,7 +285,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                 // calculate difference between selectedElementRequestInput and numberOfRequestInput
                 // selectedElementRequestInput is the number of requests before editing, it comes from rowEditHandler.js line 20
                 let numberOfRequestInputDiff = parseInt(numberOfRequestInput) - selectedElementRequestInput;
-
+               
                 // calculate remaining quantity
                 let calculatedRemainingQuantity = calculateRemainingQuantity(numberOfRequestInputDiff);
 

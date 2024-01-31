@@ -15,6 +15,9 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
     // Get the remaining values
     let remainingQuantityInputValue = parseInt($(".remaining-quantity-input").val());
 
+    // calculate difference between selectedElementRequestInput and numberItemsRequest
+    let numberOfRequestInputDiff = numberItemsRequest - selectedElementRequestInput;
+
     // Validate the number of items requested
     if((numberItemsRequest < loader_type_min || numberItemsRequest > loader_type_max) && numberItemsRequest <= remainingQuantityInputValue) {
 
@@ -28,7 +31,7 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         disableControlPanelSelectElements();
 
     // Validate the number of items requested, if the value is larger than the remaining quantity
-    } else if(numberItemsRequest > remainingQuantityInputValue) {
+    } else if(numberOfRequestInputDiff > remainingQuantityInputValue) {
 
         // Remove the "d-none" class to the number_items_request_value_alert
         $("#number-items-greater-than-remaining-alert").removeClass("d-none");

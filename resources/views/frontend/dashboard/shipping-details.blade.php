@@ -84,6 +84,12 @@
             font-size: 1rem;
         }
         /* set datatables font size */
+
+        /* set form date and value input control background color */
+        .deliver-date-input, .number-items-request input {
+            background-color: white;
+        }
+        /* set form date and value input control background color */
     </style>
 
     <!-- SELECT2 initialize -->
@@ -224,15 +230,15 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="all text-center">ردیف</th>
-                                                                <th class="text-center">مبدا</th>
-                                                                <th class="text-center">مقصد</th>
-                                                                <th class="text-center">نام شرکت باربری</th>
-                                                                <th class="text-center">روش ارسال</th>
-                                                                <th class="text-center">نوع بارگیر</th>
-                                                                <th class="text-center">تاریخ</th>
-                                                                <th class="text-center">مقدار درخواستی</th>
-                                                                <th class="text-center">وضعیت</th>
-                                                                <th class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
+                                                                <th class="all text-center">مبدا</th>
+                                                                <th class="all text-center">مقصد</th>
+                                                                <th class="all text-center">نام شرکت باربری</th>
+                                                                <th class="all text-center">روش ارسال</th>
+                                                                <th class="all text-center">نوع بارگیر</th>
+                                                                <th class="all text-center">تاریخ</th>
+                                                                <th class="all text-center">مقدار درخواستی</th>
+                                                                <th class="all text-center">وضعیت</th>
+                                                                <th class="all text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
                                                                     رونوشت ردیف
                                                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
                                                                 </th>
@@ -357,6 +363,22 @@
                                                         </div>
                                                     </div>
                                                 </div>                                           
+
+                                                <div class="row row-number-info d-none" style="flex:1;">
+                                                    <div class="row col-md-12 bg-grey mt-2 pl-5 pr-5 pt-2">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M31.4,15.3h8.2c0.6,0,1.1-0.5,1.1-1.1l0,0c0-0.3-0.1-0.5-0.3-0.8L30.2,3.3C29.9,3.1,29.7,3,29.4,3l0,0 c-0.6,0-1.1,0.5-1.1,1.1v8.1C28.3,13.9,29.7,15.3,31.4,15.3z"></path> <path d="M49.5,25.7l-0.9-0.9c-0.6-0.6-1.5-0.6-2.2,0L34.5,36.7c-0.1,0.1,0,0.2,0,0.3v2.5c0,0.2,0,0.4,0.2,0.4h2.6 c0.1,0,0.2-0.1,0.3-0.1L49.5,28C50.2,27.2,50.2,26.3,49.5,25.7z"></path> <path d="M39.9,44.4h-1.8h-3.6h-1.7c-1.6,0-2.9-1.3-2.9-2.9v-5.4c0-0.8,0.2-1.6,0.9-2.1l9.5-9.5 c0.3-0.3,0.5-0.7,0.5-1.1v-2c0-0.8-0.7-1.5-1.5-1.5H28.3c-2.6,0-4.6-2.1-4.6-4.6V4.5C23.7,3.7,23,3,22.1,3H6.6C4.1,3,2,5.1,2,7.6 v36.8C2,46.9,4.1,49,6.6,49h29.4c2.2,0,4.2-1.6,4.6-3.7C40.7,44.9,40.3,44.4,39.9,44.4z M8.2,16.8c0-0.8,0.7-1.5,1.5-1.5h6.2 c0.9,0,1.5,0.7,1.5,1.5v1.5c0,0.8-0.7,1.5-1.5,1.5H9.7c-0.9,0-1.5-0.7-1.5-1.5V16.8z M23.7,36.7c0,0.8-0.7,1.5-1.5,1.5H9.7 c-0.9,0-1.5-0.7-1.5-1.5v-1.5c0-0.8,0.7-1.5,1.5-1.5h12.4c0.9,0,1.5,0.7,1.5,1.5V36.7z M26.8,27.5c0,0.8-0.7,1.5-1.5,1.5H9.7 c-0.9,0-1.5-0.7-1.5-1.5V26c0-0.8,0.7-1.5,1.5-1.5h15.5c0.9,0,1.5,0.7,1.5,1.5V27.5z"></path> </g> </g></svg>
+                                                            </div>
+                                                            <div class="ml-1">
+                                                                <h5>
+                                                                    شماره ردیف:
+                                                                    <span class="row-number"></span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="shipping-controller-panel row">
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
