@@ -199,15 +199,15 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                 <thead>
                     <tr>
                         <th class="all text-center">ردیف</th>
-                        <th class="text-center">مبدا</th>
-                        <th class="text-center">مقصد</th>
-                        <th class="text-center">نام شرکت باربری</th>
-                        <th class="text-center">روش ارسال</th>
-                        <th class="text-center">نوع بارگیر</th>
-                        <th class="text-center">تاریخ</th>
-                        <th class="text-center">مقدار درخواستی</th>
-                        <th class="text-center">وضعیت</th>
-                        <th class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
+                        <th class="all text-center">مبدا</th>
+                        <th class="all text-center">مقصد</th>
+                        <th class="all text-center">نام شرکت باربری</th>
+                        <th class="all text-center">روش ارسال</th>
+                        <th class="all text-center">نوع بارگیر</th>
+                        <th class="all text-center">تاریخ</th>
+                        <th class="all text-center">مقدار درخواستی</th>
+                        <th class="all text-center">وضعیت</th>
+                        <th class="all text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
                             رونوشت ردیف
                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
                         </th>

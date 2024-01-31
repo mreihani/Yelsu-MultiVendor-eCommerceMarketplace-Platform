@@ -23684,5 +23684,8 @@ td {
     .number-items-request button {
         margin-top: 10px;
     }
+    #table-body .dataTables_wrapper {
+        overflow-x: scroll;
+    }
 }
 /* shipping page custom styles */
