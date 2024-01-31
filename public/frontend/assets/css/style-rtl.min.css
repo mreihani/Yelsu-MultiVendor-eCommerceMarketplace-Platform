@@ -23662,6 +23662,10 @@ td {
 
 
 /* shipping page custom styles */
+.row-number-info span {
+    font-size: 15px;
+    font-weight: bolder;
+}
 .min-max-loader-range {
     display: flex;
     align-items: center;
@@ -23687,5 +23691,76 @@ td {
     #table-body .dataTables_wrapper {
         overflow-x: scroll;
     }
+}
+/* datatables custom css */
+.shipping-page-content .yelsuDataTablesHead {
+    background-color: #1e1e2d;
+    margin-bottom: 5px;
+    padding: 10px 10px;
+}
+
+.shipping-page-content .yelsuDataTablesHead .vendor-image-div {
+    width: 80%;
+}
+
+.shipping-page-content .yelsuDataTablesHead .value-added-tax-div {
+    width: 20%;
+}
+
+.shipping-page-content .yelsuDataTablesHead img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.shipping-page-content .yelsuDataTablesHead div label {
+    color: white;
+}
+
+.shipping-page-content .yelsuDataTablesHead a {
+    color: white;
+    margin-right: 10px;
+}
+
+.shipping-page-content .yelsuDataTables thead th {
+    border: none;
+    background-color: #1e1e2d;
+    color: white;
+}
+
+.shipping-page-content .yelsuDataTables tbody tr.odd {
+    background-color: #f5f8fa;
+    border: none;
+}
+
+.shipping-page-content .yelsuDataTables tbody td input {
+    border-color: #48486c;
+}
+
+.shipping-page-content .yelsuDataTables tbody td input:focus {
+    border-color: #48486c;
+}
+/* datatables custom css */
+
+/* set select2 width to 100% */
+.shipping-page-content .select2.select2-container {
+    width: 100% !important;
+}
+
+/* set datatables font size */
+.shipping-page-content table.dataTable th {
+    font-size: 1.3rem;
+}
+.shipping-page-content table.dataTable td {
+    font-size: 1.1rem;
+}
+.shipping-page-content table.dataTable .btn.btn-sm {
+    font-size: 1rem;
+}
+/* set datatables font size */
+
+/* set form date and value input control background color */
+.shipping-page-content .deliver-date-input, .number-items-request input {
+    background-color: white;
 }
 /* shipping page custom styles */
