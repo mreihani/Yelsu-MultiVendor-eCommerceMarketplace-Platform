@@ -358,9 +358,9 @@
                                                     </div>
                                                 </div>                                           
 
-                                                <div class="shipping-controller-panel justify-content-between d-flex">
+                                                <div class="shipping-controller-panel row justify-content-between d-flex">
                                                     <div class="row col-md-3 bg-grey mt-2 pl-5 pr-5 pt-5 pb-5">
-        
+                                                        
                                                         <div class="order-origin-address pt-3">
                                                             <h4>
                                                                 تعیین مبدا
@@ -388,9 +388,9 @@
                                                             </div>
                                                             
                                                         </div>
-                                                        
+
                                                         <hr class="divider mb-5 mt-5">
-            
+                                                        
                                                         <div class="order-destination-address">
                                                             <h4>
                                                                 تعیین مقصد
@@ -418,7 +418,7 @@
                                                             </div>
                                                             
                                                         </div>
-            
+                                                        
                                                         {{-- فاصله بین مبدا و مقصد: --}}
                                                         <div class="mt-2 tab tab-with-title pt-2 pb-5 justify-content-center calculated-distance">
                                                         </div>

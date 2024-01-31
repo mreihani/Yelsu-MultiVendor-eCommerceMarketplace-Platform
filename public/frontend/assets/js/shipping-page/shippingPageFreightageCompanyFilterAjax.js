@@ -29,12 +29,14 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
 
     // Validate the schedule
     let scheduleInputValidationResult = scheduleInputValidationCompanyHandler();
-   
+    
     // If the validation is not successful, return
     if(!inputValidationResult || !scheduleInputValidationResult) {
+
         disableControlPanelSelectElements();
         return;
     } else {
+
         enableControlPanelSelectElements();
     }
     

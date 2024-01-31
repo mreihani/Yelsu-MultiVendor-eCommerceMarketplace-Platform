@@ -36,8 +36,11 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
     // Validate the schedule
     let scheduleInputValidationResult = scheduleInputValidationOriginAddressHandler();
 
+    // Validate the empty input
+    let emptyInputValidationResult = emptyInputValidationOriginAddress(numberItemsRequest);
+
     // If the input validation result is false, return
-    if(!inputValidationResult || !scheduleInputValidationResult) {
+    if(!inputValidationResult || !scheduleInputValidationResult || !emptyInputValidationResult) {
         disableControlPanelSelectElements();
         return;
     } else {
@@ -114,7 +117,11 @@ function inputValidationOriginAddress(numberItemsRequest) {
     let loader_type_max = parseInt($("#loader_type_max").val());
 
     // Validate the number of items requested
-    if (numberItemsRequest < loader_type_min || numberItemsRequest > loader_type_max || numberItemsRequest <= 0 || !numberItemsRequest) {
+    if (numberItemsRequest < loader_type_min 
+        || numberItemsRequest > loader_type_max 
+        || numberItemsRequest <= 0 
+        || !numberItemsRequest
+        ) {
 
         // Add the "d-none" class to the number_items_request_value_alert
         number_items_request_value_alert.removeClass("d-none");
@@ -127,6 +134,24 @@ function inputValidationOriginAddress(numberItemsRequest) {
 
         // Remove the "d-none" class from the number_items_request_value_alert
         number_items_request_value_alert.addClass("d-none");
+
+        return true;
+    }
+}
+
+// Validate if the input for the input value is empty
+function emptyInputValidationOriginAddress(numberItemsRequest) {
+    if(Number.isNaN(numberItemsRequest)) {
+        // Show the empty alert
+        $("#number-items-request-empty-alert").removeClass("d-none");
+
+        // Scroll to the top of the screen
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+        return false;
+    } else {
+        // Hide the empty alert
+        $("#number-items-request-empty-alert").addClass("d-none");
 
         return true;
     }
