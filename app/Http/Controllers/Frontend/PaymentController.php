@@ -122,11 +122,6 @@ class PaymentController extends Controller
             $resNum = $request->ResNum;
 
             $payment = Payment::where('resnumber', $resNum)->firstOrFail();
-            $amount = $payment->order->price;
-
-            //$sepGateway = new SepGatewayService($amount * 10, $resNum);
-           
-            // $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
 
             // Verify the transaction
             $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
