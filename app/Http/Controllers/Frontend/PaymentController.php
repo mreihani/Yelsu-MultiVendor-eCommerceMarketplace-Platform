@@ -152,18 +152,25 @@ class PaymentController extends Controller
             $RefNum = $request->RefNum;
             $verifyTransactionSatus = SepGatewayService::verify($RefNum);
 
+            // Retrieve all required parameters from POST request
+            $terminal_id = $request->TerminalId;
+            $trance_no = $request->TraceNo;
+            $amount = $request->Amount;
+            $rrn = $request->Rrn;
+            $secure_pan = $request->SecurePan;
+
            // If the transaction is successfull after verification.
             if($verifyTransactionSatus) {
                 
-                // Update the payment status
+                // Update the payment parameters in DB
                 $payment->update([
                     'status' => 1,
-                    'terminal_id' => $request->TerminalId,
+                    'terminal_id' => $terminal_id,
                     'refnumber' => $RefNum,
-                    'trance_no' => $request->TraceNo,
-                    'amount' => $request->Amount,
-                    'rrn' => $request->Rrn,
-                    'secure_pan' => $request->SecurePan,
+                    'trance_no' => $trance_no,
+                    'amount' => $amount,
+                    'rrn' => $rrn,
+                    'secure_pan' => $secure_pan,
                 ]);
 
                 // Update the order status
