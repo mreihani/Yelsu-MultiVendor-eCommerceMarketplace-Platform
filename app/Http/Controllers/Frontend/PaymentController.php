@@ -123,6 +123,12 @@ class PaymentController extends Controller
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
     }
 
+    /**
+     * Handle the callback from the payment gateway.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function callback(Request $request)
     {
         // If status is equql to 2, then payment is successfull
@@ -134,11 +140,18 @@ class PaymentController extends Controller
             // Get the payment by incoming resNum parameter
             $payment = Payment::where('resnumber', $resNum)->firstOrFail();
 
+            // IMPORTANT:
+            // This will avoid double spending. 
+            // Imagine user has opened multiple windows to pay at the same time, this line will prevent that.
+            if($payment->status) {
+                // Redirect to the dashboard
+                return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. قبلا پرداخت انجام شده است.');
+            }
+
             // Verify the transaction
             $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
 
-            // If the transaction is successfull after verification.
-            // This will avoid double spending.
+           // If the transaction is successfull after verification.
             if($verifyTransactionSatus) {
 
                 // Update the payment status
@@ -155,16 +168,11 @@ class PaymentController extends Controller
 
                 // Redirect to the dashboard
                 return redirect(route('dashboard', ['type' => 'orders']))->with('success', 'سفارش شما با موفقیت ثبت گردید.');
-
-            } else {
-                // Redirect to the checkout page with error
-                return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
-            }
-
-        } else {
-            // Redirect to the checkout page with error
-            return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
+            } 
         }
+
+        // Redirect to the checkout page with error
+        return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
     }
 
     /**
