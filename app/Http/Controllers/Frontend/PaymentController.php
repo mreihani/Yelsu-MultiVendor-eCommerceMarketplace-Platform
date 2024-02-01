@@ -105,11 +105,18 @@ class PaymentController extends Controller
 
             $order->products()->attach($orderItems);
           
+            // Create a new res number to send it to the bank servers
             $ResNum = Str::uuid()->toString();
+
+            // Create an instance of SepGatewayService
             $sepGateway = new SepGatewayService($price * 10, $ResNum);
+
+            // Create a new payment and save resNum parameter it to the database
             $order->payments()->create([
                 'resnumber' => $ResNum,
             ]);
+
+            // Redirect to bank servers
             return $sepGateway->redirectToPayment();
 
         }
@@ -118,47 +125,78 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
+        // If status is equql to 2, then payment is successfull
         if($request->Status == 2) {
+
+            // Get the incoming resNum parameter
             $resNum = $request->ResNum;
 
+            // Get the payment by incoming resNum parameter
             $payment = Payment::where('resnumber', $resNum)->firstOrFail();
 
             // Verify the transaction
             $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
 
+            // If the transaction is successfull after verification
             if($verifyTransactionSatus) {
+
+                // Update the payment status
                 $payment->update(['status' => 1]);
+
+                // Update the order status
                 $payment->order()->update(['status' => 'paid']);
 
                 // Subtract product stock values after successfull payments
-                $cart = Cart::instance('default');
-                $cartItems = $cart->all();
-                foreach ($cartItems as $cartItem) {
-                    $product = Product::find($cartItem['product']->id);
-                    if ($product->unlimitedStock == 'disabled' && $product->product_qty != NULL) {
-                        $product->product_qty = $product->product_qty - $cartItem['quantity'];
+                $this->subtractStock();
 
-                        if ($product->product_qty < 0) {
-                            $product->product_qty = 0;
-                        }
-                        $product->save();
-                    }
-                }
-
-            $cart->flush();
+                // Clear the cart
+                $cart->flush();
             
-            // ارسال پیامک دریافت سفارش
-            event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
+                // Send an event to the user and let him know the order is being processed
+                event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
 
-            return redirect(route('dashboard', ['type' => 'orders']))->with('success', 'سفارش شما با موفقیت ثبت گردید.');
+                // Redirect to the dashboard
+                return redirect(route('dashboard', ['type' => 'orders']))->with('success', 'سفارش شما با موفقیت ثبت گردید.');
 
             } else {
+                // Redirect to the checkout page with error
                 return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
             }
 
         } else {
+            // Redirect to the checkout page with error
             return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
         }
-        
     }
+
+    /**
+     * Subtracts the quantity of products in the cart from the available stock.
+     */
+    public function subtractStock() {
+        // Get the default cart instance
+        $cart = Cart::instance('default');
+        // Get all items in the cart
+        $cartItems = $cart->all();
+    
+        // Loop through each item in the cart
+        foreach ($cartItems as $cartItem) {
+            // Find the product by its ID
+            $product = Product::find($cartItem['product']->id);
+            
+            // Check if the product has limited stock and a specified quantity
+            if ($product->unlimitedStock == 'disabled' && $product->product_qty != NULL) {
+                // Subtract the quantity of the cart item from the product's available stock
+                $product->product_qty = $product->product_qty - $cartItem['quantity'];
+                
+                // Ensure the product's available stock does not go below 0
+                if ($product->product_qty < 0) {
+                    $product->product_qty = 0;
+                }
+                
+                // Save the updated product
+                $product->save();
+            }
+        }
+    }
+
 }
