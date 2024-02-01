@@ -33,7 +33,12 @@ Route::get('changeDatabase', function () {
 //     });
 
     $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
-    $sepGateway->redirectToPayment();
+    $token = $sepGateway->getToken();
     
+    if($token) {
+        return redirect('https://sep.shaparak.ir/onlinepg/SendToken?token='.$token);
+    }
+
+    // $token = $sepGateway->redirectToPayment;
     
 });
