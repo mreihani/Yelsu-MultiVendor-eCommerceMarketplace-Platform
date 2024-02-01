@@ -149,8 +149,7 @@ class PaymentController extends Controller
                 // Subtract product stock values after successfull payments
                 $this->subtractStock();
 
-                // Clear the cart
-                $cart->flush();
+                
             
                 // Send an event to the user and let him know the order is being processed
                 event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
@@ -197,6 +196,9 @@ class PaymentController extends Controller
                 $product->save();
             }
         }
+
+        // Clear the cart
+        $cart->flush();
     }
 
 }
