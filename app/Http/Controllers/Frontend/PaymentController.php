@@ -118,12 +118,9 @@ class PaymentController extends Controller
             //     //$cart->flush();
             // })->pay()->render();
 
-            dd($price);
-            // $ResNum = Str::uuid()->toString();
-            $randomString = uniqid();
-            $ResNum = substr($randomString, 0, 8);
-            $ResNum = "1qaz@WSX";
-            $sepGateway = new SepGatewayService($price, $ResNum);
+          
+            $ResNum = Str::uuid()->toString();
+            $sepGateway = new SepGatewayService($price * 10, $ResNum);
             $order->payments()->create([
                 'resnumber' => $ResNum,
             ]);
@@ -141,7 +138,7 @@ class PaymentController extends Controller
             $payment = Payment::where('resnumber', $resNum)->firstOrFail();
             $amount = $payment->order->price;
 
-            $sepGateway = new SepGatewayService($amount, $resNum);
+            $sepGateway = new SepGatewayService($amount * 10, $resNum);
            
             $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
 
