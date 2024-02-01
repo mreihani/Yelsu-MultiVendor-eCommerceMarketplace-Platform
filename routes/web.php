@@ -40,6 +40,6 @@ Route::get('changeDatabase', function () {
         "CellNumber" => "9120000000"
     ]);
 
-    dd($response);
+    dd($response->body());
 
 });
