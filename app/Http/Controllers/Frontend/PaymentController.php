@@ -176,15 +176,14 @@ class PaymentController extends Controller
     public function callback(Request $request)
     {
         if($request->Status == 2) {
-            //$resNum = $request->ResNum;
-            $resNum = "sadadw";
+            $resNum = $request->ResNum;
 
             //$payment = Payment::where('resnumber', Purify::clean($resNum))->firstOrFail();
             //$amount = $payment->order->price;
 
             $sepGateway = new SepGatewayService(10000, $resNum);
            
-            $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
+            $verifyTransactionSatus = $sepGateway->verify(165165);
 
             if($verifyTransactionSatus) {
                 dd("پرداخت موفق");
