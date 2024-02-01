@@ -69,7 +69,6 @@ class SepGatewayService {
     /**
      * Verify a transaction with the given amount and reference number.
      *
-     * @param int $amount The amount of the transaction
      * @param string $RefNum The reference number of the transaction
      */
     public function verify($RefNum) {
@@ -80,7 +79,7 @@ class SepGatewayService {
         ]);
 
         // Get the response object
-        return $responseObject = $response->object();
+        return $response->object()->Success;
     }
     
 }

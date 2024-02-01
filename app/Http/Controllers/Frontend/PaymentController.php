@@ -175,12 +175,25 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
-        // if($request->Status == 2) {
-        //     $sepGateway = new SepGatewayService(10000, "153c3c3x");
-        //     dd($sepGateway->verify($request->RefNum));
-        // } else {
-        //     dd("پرداخت ناموفق");
-        // }
+        if($request->Status == 2) {
+            $resNum = $request->ResNum;
+
+            //$payment = Payment::where('resnumber', Purify::clean($resNum))->firstOrFail();
+            //$amount = $payment->order->price;
+
+            $sepGateway = new SepGatewayService(10000, $resNum);
+           
+            $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
+
+            if($verifyTransactionSatus) {
+                dd("پرداخت موفق");
+            } else {
+                dd("پرداخت ناموفق");
+            }
+
+        } else {
+            dd("پرداخت ناموفق");
+        }
         
 
         try {

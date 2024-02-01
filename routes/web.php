@@ -32,7 +32,7 @@ Route::get('changeDatabase', function () {
 //         }
 //     });
 
-    // $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
-    // return $sepGateway->redirectToPayment();
+    $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
+    return $sepGateway->redirectToPayment();
     
 });
