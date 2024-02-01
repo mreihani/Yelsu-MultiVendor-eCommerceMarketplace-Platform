@@ -176,7 +176,8 @@ class PaymentController extends Controller
     public function callback(Request $request)
     {
         if($request->Status == 2) {
-            $resNum = $request->ResNum;
+            //$resNum = $request->ResNum;
+            $resNum = "sadadw";
 
             //$payment = Payment::where('resnumber', Purify::clean($resNum))->firstOrFail();
             //$amount = $payment->order->price;
