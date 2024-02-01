@@ -29,22 +29,8 @@ class PaymentController extends Controller
         $incomingFields = $request->validate([
             'home_phone' => 'required',
             'person_type' => new PersonTypeValidation($request),
-            // 'address_title' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'country' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'province' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'city' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'address' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'latitude' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
-            // 'longitude' => Purify::clean(request()->shipment) == 0 ? 'required' : '',
         ], [
             'home_phone.required' => 'لطفا شماره تلفن خود را وارد نمایید',
-            // 'address_title.required' => 'لطفا عنوان محل مورد نظر را وارد نمایید.',
-            // 'country.required' => 'لطفا کشور محل مورد نظر را وارد نمایید.',
-            // 'province.required' => 'لطفا استان محل مورد نظر را وارد نمایید.',
-            // 'city.required' => 'لطفا شهر محل مورد نظر راوارد نمایید.',
-            // 'address.required' => 'لطفا آدرس محل مورد نظر را وارد نمایید.',
-            // 'latitude.required' => 'لطفا عرض جغرافیایی محل مورد نظر را وارد نمایید.',
-            // 'longitude.required' => 'لطفا طول جغرافیایی محل مورد نظر را وارد نمایید.',
         ]);
 
         if (Purify::clean($request->person_type) == 'haghighi') {
@@ -93,29 +79,6 @@ class PaymentController extends Controller
                 ];
             });
 
-
-            // if (Purify::clean($request->shipment) != 0) {
-            //     $useroutlet_id = Purify::clean($request->shipment);
-            // } else {
-            //     $useroutlet_id = Useroutlets::insertGetId([
-            //         'country' => Purify::clean($incomingFields['country']),
-            //         'city' => Purify::clean($incomingFields['city']),
-            //         'province' => Purify::clean($incomingFields['province']),
-            //         'name' => Purify::clean($incomingFields['address_title']),
-            //         'address' => Purify::clean($incomingFields['address']),
-            //         'latitude' => Purify::clean($incomingFields['latitude']),
-            //         'longitude' => Purify::clean($incomingFields['longitude']),
-            //         'postalcode' => Purify::clean($request->postalcode) ? Purify::clean($request->postalcode) : NULL,
-            //         'user_id' => Auth::user()->id,
-            //         'created_at' => Carbon::now(),
-            //         'updated_at' => Carbon::now(),
-            //     ]);
-            // }
-
-            // $useroutlet_obj = Useroutlets::find($useroutlet_id);
-
-           
-
             if($request->person_type && $request->person_type == "haghighi") {
 
                 $user->update([
@@ -135,28 +98,13 @@ class PaymentController extends Controller
                 ]);
 
             }
-                
-            
 
             $order = auth()->user()->order()->create([
                 'status' => 'unpaid',
                 'price' => $price,
                 'order_note' => Purify::clean($request->order_note),
                 'home_phone' => Purify::clean($incomingFields['home_phone']),
-                // 'useroutlet_id' => $useroutlet_id,
-                // 'order_shipping_location_name' => $useroutlet_obj->name,
-                // 'order_shipping_country' => $useroutlet_obj->country,
-                // 'order_shipping_province' => $useroutlet_obj->province,
-                // 'order_shipping_city' => $useroutlet_obj->city,
-                // 'order_shipping_address' => $useroutlet_obj->address,
-                // 'order_shipping_postalcode' => $useroutlet_obj->postalcode,
-                // 'order_shipping_phone' => $useroutlet_obj->phone,
-                // 'order_shipping_fax' => $useroutlet_obj->fax,
-                // 'order_shipping_latitude' => $useroutlet_obj->latitude,
-                // 'order_shipping_longitude' => $useroutlet_obj->longitude,
             ]);
-
-            
 
             $order->products()->attach($orderItems);
 
@@ -174,7 +122,7 @@ class PaymentController extends Controller
             // $ResNum = Str::uuid()->toString();
             $randomString = uniqid();
             $ResNum = substr($randomString, 0, 8);
-            $ResNum = "adw2f323";
+            $ResNum = "1qaz@WSX";
             $sepGateway = new SepGatewayService($price, $ResNum);
             $order->payments()->create([
                 'resnumber' => $ResNum,
