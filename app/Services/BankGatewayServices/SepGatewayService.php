@@ -79,7 +79,7 @@ class SepGatewayService {
         ]);
         
         // Get the response object
-        return $response->object();
+        return $response->object()->Success;
     }
     
 }
