@@ -174,7 +174,10 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
-        dd($request);
+        
+        $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
+        dd($sepGateway->verify($request->RefNum));
+
         try {
             $payment = Payment::where('resnumber', Purify::clean($request->clientrefid))->firstOrFail();
 
