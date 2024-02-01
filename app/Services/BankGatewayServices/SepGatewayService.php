@@ -8,16 +8,19 @@ class SepGatewayService {
 
     public $amount;
     public $ResNum;
+    public $CellNumber;
 
     /**
      * Constructor method for initializing the amount and ResNum.
      *
      * @param int $amount The amount to be initialized.
      * @param string $ResNum The ResNum to be initialized.
+     * @param string $CellNumber The Cell Number to be initialized.
      */
-    public function __construct(int $amount, string $ResNum) {
+    public function __construct(int $amount, string $ResNum, string $CellNumber) {
         $this->amount = $amount;
         $this->ResNum = $ResNum;
+        $this->CellNumber = $CellNumber;
     }
 
     /**
@@ -33,7 +36,7 @@ class SepGatewayService {
             "Amount" => $this->amount,
             "ResNum" => $this->ResNum,
             "RedirectUrl" => "https://yelsu.com/payment/callback",
-            "CellNumber" => "9120000000"
+            "CellNumber" => $this->CellNumber
         ]);
 
         // Get the response object
