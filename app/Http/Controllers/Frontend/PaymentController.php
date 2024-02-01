@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Stevebauman\Purify\Facades\Purify;
+use App\Services\BankGatewayServices\SepGatewayService;
 use Shetabit\Payment\Facade\Payment as ShetabitPayment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
@@ -175,7 +176,7 @@ class PaymentController extends Controller
     public function callback(Request $request)
     {
         if($request->Status == 2) {
-            $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
+            $sepGateway = new SepGatewayService(10000, "153c3c3x");
             dd($sepGateway->verify($request->RefNum));
         } else {
             dd("پرداخت ناموفق");
