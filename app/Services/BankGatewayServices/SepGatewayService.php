@@ -76,7 +76,7 @@ class SepGatewayService {
             "RefNum" => $RefNum,
             "TerminalNumber" => config("yelsu-payment-gateway.sep.TerminalId")
         ]);
-        dd($response->object());
+        
         // Get the response object
         return $response->object()->Success;
     }

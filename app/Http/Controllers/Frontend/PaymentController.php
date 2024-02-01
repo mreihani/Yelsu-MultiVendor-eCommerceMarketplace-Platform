@@ -127,6 +127,8 @@ class PaymentController extends Controller
             //$sepGateway = new SepGatewayService($amount * 10, $resNum);
            
             // $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
+
+            // Verify the transaction
             $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
 
             if($verifyTransactionSatus) {
