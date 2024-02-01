@@ -32,8 +32,8 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
-    $sepGateway = new App\Services\BankGatewayServices\SepGatewayService();
-    $token = $sepGateway->getToken();
-    dd($token);
+    // $sepGateway = new App\Services\BankGatewayServices\SepGatewayService();
+    // $token = $sepGateway->getToken();
+    // dd($token);
 
 // });
