@@ -71,7 +71,7 @@ class SepGatewayService {
      *
      * @param string $RefNum The reference number of the transaction
      */
-    public function verify($RefNum) {
+    public static function verify($RefNum) {
         // Send a POST request to verify the transaction
         $response = Http::post('https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTransaction', [
             "RefNum" => $RefNum,

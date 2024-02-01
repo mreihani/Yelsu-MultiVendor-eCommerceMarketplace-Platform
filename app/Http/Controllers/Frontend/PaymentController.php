@@ -14,13 +14,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
 use App\Rules\PersonTypeValidation;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\BankGatewayServices\SepGatewayService;
-use Shetabit\Payment\Facade\Payment as ShetabitPayment;
-use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
 class PaymentController extends Controller
 {
@@ -107,17 +104,6 @@ class PaymentController extends Controller
             ]);
 
             $order->products()->attach($orderItems);
-
-            // Create new invoice.
-            // $invoice = (new Invoice)->amount(1000);
-            // return ShetabitPayment::callbackUrl(route('payment.callback'))->purchase($invoice, function ($driver, $transactionId) use ($order, $cart, $invoice) {
-            //     $order->payments()->create([
-            //         'resnumber' => $invoice->getUuid(),
-            //     ]);
-
-            //     //$cart->flush();
-            // })->pay()->render();
-
           
             $ResNum = Str::uuid()->toString();
             $sepGateway = new SepGatewayService($price * 10, $ResNum);
@@ -138,15 +124,16 @@ class PaymentController extends Controller
             $payment = Payment::where('resnumber', $resNum)->firstOrFail();
             $amount = $payment->order->price;
 
-            $sepGateway = new SepGatewayService($amount * 10, $resNum);
+            //$sepGateway = new SepGatewayService($amount * 10, $resNum);
            
-            $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
+            // $verifyTransactionSatus = $sepGateway->verify($request->RefNum);
+            $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
 
             if($verifyTransactionSatus) {
                 $payment->update(['status' => 1]);
                 $payment->order()->update(['status' => 'paid']);
 
-                 // Subtract product stock values after successfull payments
+                // Subtract product stock values after successfull payments
                 $cart = Cart::instance('default');
                 $cartItems = $cart->all();
                 foreach ($cartItems as $cartItem) {
@@ -176,42 +163,5 @@ class PaymentController extends Controller
             return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
         }
         
-
-        // try {
-        //     $payment = Payment::where('resnumber', Purify::clean($request->clientrefid))->firstOrFail();
-
-        //     // $payment->order->price
-        //     $receipt = ShetabitPayment::amount(1000)->transactionId(Purify::clean($request->clientrefid))->verify();
-
-        //     $payment->update(['status' => 1]);
-        //     $payment->order()->update(['status' => 'paid']);
-
-        //     // Subtract product stock values after successfull payments
-        //     $cart = Cart::instance('default');
-        //     $cartItems = $cart->all();
-        //     foreach ($cartItems as $cartItem) {
-        //         $product = Product::find($cartItem['product']->id);
-        //         if ($product->unlimitedStock == 'disabled' && $product->product_qty != NULL) {
-        //             $product->product_qty = $product->product_qty - $cartItem['quantity'];
-
-        //             if ($product->product_qty < 0) {
-        //                 $product->product_qty = 0;
-        //             }
-        //             $product->save();
-        //         }
-        //     }
-
-        //     $cart->flush();
-            
-        //     // ارسال پیامک دریافت سفارش
-        //     event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
-
-        //     return redirect(route('dashboard', ['type' => 'orders']))->with('success', 'سفارش شما با موفقیت ثبت گردید.');
-
-        // } catch (InvalidPaymentException $exception) {
-        //     //return $exception->getMessage();
-
-        //     return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. لطفا مجددا سعی نمایید.');
-        // }
     }
 }
