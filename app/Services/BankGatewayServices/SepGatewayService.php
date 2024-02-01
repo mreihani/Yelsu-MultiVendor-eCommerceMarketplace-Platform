@@ -21,7 +21,7 @@ class SepGatewayService {
         $this->amount = $amount;
         $this->ResNum = $ResNum;
         $this->CellNumber = $CellNumber;
-        $this->$TerminalId = config("yelsu-payment-gateway.sep.TerminalId");
+        $this->TerminalId = config("yelsu-payment-gateway.sep.TerminalId");
     }
 
     /**
@@ -33,7 +33,7 @@ class SepGatewayService {
         // Send a POST request to the specified endpoint with the required parameters
         $response = Http::post('https://sep.shaparak.ir/onlinepg/onlinepg', [
             "action" => "token",
-            "TerminalId" => $this->$TerminalId,
+            "TerminalId" => $this->TerminalId,
             "Amount" => $this->amount,
             "ResNum" => $this->ResNum,
             "RedirectUrl" => "https://yelsu.com/payment/callback",
@@ -73,7 +73,7 @@ class SepGatewayService {
     public function verify($amount, $ResNum) {
         $response = Http::post('https://sep.shaparak.ir/onlinepg/onlinepg', [
             "action" => "verify",
-            "TerminalId" => $this->$TerminalId,
+            "TerminalId" => $this->TerminalId,
             "Amount" => $amount,
             "ResNum" => $ResNum
         ]);
