@@ -39,6 +39,6 @@ Route::get('changeDatabase', function () {
     //     return redirect('https://sep.shaparak.ir/onlinepg/SendToken?token='.$token);
     // }
 
-    $sepGateway->redirectToPayment();
+    return $sepGateway->redirectToPayment();
     
 });
