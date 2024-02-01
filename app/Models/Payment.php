@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Payment extends Model
 {
-    protected $fillable = ['resnumber','status'];
+    protected $guarded = [];
 
     public function order() {
         return $this->belongsTo(Order::class);
