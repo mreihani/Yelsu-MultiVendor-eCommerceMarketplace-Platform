@@ -145,17 +145,27 @@ class PaymentController extends Controller
             // Imagine user has opened multiple windows to pay at the same time, this line will prevent that.
             if($payment->order->status == "paid") {
                 // Redirect to the dashboard
-                return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. قبلا پرداخت انجام شده است.');
+                return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. پرداخت قبلا انجام شده است.');
             }
 
             // Verify the transaction
-            $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
+            $RefNum = $request->RefNum;
+            $verifyTransactionSatus = SepGatewayService::verify($RefNum);
 
            // If the transaction is successfull after verification.
             if($verifyTransactionSatus) {
 
                 // Update the payment status
-                $payment->update(['status' => 1]);
+                $payment->update([
+                    'status' => 1,
+                    'refnumber' => $RefNum,
+                    'rnn' => $request->RRN,
+                    'maskedpan' => $request->MaskedPan,
+                    'terminal_number' => $request->TerminalNumber,
+                    'original_amount' => $request->OrginalAmount,
+                    'strace_date' => $request->StraceDate,
+                    'strace_no' => $request->StraceNo,
+                ]);
 
                 // Update the order status
                 $payment->order()->update(['status' => 'paid']);
