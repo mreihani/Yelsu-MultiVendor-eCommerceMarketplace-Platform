@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,8 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
-  
+    $sepGateway = new App\Services\BankGatewayServices\SepGatewayService();
+    $token = $sepGateway->getToken();
+    dd($token);
 
 // });

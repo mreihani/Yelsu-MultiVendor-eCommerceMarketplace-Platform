@@ -15,6 +15,15 @@ class SepGatewayService {
             "RedirectUrl" => "https://yelsu.com/payment/callback",
             "CellNumber" => "9120000000"
         ]);
+
+        $responseObject = $response->object();
+        $responseStatus = $responseObject->status;
+        
+        if($responseStatus == 1) {
+            return $responseObject->token;
+        } else {
+            return false;
+        }
     }
     
 }
