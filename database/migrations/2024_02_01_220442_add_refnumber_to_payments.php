@@ -28,13 +28,12 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn([
+                'terminal_id', 
                 'refnumber', 
-                'rnn', 
-                'maskedpan', 
-                'terminal_number', 
-                'original_amount', 
-                'strace_date', 
-                'strace_no', 
+                'trance_no', 
+                'amount', 
+                'rrn', 
+                'secure_pan', 
             ]);
         });
     }
