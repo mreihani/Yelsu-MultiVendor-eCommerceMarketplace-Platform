@@ -128,8 +128,7 @@ class PaymentController extends Controller
                 'resnumber' => $ResNum,
             ]);
             return $sepGateway->redirectToPayment();
-
-
+            
         }
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
     }

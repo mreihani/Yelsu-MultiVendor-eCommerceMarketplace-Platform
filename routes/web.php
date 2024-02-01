@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Services\BankGatewayServices\SepGatewayService;
 
 
 
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -32,5 +33,7 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
    
-    
-// });
+    $sepGateway = new SepGatewayService(1000, "153c3c3x");
+    return $sepGateway->redirectToPayment();
+
+});
