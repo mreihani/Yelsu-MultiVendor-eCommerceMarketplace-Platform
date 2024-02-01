@@ -174,7 +174,7 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
-        dd($request);
+        dd($request->object());
         try {
             $payment = Payment::where('resnumber', Purify::clean($request->clientrefid))->firstOrFail();
 
