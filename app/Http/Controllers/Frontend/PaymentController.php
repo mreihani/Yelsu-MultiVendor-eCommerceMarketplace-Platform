@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Events\OrderEvent;
@@ -13,8 +14,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
 use App\Rules\PersonTypeValidation;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\BankGatewayServices\SepGatewayService;
@@ -170,7 +171,7 @@ class PaymentController extends Controller
             // })->pay()->render();
 
             
-            $sepGateway = new SepGatewayService($price, Str::uuid());
+            $sepGateway = new SepGatewayService($price, Str::uuid()->toString());
             return $sepGateway->redirectToPayment();
 
 
