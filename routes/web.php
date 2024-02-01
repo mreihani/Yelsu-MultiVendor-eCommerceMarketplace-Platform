@@ -34,6 +34,9 @@ Route::get('changeDatabase', function () {
 
     $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
     $token = $sepGateway->getToken();
-    dd($token);
-
+    
+    if($token) {
+        return redirect('https://sep.shaparak.ir/onlinepg/SendToken?token='.$token);
+    }
+    
 });
