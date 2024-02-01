@@ -62,6 +62,8 @@ class SepGatewayService {
         if($token) {
             return redirect('https://sep.shaparak.ir/onlinepg/SendToken?token='.$token);
         }
+
+        abort(404);
     }
     
 }
