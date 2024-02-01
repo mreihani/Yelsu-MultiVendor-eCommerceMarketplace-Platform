@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {
+            $table->string('terminal_id')->nullable();
             $table->string('refnumber')->nullable();
-            $table->string('rnn')->nullable();
-            $table->string('maskedpan')->nullable();
-            $table->string('terminal_number')->nullable();
-            $table->string('original_amount')->nullable();
-            $table->string('strace_date')->nullable();
-            $table->string('strace_no')->nullable();
+            $table->string('trance_no')->nullable();
+            $table->string('amount')->nullable();
+            $table->string('rrn')->nullable();
+            $table->string('secure_pan')->nullable();
         });
     }
 

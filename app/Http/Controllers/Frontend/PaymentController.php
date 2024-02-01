@@ -159,12 +159,12 @@ class PaymentController extends Controller
                 $payment->update([
                     'status' => 1,
                     'refnumber' => $RefNum,
-                    'rnn' => $request->RRN,
-                    'maskedpan' => $request->MaskedPan,
-                    'terminal_number' => $request->TerminalNumber,
-                    'original_amount' => $request->OrginalAmount,
-                    'strace_date' => $request->StraceDate,
-                    'strace_no' => $request->StraceNo,
+                    'terminal_id' => $request->TerminalId,
+                    'refnumber' => $request->RefNum,
+                    'trance_no' => $request->TraceNo,
+                    'amount' => $request->Amount,
+                    'rrn' => $request->Rrn,
+                    'secure_pan' => $request->SecurePan,
                 ]);
 
                 // Update the order status
