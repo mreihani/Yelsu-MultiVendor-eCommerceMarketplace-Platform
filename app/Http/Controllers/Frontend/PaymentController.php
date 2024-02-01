@@ -172,7 +172,7 @@ class PaymentController extends Controller
 
             
             // $sepGateway = new SepGatewayService($price, Str::uuid()->toString());
-            $sepGateway = new SepGatewayService(1000, "afawf5a");
+            $sepGateway = new SepGatewayService(10000, "afawf5a");
             return $sepGateway->redirectToPayment();
 
 
