@@ -108,7 +108,7 @@ class PaymentController extends Controller
             // Create a new res number to send it to the bank servers
             $ResNum = Str::uuid()->toString();
 
-            // Create an instance of SepGatewayService
+            // Create an instance of SepGatewayService, and initialize it, passing the price and ResNum, 10 times to convert Toman to Iranian Rials
             $sepGateway = new SepGatewayService($price * 10, $ResNum);
 
             // Create a new payment and save resNum parameter it to the database
@@ -149,8 +149,6 @@ class PaymentController extends Controller
                 // Subtract product stock values after successfull payments
                 $this->subtractStock();
 
-                
-            
                 // Send an event to the user and let him know the order is being processed
                 event(new OrderEvent(['userinfo' => auth()->user(), 'orderid' => $payment->order()->first()->id]));
 

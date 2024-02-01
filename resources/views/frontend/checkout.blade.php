@@ -361,7 +361,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="card">
+                                        {{-- <div class="card">
                                             <div class="card-header">
                                                 <a href="#payment" class="expand">درگاه بانک صادرات</a>
                                             </div>
@@ -371,7 +371,7 @@
                                                     پرداخت از طریق درگاه بانک صادرات
                                                 </p>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
 
