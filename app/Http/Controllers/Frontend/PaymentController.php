@@ -143,7 +143,7 @@ class PaymentController extends Controller
             // IMPORTANT:
             // This will avoid double spending. 
             // Imagine user has opened multiple windows to pay at the same time, this line will prevent that.
-            if($payment->status) {
+            if($payment->order()->status == "paid") {
                 // Redirect to the dashboard
                 return redirect(route('checkout'))->with('error', 'تراکنش لغو گردید. قبلا پرداخت انجام شده است.');
             }
