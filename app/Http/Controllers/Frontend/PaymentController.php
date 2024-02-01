@@ -171,8 +171,12 @@ class PaymentController extends Controller
             // })->pay()->render();
 
             
-            // $sepGateway = new SepGatewayService($price, Str::uuid()->toString());
-            $sepGateway = new SepGatewayService(10000, "afawf5a");
+            // $ResNum = Str::uuid()->toString();
+            $ResNum = "d6e3d434-d263-4127-9613-5f48d267f037"; 
+            $sepGateway = new SepGatewayService($price, $ResNum);
+            $order->payments()->create([
+                'resnumber' => $ResNum,
+            ]);
             return $sepGateway->redirectToPayment();
 
 
@@ -185,7 +189,7 @@ class PaymentController extends Controller
         if($request->Status == 2) {
             $resNum = $request->ResNum;
 
-            $payment = Payment::where('resnumber', Purify::clean($resNum))->firstOrFail();
+            $payment = Payment::where('resnumber', $resNum)->firstOrFail();
             $amount = $payment->order->price;
 
             $sepGateway = new SepGatewayService($amount, $resNum);
