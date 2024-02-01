@@ -34,6 +34,6 @@ Route::get('changeDatabase', function () {
 
     $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x");
     $token = $sepGateway->getToken();
-    // dd($token);
+    dd($token);
 
 });
