@@ -118,7 +118,7 @@ class PaymentController extends Controller
             //     //$cart->flush();
             // })->pay()->render();
 
-            
+            dd($price);
             // $ResNum = Str::uuid()->toString();
             $randomString = uniqid();
             $ResNum = substr($randomString, 0, 8);
@@ -128,7 +128,7 @@ class PaymentController extends Controller
                 'resnumber' => $ResNum,
             ]);
             return $sepGateway->redirectToPayment();
-            
+
         }
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
     }
