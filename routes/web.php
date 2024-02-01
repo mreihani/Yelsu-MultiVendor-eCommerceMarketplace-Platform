@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -32,8 +32,8 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
-    // $sepGateway = new App\Services\BankGatewayServices\SepGatewayService();
-    // $token = $sepGateway->getToken();
-    // dd($token);
+    $sepGateway = new App\Services\BankGatewayServices\SepGatewayService();
+    $token = $sepGateway->getToken();
+    dd($token);
 
-// });
+});
