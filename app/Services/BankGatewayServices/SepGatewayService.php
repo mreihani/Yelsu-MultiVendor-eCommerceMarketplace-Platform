@@ -67,6 +67,7 @@ class SepGatewayService {
 
     /**
      * Verify a transaction with the given amount and reference number.
+     * This will avoid double spending.
      *
      * @param string $RefNum The reference number of the transaction
      */
@@ -78,7 +79,7 @@ class SepGatewayService {
         ]);
         
         // Get the response object
-        return $response->object()->Success;
+        return $response->object();
     }
     
 }

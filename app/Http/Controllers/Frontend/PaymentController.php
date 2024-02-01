@@ -137,7 +137,8 @@ class PaymentController extends Controller
             // Verify the transaction
             $verifyTransactionSatus = SepGatewayService::verify($request->RefNum);
 
-            // If the transaction is successfull after verification
+            // If the transaction is successfull after verification.
+            // This will avoid double spending.
             if($verifyTransactionSatus) {
 
                 // Update the payment status

@@ -23,7 +23,7 @@ use App\Services\BankGatewayServices\SepGatewayService;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -33,6 +33,8 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
    
+    // Verify the transaction
+    $verifyTransactionSatus = App\Services\BankGatewayServices\SepGatewayService::verify("GmshtyjwKStvHnxdNFkAKXb30T2YAAIMGQJY3gFF1r");
+    dd($verifyTransactionSatus);
 
-
-// });
+});
