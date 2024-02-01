@@ -25,7 +25,7 @@ class SepGatewayService {
      *
      * @return string|bool The token if the request is successful, false otherwise.
      */
-    public function getToken() {
+    protected function getToken() {
         // Send a POST request to the specified endpoint with the required parameters
         $response = Http::post('https://sep.shaparak.ir/onlinepg/onlinepg', [
             "action" => "token",
