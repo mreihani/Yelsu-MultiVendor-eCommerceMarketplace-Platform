@@ -32,8 +32,8 @@ Route::get('changeDatabase', function () {
 //         }
 //     });
 
-    $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x", '09152024192');
+    // $sepGateway = new App\Services\BankGatewayServices\SepGatewayService(10000, "153c3c3x", '09152024192');
 
-    return $sepGateway->redirectToPayment();
+    // return $sepGateway->redirectToPayment();
     
 });
