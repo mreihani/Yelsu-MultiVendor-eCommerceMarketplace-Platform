@@ -154,7 +154,16 @@ class PaymentController extends Controller
 
            // If the transaction is successfull after verification.
             if($verifyTransactionSatus) {
-               
+                dd(
+                    [
+                        'refnumber' => $RefNum,
+                        'terminal_id' => $request->TerminalId,
+                        'trance_no' => $request->TraceNo,
+                        'amount' => $request->Amount,
+                        'rrn' => $request->Rrn,
+                        'secure_pan' => $request->SecurePan,
+                    ]
+                );
                 // Update the payment status
                 $payment->update([
                     'status' => 1,
