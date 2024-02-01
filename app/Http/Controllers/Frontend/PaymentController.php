@@ -174,6 +174,7 @@ class PaymentController extends Controller
             // $ResNum = Str::uuid()->toString();
             $randomString = uniqid();
             $ResNum = substr($randomString, 0, 8);
+            $ResNum = "adw2f323";
             $sepGateway = new SepGatewayService($price, $ResNum);
             $order->payments()->create([
                 'resnumber' => $ResNum,
