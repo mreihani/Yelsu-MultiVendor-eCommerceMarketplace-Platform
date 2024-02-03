@@ -348,13 +348,16 @@
                                 </table>
 
                                 <div class="payment-methods" id="payment_method">
+
+                                    <input type="hidden" name="selected_gateway" value="sep-gateway">
+
                                     <h4 class="title font-weight-bold ls-25 pb-0 mb-1">روش های پرداخت </h4>
                                     <div class="accordion payment-accordion">
                                         <div class="card">
                                             <div class="card-header">
-                                                <a href="#cash-on-delivery" class="collapse">درگاه بانک رفاه</a>
+                                                <a href="#sep-gateway" class="collapse">درگاه بانک رفاه</a>
                                             </div>
-                                            <div id="cash-on-delivery" class="card-body expanded">
+                                            <div id="sep-gateway" class="card-body expanded">
                                                 <p class="mb-0">
                                                     <img width="40px" src="{{asset('frontend/assets/images/demos/demo13/banner/Refah-Bank-Logo.png')}}" alt="">
                                                     پرداخت از طریق درگاه بانک رفاه
@@ -363,9 +366,9 @@
                                         </div>
                                         {{-- <div class="card">
                                             <div class="card-header">
-                                                <a href="#payment" class="expand">درگاه بانک صادرات</a>
+                                                <a href="#sepehr-gateway" class="expand">درگاه بانک صادرات</a>
                                             </div>
-                                            <div id="payment" class="card-body collapsed">
+                                            <div id="sepehr-gateway" class="card-body collapsed">
                                                 <p class="mb-0">
                                                     <img width="40px" src="{{asset('frontend/assets/images/demos/demo13/banner/Bank_Saderat_Iran_logo.png')}}" alt="">
                                                     پرداخت از طریق درگاه بانک صادرات
@@ -385,13 +388,24 @@
             </form>
         </div>
     </div>
-
     
     <!-- End of PageContent -->
 </main>
 
 <script src="{{asset('frontend/assets/js/checkout.js')}}"></script>
-{{-- <script src="{{asset('frontend/assets/plugins/leaflet/Control.Geocoder.js')}}"></script>
-<script src="{{asset('frontend/assets/plugins/leaflet/leafletyelsuDashboard.js')}}"></script> --}}
+
+<script>
+    $("#payment_method").on("click", ".card-header", function() {
+        let thisElement = $(this);
+        let selectedGateway = thisElement.find("a").attr("href");
+        let selectedGatewayInput = $("#payment_method").find("input");
+
+        if(selectedGateway == "#sep-gateway") {
+            selectedGatewayInput.val("sep");
+        } else if(selectedGateway == "#sepehr-gateway") {
+            selectedGatewayInput.val("sepehr");
+        }
+    });
+</script>
 
 @endsection

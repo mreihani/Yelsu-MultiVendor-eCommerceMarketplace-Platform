@@ -26,8 +26,10 @@ class PaymentController extends Controller
         $incomingFields = $request->validate([
             'home_phone' => 'required',
             'person_type' => new PersonTypeValidation($request),
+            'selected_gateway' => 'required',
         ], [
             'home_phone.required' => 'لطفا شماره تلفن خود را وارد نمایید',
+            'selected_gateway.required' => 'درگاه پرداخت را انتخاب نمایید',
         ]);
 
         if (Purify::clean($request->person_type) == 'haghighi') {
@@ -49,7 +51,6 @@ class PaymentController extends Controller
                 return redirect(route('checkout'))->with('error', 'لطفا اطلاعات شخص حقوقی را به درستی وارد نمایید.');
             }
         }
-
 
         $cart = Cart::instance('default');
         $cartItems = $cart->all();
@@ -107,19 +108,22 @@ class PaymentController extends Controller
           
             // Create a new res number to send it to the bank servers
             $ResNum = Str::uuid()->toString();
-
-            // Create an instance of SepGatewayService, and initialize it, passing the price and ResNum, 10 times to convert Toman to Iranian Rials
-            $sepGateway = new SepGatewayService($price * 10, $ResNum);
-
+            
             // Create a new payment and save resNum parameter it to the database
             $order->payments()->create([
                 'resnumber' => $ResNum,
             ]);
 
-            // Redirect to bank servers
-            //return $sepGateway->redirectToPayment();
+            // Get the selected gateway
+            if($incomingFields["selected_gateway"] == "sep") {
+                // Create an instance of SepGatewayService, and initialize it, passing the price and ResNum
+                $bankGateway = new SepGatewayService($price, $ResNum);
+            }
 
+            // Redirect to bank servers
+            return $bankGateway->redirectToPayment();
         }
+        
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
     }
 

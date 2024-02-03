@@ -11,17 +11,18 @@
         <div class="swiper-wrapper row gutter-no cols-1">
 
             <div onclick="window.location='{{route('shop.category',['id'=> 1])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
-                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refah-bank-slider-1.jpg')}}); cursor: pointer;">
+                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refah-bank-slider-2.jpg')}}); cursor: pointer;">
                 <div class="banner-content y-50" style="width: 350px">
                     <div class="slide-animate" data-animation-options="{
                         'name': 'fadeInUpShorter', 'duration': '1s','delay':'.3s'
                         }">
-                        {{-- <h3 style="font-size: 17px;" class="banner-subtitle text-dark font-weight-normal">فروش انواع محصولات فولادی و فلزی
-                        </h3> --}}
+                        <h1 style="font-size: 43px; color: #405eb0;" class="font-weight-bold">
+                            حامیان تجارت شما
+                        </h1>
                         {{-- <h3 style="font-size: 17px;" class="text-dark text-uppercase ls-45">استعلام قیمت روز، تمام کارخانجات فولادی
                             میلگرد، قوطی، تیرآهن، انواع ورق و ...
-                        </h3> --}}
-                        {{-- <h4 style="font-size: 17px;" class="banner-price-info text-uppercase font-weight-bold ls-25">
+                        </h3>
+                        <h4 style="font-size: 17px;" class="banner-price-info text-uppercase font-weight-bold ls-25">
                             <span style="font-size: 17px;" class="text-secondary ls-25">خرید و سفارش آنلاین و مطمئن</span>
                         </h4> --}}
                     </div>
@@ -30,19 +31,21 @@
             <!-- End of Intro Slide 1 -->
 
             <div onclick="window.location='{{route('shop.category',['id'=> 4])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
-                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refinary_2.jpg')}}); cursor: pointer;">
+                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refinary_3.jpg')}}); cursor: pointer;">
                 <div class="banner-content y-50" style="width: 350px">
                     <div class="slide-animate" data-animation-options="{
                         'name': 'fadeInUpShorter', 'duration': '1s','delay':'.3s'
                         }">
-                        {{-- <h3 style="font-size: 17px;" class="banner-subtitle text-dark font-weight-normal">مرجع فروش انواع مشتقات نفتی 
-                        </h3> --}}
-                        {{-- <h3 style="font-size: 17px;" class="text-dark text-uppercase ls-45">فروش انواع محصولات پتروشیمی
-                            نفت خام، گازوئیل، سوخت جت
-                            گوگرد گرانول، اوره، مازوت و ...
-                        </h3> --}}
+                        <h3 style="font-size: 35px; color: #405eb0;" class="banner-subtitle font-weight-normal">
+                            در هر زمینه فعالیت تجاری همراه شما هستیم
+                        </h3>
+                        <h3 style="font-size: 17px;" class="text-uppercase ls-45">
+                            همین حالا تجارت خود را گسترش دهید!!!
+                        </h3>
                         <h4 style="font-size: 17px;" class="banner-price-info text-uppercase font-weight-bold ls-25">
-                            {{-- <span class="text-secondary ls-25">با ارمغان تجارت مغان</span> --}}
+                            {{-- <span class="text-secondary ls-25">
+                                همین الان
+                            </span> --}}
                         </h4>
                     </div>
                 </div>
