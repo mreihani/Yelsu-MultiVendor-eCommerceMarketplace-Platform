@@ -117,13 +117,13 @@ class PaymentController extends Controller
             // Get the selected gateway
             if($incomingFields["selected_gateway"] == "sep") {
                 // Create an instance of SepGatewayService, and initialize it, passing the price and ResNum
-                $bankGateway = new SepGatewayService($price, $ResNum);
+                $bankGatewayObj = new SepGatewayService($price, $ResNum);
             }
 
             // Redirect to bank servers
-            return $bankGateway->redirectToPayment();
+            return $bankGatewayObj->redirectToPayment();
         }
-        
+
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
     }
 

@@ -349,7 +349,7 @@
 
                                 <div class="payment-methods" id="payment_method">
 
-                                    <input type="hidden" name="selected_gateway" value="sep-gateway">
+                                    <input type="hidden" name="selected_gateway" value="sep">
 
                                     <h4 class="title font-weight-bold ls-25 pb-0 mb-1">روش های پرداخت </h4>
                                     <div class="accordion payment-accordion">
