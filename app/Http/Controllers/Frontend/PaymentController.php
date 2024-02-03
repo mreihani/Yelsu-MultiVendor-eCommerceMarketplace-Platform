@@ -117,7 +117,7 @@ class PaymentController extends Controller
             ]);
 
             // Redirect to bank servers
-            return $sepGateway->redirectToPayment();
+            //return $sepGateway->redirectToPayment();
 
         }
         return redirect(route('checkout'))->with('error', 'سبد خرید شما خالی است. لطفا محصول مورد نظر را انتخاب نمایید.');
@@ -152,16 +152,16 @@ class PaymentController extends Controller
             $RefNum = $request->RefNum;
             $verifyTransactionSatus = SepGatewayService::verify($RefNum);
 
-            // Retrieve all required parameters from POST request
-            $terminal_id = $request->TerminalId;
-            $trance_no = $request->TraceNo;
-            $amount = $request->Amount;
-            $rrn = $request->Rrn;
-            $secure_pan = $request->SecurePan;
-
-           // If the transaction is successfull after verification.
+            // If the transaction is successfull after verification.
             if($verifyTransactionSatus) {
                 
+                // Retrieve all required parameters from POST request
+                $terminal_id = $request->TerminalId;
+                $trance_no = $request->TraceNo;
+                $amount = $request->Amount;
+                $rrn = $request->Rrn;
+                $secure_pan = $request->SecurePan;
+
                 // Update the payment parameters in DB
                 $payment->update([
                     'status' => 1,
