@@ -100,96 +100,40 @@
                         </div>
                     </div>
                     
+                    @php
+                        $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
+                            return $cart['product']->price_with_commission * $cart['quantity'];
+                        });
+                        $valueAddedTax = $cart['product']->determine_product_value_added_tax();
+                        $totalPriceAfterTax = ($valueAddedTax / 100 + 1) * $totalPrice;
+                    @endphp
+                    
                     <div class="col-lg-4 sticky-sidebar-wrapper">
                         <div class="sticky-sidebar">
                             <div class="cart-summary mb-4">
                                 <h3 class="cart-title text-uppercase">مجموع سبد </h3>
                                 <div class="cart-subtotal d-flex align-items-center justify-content-between">
                                     <label class="ls-25">مجموع</label>
-                                    @php
-                                        $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                                            return $cart['product']->price_with_commission * $cart['quantity'];
-                                        });
-                                    @endphp
-                                    <span><span id="totalPrice">{{number_format($totalPrice, 0, '', ',')}}</span> تومان</span>
+                                   
+                                    <span>
+                                        <span id="totalPrice">{{number_format($totalPrice, 0, '', ',')}}</span>
+                                         تومان
+                                    </span>
                                 </div>
 
                                 <hr class="divider">
 
-                                {{-- <ul class="shipping-methods mb-2">
-                                    <li>
-                                        <label
-                                            class="shipping-title text-dark font-weight-bold">حمل و نقل</label>
-                                    </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="free-shipping" class="custom-control-input"
-                                                name="shipping">
-                                            <label for="free-shipping"
-                                                class="custom-control-label color-dark">حمل و نقل رایگان</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="local-pickup" class="custom-control-input"
-                                                name="shipping">
-                                            <label for="local-pickup"
-                                                class="custom-control-label color-dark">وانت محلی</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="flat-rate" class="custom-control-input"
-                                                name="shipping">
-                                            <label for="flat-rate" class="custom-control-label color-dark">نرخ ثابت:
-                                                78000 تومان</label>
-                                        </div>
-                                    </li>
-                                </ul> --}}
+                                <div class="cart-subtotal d-flex align-items-center justify-content-between">
+                                    <label class="ls-25">مجموع (با احتساب مالیات بر ارزش افزوده)</label>
+                                   
+                                    <span>
+                                        <span id="totalPrice">{{number_format($totalPriceAfterTax, 0, '', ',')}}</span>
+                                         تومان
+                                    </span>
+                                </div>
 
-                                {{-- <div class="shipping-calculator">
-                                    <p class="shipping-destination lh-1">حمل و نقل به <strong>CA</strong>.</p>
-
-                                    <form class="shipping-calculator-form">
-                                        <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="country" class="form-control form-control-md">
-                                                    <option value="default" selected="selected">ایالات متحده
-                                                        (US)
-                                                    </option>
-                                                    <option value="us">ایالات متحده</option>
-                                                    <option value="uk">انگلستان</option>
-                                                    <option value="fr">فرانسه </option>
-                                                    <option value="aus">استرالیا </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="state" class="form-control form-control-md">
-                                                    <option value="default" selected="selected"> کالیفرنیا 
-                                                    </option>
-                                                    <option value="ohaio">اوهایو</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                name="town-city" placeholder="خانه / شهر">
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                name="zipcode" placeholder="کد پستی">
-                                        </div>
-                                        <button type="submit" class="btn btn-dark btn-outline btn-rounded">آپدیت مجموع</button>
-                                    </form>
-                                </div> --}}
-
-                                {{-- <hr class="divider mb-6">
-                                <div class="order-total d-flex justify-content-between align-items-center">
-                                    <label>مجموع</label>
-                                    <span class="ls-50">100000 تومان</span>
-                                </div> --}}
+                                <hr class="divider">
+                                
                                 <a href="{{route('checkout')}}"
                                     class="btn btn-block btn-dark btn-icon-right btn-rounded btn-checkout" id="continueShopping" > 
                                     پردازش و پرداخت<i class="w-icon-long-arrow-left"></i></a>

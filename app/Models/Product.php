@@ -310,7 +310,7 @@ class Product extends Model
 
         // Calculate the value added tax by percentage
         if($addedValueTax) {
-            return floor($this->price_with_commission * ($addedValueTax / 100 + 1));
+            return ceil($this->price_with_commission * ($addedValueTax / 100 + 1));
         } else {
             return $this->price_with_commission;
         }
@@ -627,4 +627,12 @@ class Product extends Model
         // Return the selling price if no commission applies
         return $sellingPrice;
     }
+
+    public function getPriceWithCommissionValueAddedAttribute() {
+        $priceWithCommission = $this->price_with_commission;
+        $valueAddedTax = $this->determine_product_value_added_tax();
+        
+        return ($valueAddedTax / 100 + 1) * $priceWithCommission;
+    }
 }
+

@@ -270,7 +270,7 @@
                                             @if(isset($cart['product']))
                                             @php
                                                 $product = $cart['product'];
-                                                $totalPrice = $cart['quantity']*$product->price_with_commission;
+                                                $totalPrice = $cart['quantity'] * $product->price_with_commission;
                                             @endphp
                                                 <tr class="bb-no">
                                                     <td class="product-name" style="text-align: start;">
@@ -281,17 +281,19 @@
                                                             {{$cart['quantity']}}
                                                         </span>
                                                     </td>
-                                                   <td class="product-total">
-                                                        {{number_format($cart['quantity']*$product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} 
+                                                    <td class="product-total">
+                                                        {{number_format($cart['quantity'] * $product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
-                                            @endif    
+                                            @endif                                     
                                         @endforeach
 
                                         @php
                                             $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
                                                 return $cart['product']->price_with_commission * $cart['quantity'];
                                             });
+                                            $valueAddedTax = $product->determine_product_value_added_tax();
+                                            $totalPriceAfterTax = ($valueAddedTax / 100 + 1) * $totalPrice;
                                         @endphp
                                
                                         <tr class="cart-subtotal bb-no">
@@ -302,49 +304,17 @@
                                                 <b>{{number_format($totalPrice, 0, '', ',')}} تومان</b>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        {{-- <tr class="shipping-methods">
-                                            <td colspan="2" class="text-left">
-                                                <h4 class="title title-simple bb-no mb-1 pb-0 pt-3">حمل و نقل
-                                                </h4>
-                                                <ul id="shipping-method" class="mb-4">
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="free-shipping"
-                                                                class="custom-control-input" name="shipping">
-                                                            <label for="free-shipping"
-                                                                class="custom-control-label color-dark">ارسال رایگان</label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="local-pickup"
-                                                                class="custom-control-input" name="shipping">
-                                                            <label for="local-pickup"
-                                                                class="custom-control-label color-dark">وانت محلی</label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="flat-rate"
-                                                                class="custom-control-input" name="shipping">
-                                                            <label for="flat-rate"
-                                                                class="custom-control-label color-dark">نرخ ثابت: 78000 تومان</label>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+
+                                        <tr class="cart-subtotal bb-no">
+                                            <td style="text-align: start;">
+                                                <b>جمع کل (با احتساب مالیات بر ارزش افزوده)</b>
                                             </td>
-                                        </tr> --}}
-                                        <tr class="order-total">
-                                            <th>
-                                                <b>جمع کل</b>
-                                            </th>
                                             <td>
-                                                <b>{{number_format(10000, 0, '', ',')}} تومان</b>
+                                                <b>{{number_format($totalPriceAfterTax, 0, '', ',')}} تومان</b>
                                             </td>
                                         </tr>
-                                    </tfoot>
+
+                                    </tbody>
                                 </table>
 
                                 <div class="payment-methods" id="payment_method">

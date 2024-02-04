@@ -58,7 +58,7 @@ class PaymentController extends Controller
 
         if ($cartItems->count()) {
             $price = $cartItems->sum(function ($cart) {
-                return $cart['product']->price_with_commission * $cart['quantity'];
+                return $cart['product']->price_with_commission_value_added * $cart['quantity'];
             });
 
             // Here check if available in stock - Dont forget to show notification
@@ -73,7 +73,7 @@ class PaymentController extends Controller
                 return [
                     $cart['product']->id
                     =>
-                    ['quantity' => $cart['quantity'], 'price' => $cart['product']->price_with_commission]
+                    ['quantity' => $cart['quantity'], 'price' => $cart['product']->price_with_commission_value_added]
                 ];
             });
 
@@ -96,7 +96,7 @@ class PaymentController extends Controller
                 ]);
 
             }
-
+            
             $order = auth()->user()->order()->create([
                 'status' => 'unpaid',
                 'price' => $price,
@@ -106,9 +106,12 @@ class PaymentController extends Controller
 
             $order->products()->attach($orderItems);
           
+            // Get cart id number
+            $cartIdNumber = $cartItems->keys()->first();
+
             // Create a new res number to send it to the bank servers
             $ResNum = Str::uuid()->toString();
-            
+           
             // Create a new payment and save resNum parameter it to the database
             $order->payments()->create([
                 'resnumber' => $ResNum,
