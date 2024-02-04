@@ -193,10 +193,11 @@
                                     {{$driver_sector_item == 3 ? "شهری" : ''}}
                                     {{$driver_sector_item == 4 ? "بین شهری" : ''}}
                                     {{$driver_sector_item == 5 ? "بین المللی" : ''}}
-                                    {{$driver_sector_item == 6 ? "ریلی" : ''}}
-                                    {{$driver_sector_item == 7 ? "هوایی" : ''}}
-                                    {{$driver_sector_item == 8 ? "آبی" : ''}}
-                                    {{$driver_sector_item == 9 ? "محموله ترافیکی" : ''}}
+                                    {{$driver_sector_item == 6 ? "محموله ترافیکی" : ''}}
+                                    {{$driver_sector_item == 7 ? "ریلی" : ''}}
+                                    {{$driver_sector_item == 8 ? "هوایی" : ''}}
+                                    {{$driver_sector_item == 9 ? "آبی" : ''}}
+                                    {{$driver_sector_item == 10 ? "پستی" : ''}}
                                 </div>
                             @endforeach
                         @else    
@@ -216,7 +217,7 @@
                     <div class="col-lg-6 fv-row">
                         @if($data->driver->category_id_temp)
                             @foreach(explode(",", $data->driver->category_id_temp) as $category_id)
-                                @if(App\Models\Category::find($category_id))
+                                @if(App\Models\Category::where("id", $category_id)->first())
                                     <div class="badge badge-light-primary fw-bold">
                                         {{App\Models\Category::find($category_id)->category_name}}
                                     </div>

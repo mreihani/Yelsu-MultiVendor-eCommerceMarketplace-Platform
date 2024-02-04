@@ -177,11 +177,12 @@ class AdminController extends Controller
 
       $data = User::find(Purify::clean($id));
 
-
       $vendor_sector_arr = explode(",", $data->vendor_sector);
       $vendor_sector_cat_arr = [];
       foreach ($vendor_sector_arr as $vendor_sector_item) {
-         $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
+         if(Category::where("id", $vendor_sector_item)->first()) {
+            $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
+         }
       }
 
       return view('admin.backend.users.vendor.activate_account.vendor_status_view', compact('data', 'adminData', 'vendor_sector_cat_arr'));
@@ -230,7 +231,6 @@ class AdminController extends Controller
 
       $data = User::find(Purify::clean($id));
 
-
       return view('admin.backend.users.merchant.activate_account.merchant_status_view', compact('data', 'adminData'));
    } //End method
 
@@ -278,8 +278,15 @@ class AdminController extends Controller
 
       $data = User::find(Purify::clean($id));
 
+      $retailer_sector_arr = explode(",", $data->vendor_sector);
+      $retailer_sector_cat_arr = [];
+      foreach ($retailer_sector_arr as $retailer_sector_item) {
+         if(Category::where("id", $retailer_sector_item)->first()) {
+               $retailer_sector_cat_arr[] = Category::find($retailer_sector_item);
+         }
+      }
 
-      return view('admin.backend.users.retailer.activate_account.retailer_status_view', compact('data', 'adminData'));
+      return view('admin.backend.users.retailer.activate_account.retailer_status_view', compact('data', 'adminData', 'retailer_sector_cat_arr'));
    } //End method
 
    public function AdminFreightageStatus()

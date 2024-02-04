@@ -192,10 +192,11 @@
                                     {{$freightage_sector_item == 3 ? "شهری" : ''}}
                                     {{$freightage_sector_item == 4 ? "بین شهری" : ''}}
                                     {{$freightage_sector_item == 5 ? "بین المللی" : ''}}
-                                    {{$freightage_sector_item == 6 ? "ریلی" : ''}}
-                                    {{$freightage_sector_item == 7 ? "هوایی" : ''}}
-                                    {{$freightage_sector_item == 8 ? "آبی" : ''}}
-                                    {{$freightage_sector_item == 9 ? "محموله ترافیکی" : ''}}
+                                    {{$freightage_sector_item == 6 ? "محموله ترافیکی" : ''}}
+                                    {{$freightage_sector_item == 7 ? "ریلی" : ''}}
+                                    {{$freightage_sector_item == 8 ? "هوایی" : ''}}
+                                    {{$freightage_sector_item == 9 ? "آبی" : ''}}
+                                    {{$freightage_sector_item == 10 ? "پستی" : ''}}
                                 </div>
                             @endforeach
                         @else    
@@ -205,7 +206,7 @@
                     <!--end::Col-->
                 </div>
                 <!--end::Input group-->
-
+               
                 <!--begin::Input group-->
                 <div class="row mb-7">
                     <!--begin::Tags-->
@@ -215,7 +216,7 @@
                     <div class="col-lg-6 fv-row">
                         @if($data->freightage->category_id_temp)
                             @foreach(explode(",", $data->freightage->category_id_temp) as $category_id)
-                                @if(App\Models\Category::find($category_id))
+                                @if(App\Models\Category::where("id", $category_id)->first())
                                     <div class="badge badge-light-primary fw-bold">
                                         {{App\Models\Category::find($category_id)->category_name}}
                                     </div>

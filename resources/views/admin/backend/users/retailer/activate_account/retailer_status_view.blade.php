@@ -118,6 +118,26 @@
                 </div>
                 <!--end::Input group-->
 
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                    <!--begin::Tags-->
+                    <label class="col-lg-6 fw-semibold text-muted">زمینه فعالیت فروشگاه
+                    
+                    </label>
+                    <!--end::Tags-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        @foreach($retailer_sector_cat_arr as $retailer_sector_item)
+                            <div class="badge badge-light-primary fw-bold">
+                                <a href="{{route('shop.category',['id'=> $retailer_sector_item->id])}}">
+                                    {{$retailer_sector_item->category_name}}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
 
                 <!--begin::Input group-->
                 <div class="row mb-7">
