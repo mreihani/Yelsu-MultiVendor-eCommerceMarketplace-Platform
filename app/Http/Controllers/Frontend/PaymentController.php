@@ -118,6 +118,9 @@ class PaymentController extends Controller
             if($incomingFields["selected_gateway"] == "sep") {
                 // Create an instance of SepGatewayService, and initialize it, passing the price and ResNum
                 $bankGatewayObj = new SepGatewayService($price * 10, $ResNum);
+            } else {
+                // Add safety mechanism if the user manipulated HTML form and sent irrelevant information
+                abort(404);
             }
 
             // Redirect to bank servers
