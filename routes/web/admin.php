@@ -149,6 +149,7 @@ Route::get('delete/customsoutlet/{id}', [AdminCustomsController::class, 'AdminDe
 //Category All Route
 Route::controller(CategoryController::class)->group(function () {
     Route::get('/all/category', 'AllCategory')->name('all.category');
+    Route::get('/all/category/search', 'AllCategorySearch')->name('all.category.search');
     Route::get('/add/category', 'AddCategory')->name('add.category');
     Route::post('/store/category', 'StoreCategory')->name('store.category');
     Route::get('/edit/category/{id}', 'EditCategory')->name('edit.category');

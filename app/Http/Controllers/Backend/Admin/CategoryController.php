@@ -6,27 +6,50 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
-
-use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CategoryController extends Controller
 {
     public function AllCategory(Request $request)
     {
-        $category_id_filter = Purify::clean($request->id);
-
         $id = Auth::user()->id;
         $adminData = User::find($id);
-
-        $categories = Category::where('parent', 0)->latest()->get();
+       
+        $categories = Category::paginate(10);
 
         if (Purify::clean(request('filter_id'))) {
             $filter_id = Purify::clean(request('filter_id'));
-            $categories = Category::where('id', $filter_id)->orderBy('parent', 'DESC')->get();
+            $categories = Category::allChildren($filter_id);
+            
+            // paginate results
+            $categories = new Collection(array_reverse($categories));
+            $totalGroup = count($categories);
+            $perPage = 40;
+            $page = Paginator::resolveCurrentPage('page');
+            $categories = new LengthAwarePaginator($categories->forPage($page, $perPage), $totalGroup, $perPage, $page, [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => 'page',
+            ]);
         }
+        return view('admin.backend.category.category_all', compact('categories', 'adminData'));
+    }
+
+    public function AllCategorySearch(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $adminData = User::find($user_id);
+        $query_string = Purify::clean($request['query']);
+
+        $categories = Category::where([
+            ['category_name', 'like', "%{$query_string}%"],
+        ])->paginate(10);
+
         return view('admin.backend.category.category_all', compact('categories', 'adminData'));
     }
 
