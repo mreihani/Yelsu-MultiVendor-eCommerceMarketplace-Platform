@@ -1155,7 +1155,7 @@ class SpecialistController extends Controller
         $vendor_sector_arr = explode(",", $data->vendor_sector);
         $vendor_sector_cat_arr = [];
         foreach ($vendor_sector_arr as $vendor_sector_item) {
-            if(Category::find($vendor_sector_item)->exists()) {
+            if(Category::find($vendor_sector_item)->first()) {
                 $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
             }
         }
