@@ -1155,7 +1155,9 @@ class SpecialistController extends Controller
         $vendor_sector_arr = explode(",", $data->vendor_sector);
         $vendor_sector_cat_arr = [];
         foreach ($vendor_sector_arr as $vendor_sector_item) {
-            $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
+            if(Category::find($vendor_sector_item)->exists()) {
+                $vendor_sector_cat_arr[] = Category::find($vendor_sector_item);
+            }
         }
 
         return view('specialist.users.vendor.activate_account.vendor_status_view', compact('data', 'specialistData', 'vendor_sector_cat_arr'));
