@@ -26,6 +26,16 @@ function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
     });
 
     let productInput = event.target.closest("div").firstElementChild;
+    let productIputValue = productInput.value;
+
+    // Check if the user is changing the quantity of the product by + and - button, then add and subtract value to avoid calc issues
+    if(inputType == 1) {
+        if (event.target.classList.contains("add-yelsu")) {
+            productIputValue++;
+        } else if(event.target.classList.contains("sub-yelsu")) {
+            productIputValue--;
+        }
+    }
 
     document.getElementById("cart-page-overlay").style.display = "flex";
 
@@ -34,7 +44,7 @@ function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
         method: "post",
         data: JSON.stringify({
             id: id,
-            quantity: productInput.value,
+            quantity: productIputValue,
             //cart:cartName,
             _method: "patch",
         }),
@@ -74,10 +84,6 @@ function calculateTotalPrice(event, price, inputType) {
             let totalPrice = 0;
             let product_max = parseInt($(event.target).closest(".input-group").find("input").attr("max"));
             
-            if(input.value < product_max) {
-                input.value++;
-            }
-            
             itemSumPrice.innerHTML = formatNumberCart(input.value * price);
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
                 totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
@@ -89,10 +95,6 @@ function calculateTotalPrice(event, price, inputType) {
         ) {
             let totalPrice = 0;
             let product_min = parseInt($(event.target).closest(".input-group").find("input").attr("min"));
-
-            if(input.value > product_min) {
-                input.value--;
-            }
 
             itemSumPrice.innerHTML = formatNumberCart(input.value * price);
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
