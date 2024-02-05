@@ -19,12 +19,12 @@ class CartService {
             $value = array_merge($value, [
                 'id' => Str::random(10),
                 'subject_id' => $obj->id,
-                'subject_type' => get_class($obj)
+                'subject_type' => get_class($obj),
             ]);
 
             // این بخش رو بعدا خودم برای محاسبه و جایگزین کردن محدودیت تعداد محصول اضافه کردم
             $value = array_merge($value,[
-                'quantity' => $this->productQuantityLimitPut($obj,$value['quantity'])
+                'quantity' => $this->productQuantityLimitPut($obj, $value['quantity'])
             ]);
 
         } elseif(!isset($value['id'])) {
@@ -49,7 +49,6 @@ class CartService {
         }
 
         if(is_array($options)) {
-
             $item = $item->merge($options);
 
             $item = $item->merge([
@@ -86,7 +85,6 @@ class CartService {
         } elseif(is_array($options)) {
             $quantity = $options['quantity'];
         }
-        
         
         if($product->determine_product_min() && ($quantity < $product->determine_product_min())) {
             $quantity = $product->determine_product_min();

@@ -113,11 +113,53 @@
                                         </a>
                                     </div>
                                 @else
+
+                                    @if(count($product->outlets)) 
+                                        <div class="row">
+                                            <h5>
+                                                لطفا با توجه به موقعیت مکانی تأمین کننده قیمت را انتخاب کنید
+                                            </h5>
+                                        </div>
+                                    @endif
+
                                     <div class="d-flex align-items-center pt-2 pb-2">
-                                        <div class="product-price"><ins class="new-price">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} </ins></div>
+                                        <!-- Start of variable product -->
+                                        <div class="row gutter-sm" style="width: 100%;">
+                                            @if(count($product->outlets)) 
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="select-box">
+                                                            <select name="outlet_id" class="form-control form-control-md">
+                                                                @foreach ($product->outlets as $outlet_item)
+                                                                    <option value="{{$outlet_item->id}}">
+                                                                        {{$outlet_item->shop_name}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            
+                                            @if(count($product->outlets))
+                                                <div class="col-md-6">
+                                                    @foreach ($product->outlets as $key => $outlet_item)
+                                                        <div class="product-price {{$key == 0 ? '' : 'd-none'}}" id="outlet-{{$outlet_item->id}}">
+                                                            <ins class="new-price">{{number_format($outlet_item->pivot->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <div class="col-md-12">
+                                                    <div class="product-price">
+                                                        <ins class="new-price">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <!-- End of variable product -->
                                     </div>
                                 @endif
-
                                 
                                 {{-- <div class="ratings-container">
                                     <div class="ratings-full">
@@ -136,14 +178,14 @@
 
                                 <hr class="product-divider">
 
-                                @if ($product->currency != 'toman')
+                                {{-- @if ($product->currency != 'toman')
                                     <div class="product-form product-variation-form mb-2">
                                         <div class="oil-instruction btn btn-dark">
                                             <i class="w-icon-download"></i>
                                             <a class="text-white" href="{{asset('upload/TRANSACTION_PROCEDURE_A1_and_Diesel_and_SULFUR.pdf')}}">دریافت روش اجرایی</a>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
 
                                 {{-- @if ($product->packing != 'none')
                                 <div class="single-page-product-variation mb-2">
@@ -178,7 +220,6 @@
                                 {{-- <div class="product-variation-price">
                                     <span></span>
                                 </div> --}}
-
 
                                 <!-- Start of Attributes -->
                                 <h4>مشخصات</h4>
@@ -1482,10 +1523,31 @@
     <!-- End of Page Content -->
 </main>
 
-<script src="{{asset('frontend/assets/js/productDetailAjaxCard.js')}}"></script>
-
 <script>
     productInitialPriceValue = {!! json_encode($product->determine_product_min()) !!};
 </script>
+
+<!-- Change price by location -->
+<script>
+    window.selectedOutletId = false;
+
+    $(".page-content").on("change", 'select[name="outlet_id"]', function () {
+        let thisElement = $(this);
+        selectedOutletId = thisElement.val();
+        $(".product-price").each(function (key,value) {
+
+            let element = $(value);
+            let elementId = element.attr("id");
+
+            if(("outlet-" + selectedOutletId) == elementId) {
+                element.removeClass("d-none");
+            } else {
+                element.addClass("d-none");
+            }
+        })
+    });
+</script>
+
+<script src="{{asset('frontend/assets/js/productDetailAjaxCard.js')}}"></script>
 
 @endsection

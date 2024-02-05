@@ -31,6 +31,7 @@ class CartController extends Controller
             }
         } else {
             Cart::put([
+                'outlet_id' => $request->outlet_id ?: false,
                 'quantity' => Purify::clean($quantity),
             ],
                 $product

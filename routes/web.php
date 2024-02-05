@@ -22,7 +22,7 @@ use App\Services\BankGatewayServices\SepGatewayService;
 require __DIR__ . '/auth.php';
 
 
-// Route::get('changeDatabase', function () {
+Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -32,5 +32,11 @@ require __DIR__ . '/auth.php';
 //         }
 //     });
 
-   
-// });
+    // $pItem = App\Models\Product::find(518);
+    // dd($pItem->outlets->where('id', 2555)->first()->pivot->selling_price);
+
+    $cart = App\Helpers\Cart\Cart::instance('default');
+    $cartItems = $cart->all();
+    dd($cartItems);
+
+});

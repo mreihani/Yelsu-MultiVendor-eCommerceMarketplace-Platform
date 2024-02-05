@@ -80,7 +80,7 @@
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->price_with_commission_value_added * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
+                                            <span class="amount"><span class="itemSumPrice">{{number_format(ceil($product->price_with_commission_value_added * $cart['quantity']), 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
                                             @if($product->determine_product_value_added_tax())
                                                 <div class="btn btn-warning btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
                                                     {{$product->determine_product_value_added_tax()}}

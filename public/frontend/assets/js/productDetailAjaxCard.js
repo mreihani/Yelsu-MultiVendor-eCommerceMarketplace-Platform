@@ -14,6 +14,7 @@ function updateCartFunction(id) {
         data: JSON.stringify({
             id: id,
             quantity: quantity,
+            outlet_id: selectedOutletId
         }),
         success: function (data) {
             // if (data.status == "success") {
