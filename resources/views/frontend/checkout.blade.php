@@ -270,7 +270,6 @@
                                             @if(isset($cart['product']))
                                             @php
                                                 $product = $cart['product'];
-                                                $totalPrice = $cart['quantity'] * $product->price_with_commission;
                                             @endphp
                                                 <tr class="bb-no">
                                                     <td class="product-name" style="text-align: start;">
@@ -282,7 +281,13 @@
                                                         </span>
                                                     </td>
                                                     <td class="product-total">
-                                                        {{number_format($cart['quantity'] * $product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} 
+                                                        @if($product->determine_product_value_added_tax())
+                                                            <div class="btn btn-warning btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial;">
+                                                                {{$product->determine_product_value_added_tax()}}
+                                                                درصد مالیات
+                                                            </div>
+                                                        @endif
+                                                        {{number_format($cart['quantity'] * $product->price_with_commission_value_added, 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
                                             @endif                                     
@@ -290,10 +295,8 @@
 
                                         @php
                                             $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                                                return $cart['product']->price_with_commission * $cart['quantity'];
+                                                return $cart['product']->price_with_commission_value_added * $cart['quantity'];
                                             });
-                                            $valueAddedTax = $product->determine_product_value_added_tax();
-                                            $totalPriceAfterTax = ($valueAddedTax / 100 + 1) * $totalPrice;
                                         @endphp
                                
                                         <tr class="cart-subtotal bb-no">
@@ -302,15 +305,6 @@
                                             </td>
                                             <td>
                                                 <b>{{number_format($totalPrice, 0, '', ',')}} تومان</b>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="cart-subtotal bb-no">
-                                            <td style="text-align: start;">
-                                                <b>جمع کل (با احتساب مالیات بر ارزش افزوده)</b>
-                                            </td>
-                                            <td>
-                                                <b>{{number_format($totalPriceAfterTax, 0, '', ',')}} تومان</b>
                                             </td>
                                         </tr>
 

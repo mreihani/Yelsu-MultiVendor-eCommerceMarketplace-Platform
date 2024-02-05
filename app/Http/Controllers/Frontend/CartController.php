@@ -55,7 +55,7 @@ class CartController extends Controller
                     'products' => $product, 
                     'cart' => $cart, 
                     'currency' => $product->determine_product_currency(),
-                    'price_with_commission' => $product->price_with_commission
+                    'price_with_commission' => $product->price_with_commission_value_added
                 ];
             }
         }

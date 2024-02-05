@@ -628,11 +628,16 @@ class Product extends Model
         return $sellingPrice;
     }
 
+    /**
+    * Calculate the price with commission and value added tax.
+    * @return float The calculated price with commission and value added tax.
+    */
     public function getPriceWithCommissionValueAddedAttribute() {
-        $priceWithCommission = $this->price_with_commission;
-        $valueAddedTax = $this->determine_product_value_added_tax();
+        $priceWithCommission = $this->price_with_commission; // Get the price with commission
+        $valueAddedTax = $this->determine_product_value_added_tax() ?: 0; // Get the value added tax
         
-        return ($valueAddedTax / 100 + 1) * $priceWithCommission;
+        return ($valueAddedTax / 100 + 1) * $priceWithCommission; // Calculate the price with commission and value added tax
     }
+
 }
 

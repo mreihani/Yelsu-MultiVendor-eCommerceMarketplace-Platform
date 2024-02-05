@@ -39,6 +39,7 @@ function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
             _method: "patch",
         }),
         success: function (data) {
+            
             if (data.status == "success") {
                 $("#continueShopping").prop("disabled", false);
                 $("#continueShopping").css({

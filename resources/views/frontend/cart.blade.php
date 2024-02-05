@@ -1,6 +1,12 @@
 @extends('frontend.main_theme')
 @section('main')
 
+<style>
+    .shop-table.cart-table .product-quantity {
+        width: 20% !important;
+    }
+</style>
+
 <main class="main cart">
     <!-- Start of Breadcrumb -->
     <nav class="breadcrumb-nav">
@@ -27,7 +33,11 @@
                                     <th></th>
                                     <th class="product-price"><span>قیمت </span></th>
                                     <th class="product-quantity"><span>تعداد </span></th>
-                                    <th class="product-subtotal"><span>جمع فرعی </span></th>
+                                    <th class="product-subtotal" style="width:28%;">
+                                        <span>
+                                            جمع فرعی (با احتساب مالیات بر ارزش افزوده)
+                                        </span>    
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,18 +70,23 @@
                                             </a>
                                         </td>
 
-                                        <td class="product-price"><span class="amount">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
+                                        <td class="product-price"><span class="amount">{{number_format($product->price_with_commission_value_added, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
-                                            
                                             <div class="input-group">
-                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',1)" class="w-icon-plus add-yelsu"></button>
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission}}',1)" class="w-icon-minus sub-yelsu"></button>
+                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',1)" class="w-icon-plus add-yelsu"></button>
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',1)" class="w-icon-minus sub-yelsu"></button>
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->price_with_commission * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
+                                            <span class="amount"><span class="itemSumPrice">{{number_format($product->price_with_commission_value_added * $cart['quantity'], 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
+                                            @if($product->determine_product_value_added_tax())
+                                                <div class="btn btn-warning btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                    {{$product->determine_product_value_added_tax()}}
+                                                    درصد مالیات
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endif
@@ -102,10 +117,9 @@
                     
                     @php
                         $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                            return $cart['product']->price_with_commission * $cart['quantity'];
+                            return $cart['product']->price_with_commission_value_added * $cart['quantity'];
                         });
                         $valueAddedTax = $cart['product']->determine_product_value_added_tax();
-                        $totalPriceAfterTax = ($valueAddedTax / 100 + 1) * $totalPrice;
                     @endphp
                     
                     <div class="col-lg-4 sticky-sidebar-wrapper">
@@ -113,21 +127,12 @@
                             <div class="cart-summary mb-4">
                                 <h3 class="cart-title text-uppercase">مجموع سبد </h3>
                                 <div class="cart-subtotal d-flex align-items-center justify-content-between">
-                                    <label class="ls-25">مجموع</label>
+                                    <label class="ls-25">
+                                        مجموع (با احتساب مالیات بر ارزش افزوده)
+                                    </label>
                                    
                                     <span>
                                         <span id="totalPrice">{{number_format($totalPrice, 0, '', ',')}}</span>
-                                         تومان
-                                    </span>
-                                </div>
-
-                                <hr class="divider">
-
-                                <div class="cart-subtotal d-flex align-items-center justify-content-between">
-                                    <label class="ls-25">مجموع (با احتساب مالیات بر ارزش افزوده)</label>
-                                   
-                                    <span>
-                                        <span id="totalPrice">{{number_format($totalPriceAfterTax, 0, '', ',')}}</span>
                                          تومان
                                     </span>
                                 </div>
