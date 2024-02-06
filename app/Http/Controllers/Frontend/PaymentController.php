@@ -58,7 +58,7 @@ class PaymentController extends Controller
 
         if ($cartItems->count()) {
             $price = $cartItems->sum(function ($cart) {
-                return $cart['product']->price_with_commission_value_added * $cart['quantity'];
+                return $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null) * $cart['quantity'];
             });
 
             // Here check if available in stock - Dont forget to show notification
@@ -75,7 +75,7 @@ class PaymentController extends Controller
                     =>
                     [
                         'quantity' => $cart['quantity'],
-                        'price' => $cart['product']->price_with_commission_value_added,
+                        'price' => $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null),
                         'outlet_id' => $cart['outlet_id']
                     ]
                 ];

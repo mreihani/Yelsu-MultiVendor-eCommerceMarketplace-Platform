@@ -278,6 +278,12 @@
                                                         <span class="product-quantity">
                                                             {{$cart['quantity']}}
                                                         </span>
+
+                                                        @if(!is_null($cart['outlet_id']))
+                                                            <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                                {{$product->outlets->where("id", $cart['outlet_id'])->first()->shop_name}}
+                                                            </div>
+                                                        @endif
                                                     </td>
                                                     <td class="product-total">
                                                         @if($product->determine_product_value_added_tax())

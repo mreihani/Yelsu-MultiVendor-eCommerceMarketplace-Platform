@@ -46,7 +46,7 @@
                                     @php
                                         $product = $cart['product'];
 
-                                        $price_with_commission_value_added = $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null);
+                                        $price_with_commission_value_added = ceil($product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null));
                                     @endphp
                                     <tr>
                                         <td class="product-thumbnail">
@@ -73,7 +73,7 @@
                                                 </a>
                                                 
                                                 @if(!is_null($cart['outlet_id']))
-                                                <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                    <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
                                                         {{$product->outlets->where("id", $cart['outlet_id'])->first()->shop_name}}
                                                     </div>
                                                 @endif
@@ -112,7 +112,6 @@
                                 @method('delete')
                                 <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart" value="پاک کردن سبد ">پاک کردن سبد </button> 
                             </form>
-                            {{-- <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart" value="بروز کردن سبد">بروز کردن سبد</button> --}}
                         </div>
                         <form class="coupon mb-2">
                             <h5 class="title coupon-title font-weight-bold text-uppercase">جشنواره کوپن با </h5>

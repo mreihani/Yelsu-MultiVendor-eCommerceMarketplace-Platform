@@ -44,12 +44,12 @@ function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
         method: "post",
         data: JSON.stringify({
             id: id,
-            quantity: productIputValue,
+            quantity: productIputValue <= 0 ? 1 : productIputValue,
             //cart:cartName,
             _method: "patch",
         }),
         success: function (data) {
-            
+
             if (data.status == "success") {
                 $("#continueShopping").prop("disabled", false);
                 $("#continueShopping").css({
@@ -73,30 +73,26 @@ function sendAjaxCartItem(event, id, cartName = null, price, inputType) {
 function calculateTotalPrice(event, price, inputType) {
     let input = event.target.closest("div").firstElementChild;
     let itemSumPriceElementByClass = $(".itemSumPrice");
-    let itemSumPrice =
-        event.target.parentElement.parentElement.nextElementSibling.children[0]
-            .children[0];
+    
+    let itemSumPrice = $(event.target).closest("tr").find(".itemSumPrice");
 
     if (inputType == 1) {
-        let value = parseInt(input.value);
 
         if (event.target.classList.contains("add-yelsu")) {
             let totalPrice = 0;
-            let product_max = parseInt($(event.target).closest(".input-group").find("input").attr("max"));
             
-            itemSumPrice.innerHTML = formatNumberCart(input.value * price);
+            itemSumPrice.html(formatNumberCart(input.value * price));
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
                 totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
             }
             $("#totalPrice").html(formatNumberCart(totalPrice));
         } else if (
             event.target.classList.contains("sub-yelsu") &&
-            input.value > 1
+            input.value >= 1
         ) {
             let totalPrice = 0;
-            let product_min = parseInt($(event.target).closest(".input-group").find("input").attr("min"));
 
-            itemSumPrice.innerHTML = formatNumberCart(input.value * price);
+            itemSumPrice.html(formatNumberCart(input.value * price));
             for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
                 totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
             }
@@ -104,10 +100,11 @@ function calculateTotalPrice(event, price, inputType) {
         }
     } else if (inputType == 2) {
         input = event.target;
-        let value = parseInt(input.value);
+        // let value = parseInt(input.value);
         let totalPrice = 0;
 
-        itemSumPrice.innerHTML = formatNumberCart(input.value * price);
+        itemSumPrice.html(formatNumberCart(input.value * price));
+        //itemSumPrice.innerHTML = formatNumberCart(input.value * price);
         for (let i = 0; i < itemSumPriceElementByClass.length; i++) {
             totalPrice += parseInt(removeComma(itemSumPriceElementByClass[i].innerHTML));
         }
