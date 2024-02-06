@@ -32,11 +32,6 @@ Route::get('changeDatabase', function () {
 //         }
 //     });
 
-    // $pItem = App\Models\Product::find(518);
-    // dd($pItem->outlets->where('id', 2555)->first()->pivot->selling_price);
-
-    $cart = App\Helpers\Cart\Cart::instance('default');
-    $cartItems = $cart->all();
-    dd($cartItems);
+    dd(App\Helpers\Cart\Cart::all());
 
 });

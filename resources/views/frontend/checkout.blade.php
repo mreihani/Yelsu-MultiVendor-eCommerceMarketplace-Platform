@@ -265,7 +265,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         @foreach (App\Helpers\Cart\Cart::all() as $cart)
                                             @if(isset($cart['product']))
                                             @php
@@ -287,15 +286,15 @@
                                                                 درصد مالیات
                                                             </div>
                                                         @endif
-                                                        {{number_format($cart['quantity'] * $product->price_with_commission_value_added, 0, '', ',')}} {{$product->determine_product_currency()}} 
+                                                        {{number_format($cart['quantity'] * $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null), 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
                                             @endif                                     
                                         @endforeach
-
+                                        
                                         @php
                                             $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                                                return $cart['product']->price_with_commission_value_added * $cart['quantity'];
+                                                return $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null) * $cart['quantity'];
                                             });
                                         @endphp
                                

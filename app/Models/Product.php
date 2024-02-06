@@ -632,12 +632,45 @@ class Product extends Model
     * Calculate the price with commission and value added tax.
     * @return float The calculated price with commission and value added tax.
     */
-    public function getPriceWithCommissionValueAddedAttribute() {
-        $priceWithCommission = $this->price_with_commission; // Get the price with commission
-        $valueAddedTax = $this->determine_product_value_added_tax() ?: 0; // Get the value added tax
-        
-        return ($valueAddedTax / 100 + 1) * $priceWithCommission; // Calculate the price with commission and value added tax
-    }
+    public function getPriceWithCommissionValueAddedAttribute($outlet_id = null) {
 
+        if($outlet_id) {
+            // Get selling price from pivot table
+            $sellingPrice = $this->outlets->where("id", $outlet_id)->first()->pivot->selling_price;
+        } else {
+            $sellingPrice = $this->selling_price;
+        }
+
+        // Determine the type of commission for the product
+        $commissionType = $this->determine_product_commission_type();
+        
+        // Determine the value of commission for the product
+        $commissionValue = $this->determine_product_commission();
+
+        // Set selling price with commsision to zero
+        $sellingPriceWithCommission = 0;
+
+        // If the selling price is not zero and there is a commission value
+        if ($sellingPrice != 0 && $commissionValue) {
+            // If the commission type is percentage-based
+            if ($commissionType == "percent_commission") {
+                // Calculate the price with the percentage-based commission
+                $sellingPriceWithCommission = $sellingPrice + $commissionValue * $sellingPrice / 100;
+            }
+
+            // If the commission type is fixed
+            if ($commissionType == "fix_commission") {
+                // Calculate the price with the fixed commission
+                $sellingPriceWithCommission = $sellingPrice + $commissionValue;
+            }
+        }
+
+        // Determine the product value added tax
+        $valueAddedTax = $this->determine_product_value_added_tax() ?: 0;
+
+        // Calculate the price with commission and value added tax
+        return ($valueAddedTax / 100 + 1) * $sellingPriceWithCommission;
+
+    }
 }
 

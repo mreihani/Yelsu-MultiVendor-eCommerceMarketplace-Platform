@@ -21,18 +21,20 @@ class CartController extends Controller
             'id' => 'required',
         ]);
 
+        $outlet_id = $request->outlet_id ?: null;
+
         $product = Product::findOrFail(Purify::clean($data['id']));
 
-        $quantity = $data['quantity'];
+        $quantity = (int) $data['quantity'];
 
-        if (Cart::has($product)) {
+        if (Cart::has($product, $outlet_id)) {
             if (Cart::count($product) < $product->product_qty || $product->product_qty == NULL || $product->unlimitedStock == 'active') {
                 Cart::update($product, Purify::clean($quantity));
             }
         } else {
             Cart::put([
-                'outlet_id' => $request->outlet_id ?: false,
-                'quantity' => Purify::clean($quantity),
+                'outlet_id' => $outlet_id,
+                'quantity' => (int) Purify::clean($quantity),
             ],
                 $product
             );

@@ -45,6 +45,8 @@
                                     @if(isset($cart['product']))
                                     @php
                                         $product = $cart['product'];
+
+                                        $price_with_commission_value_added = $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null);
                                     @endphp
                                     <tr>
                                         <td class="product-thumbnail">
@@ -65,22 +67,30 @@
                                             </div>
                                         </td>
                                         <td class="product-name">
-                                            <a href="{{route('product.details',$product->product_slug)}}">
-                                                {{$product->product_name}}
-                                            </a>
+                                            <div class="d-flex flex-column">
+                                                <a href="{{route('product.details',$product->product_slug)}}">
+                                                    {{$product->product_name}}
+                                                </a>
+                                                
+                                                @if(!is_null($cart['outlet_id']))
+                                                <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                        {{$product->outlets->where("id", $cart['outlet_id'])->first()->shop_name}}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </td>
 
-                                        <td class="product-price"><span class="amount">{{number_format($product->price_with_commission_value_added, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
+                                        <td class="product-price"><span class="amount">{{number_format($price_with_commission_value_added, 0, '', ',')}} {{$product->determine_product_currency()}}</span></td>
                                         
                                         <td class="product-quantity">
                                             <div class="input-group">
-                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',1)" class="w-icon-plus add-yelsu"></button>
-                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$product->price_with_commission_value_added}}',1)" class="w-icon-minus sub-yelsu"></button>
+                                                <input onkeyup="updateCartFunction(event,'{{$cart['id']}}',null,'{{$price_with_commission_value_added}}',2)" class="form-control quantity-yelsu" type="number" value="{{$cart['quantity']}}" min="{{$product->determine_product_min() ?: 1}}" max="{{$product->determine_product_max() ?: 1000}}">
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$price_with_commission_value_added}}',1)" class="w-icon-plus add-yelsu"></button>
+                                                <button onclick="updateCartFunction(event,'{{$cart['id']}}',null,'{{$price_with_commission_value_added}}',1)" class="w-icon-minus sub-yelsu"></button>
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount"><span class="itemSumPrice">{{number_format(ceil($product->price_with_commission_value_added * $cart['quantity']), 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
+                                            <span class="amount"><span class="itemSumPrice">{{number_format(ceil($price_with_commission_value_added * $cart['quantity']), 0, '', ',')}}</span> {{$product->determine_product_currency()}} </span>
                                             @if($product->determine_product_value_added_tax())
                                                 <div class="btn btn-warning btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
                                                     {{$product->determine_product_value_added_tax()}}
@@ -117,9 +127,8 @@
                     
                     @php
                         $totalPrice = App\Helpers\Cart\Cart::all()->sum(function($cart){
-                            return $cart['product']->price_with_commission_value_added * $cart['quantity'];
+                            return $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null) * $cart['quantity'];
                         });
-                        $valueAddedTax = $cart['product']->determine_product_value_added_tax();
                     @endphp
                     
                     <div class="col-lg-4 sticky-sidebar-wrapper">

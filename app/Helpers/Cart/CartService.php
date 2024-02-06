@@ -105,9 +105,14 @@ class CartService {
         return $this->cart->count();
     }
 
-    public function has($key) {
+    public function has($key, $outlet_id = null) {
         if($key instanceof Model) {
-            return !is_null($this->cart->where('subject_id',$key->id)->where('subject_type',get_class($key))->first());
+            return !is_null(
+                $this->cart->where('subject_id',$key->id)
+                ->where('subject_type',get_class($key))
+                ->where('outlet_id',$outlet_id)
+                ->first()
+            );
         } 
 
         return !is_null($this->cart->where('id',$key)->first());

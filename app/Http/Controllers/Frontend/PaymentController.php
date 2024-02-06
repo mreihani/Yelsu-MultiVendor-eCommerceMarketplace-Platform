@@ -73,7 +73,11 @@ class PaymentController extends Controller
                 return [
                     $cart['product']->id
                     =>
-                    ['quantity' => $cart['quantity'], 'price' => $cart['product']->price_with_commission_value_added]
+                    [
+                        'quantity' => $cart['quantity'],
+                        'price' => $cart['product']->price_with_commission_value_added,
+                        'outlet_id' => $cart['outlet_id']
+                    ]
                 ];
             });
 

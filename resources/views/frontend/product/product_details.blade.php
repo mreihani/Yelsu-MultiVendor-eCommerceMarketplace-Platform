@@ -105,7 +105,7 @@
 
                                 <hr class="product-divider">
 
-                                @if ($product->price_with_commission == 0)
+                                @if ($product->price_with_commission == 0 && !count($product->outlets))
                                     <div class="product-price">
                                         <a href="tel:02126402540">
                                             <i class="w-icon-phone"></i>
@@ -1529,9 +1529,11 @@
 
 <!-- Change price by location -->
 <script>
-    window.selectedOutletId = false;
+    let outletSelectElement = $("select[name='outlet_id']");
+    let outletSelectElementValue = outletSelectElement.find("option:selected").val();
+    window.selectedOutletId = outletSelectElement.length ? outletSelectElementValue : null;
 
-    $(".page-content").on("change", 'select[name="outlet_id"]', function () {
+    $(".page-content").on("change", "select[name='outlet_id']", function () {
         let thisElement = $(this);
         selectedOutletId = thisElement.val();
         $(".product-price").each(function (key,value) {
