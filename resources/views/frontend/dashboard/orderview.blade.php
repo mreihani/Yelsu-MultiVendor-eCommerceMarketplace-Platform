@@ -66,51 +66,48 @@
                                         <th></th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
                                     @php
                                         $vendor_id_arr = [];
                                     @endphp
-                                    @foreach ($order->products as $product)
+                                    @foreach ($order->vproducts as $order_vproducts)
                                         <tr>
                                             @php
-                                                $user = App\Models\User::find($product->vendor_id);
+                                                $user = App\Models\User::find($order_vproducts->products->first()->vendor_id);
                                                 if($user) {
                                                     $vendor_info = $user->firstname .' '. $user->lastname;
-                                                    $vendor_id_arr[] = $product->vendor_id;
+                                                    $vendor_id_arr[] = $order_vproducts->products->first()->vendor_id;
                                                 }
                                                 $vendor_id_arr = array_unique($vendor_id_arr);
                                             @endphp
+                                          
                                             <td style="text-align:right">
-                                                <a href="{{route('product.details',$product->product_slug)}}">{{$product->product_name}}</a>&nbsp;<strong>{{$product->pivot->quantity}}</strong>x<br>
-                                                @if ($product->vendor_id)
-                                                فروشنده :  <a href="{{route('vendor.details',$product->vendor_id)}}"> {{$vendor_info}}</a>
+                                                <a href="{{route('product.details',$order_vproducts->products->first()->product_slug)}}">{{$order_vproducts->products->first()->product_name}}</a>&nbsp;<strong>{{$order_vproducts->quantity}}</strong>x<br>
+                                                @if ($order_vproducts->products->first()->vendor_id)
+                                                
+                                                فروشنده :  <a href="{{route('vendor.details',$order_vproducts->products->first()->vendor_id)}}"> {{$vendor_info}}</a>
+
+                                                    @if(!is_null($order_vproducts->outlet_id))
+                                                        <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                            {{$order_vproducts->products->first()->outlets->where("id", $order_vproducts->outlet_id)->first()->shop_name}}
+                                                        </div>
+                                                    @endif
                                                 @else
                                                 فروشنده :  یلسو
                                                 @endif
                                             </td>
                                                                                      
-                                            <td>{{$product->pivot->quantity * $product->pivot->price}} {{$product->determine_product_currency()}} </td>
+                                            <td>{{$order_vproducts->quantity * $order_vproducts->price}} {{$order_vproducts->products->first()->determine_product_currency()}} </td>
                                             
                                         </tr>
                                     @endforeach
                                     
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>مجموع: </th>
-                                        <td>{{$order->price}} {{$product->determine_product_currency()}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>حمل و نقل:</th>
-                                        <td>نرخ ثابت </td>
-                                    </tr>
-                                    <tr>
-                                        <th>روش پرداخت:</th>
-                                        <td>انتقال مستقیم بانکی</td>
-                                    </tr>
                                     <tr class="total">
                                         <th class="border-no">مجموع:</th>
-                                        <td class="border-no">100000 {{$product->determine_product_currency()}}</td>
+                                        <td class="border-no">{{$order->price}} {{$order_vproducts->products->first()->determine_product_currency()}}</td>
                                     </tr>
                                 </tfoot>
                             </table>

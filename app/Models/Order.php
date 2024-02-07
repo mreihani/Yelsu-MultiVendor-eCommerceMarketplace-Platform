@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Useroutlets;
+use App\Models\OrderVproduct;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,8 +19,8 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function products() {
-        return $this->belongsToMany(Product::class)->withPivot('quantity','price'); 
+    public function vproducts() {
+        return $this->hasMany(OrderVproduct::class, 'order_id', 'id'); 
     } 
 
     public function payments() {

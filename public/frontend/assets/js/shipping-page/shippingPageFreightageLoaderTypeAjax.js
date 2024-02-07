@@ -7,6 +7,7 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
     let freightage_id = freightage_loader_type_element.find(".freightage_id").val();
     let product_id = freightage_loader_type_element.find("input.product_id").val();
     let order_id = freightage_loader_type_element.find("input.order_id").val();
+    let productOutletId = thisElement.closest(".shipping").find(".product-outlet-id").val();
 
     let vendor_address_information_element = thisElement.closest(".shipping-element").find(".vendor-address-information");
     let outlet_id = vendor_address_information_element.val();
@@ -38,7 +39,8 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
             product_id,
             order_id,
             outlet_id,
-            numberItemsRequest
+            numberItemsRequest,
+            productOutletId
         },
         url: "/get-freightage-loader-type",
         success: function (response) {

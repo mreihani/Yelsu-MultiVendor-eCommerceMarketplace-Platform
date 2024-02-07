@@ -23,28 +23,35 @@ class UserShippingController extends Controller
         $user_id = $userData->id;
 
         $order = Order::findOrFail(Purify::clean($id));
-
-        $products = $order->products()->get();
+        
+        $order_vproducts = $order->vproducts;
 
         if ($order->user_id != $user_id) {
             return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
         }
 
-        return view('frontend.dashboard.shipping-product', compact('userData', 'order', 'products'));
+        return view('frontend.dashboard.shipping-product', compact('userData', 'order', 'order_vproducts'));
     }
 
-    public function ShippingDetails($orderId, $productId) {
+    public function ShippingDetails(Request $request) {
+
         $userData = auth()->user();
         $user_id = $userData->id;
 
-        $order = Order::find(Purify::clean($orderId));
-        $product = $order->products()->where('product_id', $productId)->first();
+        $orderId = Purify::clean($request->orderId);
+        $productId = Purify::clean($request->productId);
+        $outletId = Purify::clean($request->outletId);
+
+        $order = Order::find($orderId);
+        
+        $vproducts = $order->vproducts->where('product_id', $productId)->where('outlet_id', $outletId)->first();
+        $product = $vproducts->products->first();
 
         if ($order->user_id != $user_id) {
             return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
         }
 
-        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'product'));
+        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'product', 'vproducts'));
     }
 
     // این متد برای متد GetAddressAjax استفاده میشود 
@@ -160,7 +167,6 @@ class UserShippingController extends Controller
             }
         }
         
-
         return response(['freightage_obj_filtered' => $freightage_obj_filtered]);
     }
 
@@ -171,6 +177,7 @@ class UserShippingController extends Controller
         $freightageTypeItem = Freightagetype::find($type_id);
         $freightagetype_title = $freightageTypeItem->freightagetype_title;
         $numberItemsRequest = (int) Purify::clean($request->numberItemsRequest);
+        $productOutletId = (int) Purify::clean($request->productOutletId) ?: null;
         
         if($freightagetype_title == "road") {
             $freightage_loader_type = User::find($freightage_id)->freightage->freightage_loader_type;
@@ -191,8 +198,8 @@ class UserShippingController extends Controller
         $product_obj = Product::find($product_id);
         $freightageloadertype_object_from_product = $product_obj->freightageloadertype;
 
-        $order_id = Purify::clean($request->order_id);
-        $order_quantity = $product_obj->orders()->where("order_id", $order_id)->first()->pivot->quantity;
+        $order_id = (int) Purify::clean($request->order_id);
+        $order_quantity = (int) $product_obj->vproducts()->where("order_id", $order_id)->where("outlet_id", $productOutletId)->first()->quantity;
 
         $freightage_loader_type_last_items_filtered = [];
         foreach ($freightageloadertype_object_from_product as $freightageloadertype_item_from_product) {

@@ -116,6 +116,12 @@
                                                                 <span class="ml-1 product-name">
                                                                     {{$product->product_name}}
                                                                 </span>
+
+                                                                @if(!is_null($vproducts->outlet_id))
+                                                                    <div class="btn btn-primary btn-rounded btn-sm mt-2" style="padding: 0.2em 0.4em; cursor:initial">
+                                                                        {{$product->outlets->first()->shop_name}}
+                                                                    </div>
+                                                                @endif
                                                             </a>
                                                         </div>
         
@@ -124,24 +130,25 @@
                                                             سفارش خریداری شده:
                                                             
                                                             <b>
-                                                                {{number_format($product->pivot->quantity, 0, '', ',')}}
+                                                                {{number_format($vproducts->quantity, 0, '', ',')}}
                                                             </b>
 
                                                             {{$product->determine_product_unit()}}
 
-                                                            <input type="hidden" value="{{$product->pivot->quantity}}" class="total-quantity-input">
+                                                            <input type="hidden" value="{{$vproducts->quantity}}" class="total-quantity-input">
+                                                            <input type="hidden" value="{{$vproducts->outlet_id}}" class="product-outlet-id">
                                                         </h5>
 
                                                         <h5 class="mt-3">
                                                             مقدار باقی مانده جهت بارگیری:
 
                                                             <b class="remaining-quantity">
-                                                                {{number_format($product->pivot->quantity, 0, '', ',')}}
+                                                                {{number_format($vproducts->quantity, 0, '', ',')}}
                                                             </b>
 
                                                             {{$product->determine_product_unit()}}
 
-                                                            <input type="hidden" value="{{$product->pivot->quantity}}" class="remaining-quantity-input">
+                                                            <input type="hidden" value="{{$vproducts->quantity}}" class="remaining-quantity-input">
                                                         </h5>
                                                     </div>
                                                 </div>

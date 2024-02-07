@@ -11,6 +11,7 @@ use App\Models\Schedule;
 use App\Models\Attribute;
 use Illuminate\Support\Arr;
 use App\Models\AttributeItem;
+use App\Models\OrderVproduct;
 use Laravel\Scout\Searchable;
 use App\Models\AttributeValue;
 use App\Models\Representative;
@@ -672,5 +673,9 @@ class Product extends Model
         return ($valueAddedTax / 100 + 1) * $sellingPriceWithCommission;
 
     }
+
+    public function vproducts() {
+        return $this->hasMany(OrderVproduct::class, 'product_id', 'id'); 
+    } 
 }
 

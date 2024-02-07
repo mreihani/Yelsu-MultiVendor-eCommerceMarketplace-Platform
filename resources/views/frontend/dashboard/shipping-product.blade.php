@@ -71,34 +71,41 @@
                                     @php
                                         $vendor_id_arr = [];
                                     @endphp
-                                    @foreach ($order->products as $product)
+                                    
+                                    @foreach ($order_vproducts as $order_vproduct_item)
                                     <tr>
                                         @php
-                                            $user = App\Models\User::find($product->vendor_id);
+                                            $user = App\Models\User::find($order_vproduct_item->products->first()->vendor_id);
                                             if($user) {
                                                 $vendor_info = $user->firstname .' '. $user->lastname;
-                                                $vendor_id_arr[] = $product->vendor_id;
+                                                $vendor_id_arr[] = $order_vproduct_item->products->first()->vendor_id;
                                             }
                                             $vendor_id_arr = array_unique($vendor_id_arr);
                                         @endphp
                                         <td style="text-align:right">
-                                            <a href="{{route('product.details',$product->product_slug)}}">{{$product->product_name}}</a>&nbsp;<br>
+                                            <a href="{{route('product.details',$order_vproduct_item->products->first()->product_slug)}}">{{$order_vproduct_item->products->first()->product_name}}</a>&nbsp;<br>
                                             <p>
                                                 <strong>
                                                     مقدار
-                                                    {{$product->pivot->quantity}}
-                                                    {{$product->determine_product_unit()}}
+                                                    {{$order_vproduct_item->quantity}}
+                                                    {{$order_vproduct_item->products->first()->determine_product_unit()}}
                                                 </strong>
                                             </p>
-                                            @if ($product->vendor_id)
-                                            فروشنده :  <a href="{{route('vendor.details',$product->vendor_id)}}"> {{$vendor_info}}</a>
+                                            @if ($order_vproduct_item->products->first()->vendor_id)
+                                                فروشنده :  <a href="{{route('vendor.details', $order_vproduct_item->products->first()->vendor_id)}}"> {{$vendor_info}}</a>
+
+                                                @if(!is_null($order_vproduct_item->outlet_id))
+                                                    <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                        {{$order_vproduct_item->products->first()->outlets->where("id", $order_vproduct_item->outlet_id)->first()->shop_name}}
+                                                    </div>
+                                                @endif
                                             @else
-                                            فروشنده :  یلسو
+                                                فروشنده :  یلسو
                                             @endif
                                         </td>
-                                               
+                                           
                                         <td>
-                                            <a class="btn btn-primary btn-outline" href="{{route('shipping-details', ['orderId' => $order->id, 'productId' => $product->id])}}">
+                                            <a class="btn btn-primary btn-outline" href="{{route('shipping-details', ['orderId' => $order->id, 'productId' => $order_vproduct_item->products->first()->id, 'outletId' => $order_vproduct_item->outlet_id ?: 0])}}">
                                                 مدیریت حمل کالا
                                             </a>
                                         </td>

@@ -68,19 +68,7 @@ class PaymentController extends Controller
                     return redirect(route('checkout'))->with('error', 'محصول انتخاب شده از تعداد موجود در انبار بیشتر است. لطفا مجددا سعی نمایید.');
                 }
             }
-
-            $orderItems = $cartItems->mapWithKeys(function ($cart) {
-                return [
-                    $cart['product']->id
-                    =>
-                    [
-                        'quantity' => $cart['quantity'],
-                        'price' => $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null),
-                        'outlet_id' => $cart['outlet_id']
-                    ]
-                ];
-            });
-
+                   
             if($request->person_type && $request->person_type == "haghighi") {
 
                 $user->update([
@@ -107,8 +95,19 @@ class PaymentController extends Controller
                 'order_note' => Purify::clean($request->order_note),
                 'home_phone' => Purify::clean($incomingFields['home_phone']),
             ]);
+            
+            $orderItems = $cartItems->map(function ($cart) use($order) {
+                return [
+                    'product_id' => $cart['product']->id,
+                    'outlet_id' => $cart['outlet_id'],
+                    'order_id' => $order->id,
+                    'quantity' => $cart['quantity'],
+                    'price' => $cart['product']->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null),
+                ];
+            });
 
-            $order->products()->attach($orderItems);
+            // Insert order items into OrderVproduct model
+            $order->vproducts()->insert($orderItems->toArray());
           
             // Get cart id number
             $cartIdNumber = $cartItems->keys()->first();

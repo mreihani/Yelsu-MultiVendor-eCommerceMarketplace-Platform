@@ -957,7 +957,7 @@
         }">
         <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2">
             <figure class="swiper-slide">
-                <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_2.pdf')}}">
+                <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_3.pdf')}}">
                     <img src="{{asset('frontend/assets/images/demos/demo13/brands/4.jpg')}}" alt="Brand" width="310"
                     height="180" />
                 </a>
