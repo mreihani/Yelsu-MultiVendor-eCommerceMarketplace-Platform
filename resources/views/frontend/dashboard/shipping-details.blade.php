@@ -119,7 +119,7 @@
 
                                                                 @if(!is_null($vproducts->outlet_id))
                                                                     <div class="btn btn-primary btn-rounded btn-sm mt-2" style="padding: 0.2em 0.4em; cursor:initial">
-                                                                        {{$product->outlets->first()->shop_name}}
+                                                                        {{App\Models\Outlet::find($vproducts->outlet_id)->shop_name}}
                                                                     </div>
                                                                 @endif
                                                             </a>
