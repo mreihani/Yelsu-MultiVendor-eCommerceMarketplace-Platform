@@ -41,7 +41,7 @@
                             <br><br>
                             ارمغان تجارت مغان با بهره‌گیری از توانایی کارشناسانی با تجربه، امکان ارائه خدمات در زمینۀ تحقیق و توسعه فرآوری، استخراج و بارگیری محصولات معدنی را دارد و خدمات خود را در اقصی نقاط کشور عزیزمان ارائه می‌دهد.</p>
                         <div style="text-align: end">
-                            <a href="{{asset('frontend/assets/images/pages/about_us/yelsu_catalogue_3.pdf')}}" class="btn btn-dark btn-rounded">
+                            <a href="{{asset('storage/upload/catalogue_file/yelsu_catalogue_3.pdf')}}" class="btn btn-dark btn-rounded">
                                 <i class="w-icon-fax"></i>
                                 کاتالوگ شرکت
                             </a>
