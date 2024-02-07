@@ -40,7 +40,7 @@ class UserShippingController extends Controller
 
         $orderId = Purify::clean($request->orderId);
         $productId = Purify::clean($request->productId);
-        $outletId = Purify::clean($request->outletId);
+        $outletId = Purify::clean($request->outletId) ?: null;
 
         $order = Order::find($orderId);
         
