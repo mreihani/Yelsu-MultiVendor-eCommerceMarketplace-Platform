@@ -642,13 +642,29 @@ class Product extends Model
             $sellingPrice = $this->selling_price;
         }
 
+        return $this->calculateCommissionAddedValue($this, $sellingPrice);
+    }
+
+    public function vproducts() {
+        return $this->hasMany(OrderVproduct::class, 'product_id', 'id'); 
+    } 
+
+    /**
+     * Calculate the commission for a product
+     *
+     * @param object $product The product object
+     * @param float $sellingPrice The selling price of the product
+     * @return int The selling price with commission applied
+     */
+    public function calculateCommission($product, $sellingPrice)
+    {
         // Determine the type of commission for the product
-        $commissionType = $this->determine_product_commission_type();
+        $commissionType = $product->determine_product_commission_type();
         
         // Determine the value of commission for the product
-        $commissionValue = $this->determine_product_commission();
+        $commissionValue = $product->determine_product_commission();
 
-        // Set selling price with commsision to zero
+        // Initialize selling price with commission
         $sellingPriceWithCommission = 0;
 
         // If the selling price is not zero and there is a commission value
@@ -666,16 +682,46 @@ class Product extends Model
             }
         }
 
+        // Return the selling price with commission applied
+        return (int) $sellingPriceWithCommission;
+    }
+
+    /**
+     * Calculate the selling price with commission and value added tax
+     * 
+     * @param Product $product The product for which the commission is being calculated
+     * @param float $sellingPrice The selling price of the product
+     * 
+     * @return float The selling price with commission and value added tax
+     */
+    public function calculateCommissionAddedValue($product, $sellingPrice)
+    {
+        // calulate sellign price with commission
+        $sellingPriceWithCommission = $this->calculateCommission($product, $sellingPrice);
+
         // Determine the product value added tax
-        $valueAddedTax = $this->determine_product_value_added_tax() ?: 0;
+        $valueAddedTax = $product->determine_product_value_added_tax() ?: 0;
 
         // Calculate the price with commission and value added tax
         return ($valueAddedTax / 100 + 1) * $sellingPriceWithCommission;
-
     }
 
-    public function vproducts() {
-        return $this->hasMany(OrderVproduct::class, 'product_id', 'id'); 
-    } 
+    /**
+     * Get the single price with commission attribute.
+     *
+     * @return int
+     */
+    public function getSinglePriceWithCommissionAttribute()
+    {
+        // Check if outlets are available and return the selling price
+        if (count($this->outlets)) {
+            $sellingPrice = (int) $this->outlets->first()->pivot->selling_price;
+        } else {
+            // Return the default selling price
+            $sellingPrice = (int) $this->selling_price;
+        }
+        
+        return (int) $this->calculateCommission($this, $sellingPrice);
+    }
 }
 

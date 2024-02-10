@@ -1538,8 +1538,8 @@ class IndexController extends Controller
                 }
 
                 // بخش قیمت محصول    
-                $table[$user_id]['products_array'][$product_key]['selling_price'] = $product_item->price_with_commission;
-                $table[$user_id]['products_array'][$product_key]['selling_price_formatted'] = number_format($product_item->price_with_commission, 0, '', ',');
+                $table[$user_id]['products_array'][$product_key]['selling_price'] = $product_item->single_price_with_commission;
+                $table[$user_id]['products_array'][$product_key]['selling_price_formatted'] = number_format($product_item->single_price_with_commission, 0, '', ',');
                 $table[$user_id]['products_array'][$product_key]['product_value_added_tax_by_percent'] = $product_item->determineProductValueAddedTaxByPercent();
                 $table[$user_id]['products_array'][$product_key]['product_currency'] = $product_item->determine_product_currency();
             }

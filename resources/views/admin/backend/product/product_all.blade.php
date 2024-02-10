@@ -248,7 +248,7 @@
                                     </td>
                                     <!--end::تعداد=-->
                                     <!--begin::قیمت=-->
-                                    <td class="text-end pe-0">{{$item->selling_price}} {{$item->determine_product_currency()}}</td>
+                                    <td class="text-end pe-0">{{$item->single_price_with_commission}} {{$item->determine_product_currency()}}</td>
                                     <!--end::قیمت=-->
                                     <!--begin::rating-->
                                     {{-- <td class="text-end pe-0" data-order="rating-4">
