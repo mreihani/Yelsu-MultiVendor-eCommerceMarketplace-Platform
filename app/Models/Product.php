@@ -687,6 +687,20 @@ class Product extends Model
     }
 
     /**
+     * Calculate the price with commission.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param float $sellingPrice
+     * @param \App\Models\Product $product
+     * @return float
+     */
+    public function scopeCalculatePriceWithCommission($query, $sellingPrice, $product)
+    {
+        // Calculate the commission for the product based on the selling price
+        return $this->calculateCommission($product, $sellingPrice);
+    }
+ 
+    /**
      * Calculate the selling price with commission and value added tax
      * 
      * @param Product $product The product for which the commission is being calculated

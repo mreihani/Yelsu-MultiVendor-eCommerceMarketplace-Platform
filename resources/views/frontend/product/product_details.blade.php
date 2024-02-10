@@ -145,11 +145,11 @@
                                                 <div class="col-md-6">
                                                     @foreach ($product->outlets as $key => $outlet_item)
                                                         <div class="product-price {{$key == 0 ? '' : 'd-none'}}" id="outlet-{{$outlet_item->id}}">
-                                                            <ins class="new-price">{{number_format($outlet_item->pivot->selling_price, 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
+                                                            <ins class="new-price">{{number_format(App\Models\Product::calculatePriceWithCommission($outlet_item->pivot->selling_price, $product), 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                            @else
+                                            @else 
                                                 <div class="col-md-12">
                                                     <div class="product-price">
                                                         <ins class="new-price">{{number_format($product->price_with_commission, 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
