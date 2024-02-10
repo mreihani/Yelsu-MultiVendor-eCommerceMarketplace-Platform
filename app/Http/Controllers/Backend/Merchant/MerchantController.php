@@ -923,7 +923,7 @@ class MerchantController extends Controller
         $user_id = Auth::user()->id;
         $merchantData = User::find($user_id);
         $orders = Order::orderBy('id', 'DESC')->where('status', Purify::clean(request('type')))->get();
-
+        
         return view('merchant.merchant_orderslist', compact('orders', 'merchantData'));
     } //End method
 

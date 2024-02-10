@@ -2,14 +2,15 @@ function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
 
-
 $(".cart-toggle").click(function () {
     $.ajax({
         type: "GET",
         url: "/minicart",
         dataType: "json",
         success: function (response) {
+
             let miniCart = "";
+            let shopName = "";
             let miniCartTotalPrice = 0;
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr("content");
             let currency;
@@ -17,6 +18,16 @@ $(".cart-toggle").click(function () {
             if (response.length > 0) {
                 
                 $.each(response, function (key, value) {
+
+                    if(value.shop_name) {
+                        shopName = `
+                        <div>
+                            <span class="product-shop-name">${value.shop_name}</span>
+                        </div>
+                        `;
+                    } else {
+                        shopName = "";
+                    }
                     
                     miniCartTotalPrice +=
                         value.price_with_commission * value.cart.quantity;
@@ -30,6 +41,7 @@ $(".cart-toggle").click(function () {
                                 <span class="product-quantity">${value.cart.quantity}</span>
                                 <span class="product-price">${formatNumber(value.price_with_commission)} ${value.currency}</span>
                             </div>
+                            ${shopName}
                         </div>
                         <figure class="product-media">
                             <a href="">

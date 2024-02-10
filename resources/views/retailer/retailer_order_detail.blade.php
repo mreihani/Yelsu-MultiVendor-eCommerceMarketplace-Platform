@@ -638,20 +638,20 @@
                                                 <!--end::Table head-->
                                                 <!--begin::Table body-->
                                                 <tbody class="fw-semibold text-gray-600">
-                                                    @foreach ($order->products as $product)
+                                                    @foreach ($order->vproducts as $product)
                                                     <!--begin::محصولات-->
                                                     <tr>
                                                         <!--begin::product-->
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <!--begin::Thumbnail-->
-                                                                <a href="{{route('product.details',$product->product_slug)}}" class="symbol symbol-50px">
-                                                                    <span class="symbol-label" style="background-image:url({{(!empty($product->product_thumbnail)) ? url($product->product_thumbnail) : url('storage/upload/no_image_product.jpg')}});"></span>
+                                                                <a href="{{route('product.details',$product->products->first()->product_slug)}}" class="symbol symbol-50px">
+                                                                    <span class="symbol-label" style="background-image:url({{(!empty($product->products->first()->product_thumbnail)) ? url($product->products->first()->product_thumbnail) : url('storage/upload/no_image_product.jpg')}});"></span>
                                                                 </a>
                                                                 <!--end::Thumbnail-->
                                                                 <!--begin::Title-->
                                                                 <div class="ms-5">
-                                                                    <a href="{{route('product.details',$product->product_slug)}}" class="fw-bold text-gray-600 text-hover-primary">{{$product->product_name}}</a>
+                                                                    <a href="{{route('product.details',$product->products->first()->product_slug)}}" class="fw-bold text-gray-600 text-hover-primary">{{$product->products->first()->product_name}}</a>
                                                                     {{-- <div class="fs-7 text-muted">تحویل تاریخ: 23/11/2022</div> --}}
                                                                 </div>
                                                                 <!--end::Title-->
@@ -660,7 +660,7 @@
                                                         <!--end::product-->
                                                         <!--begin::Vendor Name-->
                                                         @php
-                                                            $user = App\Models\User::find($product->retailer_id);
+                                                            $user = App\Models\User::find($product->products->first()->retailer_id);
                                                             if($user) {
                                                                 $retailer_info = $user->firstname .' '. $user->lastname;
                                                             } else {
@@ -670,16 +670,16 @@
                                                         <td class="text-end">{{$retailer_info}}</td>
                                                         <!--end::Vendor Name-->
                                                         <!--begin::SKU-->
-                                                        <td class="text-end">{{$product->product_code}}</td>
+                                                        <td class="text-end">{{$product->products->first()->product_code}}</td>
                                                         <!--end::SKU-->
                                                         <!--begin::Quantity-->
-                                                        <td class="text-end">{{$product->pivot->quantity}}</td>
+                                                        <td class="text-end">{{$product->quantity}}</td>
                                                         <!--end::Quantity-->
                                                         <!--begin::قیمت-->
-                                                        <td class="text-end">{{$product->pivot->price}} {{$order->products[0]->determine_product_currency()}}</td>
+                                                        <td class="text-end">{{$product->price}} {{$product->products->first()->determine_product_currency()}}</td>
                                                         <!--end::قیمت-->
                                                         <!--begin::کل-->
-                                                        <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} {{$order->products[0]->determine_product_currency()}}</td>
+                                                        <td class="text-end">{{$product->quantity * $product->price}} {{$product->products->first()->determine_product_currency()}}</td>
                                                         <!--end::کل-->
                                                     </tr>
                                                     @endforeach

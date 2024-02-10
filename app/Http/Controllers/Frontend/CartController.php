@@ -58,7 +58,8 @@ class CartController extends Controller
                     'products' => $product, 
                     'cart' => $cart, 
                     'currency' => $product->determine_product_currency(),
-                    'price_with_commission' => ceil( (int) $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null))
+                    'price_with_commission' => ceil( (int) $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null)),
+                    'shop_name' => $cart["outlet_id"] ? $product->outlets->where("id", $cart['outlet_id'])->first()->shop_name : null
                 ];
             }
         }

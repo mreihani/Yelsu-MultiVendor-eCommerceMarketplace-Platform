@@ -638,20 +638,20 @@
                                                 <!--end::Table head-->
                                                 <!--begin::Table body-->
                                                 <tbody class="fw-semibold text-gray-600">
-                                                    @foreach ($order->products as $product)
+                                                    @foreach ($order->vproducts as $product)
                                                     <!--begin::محصولات-->
                                                     <tr>
                                                         <!--begin::product-->
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <!--begin::Thumbnail-->
-                                                                <a href="{{route('product.details',$product->product_slug)}}" class="symbol symbol-50px">
-                                                                    <span class="symbol-label" style="background-image:url({{(!empty($product->product_thumbnail)) ? url($product->product_thumbnail) : url('storage/upload/no_image_product.jpg')}});"></span>
+                                                                <a href="{{route('product.details',$product->products->first()->product_slug)}}" class="symbol symbol-50px">
+                                                                    <span class="symbol-label" style="background-image:url({{(!empty($product->products->first()->product_thumbnail)) ? url($product->products->first()->product_thumbnail) : url('storage/upload/no_image_product.jpg')}});"></span>
                                                                 </a>
                                                                 <!--end::Thumbnail-->
                                                                 <!--begin::Title-->
                                                                 <div class="ms-5">
-                                                                    <a href="{{route('product.details',$product->product_slug)}}" class="fw-bold text-gray-600 text-hover-primary">{{$product->product_name}}</a>
+                                                                    <a href="{{route('product.details',$product->products->first()->product_slug)}}" class="fw-bold text-gray-600 text-hover-primary">{{$product->products->first()->product_name}}</a>
                                                                     {{-- <div class="fs-7 text-muted">تحویل تاریخ: 23/11/2022</div> --}}
                                                                 </div>
                                                                 <!--end::Title-->
@@ -660,7 +660,7 @@
                                                         <!--end::product-->
                                                         <!--begin::Vendor Name-->
                                                         @php
-                                                            $user = App\Models\User::find($product->vendor_id);
+                                                            $user = App\Models\User::find($product->products->first()->vendor_id);
                                                             if($user) {
                                                                 $vendor_info = $user->firstname .' '. $user->lastname;
                                                             } else {
@@ -670,16 +670,16 @@
                                                         <td class="text-end">{{$vendor_info}}</td>
                                                         <!--end::Vendor Name-->
                                                         <!--begin::SKU-->
-                                                        <td class="text-end">{{$product->product_code}}</td>
+                                                        <td class="text-end">{{$product->products->first()->product_code}}</td>
                                                         <!--end::SKU-->
                                                         <!--begin::Quantity-->
-                                                        <td class="text-end">{{$product->pivot->quantity}}</td>
+                                                        <td class="text-end">{{$product->quantity}}</td>
                                                         <!--end::Quantity-->
                                                         <!--begin::قیمت-->
-                                                        <td class="text-end">{{$product->pivot->price}} {{$product->determine_product_currency()}}</td>
+                                                        <td class="text-end">{{$product->price}} {{$product->products->first()->determine_product_currency()}}</td>
                                                         <!--end::قیمت-->
                                                         <!--begin::کل-->
-                                                        <td class="text-end">{{$product->pivot->quantity * $product->pivot->price}} {{$product->determine_product_currency()}}</td>
+                                                        <td class="text-end">{{$product->quantity * $product->price}} {{$product->products->first()->determine_product_currency()}}</td>
                                                         <!--end::کل-->
                                                     </tr>
                                                     @endforeach
@@ -706,7 +706,7 @@
                                                     <!--begin::Grو total-->
                                                     <tr>
                                                         <td colspan="4" class="fs-3 text-dark text-end">جمع کل</td>
-                                                        <td class="text-dark fs-3 fw-bolder text-end">{{$order->price}} {{$product->determine_product_currency()}}</td>
+                                                        <td class="text-dark fs-3 fw-bolder text-end">{{$order->price}} {{$product->products->first()->determine_product_currency()}}</td>
                                                     </tr>
                                                     <!--end::Grو total-->
                                                 </tbody>

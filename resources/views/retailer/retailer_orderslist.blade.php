@@ -115,8 +115,8 @@
                                 
                                 @php
                                 $orderBelongsToVendor = false;
-                                foreach ($order->products as $product) {
-                                    if($product->retailer_id == $retailerData->id) {
+                                foreach ($order->vproducts as $product) {
+                                    if($product->products->first()->retailer_id == $retailerData->id) {
                                         $orderBelongsToVendor = true;
                                         break;
                                     }
@@ -202,7 +202,7 @@
                                         <!--end::وضعیت=-->
                                         <!--begin::کل=-->
                                         <td class="text-end pe-0">
-                                            <span class="fw-bold">{{$order->price}} {{$order->products[0]->determine_product_currency()}}</span>
+                                            <span class="fw-bold">{{$order->price}} {{$order->vproducts->first()->products->first()->determine_product_currency()}}</span>
                                         </td>
                                         <!--end::کل=-->
                                         <!--begin::تاریخ افزودن=-->
