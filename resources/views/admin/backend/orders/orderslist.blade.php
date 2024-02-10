@@ -164,8 +164,8 @@
                                         <!--begin::نام فروشنده=-->
                                         @php
                                             $vendor_arr = [];
-                                            foreach ($order->products as $product) {
-                                                $vendor_id = $product->vendor_id;
+                                            foreach ($order->vproducts as $product) {
+                                                $vendor_id = $product->products->first()->vendor_id;
                                                 $user = App\Models\User::find($vendor_id);
                                                 if($user) {
                                                     $vendor_arr[] = $user->firstname .' '. $user->lastname;
@@ -226,7 +226,7 @@
                                         <!--end::وضعیت=-->
                                         <!--begin::کل=-->
                                         <td class="text-end pe-0">
-                                            <span class="fw-bold">{{$order->price}} {{$order->products[0]->determine_product_currency()}}</span>
+                                            <span class="fw-bold">{{$order->price}} {{$order->vproducts->first()->products->first()->determine_product_currency()}}</span>
                                         </td>
                                         <!--end::کل=-->
                                         <!--begin::تاریخ افزودن=-->
