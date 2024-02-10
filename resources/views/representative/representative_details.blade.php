@@ -354,11 +354,11 @@
                                                                 </td> 
                                                             @endforeach
                                                         @endif    
-                                                        @if($product_item->selling_price != 0)
-                                                            <input type="hidden" value="{{$product_item->selling_price}}" class="price_before_value_added_tax">
+                                                        @if($product_item->single_price_with_commission != 0)
+                                                            <input type="hidden" value="{{$product_item->single_price_with_commission}}" class="price_before_value_added_tax">
                                                             <input type="hidden" value="{{$product_item->determineProductValueAddedTaxByPercent()}}" class="price_after_value_added_tax">
                                                             <td>
-                                                                <span class="price_tag">{{number_format($product_item->selling_price, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
+                                                                <span class="price_tag">{{number_format($product_item->single_price_with_commission, 0, '', ',')}}</span> {{$product_item->determine_product_currency()}}
                                                             </td>
                                                         @else
                                                             <td>
@@ -417,8 +417,8 @@
                                     </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-price">
-                                            @if($product->selling_price != 0)
-                                                <td>{{$product->selling_price}} {{$product->determine_product_currency()}}</td>
+                                            @if($product->single_price_with_commission != 0)
+                                                <td>{{$product->single_price_with_commission}} {{$product->determine_product_currency()}}</td>
                                             @else
                                                 <td>
                                                     <a href="tel:02126402540">
