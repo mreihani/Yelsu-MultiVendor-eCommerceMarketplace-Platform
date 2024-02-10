@@ -58,13 +58,13 @@ class CartController extends Controller
                     'products' => $product, 
                     'cart' => $cart, 
                     'currency' => $product->determine_product_currency(),
-                    'price_with_commission' => $product->price_with_commission_value_added
+                    'price_with_commission' => ceil($product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null))
                 ];
             }
         }
         return $productsArray;
     }
-
+    
     public function quantityChange(Request $request)
     {
         $data = $request->validate([

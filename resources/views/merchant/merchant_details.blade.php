@@ -326,8 +326,8 @@
                                     </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-price">
-                                            @if($product->selling_price != 0)
-                                                <td>{{$product->selling_price}} {{$product->determine_product_currency()}}</td>
+                                            @if($product->single_price_with_commission != 0)
+                                                <td>{{$product->single_price_with_commission}} {{$product->determine_product_currency()}}</td>
                                             @else
                                                 <td>
                                                     <a href="tel:02126402540">
