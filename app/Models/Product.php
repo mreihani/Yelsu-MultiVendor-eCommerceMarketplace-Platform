@@ -311,9 +311,9 @@ class Product extends Model
 
         // Calculate the value added tax by percentage
         if($addedValueTax) {
-            return ceil($this->price_with_commission * ($addedValueTax / 100 + 1));
+            return ceil($this->single_price_with_commission * ($addedValueTax / 100 + 1));
         } else {
-            return $this->price_with_commission;
+            return $this->single_price_with_commission;
         }
     }
 
