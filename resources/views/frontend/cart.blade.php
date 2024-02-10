@@ -1,11 +1,7 @@
 @extends('frontend.main_theme')
 @section('main')
 
-<style>
-    .shop-table.cart-table .product-quantity {
-        width: 20% !important;
-    }
-</style>
+
 
 <main class="main cart">
     <!-- Start of Breadcrumb -->

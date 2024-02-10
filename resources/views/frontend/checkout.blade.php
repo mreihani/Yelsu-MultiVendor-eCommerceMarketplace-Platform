@@ -280,19 +280,20 @@
                                                         </span>
 
                                                         @if(!is_null($cart['outlet_id']))
-                                                            <div class="btn btn-primary btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial">
+                                                            <div class="btn btn-primary btn-rounded btn-sm d-flex" style="padding: 0.2em 0.4em; cursor:initial; width: max-content;">
                                                                 {{$product->outlets->where("id", $cart['outlet_id'])->first()->shop_name}}
                                                             </div>
                                                         @endif
                                                     </td>
-                                                    <td class="product-total">
+                                                    <td class="product-total" style="text-align: -webkit-left;">
+                                                        {{number_format($cart['quantity'] * $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null), 0, '', ',')}} {{$product->determine_product_currency()}} 
+
                                                         @if($product->determine_product_value_added_tax())
-                                                            <div class="btn btn-warning btn-rounded btn-sm" style="padding: 0.2em 0.4em; cursor:initial;">
+                                                            <div class="btn btn-warning btn-rounded btn-sm d-flex" style="padding: 0.2em 0.4em; cursor:initial; width: max-content;">
                                                                 {{$product->determine_product_value_added_tax()}}
                                                                 درصد مالیات
                                                             </div>
                                                         @endif
-                                                        {{number_format($cart['quantity'] * $product->getPriceWithCommissionValueAddedAttribute($cart["outlet_id"] ?: null), 0, '', ',')}} {{$product->determine_product_currency()}} 
                                                     </td>
                                                 </tr>
                                             @endif                                     
