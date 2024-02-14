@@ -33,7 +33,6 @@
 @if($categoryCount)  
     <ul class="megamenu">
         @foreach ($category->child->chunk($chunkIterationNumber) as $key => $categoryChunkItem)
-        
             <li>
                 @foreach ($categoryChunkItem as $categoryChildItem)
                     <h4 class="menu-title">
@@ -57,6 +56,14 @@
                 @endforeach
             </li>
         @endforeach
+            <li>
+                <div class="banner-fixed menu-banner menu-banner2">
+                    <figure>
+                    </figure>
+                    <div class="banner-content">
+                    </div>
+                </div>
+            </li>
     </ul>  
 @endif
 
