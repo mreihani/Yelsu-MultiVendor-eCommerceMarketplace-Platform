@@ -16,7 +16,7 @@
 
                 <ul class="menu vertical-menu category-menu yelsu_main_categories">
                     @foreach ($parentCategories as $parentCategory)
-                    <li>
+                    <li class="has-submenu">
                         <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
                             <img width="45px" src = "{{asset($parentCategory->category_image)}}" alt="{{$parentCategory->category_name}}"/> {{$parentCategory->category_name}}
                             <span class="submenu-toggle-btn"></span>

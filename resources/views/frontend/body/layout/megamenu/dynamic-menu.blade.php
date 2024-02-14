@@ -5,6 +5,7 @@
         border-bottom: 2px solid #d2d2d2;
         z-index: 100000 !important;
         overflow-y: auto;
+        overflow-x: hidden;
         scrollbar-color: #0165d5 #C2D2E4;
         scrollbar-width: thin;
     }
@@ -31,7 +32,8 @@
 
 @if($categoryCount)  
     <ul class="megamenu">
-        @foreach ($category->child->chunk($chunkIterationNumber) as $categoryChunkItem)
+        @foreach ($category->child->chunk($chunkIterationNumber) as $key => $categoryChunkItem)
+        
             <li>
                 @foreach ($categoryChunkItem as $categoryChildItem)
                     <h4 class="menu-title">
@@ -57,3 +59,4 @@
         @endforeach
     </ul>  
 @endif
+

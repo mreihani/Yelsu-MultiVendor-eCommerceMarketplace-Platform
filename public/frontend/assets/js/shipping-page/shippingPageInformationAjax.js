@@ -39,7 +39,6 @@ $(".shipping-page-content").on("click", ".shipping-calculate-btn", function () {
 
             // update shipping calculations in shipping page
             let calculated_calculations_element = shipping_element.find(".shipping-calculations");
-           
             calculated_calculations_element.html(setShippingCalculationsHTMLVendor(response));
             
             // update vendor address in shipping page
