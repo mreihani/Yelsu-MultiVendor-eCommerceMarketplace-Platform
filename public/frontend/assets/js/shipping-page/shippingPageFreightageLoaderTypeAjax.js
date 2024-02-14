@@ -31,6 +31,10 @@ $(".freightage-company-name").on("change", ".freightage-activity-field-dropdown"
     // Get the value of the input element and parse it as an integer
     let numberItemsRequest = parseInt($(".number-items-request input").val());
 
+    // Hide shipping page distance box element
+    const shippingPageDistanceElement = shippingPageElement.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-flex").addClass("d-none");
+
     $.ajax({
         type: "GET",
         data:{

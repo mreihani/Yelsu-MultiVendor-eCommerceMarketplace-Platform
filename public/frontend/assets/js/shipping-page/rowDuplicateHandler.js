@@ -31,6 +31,25 @@ $(".shipping").on("click", ".row-duplicate-btn", function(){
 
         // Insert the cloned row after the selected row
         clonedRow.insertAfter(selectedRowElementDuplicated);
+
+        // Hide spinner btn
+        let rowPendingBtn = clonedRow.find(".row-pending-btn");
+        rowPendingBtn.addClass('d-none');
+        rowPendingBtn.removeClass('d-flex');
+
+        // Hide success btn
+        let saveBtnSuccess = rowPendingBtn.parent().find('.row-save-btn-success');
+        saveBtnSuccess.addClass('d-none');
+        saveBtnSuccess.removeClass('d-flex');
+
+        // Show save btn
+        let saveBtn = clonedRow.find('.row-save-btn');
+        saveBtn.removeClass('d-none');
+        saveBtn.addClass('d-flex');
+
+        // Change Save btn color, change class to save btn
+        saveBtn.removeClass('btn-dark');
+        saveBtn.addClass('btn-primary');
     }
 
     // Get the parent tbody element

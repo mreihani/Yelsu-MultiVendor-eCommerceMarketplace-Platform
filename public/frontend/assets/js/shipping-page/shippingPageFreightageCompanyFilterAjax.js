@@ -40,6 +40,10 @@ $(".shipping-page-content").on("click", ".shipping-panel-btn", function () {
         enableControlPanelSelectElements();
     }
     
+    // Hide shipping page distance box element
+    const shippingPageDistanceElement = shipping_element.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-flex").addClass("d-none");
+
     // Call the AJAX function with the product ID and order ID
     $.ajax({
         type: "GET",

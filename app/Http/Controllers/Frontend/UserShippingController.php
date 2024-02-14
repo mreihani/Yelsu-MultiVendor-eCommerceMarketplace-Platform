@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Frontend;
 
+
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Fparam;
 use App\Models\Outlet;
 use App\Models\Product;
+use App\Models\Shipping;
 use App\Models\Useroutlets;
 use Illuminate\Http\Request;
+use App\Models\OrderVproduct;
 use App\Models\Freightagetype;
 use App\Http\Controllers\Controller;
 use App\Models\Freightageloadertype;
+use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
 use App\Services\NeshanServices\NeshanApiService;
+use Illuminate\Support\Facades\File as LaravelFile;
 
 class UserShippingController extends Controller
 {
@@ -33,25 +38,154 @@ class UserShippingController extends Controller
         return view('frontend.dashboard.shipping-product', compact('userData', 'order', 'order_vproducts'));
     }
 
-    public function ShippingDetails(Request $request) {
+    public function ShippingDetails(Request $request, OrderVproduct $vproducts) {
 
         $userData = auth()->user();
         $user_id = $userData->id;
 
-        $orderId = Purify::clean($request->orderId);
-        $productId = Purify::clean($request->productId);
-        $outletId = Purify::clean($request->outletId) ?: null;
-
-        $order = Order::find($orderId);
+        $order = Order::find($vproducts->order_id);
         
-        $vproducts = $order->vproducts->where('product_id', $productId)->where('outlet_id', $outletId)->first();
         $product = $vproducts->products->first();
 
         if ($order->user_id != $user_id) {
             return redirect(route('dashboard', ['type' => 'addresses']))->with('error', 'سفارش یافت نشد.');
         }
 
-        return view('frontend.dashboard.shipping-details', compact('userData', 'order', 'product', 'vproducts'));
+        // Get shipping details
+        $shipping = $vproducts->shipping;
+
+        // Create array of json for shipping-row-object-json
+        $shippingItemsJsonArray = $this->setJsonShippingRow($shipping);
+
+        // Create array of items for each table row
+        $shippingItemRowArray = $this->getRowInformation($shipping);
+
+        // Calculate remaining order qualtity for shipping
+        if(!count($shipping)) {
+            $remainingShippingQuantity = $vproducts->quantity;
+        } else {
+            $remainingShippingQuantity = $vproducts->quantity - $shipping->sum('number_of_request_input');
+        }
+    
+        return view('frontend.dashboard.shipping-details', compact(
+            'userData',
+            'order',
+            'product',
+            'vproducts',
+            'shipping', 
+            'shippingItemsJsonArray',
+            'shippingItemRowArray',
+            'remainingShippingQuantity'
+        ));
+    }
+        
+    /**
+     * Retrieves information from the shipping items and returns it in an array format.
+     *
+     * @param array $shipping The array of shipping items
+     * @return array The array of shipping item information
+     */
+    protected function getRowInformation($shipping) {
+        // Initialize an empty array to store shipping items in JSON format
+        $shippingItemRowArray = [];
+
+        // Loop through each shipping item and extract relevant information
+        foreach ($shipping as $shippingItem) {
+            // Get selected order origin address
+            $order_origin_address = collect(json_decode($shippingItem->order_origin_address))->filter(function($value, int $key) {
+                return $value->selected;
+            });
+
+            // Get selected order destination address
+            $order_destination_address = collect(json_decode($shippingItem->order_destination_address))->filter(function($value, int $key) {
+                return $value->selected;
+            });
+
+            // Get selected freightage information
+            $freightage_information = collect(json_decode($shippingItem->freightage_information))->filter(function($value, int $key) {
+                return $value->selected;
+            });
+
+            // Get selected freightage activity field
+            $freightage_activity_field = collect(json_decode($shippingItem->freightage_activity_field))->filter(function($value, int $key) {
+                return $value->selected;
+            });
+
+            // Get selected freightage loadertype
+            $freightage_loadertype = collect(json_decode($shippingItem->freightage_loadertype))->filter(function($value, int $key) {
+                return $value->selected;
+            });
+
+            // Add the extracted information to the shipping item array
+            $shippingItemRowArray[] = array(
+                'row_id' => $shippingItem->selected_row_id,
+                'order_origin_address' => $order_origin_address->first()->value,
+                'order_destination_address' => $order_destination_address->first()->value,
+                'freightage_information' => $freightage_information->first()->value,
+                'freightage_activity_field' => $freightage_activity_field->first()->value,
+                'freightage_loadertype' => $freightage_loadertype->first()->value,
+                'deliverDateInputValue' => $shippingItem->deliver_date_input,
+                'number_of_request_input' => $shippingItem->number_of_request_input,
+                'shipping_status' => $shippingItem->shipping_status == 'processing' ? 'پرداخت شده و در حال ارسال' : 'ارسال شده',
+            );
+        }
+
+        // Return the array of shipping item information
+        return $shippingItemRowArray;
+    }
+
+    /**
+     * Converts shipping data to JSON format and encodes ARC image to base64.
+     *
+     * @param array $shipping Array of shipping data
+     *
+     * @return array Array of shipping data in JSON format
+     */
+    protected function setJsonShippingRow($shipping) {
+        // Initialize an empty array to store shipping items in JSON format
+        $shippingItemsJsonArray = [];
+
+        // Loop through each shipping item
+        foreach ($shipping as $shippingItem) {
+            
+            // Encode ARC image to base64
+            $base64 = 'data:image/png;base64,' . base64_encode(file_get_contents($shippingItem->neshan_arc_image_src));
+
+            // Get Origin Address HTML
+            $originAddressHTML = Outlet::find($shippingItem->selected_order_origin_address_id)->shop_address;
+
+            // Get Destination Address HTML
+            $destinationAddressHTML = Useroutlets::find($shippingItem->selected_order_destination_address_id)->address;
+
+            // Get shipping distance text
+            $shippingDistanceText = $shippingItem->distance_by_kilometer . ' کیلومتر ';
+            
+            // Get shipping price text
+            $shippingPriceCurrency = $shippingItem->shipping_price_currency == 'toman' ? 'تومان' : 'دلار';
+            $shippingPriceText = number_format($shippingItem->shipping_price, 0, '', ',') . ' ' . $shippingPriceCurrency;
+            
+            // Create an array for the shipping item
+            $rowItemArray = [
+                'order_origin_address_obj_array' => json_decode($shippingItem->order_origin_address),
+                'order_destination_address_obj_array' => json_decode($shippingItem->order_destination_address),
+                'freightage_information_obj_array' => json_decode($shippingItem->freightage_information),
+                'freightage_activity_field_obj_array' => json_decode($shippingItem->freightage_activity_field),
+                'freightage_loader_type_obj_array' => json_decode($shippingItem->freightage_loadertype),
+                'deliverDateInputValue' => $shippingItem->deliver_date_input,
+                'order_origin_address_html' => $originAddressHTML,
+                'order_destination_address_html' => $destinationAddressHTML,
+                'shipping_distance_text' => $shippingDistanceText,
+                'shipping_price_text' => $shippingPriceText,
+                'neshan_arc_image_src' => $base64,
+                'numberOfRequestInput' => $shippingItem->number_of_request_input,
+            ];
+
+            // Encode the shipping item array to JSON and add it to the shippingItemsJsonArray
+            $shippingItemsJsonArray[] = json_encode($rowItemArray);
+        }
+
+        // Return the array of shipping data in JSON format
+        return $shippingItemsJsonArray;
     }
 
     // این متد برای متد GetAddressAjax استفاده میشود 
@@ -369,6 +503,349 @@ class UserShippingController extends Controller
 
         // Return the response
         return response($filteredFreightageCompanyArray);
+    }
+
+    /**
+     * Sends an AJAX request with shipping details item.
+     *
+     * @param Request $request 
+     * @return mixed
+     */
+    function sendShippingDetailsItemAjax(Request $request) {
+        // Clean the shipping row object JSON
+        $shippingRowObjectJson = Purify::clean($request->shippingRowObjectJson);
+
+        // Get row id
+        $selectedRowId = (int) Purify::clean($request->selectedRowId);
+
+        // Validate row id
+        if($selectedRowId == null || $selectedRowId == '' || !is_integer($selectedRowId) || $selectedRowId == 0) {
+           return;
+        }
+
+        // Get row id
+        $order_vproduct_id = (int) Purify::clean($request->order_vproduct_id);
+
+        // Validate row id
+        if($order_vproduct_id == null || $order_vproduct_id == '' || !is_integer($order_vproduct_id) || $order_vproduct_id == 0) {
+           return;
+        }
+        
+        // Decode the shipping row object JSON
+        $shippingRowObject = json_decode($shippingRowObjectJson);
+
+        // Extract order origin address object array
+        $orderOriginAddressObjectArray = $shippingRowObject->order_origin_address_obj_array;
+
+        // Find selected origin address id
+        $selectedOrderOriginAddressId = null;
+        foreach ($orderOriginAddressObjectArray as $orderOriginAddressObjectItem) {
+            if($orderOriginAddressObjectItem->selected) {
+                $selectedOrderOriginAddressId = (int) $orderOriginAddressObjectItem->id;
+            }
+        }
+
+        // Validate selectedOrderOriginAddressId
+        if($selectedOrderOriginAddressId == null || $selectedOrderOriginAddressId == '' || !is_integer($selectedOrderOriginAddressId) || $selectedOrderOriginAddressId == 0) {
+            return;
+        }
+
+        // Extract order destination address object array
+        $orderDestinationAddressObjectArray = $shippingRowObject->order_destination_address_obj_array;
+
+        // Find selected destination address id
+        $selectedOrderDestinationAddressId = null;
+        foreach ($orderDestinationAddressObjectArray as $orderDestinationAddressObjectItem) {
+            if($orderDestinationAddressObjectItem->selected) {
+                $selectedOrderDestinationAddressId = (int) $orderDestinationAddressObjectItem->id;
+            }
+        }
+
+        // Validate selectedOrderDestinationAddressId
+        if($selectedOrderDestinationAddressId == null || $selectedOrderDestinationAddressId == '' || !is_integer($selectedOrderDestinationAddressId) || $selectedOrderDestinationAddressId == 0) {
+            return;
+        }
+
+        // Extract freightage information object array
+        $freightageInformationObjArray = $shippingRowObject->freightage_information_obj_array;
+
+        // Find selected freightage information id
+        $selectedFreightageInformationId = null;
+        foreach ($freightageInformationObjArray as $freightageInformationItem) {
+            if($freightageInformationItem->selected) {
+                $selectedFreightageInformationId = (int) $freightageInformationItem->id;
+            }
+        }
+
+        // Validate selectedFreightageInformationId
+        if($selectedFreightageInformationId == null || $selectedFreightageInformationId == '' || !is_integer($selectedFreightageInformationId) || $selectedFreightageInformationId == 0) {
+            return;
+        }
+
+        // Extract freightage activity field object array
+        $freightageActivityFieldObjArray = $shippingRowObject->freightage_activity_field_obj_array;
+
+        // Find selected freightage activity field id
+        $selectedFreightageActivityFieldId = null;
+        foreach ($freightageActivityFieldObjArray as $freightageActivityFieldItem) {
+            if($freightageActivityFieldItem->selected) {
+                $selectedFreightageActivityFieldId = (int) $freightageActivityFieldItem->id;
+            }
+        }
+
+        // Validate selectedFreightageActivityFieldId
+        if($selectedFreightageActivityFieldId == null || $selectedFreightageActivityFieldId == '' || !is_integer($selectedFreightageActivityFieldId) || $selectedFreightageActivityFieldId == 0) {
+            return;
+        }
+
+        // Extract freightage loader type object array
+        $freightageLoaderTypeObjArray = $shippingRowObject->freightage_loader_type_obj_array;
+
+        // Find selected freightage loader type id
+        $selectedFreightageLoaderTypeId = null;
+        foreach ($freightageLoaderTypeObjArray as $freightageLoaderTypeItem) {
+            if($freightageLoaderTypeItem->selected) {
+                $selectedFreightageLoaderTypeId = (int) $freightageLoaderTypeItem->id;
+            }
+        }
+
+        // Validate selectedFreightageLoaderTypeId
+        if($selectedFreightageLoaderTypeId == null || $selectedFreightageLoaderTypeId == '' || !is_integer($selectedFreightageLoaderTypeId) || $selectedFreightageLoaderTypeId == 0) {
+            return;
+        }
+
+        // Extract deliver date input
+        $deliver_date_input = $shippingRowObject->deliverDateInputValue;
+
+        // Validate deliverDateInput
+        if($deliver_date_input == null || $deliver_date_input == '' || $deliver_date_input == 0) {
+            return;
+        }
+
+        // Extract number of request input
+        $numberOfRequestInput = (int) $shippingRowObject->numberOfRequestInput;
+
+        // Validate numberOfRequestInput
+        if($numberOfRequestInput == null || $numberOfRequestInput == '' || !is_integer($numberOfRequestInput) || $numberOfRequestInput == 0) {
+            return;
+        }
+
+        // Calculate distance between two addresses
+        $calculatedDistance = $this->calculateDistance($selectedOrderOriginAddressId, $selectedOrderDestinationAddressId, $selectedFreightageLoaderTypeId);
+
+        // Decode the calculated distance JSON
+        $distanceByKilometer = (int) ceil(json_decode($calculatedDistance)->rows[0]->elements[0]->distance->value / 1000);
+        
+        // Break operation if neshan did not respond
+        if($distanceByKilometer == 0
+         || $distanceByKilometer == null
+         || is_integer($distanceByKilometer) == false
+         ) {
+            return;
+        }
+
+        // Calculate the shipping cost based on the distance
+        $shippingCost = $shippingPrice = $this->calculatePriceOnDistance($calculatedDistance, $selectedFreightageLoaderTypeId);
+
+        // Get the user id from order table, check if user is eligible to update
+        $user_id = OrderVproduct::findOrFail($order_vproduct_id)->order->user_id;
+        if($user_id != auth()->user()->id) {
+            return;
+        }
+
+        // Convert Base64 image to jpg and save it in storage
+        $save_url = $this->convertBase64($shippingRowObject, $order_vproduct_id);
+
+        $shippingDetailsArray = [
+            'order_vproduct_id' => $order_vproduct_id,
+            'selected_row_id' => $selectedRowId,
+            'selected_order_origin_address_id' => $selectedOrderOriginAddressId,
+            'order_origin_address' => json_encode($orderOriginAddressObjectArray),
+            'selected_order_destination_address_id' => $selectedOrderDestinationAddressId,
+            'order_destination_address' => json_encode($orderDestinationAddressObjectArray),
+            'selected_freightage_information_id' => $selectedFreightageInformationId,
+            'freightage_information' => json_encode($freightageInformationObjArray),
+            'selected_freightage_activity_field_id' => $selectedFreightageActivityFieldId,
+            'freightage_activity_field' => json_encode($freightageActivityFieldObjArray),
+            'selected_freightage_loadertype_id' => $selectedFreightageLoaderTypeId,
+            'freightage_loadertype' => json_encode($freightageLoaderTypeObjArray),
+            'deliver_date_input' => $deliver_date_input,
+            'number_of_request_input' => $numberOfRequestInput,
+            'distance_by_kilometer' => $distanceByKilometer,
+            'shipping_price' => $shippingCost['price'],
+            'shipping_price_currency' => $shippingCost['currency'],
+            'neshan_arc_image_src' => $save_url,
+        ];
+
+        // Save shipping details into DB
+        $storeShippingDetails = $this->storeShippingDetails($shippingDetailsArray);
+
+        // Return the number of request input as response
+        return response($storeShippingDetails);
+    }
+
+    /**
+     * Calculates the distance between two addresses and returns the shipping cost based on the distance.
+     *
+     * @param int $selectedOrderOriginAddressId The ID of the selected order's origin address
+     * @param int $selectedOrderDestinationAddressId The ID of the selected order's destination address
+     * @param int $selectedFreightageLoaderTypeId The ID of the selected freightage loader type
+     *
+     * @return float The shipping cost based on the distance
+     */
+    protected function calculateDistance($selectedOrderOriginAddressId, $selectedOrderDestinationAddressId, $selectedFreightageLoaderTypeId) {
+        // Check if either of the selected addresses is not valid
+        if ($selectedOrderOriginAddressId == 0 || $selectedOrderDestinationAddressId == 0) {
+            return;
+        }
+
+        // Retrieve the latitude and longitude of the vendor outlet
+        $vendor_outlet = Outlet::findOrFail($selectedOrderOriginAddressId, ["id", "latitude", "longitude"]);
+
+        // Retrieve the latitude and longitude of the user outlet
+        $user_outlet = Useroutlets::findOrFail($selectedOrderDestinationAddressId, ["id", "latitude", "longitude"]);
+
+        // Create arrays for the origin and destination coordinates
+        $origin = array('lt' => $vendor_outlet->latitude, 'ln' => $vendor_outlet->longitude);
+        $destination = array('lt' => $user_outlet->latitude, 'ln' => $user_outlet->longitude);
+
+        // Instantiate the NeshanApiService
+        $neshanApiService = new NeshanApiService;
+
+        // Get the distance between the origin and destination coordinates using Neshan API
+        $neshan_response = $neshanApiService->GetCoordsDistance($origin, $destination);
+
+        return $neshan_response;
+    }
+
+    /**
+     * Convert base64 image to a jpg image and save it to the storage folder
+     * 
+     * @param object $shippingRowObject
+     * @param int $order_vproduct_id
+     * @return string|null
+     */
+    protected function convertBase64($shippingRowObject, $order_vproduct_id) {
+        // Get the base64 encoded image source
+        $neshan_arc_image_src = $shippingRowObject->neshan_arc_image_src;
+
+        // Validate neshan arc image source
+        if ($neshan_arc_image_src == null || $neshan_arc_image_src == '') {
+            return null;
+        }
+
+        // Create a folder with the order_vproduct_id if it doesn't exist
+        if (!LaravelFile::exists('storage/upload/shipping_map_images/' . $order_vproduct_id)) {
+            LaravelFile::makeDirectory('storage/upload/shipping_map_images/' . $order_vproduct_id);
+        }
+
+        // Process the base64 image and save it as a jpg
+        $image = str_replace('data:image/png;base64,', '', $neshan_arc_image_src);
+        $image = str_replace(' ', '+', $image);
+        $unique_image_name = hexdec(uniqid()) . time();
+        $name_gen = $unique_image_name . '.' . 'jpg';
+        Image::make($image)->fit(450, 450)->encode('jpg')->save('storage/upload/shipping_map_images/' . $order_vproduct_id . '/' . $name_gen);
+        
+        // Set the save url and return it
+        $save_url = 'storage/upload/shipping_map_images/' . $order_vproduct_id . '/' . $name_gen;
+        return $save_url;
+    }
+
+    /**
+     * Store shipping details in the database.
+     *
+     * @param  array  $shippingDetailsArray
+     * @return bool
+     */
+    protected function storeShippingDetails($shippingDetailsArray) {
+
+        // Check if image exists and delete it
+        $shippingItemExists = Shipping::where('selected_row_id', $shippingDetailsArray['selected_row_id'])
+        ->where('order_vproduct_id', $shippingDetailsArray['order_vproduct_id'])
+        ->first();
+        
+        if($shippingItemExists) { 
+            unlink($shippingItemExists->neshan_arc_image_src);
+        }
+
+        $storeShippingDetails = Shipping::updateOrCreate(
+            [
+                'selected_row_id' => $shippingDetailsArray['selected_row_id']
+            ],
+            [
+                'order_vproduct_id' => $shippingDetailsArray['order_vproduct_id'],
+                'selected_row_id' => $shippingDetailsArray['selected_row_id'],
+                'selected_order_origin_address_id' => $shippingDetailsArray['selected_order_origin_address_id'],
+                'order_origin_address' => $shippingDetailsArray['order_origin_address'],
+                'selected_order_destination_address_id' => $shippingDetailsArray['selected_order_destination_address_id'],
+                'order_destination_address' => $shippingDetailsArray['order_destination_address'],
+                'selected_freightage_information_id' => $shippingDetailsArray['selected_freightage_information_id'],
+                'freightage_information' => $shippingDetailsArray['freightage_information'],
+                'selected_freightage_activity_field_id' => $shippingDetailsArray['selected_freightage_activity_field_id'],
+                'freightage_activity_field' => $shippingDetailsArray['freightage_activity_field'],
+                'selected_freightage_loadertype_id' => $shippingDetailsArray['selected_freightage_loadertype_id'],
+                'freightage_loadertype' => $shippingDetailsArray['freightage_loadertype'],
+                'deliver_date_input' => $shippingDetailsArray['deliver_date_input'],
+                'number_of_request_input' => $shippingDetailsArray['number_of_request_input'],
+                'distance_by_kilometer' => $shippingDetailsArray['distance_by_kilometer'],
+                'shipping_price' => $shippingDetailsArray['shipping_price'],
+                'shipping_price_currency' => $shippingDetailsArray['shipping_price_currency'],
+                'neshan_arc_image_src' => $shippingDetailsArray['neshan_arc_image_src'],
+            ]
+        );
+      
+        return $storeShippingDetails->wasChanged() || $storeShippingDetails->wasRecentlyCreated;
+    }
+
+    /**
+     * Delete a shipping details item via AJAX request.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteShippingDetailsItemAjax(Request $request) {
+
+        // Set inital value
+        $deletedItem = null;
+
+        // Get the selected row id
+        $selectedRowId = (int) Purify::clean($request->selectedRowId);
+
+        // Get the order_vproduct_id
+        $orderVproductId = (int) Purify::clean($request->orderVproductId);
+
+        // Get the item from the Shipping Model
+        $selectedItem = Shipping::where('selected_row_id', $selectedRowId)
+        ->where('order_vproduct_id', $orderVproductId)
+        ->first();
+
+        // Get the user id from the order table and check if the user is eligible to update
+        $user_id = OrderVproduct::findOrFail($orderVproductId)->order->user_id;
+        if ($user_id != auth()->user()->id) {
+            return;
+        }
+
+        // Check status, do not remove completed shipping items
+        if($selectedItem->shipping_status == "processing") {
+            // Remove the image from the server
+            unlink($selectedItem->neshan_arc_image_src);
+        
+            // Delete the row item
+            $deletedItem = $selectedItem->delete();
+
+            // Get all items from the shipping model with the same orderVproductId           
+            $allVproductItems = Shipping::where('order_vproduct_id', $orderVproductId)->orderBy('selected_row_id', 'asc')->get();
+
+            // Reorganize selected_row_id for all items, because one of them has been deleted
+            foreach ($allVproductItems as $key => $vproductItem) {
+                $vproductItem->update([
+                    'selected_row_id' => $key + 1
+                ]);
+            }
+        }
+
+        // Return the response
+        return response($deletedItem);
     }
 
 }

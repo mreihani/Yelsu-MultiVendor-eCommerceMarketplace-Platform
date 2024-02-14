@@ -108,9 +108,6 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
         freightage_loader_type_obj_array.push(freightage_loader_type_obj);
     });
     
-    // create deliver date object
-    let deliver_date_input = shippingElement.find(".deliver-date-input").val();
-    
     // get origin address html
     let order_origin_address_html = shippingElement.find(".order-origin-address-html").html();
     
@@ -139,14 +136,13 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
         freightage_information_obj_array,
         freightage_activity_field_obj_array,
         freightage_loader_type_obj_array,
-        deliver_date_input,
         order_origin_address_html,
         order_destination_address_html,
         shipping_distance_text,
         shipping_price_text,
         neshan_arc_image_src,
         deliverDateInputValue,
-        numberOfRequestInput
+        numberOfRequestInput,
     }
     
     let shipping_row_object_json = JSON.stringify(shipping_row_object);
@@ -160,7 +156,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                 <td>${freightage_information_dropdown_selected.html()}</td>
                 <td>${freightage_activity_field_dropdown_selected.html()}</td>
                 <td>${freightage_loader_type_dropdown_selected.html()}</td>
-                <td>${deliver_date_input}</td>
+                <td>${deliverDateInputValue}</td>
                 <td>${numberOfRequestInput}</td>
                 <td>
                     پرداخت شده و در حال ارسال
@@ -190,6 +186,22 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                         </button>
                     </div>
                 </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary btn-ellipse btn-sm align-items-center row-save-btn d-flex">
+                            <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>save-floppy</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-154.000000, -517.000000)" fill="#ffffff"> <path d="M172,522 C172,521.447 172.448,521 173,521 C173.552,521 174,521.447 174,522 L174,526 C174,526.553 173.552,527 173,527 C172.448,527 172,526.553 172,526 L172,522 L172,522 Z M163,529 L177,529 C177.552,529 178,528.553 178,528 L178,517 L162,517 L162,528 C162,528.553 162.448,529 163,529 L163,529 Z M182,517 L180,517 L180,529 C180,530.104 179.104,531 178,531 L162,531 C160.896,531 160,530.104 160,529 L160,517 L158,517 C155.791,517 154,518.791 154,521 L154,545 C154,547.209 155.791,549 158,549 L182,549 C184.209,549 186,547.209 186,545 L186,521 C186,518.791 184.209,517 182,517 L182,517 Z" id="save-floppy" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                            ذخیره
+                        </button>
+                        <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-pending-btn d-none">
+                            <span class="pending-loader"></span>
+                            در حال ذخیره
+                        </button>
+                        <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-save-btn-success d-none">
+                            <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M437.016,74.984c-99.979-99.979-262.075-99.979-362.033,0.002c-99.978,99.978-99.978,262.073,0.004,362.031 c99.954,99.978,262.05,99.978,362.029-0.002C536.995,337.059,536.995,174.964,437.016,74.984z M406.848,406.844 c-83.318,83.318-218.396,83.318-301.691,0.004c-83.318-83.299-83.318-218.377-0.002-301.693 c83.297-83.317,218.375-83.317,301.691,0S490.162,323.549,406.848,406.844z"></path> <path d="M368.911,155.586L234.663,289.834l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,0s-8.331,21.839,0,30.17 l85.333,85.333c8.331,8.331,21.839,8.331,30.17,0l149.333-149.333c8.331-8.331,8.331-21.839,0-30.17 S377.242,147.255,368.911,155.586z"></path> </g> </g> </g> </g></svg>
+                            ذخیره شد!
+                        </button>
+                    </div>
+                </td>
                 <td class="dtr-control dtr-hidden" style="display: none;"></td>
             </tr>`;
     } else {
@@ -212,6 +224,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
                         </th>
                         <th class="all text-center">ویرایش / حذف</th>
+                        <th class="all text-center">عملیات</th>
                         <th class="text-center">اطلاعات بیشتر</th>
                     </tr>
                 </thead>
@@ -223,7 +236,7 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                         <td>${freightage_information_dropdown_selected.html()}</td>
                         <td>${freightage_activity_field_dropdown_selected.html()}</td>
                         <td>${freightage_loader_type_dropdown_selected.html()}</td>
-                        <td>${deliver_date_input}</td>
+                        <td>${deliverDateInputValue}</td>
                         <td>${numberOfRequestInput}</td>
                         <td>
                             پرداخت شده و در حال ارسال
@@ -250,6 +263,22 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
                                 <button type="button" class="btn btn-warning btn-ellipse btn-sm d-flex align-items-center ml-2 row-delete-btn">
                                     <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                                     حذف
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary btn-ellipse btn-sm align-items-center row-save-btn d-flex">
+                                    <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>save-floppy</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-154.000000, -517.000000)" fill="#ffffff"> <path d="M172,522 C172,521.447 172.448,521 173,521 C173.552,521 174,521.447 174,522 L174,526 C174,526.553 173.552,527 173,527 C172.448,527 172,526.553 172,526 L172,522 L172,522 Z M163,529 L177,529 C177.552,529 178,528.553 178,528 L178,517 L162,517 L162,528 C162,528.553 162.448,529 163,529 L163,529 Z M182,517 L180,517 L180,529 C180,530.104 179.104,531 178,531 L162,531 C160.896,531 160,530.104 160,529 L160,517 L158,517 C155.791,517 154,518.791 154,521 L154,545 C154,547.209 155.791,549 158,549 L182,549 C184.209,549 186,547.209 186,545 L186,521 C186,518.791 184.209,517 182,517 L182,517 Z" id="save-floppy" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                                    ذخیره
+                                </button>
+                                <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-pending-btn d-none">
+                                    <span class="pending-loader"></span>
+                                    در حال ذخیره
+                                </button>
+                                <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-save-btn-success d-none">
+                                    <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M437.016,74.984c-99.979-99.979-262.075-99.979-362.033,0.002c-99.978,99.978-99.978,262.073,0.004,362.031 c99.954,99.978,262.05,99.978,362.029-0.002C536.995,337.059,536.995,174.964,437.016,74.984z M406.848,406.844 c-83.318,83.318-218.396,83.318-301.691,0.004c-83.318-83.299-83.318-218.377-0.002-301.693 c83.297-83.317,218.375-83.317,301.691,0S490.162,323.549,406.848,406.844z"></path> <path d="M368.911,155.586L234.663,289.834l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,0s-8.331,21.839,0,30.17 l85.333,85.333c8.331,8.331,21.839,8.331,30.17,0l149.333-149.333c8.331-8.331,8.331-21.839,0-30.17 S377.242,147.255,368.911,155.586z"></path> </g> </g> </g> </g></svg>
+                                    ذخیره شد!
                                 </button>
                             </div>
                         </td>
@@ -309,6 +338,8 @@ $(".shipping").on("click", ".shipping-calc-confirm-btn", function() {
 
                 // append new row
                 table_body_elements.find("tbody").append(tableBody);
+
+                resetRowSaveBtnClasses(selectedRowElement);
             }
         // first time user creates a row, then append new row
         } else {
@@ -413,5 +444,15 @@ function shippingValidationHandler(thisElem,loader_type_min,loader_type_max) {
         cancelBtnElem.addClass("d-none");  // Hide cancel button
         cancelBtnElem.removeClass("d-flex");
     }
+}
+
+function resetRowSaveBtnClasses(selectedRowElement) {
+    // Show save btn
+    selectedRowElement.find('.row-save-btn').removeClass('d-none');
+    selectedRowElement.find('.row-save-btn').addClass('d-flex');
+
+    // Hide success btn
+    selectedRowElement.find('.row-save-btn-success').addClass('d-none');
+    selectedRowElement.find('.row-save-btn-success').removeClass('d-flex');
 }
 

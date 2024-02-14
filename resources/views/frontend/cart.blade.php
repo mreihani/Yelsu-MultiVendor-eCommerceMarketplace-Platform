@@ -1,8 +1,6 @@
 @extends('frontend.main_theme')
 @section('main')
 
-
-
 <main class="main cart">
     <!-- Start of Breadcrumb -->
     <nav class="breadcrumb-nav">

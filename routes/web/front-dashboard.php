@@ -20,12 +20,14 @@ Route::get('/dashboard/address/delete/{id}', [UserController::class, 'DashboardA
 
 // dashboard shipping all routes
 Route::get('/shipping-product/{id}', [UserShippingController::class, 'ShippingProduct'])->name('shipping-product');
-Route::get('/shipping-details', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
+Route::get('/shipping-details/{vproducts}', [UserShippingController::class, 'ShippingDetails'])->name('shipping-details');
 Route::get('/get-users-address-shipping', [UserShippingController::class, 'GetAddressAjax']);
 Route::get('/get-freightage-information', [UserShippingController::class, 'GetFreightageInformationAjax']);
 Route::get('/get-freightage-loader-type', [UserShippingController::class, 'GetFreightageLoaderTypeAjax']);
 Route::get('/get-origin-addresses-filtered', [UserShippingController::class, 'GetOriginAddressesFilteredAjax']);
 Route::get('/get-freightage-company-filtered', [UserShippingController::class, 'GetFreightageCompanyFilteredAjax']);
+Route::post('/send-shipping-details-item', [UserShippingController::class, 'SendShippingDetailsItemAjax']);
+Route::get('/delete-shipping-details-item', [UserShippingController::class, 'DeleteShippingDetailsItemAjax']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

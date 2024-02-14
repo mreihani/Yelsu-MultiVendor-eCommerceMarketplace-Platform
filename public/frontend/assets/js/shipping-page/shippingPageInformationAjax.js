@@ -8,6 +8,7 @@ $(".shipping-page-content").on("click", ".shipping-calculate-btn", function () {
     let outlet_id = vendor_address_information_element.val();
     let user_outlet_id = shipping_element.find(".user-address-information :selected").val();
 
+    // Enable loading spinner overlay element
     enableOverlayVendor(thisElement);
 
     // get value of the first selected freightage loader type id
@@ -48,6 +49,7 @@ $(".shipping-page-content").on("click", ".shipping-calculate-btn", function () {
             let userAddressSpan = user_address_information_element.closest(".order-destination-address").find(".user-address");
             userAddressSpan.html(response.user_outlet.address);
 
+            // Disable loading spinner overlay element
             disabledOverlayVendor(thisElement);
 
             // hide calc btn on response
@@ -78,11 +80,13 @@ function getDistanceObject(response) {
     return distanceObject;
 }
 
+// Enable loading spinner overlay element
 function enableOverlayVendor(thisElement) {
     let overlayElement = thisElement.closest(".shipping").find(".shipping-details-page-overlay");
     overlayElement.addClass("d-flex");
 }
 
+// Disable loading spinner overlay element
 function disabledOverlayVendor(thisElement) {
     let overlayElement = thisElement.closest(".shipping").find(".shipping-details-page-overlay");
     overlayElement.removeClass("d-flex");

@@ -21,4 +21,24 @@ class OrderVproduct extends Model
             'product_id' // Local key on the current model
         );
     }
+
+    /**
+     * Define a relationship with the Order model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order() {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    /**
+     * Define a relationship with the Shipping model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function shipping()
+    {
+        return $this->hasMany(Shipping::class);
+    }
+    
 }

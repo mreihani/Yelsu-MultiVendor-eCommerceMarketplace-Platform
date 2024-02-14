@@ -49,4 +49,8 @@ function resetAllForm() {
 
     // Show row number wrapper element
     rowNumberInfoElement.addClass("d-none");
+
+    // Hide shipping page distance box element
+    const shippingPageDistanceElement = shippingElement.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-flex").addClass("d-none");
 }

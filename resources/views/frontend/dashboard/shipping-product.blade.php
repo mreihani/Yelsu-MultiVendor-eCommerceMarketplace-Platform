@@ -105,7 +105,7 @@
                                         </td>
                                            
                                         <td>
-                                            <a class="btn btn-primary btn-outline" href="{{route('shipping-details', ['orderId' => $order->id, 'productId' => $order_vproduct_item->products->first()->id, 'outletId' => $order_vproduct_item->outlet_id ?: 0])}}">
+                                            <a class="btn btn-primary btn-outline" href="{{route('shipping-details', $order_vproduct_item->id)}}">
                                                 مدیریت حمل کالا
                                             </a>
                                         </td>

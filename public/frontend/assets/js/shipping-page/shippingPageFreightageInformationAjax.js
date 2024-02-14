@@ -28,6 +28,10 @@ $(".freightage-company-name").on("change", ".freightage-information-dropdown", f
     // Get the closest element with the class "number-items-request" relative to 'thisElement'
     let numberItemsRequest = parseInt(shippingPage.find(".number-items-request input").val());
 
+    // Hide shipping page distance box element
+    const shippingPageDistanceElement = shippingPage.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-flex").addClass("d-none");
+
     $.ajax({
         type: "GET",
         data:{

@@ -137,18 +137,19 @@
 
                                                             <input type="hidden" value="{{$vproducts->quantity}}" class="total-quantity-input">
                                                             <input type="hidden" value="{{$vproducts->outlet_id}}" class="product-outlet-id">
+                                                            <input type="hidden" value="{{$vproducts->id}}" class="order-vproduct-id">
                                                         </h5>
 
                                                         <h5 class="mt-3">
                                                             مقدار باقی مانده جهت بارگیری:
 
                                                             <b class="remaining-quantity">
-                                                                {{number_format($vproducts->quantity, 0, '', ',')}}
+                                                                {{number_format($remainingShippingQuantity, 0, '', ',')}}
                                                             </b>
 
                                                             {{$product->determine_product_unit()}}
 
-                                                            <input type="hidden" value="{{$vproducts->quantity}}" class="remaining-quantity-input">
+                                                            <input type="hidden" value="{{$remainingShippingQuantity}}" class="remaining-quantity-input">
                                                         </h5>
                                                     </div>
                                                 </div>
@@ -156,67 +157,110 @@
 
                                             <!-- شروع جدول مربوط به ریز حمل سفارشات -->
                                             <div class="row d-flex justify-content-center mt-2" id="table-body">
-                                                {{-- <div class="col-md-12 pt-5 pb-5">
-                                                    <table class="display yelsuDataTables" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="all text-center">ردیف</th>
-                                                                <th class="all text-center">مبدا</th>
-                                                                <th class="all text-center">مقصد</th>
-                                                                <th class="all text-center">نام شرکت باربری</th>
-                                                                <th class="all text-center">روش ارسال</th>
-                                                                <th class="all text-center">نوع بارگیر</th>
-                                                                <th class="all text-center">تاریخ</th>
-                                                                <th class="all text-center">مقدار درخواستی</th>
-                                                                <th class="all text-center">وضعیت</th>
-                                                                <th class="all text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
-                                                                    رونوشت ردیف
-                                                                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
-                                                                </th>
-                                                                <th class="all text-center">ویرایش / حذف</th>
-                                                                <th class="text-center">اطلاعات بیشتر</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>2</td>
-                                                                <td>3</td>
-                                                                <td>4</td>
-                                                                <td>5</td>
-                                                                <td>6</td>
-                                                                <td>7</td>
-                                                                <td>8</td>
-                                                                <td>9</td>
-                                                                <td>
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div class="input-group" style="width: 130px;">
-                                                                            <input id="quantityInputvalue" name="quantity" class="quantity form-control" type="number" min="1" max="10000000">
-                                                                            <button type="button" class="quantity-plus w-icon-plus"></button>
-                                                                            <button type="button" class="quantity-minus w-icon-minus"></button>
-                                                                        </div>
-                                                                        <button type="button" class="btn btn-dark btn-ellipse btn-sm ml-1 row-duplicate-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="رونوشت">
-                                                                            <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M18.5703 22H14.0003C11.7103 22 10.5703 20.86 10.5703 18.57V11.43C10.5703 9.14 11.7103 8 14.0003 8H18.5703C20.8603 8 22.0003 9.14 22.0003 11.43V18.57C22.0003 20.86 20.8603 22 18.5703 22Z" fill="#292D32"></path> <path d="M13.43 5.43V6.77C10.81 6.98 9.32 8.66 9.32 11.43V16H5.43C3.14 16 2 14.86 2 12.57V5.43C2 3.14 3.14 2 5.43 2H10C12.29 2 13.43 3.14 13.43 5.43Z" fill="#292D32"></path> <path d="M18.1291 14.2501H17.2491V13.3701C17.2491 12.9601 16.9091 12.6201 16.4991 12.6201C16.0891 12.6201 15.7491 12.9601 15.7491 13.3701V14.2501H14.8691C14.4591 14.2501 14.1191 14.5901 14.1191 15.0001C14.1191 15.4101 14.4591 15.7501 14.8691 15.7501H15.7491V16.6301C15.7491 17.0401 16.0891 17.3801 16.4991 17.3801C16.9091 17.3801 17.2491 17.0401 17.2491 16.6301V15.7501H18.1291C18.5391 15.7501 18.8791 15.4101 18.8791 15.0001C18.8791 14.5901 18.5391 14.2501 18.1291 14.2501Z" fill="#292D32"></path> </g></svg>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <button type="button" class="btn btn-dark btn-ellipse btn-sm d-flex align-items-center row-edit-btn">
-                                                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>
-                                                                            ویرایش
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-warning btn-ellipse btn-sm d-flex align-items-center ml-2 row-delete-btn">
-                                                                            <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                                                                            حذف
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div> --}}
+                                                @if(count($shipping))
+                                                    <div class="col-md-12 pt-5 pb-5">
+                                                        <table class="display yelsuDataTables" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="all text-center">ردیف</th>
+                                                                    <th class="all text-center">مبدا</th>
+                                                                    <th class="all text-center">مقصد</th>
+                                                                    <th class="all text-center">نام شرکت باربری</th>
+                                                                    <th class="all text-center">روش ارسال</th>
+                                                                    <th class="all text-center">نوع بارگیر</th>
+                                                                    <th class="all text-center">تاریخ</th>
+                                                                    <th class="all text-center">مقدار درخواستی</th>
+                                                                    <th class="all text-center">وضعیت</th>
+                                                                    <th class="all text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="برای رونوشت ردیف مورد نظر، ابتدا تعداد رونوشت را وارد سپس بر روی دکمه رونوشت کلیک کنید.">
+                                                                        رونوشت ردیف
+                                                                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
+                                                                    </th>
+                                                                    <th class="all text-center">ویرایش / حذف</th>
+                                                                    <th class="all text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="لطفا توجه داشته باشید که اطلاعات هر سطر باید به صورت جداگانه ذخیره شود.">
+                                                                        عملیات
+                                                                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M12 17V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="#ffffff"></circle> </g></svg>
+                                                                    </th>
+                                                                    <th class="text-center">اطلاعات بیشتر</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($shippingItemRowArray as $key => $shippingItemRowItem)
+                                                                    <tr>
+                                                                        <td class="shipping-row">
+                                                                            {{$shippingItemRowItem['row_id']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['order_origin_address']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['order_destination_address']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['freightage_information']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['freightage_activity_field']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['freightage_loadertype']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['deliverDateInputValue']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['number_of_request_input']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{$shippingItemRowItem['shipping_status']}}
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex justify-content-center">
+                                                                                <div class="input-group" style="width: 130px; height: 33px;">
+                                                                                    <input id="quantityInputvalue" name="quantity" class="quantity form-control" type="number" min="1" max="10000000">
+                                                                                    <button type="button" class="quantity-plus w-icon-plus"></button>
+                                                                                    <button type="button" class="quantity-minus w-icon-minus"></button>
+                                                                                </div>
+                                                                                <button type="button" class="btn btn-dark btn-ellipse btn-sm ml-1 row-duplicate-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="رونوشت">
+                                                                                    <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M18.5703 22H14.0003C11.7103 22 10.5703 20.86 10.5703 18.57V11.43C10.5703 9.14 11.7103 8 14.0003 8H18.5703C20.8603 8 22.0003 9.14 22.0003 11.43V18.57C22.0003 20.86 20.8603 22 18.5703 22Z" fill="#292D32"></path> <path d="M13.43 5.43V6.77C10.81 6.98 9.32 8.66 9.32 11.43V16H5.43C3.14 16 2 14.86 2 12.57V5.43C2 3.14 3.14 2 5.43 2H10C12.29 2 13.43 3.14 13.43 5.43Z" fill="#292D32"></path> <path d="M18.1291 14.2501H17.2491V13.3701C17.2491 12.9601 16.9091 12.6201 16.4991 12.6201C16.0891 12.6201 15.7491 12.9601 15.7491 13.3701V14.2501H14.8691C14.4591 14.2501 14.1191 14.5901 14.1191 15.0001C14.1191 15.4101 14.4591 15.7501 14.8691 15.7501H15.7491V16.6301C15.7491 17.0401 16.0891 17.3801 16.4991 17.3801C16.9091 17.3801 17.2491 17.0401 17.2491 16.6301V15.7501H18.1291C18.5391 15.7501 18.8791 15.4101 18.8791 15.0001C18.8791 14.5901 18.5391 14.2501 18.1291 14.2501Z" fill="#292D32"></path> </g></svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex justify-content-center">
+                                                                                <input type="hidden" value="{{$shippingItemsJsonArray[$key]}}" class="shipping-row-object-json">
+                                                                                <button type="button" class="btn btn-dark btn-ellipse btn-sm d-flex align-items-center row-edit-btn">
+                                                                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>
+                                                                                    ویرایش
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-warning btn-ellipse btn-sm d-flex align-items-center ml-2 row-delete-btn">
+                                                                                    <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                                                    حذف
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex justify-content-center">
+                                                                                <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-save-btn d-none">
+                                                                                    <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>save-floppy</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-154.000000, -517.000000)" fill="#ffffff"> <path d="M172,522 C172,521.447 172.448,521 173,521 C173.552,521 174,521.447 174,522 L174,526 C174,526.553 173.552,527 173,527 C172.448,527 172,526.553 172,526 L172,522 L172,522 Z M163,529 L177,529 C177.552,529 178,528.553 178,528 L178,517 L162,517 L162,528 C162,528.553 162.448,529 163,529 L163,529 Z M182,517 L180,517 L180,529 C180,530.104 179.104,531 178,531 L162,531 C160.896,531 160,530.104 160,529 L160,517 L158,517 C155.791,517 154,518.791 154,521 L154,545 C154,547.209 155.791,549 158,549 L182,549 C184.209,549 186,547.209 186,545 L186,521 C186,518.791 184.209,517 182,517 L182,517 Z" id="save-floppy" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                                                                                    ذخیره
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-pending-btn d-none">
+                                                                                    <span class="pending-loader"></span>
+                                                                                    در حال ذخیره
+                                                                                </button>
+                                                                                <button disabled type="button" class="btn btn-dark btn-ellipse btn-sm align-items-center row-save-btn-success d-flex">
+                                                                                    <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M437.016,74.984c-99.979-99.979-262.075-99.979-362.033,0.002c-99.978,99.978-99.978,262.073,0.004,362.031 c99.954,99.978,262.05,99.978,362.029-0.002C536.995,337.059,536.995,174.964,437.016,74.984z M406.848,406.844 c-83.318,83.318-218.396,83.318-301.691,0.004c-83.318-83.299-83.318-218.377-0.002-301.693 c83.297-83.317,218.375-83.317,301.691,0S490.162,323.549,406.848,406.844z"></path> <path d="M368.911,155.586L234.663,289.834l-70.248-70.248c-8.331-8.331-21.839-8.331-30.17,0s-8.331,21.839,0,30.17 l85.333,85.333c8.331,8.331,21.839,8.331,30.17,0l149.333-149.333c8.331-8.331,8.331-21.839,0-30.17 S377.242,147.255,368.911,155.586z"></path> </g> </g> </g> </g></svg>
+                                                                                    ذخیره شد!
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @endif
                                             </div>  
                                             <!-- پایان جدول مربوط به ریز حمل سفارشات -->
 
@@ -404,7 +448,25 @@
             
                                                             <div class="mt-5 tab tab-with-title d-flex justify-content-center">
                                                                 <p>
-                                                                    <span class="shipping-calculations"></span>
+                                                                    <span class="shipping-calculations d-none">
+                                                                        <div class="shipping-page-distance-box d-none">
+                                                                            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#9d9d9d"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 14H17M14 10H17M9 9.5V8.5M9 9.5H11.0001M9 9.5C7.20116 9.49996 7.00185 9.93222 7.0001 10.8325C6.99834 11.7328 7.00009 12 9.00009 12C11.0001 12 11.0001 12.2055 11.0001 13.1667C11.0001 13.889 11.0001 14.5 9.00009 14.5M9.00009 14.5L9 15.5M9.00009 14.5H7.0001M6.2 19H17.8C18.9201 19 19.4802 19 19.908 18.782C20.2843 18.5903 20.5903 18.2843 20.782 17.908C21 17.4802 21 16.9201 21 15.8V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 4.09202 18.782C4.51984 19 5.07989 19 6.2 19Z" stroke="#9d9d9d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g>
+                                                                            </svg>
+                                                                            هزینه حمل:&nbsp;
+                                                                            <strong class="shipping-price-text">
+                                                                            </strong>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-center mt-5">
+                                                                            <button type="button" class="btn btn-dark btn-ellipse btn-sm shipping-calc-confirm-btn d-none">
+                                                                                <svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>save-floppy</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-152.000000, -515.000000)" fill="#ffffff"> <path d="M171,525 C171.552,525 172,524.553 172,524 L172,520 C172,519.447 171.552,519 171,519 C170.448,519 170,519.447 170,520 L170,524 C170,524.553 170.448,525 171,525 L171,525 Z M182,543 C182,544.104 181.104,545 180,545 L156,545 C154.896,545 154,544.104 154,543 L154,519 C154,517.896 154.896,517 156,517 L158,517 L158,527 C158,528.104 158.896,529 160,529 L176,529 C177.104,529 178,528.104 178,527 L178,517 L180,517 C181.104,517 182,517.896 182,519 L182,543 L182,543 Z M160,517 L176,517 L176,526 C176,526.553 175.552,527 175,527 L161,527 C160.448,527 160,526.553 160,526 L160,517 L160,517 Z M180,515 L156,515 C153.791,515 152,516.791 152,519 L152,543 C152,545.209 153.791,547 156,547 L180,547 C182.209,547 184,545.209 184,543 L184,519 C184,516.791 182.209,515 180,515 L180,515 Z" id="save-floppy" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                                                                                تأیید و ذخیره
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-warning btn-ellipse btn-sm shipping-calc-cancel-btn ml-2 d-none">
+                                                                            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#ffffff" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line x1="8.06" y1="8.06" x2="55.41" y2="55.94"></line><line x1="55.94" y1="8.06" x2="8.59" y2="55.94"></line></g></svg>
+                                                                                انصراف
+                                                                            </button>
+                                                                        </div>
+                                                                    </span>
                                                                 </p>
                                                             </div>
                                                             
@@ -466,5 +528,9 @@
     <script src="{{asset('frontend/assets/js/shipping-page/rowDeleteHandler.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/rowDuplicateHandler.js')}}"></script>
     <script src="{{asset('frontend/assets/js/shipping-page/panelBtnRemainingErrorHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/sendShippingDetailsItemAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/shippingPanelBtnHandler.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/deleteRowAjax.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/shipping-page/hidePriceCalculationLoaderTypeHandler.js')}}"></script>
 
 @endsection

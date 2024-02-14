@@ -25,4 +25,8 @@ $(".order-destination-address").on("change", ".user-address-information",functio
 
     // hide calculated distance on destination address change
     $(".calculated-distance").addClass("d-none");
+
+    // Hide shipping page distance box element
+    const shippingPageDistanceElement = shippingPageElement.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-flex").addClass("d-none");
 });

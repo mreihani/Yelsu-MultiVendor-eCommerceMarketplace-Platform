@@ -5,21 +5,25 @@ $(".shipping").on("click", ".row-delete-btn", function(){
     let thisElement = $(this);
 
     // Get the selected row element
-    selectedRowId = thisElement.closest("tr");
+    selectedRowElement = thisElement.closest("tr");
 
     // Get the parent tbody element
     let tbodyElement = thisElement.closest("tbody");
 
     // calculate remaining quantity
-    let shippingRowElement = selectedRowId.find(".shipping-row-object-json").val();
+    let shippingRowElement = selectedRowElement.find(".shipping-row-object-json").val();
     let shippingRowObject = JSON.parse(shippingRowElement);
 
     // Confirmation
     if(confirm('آیا برای انجام این کار اطمینان دارید؟')) {
         calculateRemainingQuantity(-shippingRowObject.numberOfRequestInput);
 
+        // Delete the row from database
+        let selectedRowIdFromCurrentElement = parseInt(selectedRowElement.find(".shipping-row").html());
+        deleteRowAjax(selectedRowIdFromCurrentElement);
+
         // Remove the selected row
-        selectedRowId.remove();
+        selectedRowElement.remove();
 
         // reset classes
         resetRowClasses(tbodyElement);

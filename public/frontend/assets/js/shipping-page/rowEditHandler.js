@@ -7,7 +7,7 @@ $(".shipping").on("click", ".row-edit-btn", function(){
     let thisElement = $(this);
 
     // Get the selected row id
-    selectedRowId = thisElement.closest("tr").find(".shipping-row").html();
+    selectedRowId = parseInt(thisElement.closest("tr").find(".shipping-row").html());
 
     // Get the shipping element
     let shipping_element = $(".shipping-element");
@@ -104,6 +104,9 @@ function setOriginAddressHTML(inputElementValueObj, shippingElement) {
         `;
     });
     selectElement.append(optionElement);
+
+    // Enable select element
+    selectElement.attr("disabled", false);
 }
 
 /**
@@ -135,6 +138,9 @@ function setDestinationAddressHTML(inputElmentValueObj, shipping_element) {
         `;
     });
     select_element.append(optionElement);
+
+    // Enable select element
+    select_element.attr("disabled", false);
 }
 
 /**
@@ -187,6 +193,9 @@ function updateFreightageDropdown(inputElementValueObj, shippingElement) {
 
     // Append the generated option elements to the select element
     selectElement.append(optionElements);
+
+    // Enable select element
+    selectElement.attr("disabled", false);
 }
 
 /**
@@ -319,6 +328,10 @@ function updateShippingDetails(inputElementValueObj, shippingElement) {
     // Show the cancel button
     const shippingCalcCancelBtn = shippingElement.find(".shipping-calc-cancel-btn");
     shippingCalcCancelBtn.removeClass("d-none").addClass("d-flex");
+
+    // Show shipping page distance box element
+    const shippingPageDistanceElement = shippingElement.find(".shipping-page-distance-box");
+    shippingPageDistanceElement.removeClass("d-none").addClass("d-flex");
 }
 
 /**

@@ -141,9 +141,7 @@
                     <!-- End of Header Middle -->
                 </header>
 
-                    @yield('main')
-
-                        
+                @yield('main')
 
                 <!-- Start of Footer -->
                 @include('frontend.body.footer')

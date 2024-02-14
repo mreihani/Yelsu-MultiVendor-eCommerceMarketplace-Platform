@@ -36,4 +36,5 @@ function resetAllControlPanelForms() {
 
     // مخفی کردن تصویر ARC
     shippingElement.find("img.shipping-page-map-container-img").remove();
+
 }

@@ -23765,3 +23765,15 @@ td {
     background-color: white;
 }
 /* shipping page custom styles */
+
+.shipping .pending-loader {
+    width: 12px;
+    height: 16px;
+    border: 2px solid;
+    border-color: #ffffff transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin-left: 5px;
+}
