@@ -35,7 +35,7 @@ class VendorMinMaxLoaderTypeValue implements ValidationRule
         // این بخش مربوط به بررسی ویژگی حداقل است
         $category_id_array = $this->request->category_id;
         $last_cat_id = max($category_id_array);
-        
+        dd($last_cat_id);
         $last_cat_obj = Category::find($last_cat_id);
         $category_related_attributes = $last_cat_obj->attributes->first()->items;
 
