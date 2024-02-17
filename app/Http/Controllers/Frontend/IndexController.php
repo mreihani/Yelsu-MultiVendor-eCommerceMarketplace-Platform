@@ -31,105 +31,68 @@ class IndexController extends Controller
 {
     public function HomePage()
     {
-
-        $i = 0;
         $steelCategory = [];
-        $steelCategoryArray = [];
-        $steelCatProductsArray = [];
+        $steelProductsArray = [];
 
-        $j = 0;
         $miningCategory = [];
-        $miningCategoryArray = [];
-        $miningCatProductsArray = [];
+        $miningProductsArray = [];
 
-        $k = 0;
         $constructionCategory = [];
-        $constructionCategoryArray = [];
-        $constructionCatProductsArray = [];
+        $constructionProductsArray = [];
 
-        $l = 0;
         $petroCategory = [];
-        $petroCategoryArray = [];
-        $petroCatProductsArray = [];
+        $petroProductsArray = [];
 
         $recently_viewed_product_arr = [];
 
-        $products = Product::where('status', 'active')->latest()->get();
-        $categories = Category::latest()->get();
-        $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
-
+        $parentCategories = Category::where('parent', 0)->latest()->get();
+        
         if ($parentCategories) {
-            foreach ($parentCategories as $parentCategory) {
 
-                // محصولات فولادی و فلزی
-                if ($parentCategory->id == 1) {
-                    $steelCategory = $parentCategory->child;
-                }
+            // // صنایع نفت، گاز و پتروشیمی
+            $petroCategory =  $parentCategories->where(function($parentCategory) {
+                return $parentCategory->id == 4;
+            })->first()->child->take(8);
 
-                // محصولات معدنی و فرآوری
-                if ($parentCategory->id == 2) {
-                    $miningCategory = $parentCategory->child;
-                }
+            // محصولات فولادی و فلزی
+            $steelCategory =  $parentCategories->where(function($parentCategory) {
+                return $parentCategory->id == 1;
+            })->first()->child->take(8);
 
-                // محصولات ساختمانی و عمرانی 
-                if ($parentCategory->id == 3) {
-                    $constructionCategory = $parentCategory->child;
-                }
+            // // محصولات معدنی و فرآوری
+            $miningCategory =  $parentCategories->where(function($parentCategory) {
+                return $parentCategory->id == 2;
+            })->first()->child->take(8);
 
-                // صنایع نفت، گاز و پتروشیمی
-                if ($parentCategory->id == 4) {
-                    $petroCategory = $parentCategory->child;
-                }
-            }
+            // // محصولات ساختمانی و عمرانی 
+            $constructionCategory =  $parentCategories->where(function($parentCategory) {
+                return $parentCategory->id == 3;
+            })->first()->child->take(8);
         }
 
-        foreach ($steelCategory as $steelItem) {
-            $i++;
-            if ($i < 9) {
-                $steelCategoryArray[] = $steelItem;
-            }
+        // beginning of petro products
+        foreach ($petroCategory as $petroCatProductsItem) {
+            $petroProductsArray[$petroCatProductsItem->id] = $petroCatProductsItem->products->where('status', 'active')->where('vendor_id', NULL)->take(8);
         }
+        // end of petro products
 
-        foreach ($miningCategory as $miningItem) {
-            $j++;
-            if ($j < 9) {
-                $miningCategoryArray[] = $miningItem;
-            }
+        // beginning of steel products
+        foreach ($steelCategory as $steelCatProductsItem) {
+            $steelProductsArray[$steelCatProductsItem->id] = $steelCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
         }
+        // end of steel products
+        
+        // beginning of mining products
+        foreach ($miningCategory as $miningCatProductsItem) {
+            $miningProductsArray[$miningCatProductsItem->id] = $miningCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
+        }
+        // end of mining products
 
-        foreach ($constructionCategory as $constructionItem) {
-            $k++;
-            if ($k < 9) {
-                $constructionCategoryArray[] = $constructionItem;
-            }
+        // beginning of construction products
+        foreach ($constructionCategory as $constructionCatProductsItem) {
+            $constructionProductsArray[$constructionCatProductsItem->id] = $constructionCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
         }
-
-        foreach ($petroCategory as $petroItem) {
-            $l++;
-            if ($l < 9) {
-                $petroCategoryArray[] = $petroItem;
-            }
-        }
-
-        foreach ($steelCategoryArray as $steelCatItem) {
-            $itemArray = $steelCatItem->with('products')->where('id', $steelCatItem->id)->inRandomOrder()->get();
-            $steelCatProductsArray[] = $itemArray[0];
-        }
-
-        foreach ($miningCategoryArray as $miningCatItem) {
-            $itemArray = $miningCatItem->with('products')->where('id', $miningCatItem->id)->inRandomOrder()->get();
-            $miningCatProductsArray[] = $itemArray[0];
-        }
-
-        foreach ($constructionCategoryArray as $constructionCatItem) {
-            $itemArray = $constructionCatItem->with('products')->where('id', $constructionCatItem->id)->inRandomOrder()->get();
-            $constructionCatProductsArray[] = $itemArray[0];
-        }
-
-        foreach ($petroCategoryArray as $petroCatItem) {
-            $itemArray = $petroCatItem->with('products')->where('id', $petroCatItem->id)->inRandomOrder()->get();
-            $petroCatProductsArray[] = $itemArray[0];
-        }
+        // end of construction products
 
         if (Cookie::get('recently_viewed') && Product::count() > 0) {
             $recently_viewed_product_array[] = unserialize(Cookie::get('recently_viewed'));
@@ -139,9 +102,21 @@ class IndexController extends Controller
             }
         }
 
-        $blogposts = BlogPost::latest()->where('status', 'active')->get();
-
-        return view('frontend.index', compact('products', 'categories', 'parentCategories', 'petroCategoryArray', 'steelCategoryArray', 'miningCategoryArray', 'constructionCategoryArray', 'steelCatProductsArray', 'miningCatProductsArray', 'constructionCatProductsArray', 'petroCatProductsArray', 'recently_viewed_product_arr', 'blogposts'));
+        // $blogposts = BlogPost::latest()->where('status', 'active')->take(6)->get();
+        $blogposts = [];
+        return view('frontend.index', compact(
+            'parentCategories',
+            'petroCategory', 
+            'steelCategory', 
+            'miningCategory', 
+            'constructionCategory', 
+            'petroProductsArray', 
+            'steelProductsArray', 
+            'miningProductsArray', 
+            'constructionProductsArray', 
+            'recently_viewed_product_arr', 
+            'blogposts'
+        ));
     }
 
     public function ProductDetails($slug)

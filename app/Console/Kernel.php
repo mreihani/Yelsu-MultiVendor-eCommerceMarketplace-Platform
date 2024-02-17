@@ -12,8 +12,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        //$schedule->command('app:milgerd-ajdar-alborz-gharb')->everyMinute();
-
         // سایت مپ
         $schedule->command('app:site-map-pages')->daily();
         $schedule->command('app:site-map-products')->daily();
@@ -37,6 +35,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:update-visitors-chart-iran')->dailyAt('3:00');
         $schedule->command('app:update-visitors-chart-unique-ww')->dailyAt('3:00');
         $schedule->command('app:update-visitors-chart-unique-iran')->dailyAt('3:00');
+
+        // Remove expired sms tokens
+        $schedule->command('app:clear-expired-sms-tokes')->daily();
     }
 
     /**

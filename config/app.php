@@ -200,6 +200,7 @@ return [
         App\Helpers\Cart\CartServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        App\Providers\DynamicMenuContentServiceProvicer::class,
     ],
 
     /*

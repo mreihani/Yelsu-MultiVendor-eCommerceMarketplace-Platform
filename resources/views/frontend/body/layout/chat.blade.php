@@ -2,7 +2,7 @@
     $specialist_category_array = [];
     $specialist_category_array_unique = [];
 
-    $usersList = App\Models\User::where('role','specialist')->get(["id","specialist_category_id"]);
+    $usersList = App\Models\User::with('specialist_category')->where('role','specialist')->get(["id","specialist_category_id"]);
     foreach ($usersList as $userItem) {
         if($userItem->specialist_category_id != NULL) {
             $specialist_category_array[] = $userItem->specialist_category;

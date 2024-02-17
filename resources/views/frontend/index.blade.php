@@ -182,89 +182,67 @@
     </div>
     <!-- End of Category Banner Wrapper -->
 
-
     <!-- Beginning of yelsu petrochemical carousel Wrapper -->
-    @if(count($petroCategoryArray))
-    <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-        <h2 class="title mr-auto">محصولات صنایع نفت، گاز و پتروشیمی</h2>
-        <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
-            >
-            <li><a href="javascript:void(0)" class="nav-filterpetro active" data-filter="all_categories_petro">تمامی موارد</a></li>
-            @foreach ($petroCategoryArray as $petroCategoryItem)
-                <li><a href="javascript:void(0)" class="nav-filterpetro" data-filter="petro_{{$petroCategoryItem->id}}">{{$petroCategoryItem->category_name}}</a></li>
-            @endforeach
-        </ul>
-    </div>
-
-    
-    <div class="swiper-container swiper-theme pg-inner" >
-        <div class="petroCategorySwiper">
-            <div class="swiper-wrapper">
-                @foreach ($petroCatProductsArray as $petroCategoryProduct)
-                    @foreach ($petroCategoryProduct->products->where('status','active')->where('vendor_id', NULL)->take(8) as $item)
-                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible petro_{{$petroCategoryProduct->id}}">
-                            <div class="grid-item product-wrap">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="{{route('product.details', $item->product_slug)}}">
-                                            <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
-                                                width="300" height="337">
-                                            
-                                        </a>
-                                        {{-- <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد "></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                        </div> --}}
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
-                                        {{-- <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
+    @if(count($petroCategory))
+        <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
+            <h2 class="title mr-auto">محصولات صنایع نفت، گاز و پتروشیمی</h2>
+            <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
+                >
+                <li><a href="javascript:void(0)" class="nav-filterpetro active" data-filter="all_categories_petro">تمامی موارد</a></li>
+                @foreach ($petroCategory as $petroCategoryItem)
+                    <li><a href="javascript:void(0)" class="nav-filterpetro" data-filter="petro_{{$petroCategoryItem->id}}">{{$petroCategoryItem->category_name}}</a></li>
+                @endforeach
+            </ul>
+        </div>
+        
+        <div class="swiper-container swiper-theme pg-inner" >
+            <div class="petroCategorySwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($petroProductsArray as $steelCategoryProductId => $steelCategoryProduct)
+                        @foreach ($steelCategoryProduct as $item)
+                            <div class="swiper-slide appear-animate fadeIn appear-animation-visible petro_{{$steelCategoryProductId}}">
+                                <div class="grid-item product-wrap">
+                                    <div class="product text-center">
+                                        <figure class="product-media">
+                                            <a href="{{route('product.details', $item->product_slug)}}">
+                                                <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
+                                                    width="300" height="337">
+                                            </a>
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
+                                            <div class="product-price">
+                                                @if ($item->single_price_with_commission == 0)
+                                                    <div class="product-price">
+                                                        <a href="tel:02126402540">
+                                                            <i class="w-icon-phone"></i>
+                                                            تماس بگیرید
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                @endif
                                             </div>
-                                            <a href="product-default.html" class="rating-reviews">(1 نظر )</a>
-                                        </div> --}}
-                                        <div class="product-price">
-                                            {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->single_price_with_commission == 0)
-                                                <div class="product-price">
-                                                    <a href="tel:02126402540">
-                                                        <i class="w-icon-phone"></i>
-                                                        تماس بگیرید
-                                                    </a>
-                                                </div>
-                                            @else
-                                                <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     @endforeach
-                @endforeach
+                </div>
             </div>
         </div>
-    </div>
     @endif
     <!-- End of yelsu carousel Wrapper -->
 
-
     <!-- Beginning of yelsu steel carousel Wrapper -->
-    @if(count($steelCategoryArray))
+    @if(count($steelCategory))
     <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
         <h2 class="title mr-auto">محصولات فولادی و فلزی</h2>
         <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
             >
             <li><a href="javascript:void(0)" class="nav-filtersteel active" data-filter="all_categories_steel">تمامی موارد</a></li>
-            @foreach ($steelCategoryArray as $steelCategoryItem)
+            @foreach ($steelCategory as $steelCategoryItem)
                 <li><a href="javascript:void(0)" class="nav-filtersteel" data-filter="steel_{{$steelCategoryItem->id}}">{{$steelCategoryItem->category_name}}</a></li>
             @endforeach
         </ul>
@@ -273,37 +251,20 @@
     <div class="swiper-container swiper-theme pg-inner" >
         <div class="steelCategorySwiper">
             <div class="swiper-wrapper">
-                @foreach ($steelCatProductsArray as $steelCategoryProduct)
-                    @foreach ($steelCategoryProduct->products->where('status','active')->where('vendor_id', NULL)->take(8) as $item)
-                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible steel_{{$steelCategoryProduct->id}}">
+                @foreach ($steelProductsArray as $steelCategoryProductId => $steelCategoryProduct)
+                    @foreach ($steelCategoryProduct as $item)
+                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible steel_{{$steelCategoryProductId}}">
                             <div class="grid-item product-wrap">
                                 <div class="product text-center">
                                     <figure class="product-media">
                                         <a href="{{route('product.details', $item->product_slug)}}">
                                             <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
                                                 width="300" height="337">
-                                            
                                         </a>
-                                        {{-- <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد "></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                        </div> --}}
                                     </figure>
                                     <div class="product-details">
                                         <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
-                                        {{-- <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(1 نظر )</a>
-                                        </div> --}}
+                                        
                                         <div class="product-price">
                                             {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->single_price_with_commission == 0)
@@ -329,54 +290,25 @@
     @endif
     <!-- End of yelsu carousel Wrapper -->
     
-
-    <!-- End of Grid Product Wrapper -->
-    {{-- <div class="sale-banner banner br-sm mb-4 appear-animate">
-        <div class="banner-content">
-            <h4 class="content-left banner-subtitle text-primary ls-15 mb-8 mb-md-0 mr-0 mr-md-4">
-                <span class="text-dark text-uppercase font-weight-bold ls-normal">با  <br>بیش از </span>50% تخفیف
-            </h4>
-            <div class="content-right bg-dark">
-                <h3 class="banner-title font-weight-normal ls-25 mb-4 mb-md-0">
-                    <span>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                    </span>
-                </h3>
-                <a href="shop-banner-sidebar.html" class="btn btn-white btn-rounded">اکنون بخرید
-                    <i class="w-icon-long-arrow-left"></i>
-                </a>
-            </div>
-        </div>
-    </div> --}}
-    <!-- End of Sale Banner -->
-
    <!-- Beginning of yelsu mining carousel Wrapper -->
-@if(count($miningCategoryArray))
-<div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-    <h2 class="title mr-auto">محصولات معدنی و فرآوری</h2>
-    <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
-        >
-        <li><a href="javascript:void(0)" class="nav-filtermining active" data-filter="all_categories_mining">تمامی موارد</a></li>
-        @foreach ($miningCategoryArray as $miningCategoryItem)
-            <li><a href="javascript:void(0)" class="nav-filtermining" data-filter="mining_{{$miningCategoryItem->id}}">{{$miningCategoryItem->category_name}}</a></li>
-        @endforeach
-    </ul>
-</div>
+    @if(count($miningCategory))
+    <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
+        <h2 class="title mr-auto">محصولات معدنی و فرآوری</h2>
+        <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
+            >
+            <li><a href="javascript:void(0)" class="nav-filtermining active" data-filter="all_categories_mining">تمامی موارد</a></li>
+            @foreach ($miningCategory as $miningCategoryItem)
+                <li><a href="javascript:void(0)" class="nav-filtermining" data-filter="mining_{{$miningCategoryItem->id}}">{{$miningCategoryItem->category_name}}</a></li>
+            @endforeach
+        </ul>
+    </div>
 
-<div class="swiper-container swiper-theme pg-inner" >
-    <div class="miningCategorySwiper">
+    <div class="swiper-container swiper-theme pg-inner" >
+        <div class="miningCategorySwiper">
             <div class="swiper-wrapper">
-                @foreach ($miningCatProductsArray as $miningCategoryProduct)
-                    @foreach ($miningCategoryProduct->products->where('status','active')->where('vendor_id', NULL)->take(8) as $item)
-                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible mining_{{$miningCategoryProduct->id}}">
+                @foreach ($miningProductsArray as $miningCategoryProductId => $miningCategoryProduct)
+                    @foreach ($miningCategoryProduct as $item)
+                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible mining_{{$miningCategoryProductId}}">
                             <div class="grid-item product-wrap">
                                 <div class="product text-center">
                                     <figure class="product-media">
@@ -385,28 +317,11 @@
                                                 width="300" height="337">
                                             
                                         </a>
-                                        {{-- <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد "></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                        </div> --}}
                                     </figure>
                                     <div class="product-details">                                  
                                         <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
-                                        {{-- <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(1 نظر )</a>
-                                        </div> --}}
                                         <div class="product-price">
-                                            {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
+                                            
                                             @if ($item->single_price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
@@ -425,114 +340,64 @@
                     @endforeach
                 @endforeach
             </div>
-        
+        </div>
     </div>
-</div>
-@endif
+    @endif
 <!-- End of yelsu carousel Wrapper -->
 <!-- End of Filter Product Wrapper -->
 
-    <!-- End of Grid Product Wrapper -->
-    {{-- <div class="sale-banner banner br-sm mb-4 appear-animate">
-        <div class="banner-content">
-            <h4 class="content-left banner-subtitle text-primary ls-15 mb-8 mb-md-0 mr-0 mr-md-4">
-                <span class="text-dark text-uppercase font-weight-bold ls-normal">با  <br>بیش از </span>50% تخفیف
-            </h4>
-            <div class="content-right bg-dark">
-                <h3 class="banner-title font-weight-normal ls-25 mb-4 mb-md-0">
-                    <span>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                        استفاده از کد های تخفیف
-                        <strong class="bg-white text-dark">12345</strong>
-                        <b class="text-uppercase mr-10 pr-10">این بهترین تخفیف روز است!</b>
-                    </span>
-                </h3>
-                <a href="shop-banner-sidebar.html" class="btn btn-white btn-rounded">اکنون بخرید
-                    <i class="w-icon-long-arrow-left"></i>
-                </a>
-            </div>
-        </div>
-    </div> --}}
-    <!-- End of Sale Banner -->
-
     <!-- Beginning of yelsu construction carousel Wrapper -->
-    @if(count($constructionCategoryArray))
-<div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
-    <h2 class="title mr-auto">محصولات ساختمانی و عمرانی</h2>
-    <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
-        data-target="#products-3">
-        <li><a href="javascript:void(0)" class="nav-filterconstruction active" data-filter="all_categories_construction">تمامی موارد</a></li>
-        @foreach ($constructionCategoryArray as $constructionCategoryItem)
-            <li><a href="javascript:void(0)" class="nav-filterconstruction" data-filter="construction_{{$constructionCategoryItem->id}}">{{$constructionCategoryItem->category_name}}</a></li>
-        @endforeach
-    </ul>
-</div>
+    @if(count($constructionCategory))
+        <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
+            <h2 class="title mr-auto">محصولات ساختمانی و عمرانی</h2>
+            <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
+                data-target="#products-3">
+                <li><a href="javascript:void(0)" class="nav-filterconstruction active" data-filter="all_categories_construction">تمامی موارد</a></li>
+                @foreach ($constructionCategory as $constructionCategoryItem)
+                    <li><a href="javascript:void(0)" class="nav-filterconstruction" data-filter="construction_{{$constructionCategoryItem->id}}">{{$constructionCategoryItem->category_name}}</a></li>
+                @endforeach
+            </ul>
+        </div>
 
-
-<div class="swiper-container swiper-theme pg-inner" >
-    <div class="constructionCategorySwiper">
-            <div class="swiper-wrapper">
-                @foreach ($constructionCatProductsArray as $constructionCategoryProduct)
-                    @foreach ($constructionCategoryProduct->products->where('status','active')->where('vendor_id', NULL)->take(8) as $item)
-                        <div class="swiper-slide appear-animate fadeIn appear-animation-visible construction_{{$constructionCategoryProduct->id}}">
-                            <div class="grid-item product-wrap">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="{{route('product.details', $item->product_slug)}}">
-                                            <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
-                                                width="300" height="337">
+        <div class="swiper-container swiper-theme pg-inner" >
+            <div class="constructionCategorySwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($constructionProductsArray as $constructionCategoryProductId => $constructionCategoryProduct)
+                        @foreach ($constructionCategoryProduct as $item)
+                            <div class="swiper-slide appear-animate fadeIn appear-animation-visible construction_{{$constructionCategoryProductId}}">
+                                <div class="grid-item product-wrap">
+                                    <div class="product text-center">
+                                        <figure class="product-media">
+                                            <a href="{{route('product.details', $item->product_slug)}}">
+                                                <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
+                                                    width="300" height="337">
+                                            </a>
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                             
-                                        </a>
-                                        {{-- <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد "></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                        </div> --}}
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
-                                        {{-- <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
+                                            <div class="product-price">
+                                                @if ($item->single_price_with_commission == 0)
+                                                    <div class="product-price">
+                                                        <a href="tel:02126402540">
+                                                            <i class="w-icon-phone"></i>
+                                                            تماس بگیرید
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                @endif
                                             </div>
-                                            <a href="product-default.html" class="rating-reviews">(1 نظر )</a>
-                                        </div> --}}
-                                        <div class="product-price">
-                                            {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
-                                            @if ($item->single_price_with_commission == 0)
-                                                <div class="product-price">
-                                                    <a href="tel:02126402540">
-                                                        <i class="w-icon-phone"></i>
-                                                        تماس بگیرید
-                                                    </a>
-                                                </div>
-                                            @else
-                                                <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     @endforeach
-                @endforeach
+                </div>
             </div>
-    </div>
-</div>
-@endif
-
-
+        </div>
+    @endif
    
     <!-- End of yelsu carousel Wrapper -->
     <div class="row gutter-lg cols-lg-2 mt-4 appear-animate">
@@ -549,192 +414,13 @@
                         width="754" height="220" style="background-color: #494844;" />
                 </figure>
                 <div class="banner-content y-50">
-                    {{-- <h4 class="banner-subtitle text-white text-uppercase">صرفه جویی تا 25% تخفیف</h4> --}}
                     <h3 class="banner-title text-white ls-25 mb-2">فروش و عرضه انواع<br> کشنده سنگین و فوق سنگین</h3>
-                    {{-- <h5 class="banner-price-info text-secondary ls-25">
-                        <span class="text-uppercase text-white font-weight-normal ls-normal">شروع از </span>
-                        <sup class="font-weight-bolder">199 </sup>هزارتومان<sup
-                            class="font-weight-bolder"> </sup>
-                    </h5> --}}
                     <a href="{{route('shop.category',['id'=> 8])}}" class="btn btn-white btn-rounded btn-outline">
                         ثبت سفارش
                     </a>
                 </div>
             </div>
-            {{-- <div class="swiper-container swiper-theme pb-1 appear-animate" data-swiper-options="{
-                'spaceBetween': 20,
-                'breakpoints': {
-                    '0': {
-                        'slidesPerView': 2
-                    },
-                    '576': {
-                        'slidesPerView': 3
-                    },
-                    '992': {
-                        'slidesPerView': 2
-                    },
-                    '1600': {
-                        'slidesPerView': 3
-                    }
-                }
-                }">
-                <div class="swiper-wrapper row cols-xl-3 cols-lg-6 cols-md-4 cols-2">
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-1-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-1-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-label-group">
-                                    <label class="product-label label-sale">19% تخفیف </label>
-                                </div>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">فن چهار بال</a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 100%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">23500 تومان</ins><del
-                                        class="old-price">320000 تومان</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-2-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-2-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-label-group">
-                                    <label class="product-label label-sale">19% تخفیف </label>
-                                </div>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">راحت آرمصندلی </a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 60%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">13000000 تومان</ins>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-3-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-3-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">دستمال سر </a>
-                                </h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 80%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">22000 تومان</ins><del
-                                        class="old-price">28000 تومان </del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-4-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/4-4-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">بهترین کیف مسافرتی</a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 80%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">80000 تومان</ins><del
-                                        class="old-price">89000 تومان</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
+            
         </div>
         <div class="banner-product-wrapper">
             <div class="title-link-wrapper after-none appear-animate mb-2">
@@ -749,186 +435,12 @@
                         width="754" height="220" style="background-color: #E5E5E7;" />
                 </figure>
                 <div class="banner-content y-50">
-                    {{-- <h4 class="banner-subtitle text-uppercase font-weight-bold">برترین فروشنده هفتگی</h4> --}}
                     <h3 class="banner-title text-uppercase ls-25 mb-2">فروش انواع <br> مصالح عمرانی و ساختمانی</h3>
-                    {{-- <h5 class="banner-price-info text-secondary ls-25">
-                        <span class="text-uppercase text-dark font-weight-normal ls-normal">تنها با </span>
-                        <sup class="font-weight-bolder">99 </sup>هزارتومان<sup
-                            class="font-weight-bolder"> </sup>
-                    </h5> --}}
                     <a href="{{route('shop.category',['id'=> 3])}}" class="btn btn-dark btn-rounded btn-outline">
                         ثبت سفارش
                     </a>
                 </div>
             </div>
-            {{-- <div class="swiper-container swiper-theme pb-1 appear-animate" data-swiper-options="{
-                'spaceBetween': 20,
-                'breakpoints': {
-                    '0': {
-                        'slidesPerView': 2
-                    },
-                    '576': {
-                        'slidesPerView': 3
-                    },
-                    '992': {
-                        'slidesPerView': 2
-                    },
-                    '1600': {
-                        'slidesPerView': 3
-                    }
-                }
-                }">
-                <div class="swiper-wrapper row cols-xl-3 cols-lg-6 cols-md-4 cols-2">
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-1-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-1-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">فن چهار بال</a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 100%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">23500 تومان</ins><del
-                                        class="old-price">320000 تومان</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-2-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-2-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">راحت آرمصندلی </a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 60%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">13000000 تومان</ins>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-3-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-3-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">دستمال سر </a>
-                                </h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 80%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">22000 تومان</ins><del
-                                        class="old-price">28000 تومان </del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide product-wrap">
-                        <div class="product text-center">
-                            <figure class="product-media">
-                                <a href="product-default.html">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-4-1.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                    <img src="{{asset('frontend/assets/images/demos/demo13/products/5-4-2.jpg')}}"
-                                        alt="Product" width="300" height="337">
-                                </a>
-                                <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="افزودن به سبد "></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                </div>
-                            </figure>
-                            <div class="product-details">
-                                <h4 class="product-name"><a href="product-default.html">بهترین کیف مسافرتی</a></h4>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 80%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="product-default.html" class="rating-reviews">(1
-                                        نظر )</a>
-                                </div>
-                                <div class="product-price">
-                                    <ins class="new-price">80000 تومان</ins><del
-                                        class="old-price">89000 تومان</del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
     <div class="swiper-container swiper-theme brands-wrapper bg-white br-sm appear-animate"
@@ -1052,18 +564,14 @@
     @endif    
     <!-- End of Blog Post -->
 
-
-
     <!-- Beginning of Financial GIF BANNER -->
-    <div class="bg-white mt-6 mb-6">
-        {{-- <a href="{{route('blog.financing')}}"> --}}
+    {{-- <div class="bg-white mt-6 mb-6">
+        <a href="{{route('blog.financing')}}">
         <a href="">
             <img src="{{asset('frontend/assets/images/financial_compressed.gif')}}" alt="financial banner">
         </a>
-    </div>
+    </div> --}}
     <!-- End of Financial GIF BANNER -->
-
-
 
     @if($recently_viewed_product_arr)
         <div class="title-link-wrapper title-recent pt-1 mb-4 after-none appear-animate">

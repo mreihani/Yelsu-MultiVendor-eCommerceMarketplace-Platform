@@ -23777,3 +23777,25 @@ td {
     animation: rotation 1s linear infinite;
     margin-left: 5px;
 }
+
+/* mega menu styles */
+.megamenu {
+    height: 650px;
+    border-top: 2px solid #d2d2d2;
+    border-bottom: 2px solid #d2d2d2;
+    z-index: 100000 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: #0165d5 #C2D2E4;
+    scrollbar-width: thin;
+}
+.megamenu::-webkit-scrollbar {
+    width: 3px;
+}
+.megamenu::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgb(192, 192, 192);
+}
+.megamenu::-webkit-scrollbar-thumb {
+    background-color: #0165d5;
+}
+/* mega menu styles */

@@ -10,10 +10,6 @@
             </a>
             <h3 class="d-block text-dark font-weight-bolder dropdown-title pb-0 mb-0">محصولات پلتفرم یلسو</h3>
             <div class="dropdown-box text-default">
-                @php
-                    $parentCategories = App\Models\Category::where('parent',0)->get();
-                @endphp
-
                 <ul class="menu vertical-menu category-menu yelsu_main_categories">
                     @foreach ($parentCategories as $parentCategory)
                     <li class="has-submenu">

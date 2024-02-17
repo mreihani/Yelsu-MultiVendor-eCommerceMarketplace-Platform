@@ -63,7 +63,7 @@
                     <select id="category" name="cat_id">
                         <option value="0">جستجو محصولات (همه دسته بندی ها)</option>
                         @foreach ($parentCategories->reverse() as $parentCategory)
-                        <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
+                            <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
                         @endforeach
                         <option value="v">جستجو تولید کنندگان / تأمین کنندگان</option>
                         <option value="m">جستجو بازرگانان</option>
@@ -71,13 +71,6 @@
                         <option value="c">جستجو گمرک / بنادر / مناطق اقتصادی</option>
                         <option value="f">جستجو شرکت های باربری</option>
                         <option value="d">جستجو رانندگان</option>
-
-                        {{-- <option value="0">-&#8239;جستجو محصولات (همه دسته بندی ها)</option>
-                        @foreach ($parentCategories->reverse() as $parentCategory)
-                        <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
-                        @endforeach
-                        <option value="v">-&#8239;جستجو تأمین کنندگان</option>
-                        <option value="m">-&#8239;جستجو بازرگانان</option> --}}
                     </select>
                     
                 </div>

@@ -1,25 +1,3 @@
-<style>
-    .megamenu {
-        height: 650px;
-        border-top: 2px solid #d2d2d2;
-        border-bottom: 2px solid #d2d2d2;
-        z-index: 100000 !important;
-        overflow-y: auto;
-        overflow-x: hidden;
-        scrollbar-color: #0165d5 #C2D2E4;
-        scrollbar-width: thin;
-    }
-    .megamenu::-webkit-scrollbar {
-        width: 3px;
-    }
-    .megamenu::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px rgb(192, 192, 192);
-    }
-    .megamenu::-webkit-scrollbar-thumb {
-        background-color: #0165d5;
-    }
-</style>
-
 @php
     $categoryCount = $category->child->count();
 
@@ -34,7 +12,7 @@
     <ul class="megamenu">
         @foreach ($category->child->chunk($chunkIterationNumber) as $key => $categoryChunkItem)
             <li>
-                @foreach ($categoryChunkItem as $categoryChildItem)
+                @foreach ($categoryChunkItem->load('child') as $categoryChildItem)
                     <h4 class="menu-title">
                         <img src="{{!empty($categoryChildItem->category_image) ? asset($categoryChildItem->category_image) : 
                         asset('storage/upload/no_image.jpg') }}" alt="{{$categoryChildItem->category_image}}" width="40" height="40"
