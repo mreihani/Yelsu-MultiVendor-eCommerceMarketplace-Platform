@@ -31,6 +31,7 @@ class VendorMinMaxLoaderTypeValue implements ValidationRule
             $fail("مبدا سفارش باید تعیین شود.");
         }
 
+        
         // این بخش مربوط به بررسی ویژگی حداقل است
         $category_id_array = $this->request->category_id;
         $last_cat_id = max($category_id_array);
