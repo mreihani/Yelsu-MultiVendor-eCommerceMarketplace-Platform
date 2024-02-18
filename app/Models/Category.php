@@ -13,7 +13,7 @@ class Category extends Model
 {
   use HasFactory;
   protected $guarded = [];
-  public $with = ['products'];
+  // public $with = ['products'];
 
 
   public function child()

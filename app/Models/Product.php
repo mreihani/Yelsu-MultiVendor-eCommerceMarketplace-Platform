@@ -27,7 +27,7 @@ class Product extends Model
 {
     use HasFactory, Searchable;
     protected $guarded = [];
-    public $with = ['outlets'];
+    // public $with = ['outlets'];
 
     /**
      * Converts the object to a searchable array.
