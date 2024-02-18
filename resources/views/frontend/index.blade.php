@@ -212,7 +212,7 @@
                                         <div class="product-details">
                                             <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                             <div class="product-price">
-                                                @if ($item->single_price_with_commission == 0)
+                                                @if (!$item->single_price_with_commission == 0)
                                                     <div class="product-price">
                                                         <a href="tel:02126402540">
                                                             <i class="w-icon-phone"></i>
@@ -220,7 +220,10 @@
                                                         </a>
                                                     </div>
                                                 @else
-                                                    <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
+                                                    <ins class="new-price">
+                                                        {{number_format($item->single_price_with_commission, 0, '', ',')}} 
+                                                        {{$item->determine_product_currency()}}
+                                                    </ins>
                                                 @endif
                                             </div>
                                         </div>
@@ -315,7 +318,6 @@
                                         <a href="{{route('product.details', $item->product_slug)}}">
                                             <img src="{{!empty($item->product_thumbnail_sm) ? asset($item->product_thumbnail_sm) : asset('storage/upload/no_image.jpg') }}" alt="Product"
                                                 width="300" height="337">
-                                            
                                         </a>
                                     </figure>
                                     <div class="product-details">                                  
@@ -343,8 +345,8 @@
         </div>
     </div>
     @endif
-<!-- End of yelsu carousel Wrapper -->
-<!-- End of Filter Product Wrapper -->
+    <!-- End of yelsu carousel Wrapper -->
+    <!-- End of Filter Product Wrapper -->
 
     <!-- Beginning of yelsu construction carousel Wrapper -->
     @if(count($constructionCategory))
@@ -553,7 +555,7 @@
                                 - <a href="#" class="post-date mr-0">{{jdate($blogpost->created_at)->format('Y/m/d')}}</a>
                             </div>
                             <h4 class="post-title"><a href="{{route('home.blog.single',$blogpost->post_slug)}}">{{$blogpost->post_title}}</a></h4>
-                            <a href="{{route('home.blog.single',$blogpost->post_slug)}}" class="btn btn-link btn-dark btn-underline">
+                            <a href="{{route('home.blog.single', $blogpost->post_slug)}}" class="btn btn-link btn-dark btn-underline">
                                 ادامه مطلب <i class="w-icon-long-arrow-left"></i>
                             </a>
                         </div>

@@ -27,6 +27,7 @@ class Product extends Model
 {
     use HasFactory, Searchable;
     protected $guarded = [];
+    public $with = ['outlets'];
 
     /**
      * Converts the object to a searchable array.
@@ -110,17 +111,15 @@ class Product extends Model
     // این تابع برای برگرداندن کلیه ویژگی های یک محصول است
     public function attribute_items_obj_array() {
 
-        $product_attributes_array = $this->attributes()->pluck('attribute_item_id')->unique();
+        $product_attributes_array = $this->attributes()->get()->pluck('attribute_item_id')->unique();
         $product_attributes_array_pivot = [];
         $attribute_loop_array = [];
 
         foreach ($product_attributes_array as $product_attributes_item) {
-
             foreach ($this->attributes()->where('attribute_item_id', $product_attributes_item)->get() as $attribute_item) {
                 $attribute_loop_array[$product_attributes_item]['attribute_value_obj'][] = AttributeValue::find($attribute_item->pivot->attribute_value_id);
                 $attribute_loop_array[$product_attributes_item]['attribute_value'] = $attribute_item->pivot->attribute_value;
             }
-            
         }
 
         return $attribute_loop_array;
@@ -712,10 +711,10 @@ class Product extends Model
     {
         // calulate sellign price with commission
         $sellingPriceWithCommission = $this->calculateCommission($product, $sellingPrice);
-
+        
         // Determine the product value added tax
         $valueAddedTax = $product->determine_product_value_added_tax() ?: 0;
-
+        
         // Calculate the price with commission and value added tax
         return ($valueAddedTax / 100 + 1) * $sellingPriceWithCommission;
     }
