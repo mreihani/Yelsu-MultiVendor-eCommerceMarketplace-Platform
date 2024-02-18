@@ -52,22 +52,22 @@ class IndexController extends Controller
             // // صنایع نفت، گاز و پتروشیمی
             $petroCategory =  $parentCategories->where(function($parentCategory) {
                 return $parentCategory->id == 4;
-            })->first()->child->take(8);
+            })->first()->child()->get()->take(8);
 
             // محصولات فولادی و فلزی
             $steelCategory =  $parentCategories->where(function($parentCategory) {
                 return $parentCategory->id == 1;
-            })->first()->child->take(8);
+            })->first()->child()->get()->take(8);
 
             // // محصولات معدنی و فرآوری
             $miningCategory =  $parentCategories->where(function($parentCategory) {
                 return $parentCategory->id == 2;
-            })->first()->child->take(8);
+            })->first()->child()->get()->take(8);
 
             // // محصولات ساختمانی و عمرانی 
             $constructionCategory =  $parentCategories->where(function($parentCategory) {
                 return $parentCategory->id == 3;
-            })->first()->child->take(8);
+            })->first()->child()->get()->take(8);
         }
 
         // beginning of petro products
