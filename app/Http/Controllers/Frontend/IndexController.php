@@ -72,25 +72,25 @@ class IndexController extends Controller
 
         // beginning of petro products
         foreach ($petroCategory as $petroCatProductsItem) {
-            $petroProductsArray[$petroCatProductsItem->id] = $petroCatProductsItem->products->where('status', 'active')->where('vendor_id', NULL)->take(8);
+            $petroProductsArray[$petroCatProductsItem->id] = $petroCatProductsItem->products()->where('status', 'active')->where('vendor_id', NULL)->get()->take(8);
         }
         // end of petro products
 
         // beginning of steel products
         foreach ($steelCategory as $steelCatProductsItem) {
-            $steelProductsArray[$steelCatProductsItem->id] = $steelCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
+            $steelProductsArray[$steelCatProductsItem->id] = $steelCatProductsItem->products()->where('status','active')->where('vendor_id', NULL)->get()->take(8);
         }
         // end of steel products
         
         // beginning of mining products
         foreach ($miningCategory as $miningCatProductsItem) {
-            $miningProductsArray[$miningCatProductsItem->id] = $miningCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
+            $miningProductsArray[$miningCatProductsItem->id] = $miningCatProductsItem->products()->where('status','active')->where('vendor_id', NULL)->get()->take(8);
         }
         // end of mining products
 
         // beginning of construction products
         foreach ($constructionCategory as $constructionCatProductsItem) {
-            $constructionProductsArray[$constructionCatProductsItem->id] = $constructionCatProductsItem->products->where('status','active')->where('vendor_id', NULL)->take(8);
+            $constructionProductsArray[$constructionCatProductsItem->id] = $constructionCatProductsItem->products()->where('status','active')->where('vendor_id', NULL)->get()->take(8);
         }
         // end of construction products
 

@@ -27,7 +27,6 @@ class Product extends Model
 {
     use HasFactory, Searchable;
     protected $guarded = [];
-    // public $with = ['outlets'];
 
     /**
      * Converts the object to a searchable array.
@@ -727,8 +726,8 @@ class Product extends Model
     public function getSinglePriceWithCommissionAttribute()
     {
         // Check if outlets are available and return the selling price
-        if (count($this->outlets)) {
-            $sellingPrice = (int) $this->outlets->first()->pivot->selling_price;
+        if (count($this->outlets()->get())) {
+            $sellingPrice = (int) $this->outlets()->get()->first()->pivot->selling_price;
         } else {
             // Return the default selling price
             $sellingPrice = (int) $this->selling_price;
