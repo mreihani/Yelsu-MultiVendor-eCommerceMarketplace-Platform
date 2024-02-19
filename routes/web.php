@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 
-Route::get('changeDatabase', function () {
+// Route::get('changeDatabase', function () {
 
 //     ini_set('max_execution_time', 1800);
 //     App\Models\Product::chunk(1000, function($products) {
@@ -28,6 +28,6 @@ Route::get('changeDatabase', function () {
 //         }
 //     });
 
-dd(App\Models\Product::find(12)->single_price_with_commission == 0);
 
-});
+
+// });

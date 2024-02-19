@@ -30,7 +30,7 @@
             </div>
             <!-- End of Intro Slide 1 -->
 
-            <div onclick="window.location='{{route('shop.category',['id'=> 4])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
+            {{-- <div onclick="window.location='{{route('shop.category',['id'=> 4])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
                 style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/refinary_3.jpg')}}); cursor: pointer;">
                 <div class="banner-content y-50" style="width: 350px">
                     <div class="slide-animate" data-animation-options="{
@@ -43,13 +43,10 @@
                             همین حالا تجارت خود را گسترش دهید!!!
                         </h3>
                         <h4 style="font-size: 17px;" class="banner-price-info text-uppercase font-weight-bold ls-25">
-                            {{-- <span class="text-secondary ls-25">
-                                همین الان
-                            </span> --}}
                         </h4>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- End of Intro Slide 2 -->
             <div onclick="window.location='{{route('shop.category',['id'=> 3])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide3 br-sm"
@@ -68,44 +65,20 @@
                 </div>
             </div>
             <!-- End of Intro Slide 3 -->
-            
-            <!--
-            <div class="swiper-slide banner banner-fixed intro-slide intro-slide3 br-sm"
-                style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/slide-4.png')}});">
-                <div class="banner-content y-50" style="width: 350px">
-                    <div class="slide-animate" data-animation-options="{
-                        'name': 'fadeInUpShorter', 'duration': '1s','delay':'.3s'
-                        }">
-                        <h3 style="font-size: 17px;" class="banner-subtitle text-default font-weight-normal">مرجع فروش محصولات کشاورزی</h3>
-                        <h3 style="font-size: 17px;" class="text-dark text-uppercase ls-25">فروش انواع کود شیمیایی، سموم کشاورزی، غلات و علوفه 
-                        </h3>
-                        <h4 style="font-size: 17px;" class="banner-price-info font-weight-bold ls-25">
-                            {{-- <span class="text-secondary ls-25">با ارمغان تجارت مغان</span> --}}
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            -->
-            
-            <!-- End of Intro Slide 4 -->
 
-            <div onclick="window.location='{{route('shop.category',['id'=> 2])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide3 br-sm"
+            {{-- <div onclick="window.location='{{route('shop.category',['id'=> 2])}}';" class="swiper-slide banner banner-fixed intro-slide intro-slide3 br-sm"
                 style="background-image: url({{asset('frontend/assets/images/demos/demo13/slides/yelsu_trade_laptop.jpg')}}); cursor: pointer;">
                 <div class="banner-content y-50" style="width: 350px">
                     <div class="slide-animate" data-animation-options="{
                         'name': 'fadeInUpShorter', 'duration': '1s','delay':'.3s'
                         }">
-                        {{-- <h3 style="font-size: 17px;" class="banner-subtitle text-default font-weight-normal">محصولات معدنی را آنلاین خرید کنید!</h3> --}}
-                        {{-- <h3 style="font-size: 17px;" class="text-dark text-uppercase ls-25">خرید و فروش انواع کنسانتره، فروآلیاژ و کانسنگ های فلزی و غیرفلزی
-                        </h3> --}}
                         <h4 style="font-size: 17px;" class="banner-price-info font-weight-bold ls-25">
-                            {{-- <span class="text-secondary ls-25">با ارمغان تجارت مغان</span> --}}
                         </h4>
                     </div>
                 </div>
-            </div>
-            
+            </div> --}}
             <!-- End of Intro Slide 5 -->
+
         </div>
         <div class="swiper-pagination"></div>
     </div>
