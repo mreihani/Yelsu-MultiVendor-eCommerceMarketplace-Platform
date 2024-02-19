@@ -110,7 +110,7 @@ class Product extends Model
     // این تابع برای برگرداندن کلیه ویژگی های یک محصول است
     public function attribute_items_obj_array() {
 
-        $product_attributes_array = $this->attributes()->get()->pluck('attribute_item_id')->unique();
+        $product_attributes_array = $this->attributes()->pluck('attribute_item_id')->unique();
         $product_attributes_array_pivot = [];
         $attribute_loop_array = [];
 
@@ -609,7 +609,7 @@ class Product extends Model
         $commissionValue = $this->determine_product_commission();
 
         // If the selling price is not zero and there is a commission value
-        if ($sellingPrice != 0 && $commissionValue) {
+        if ($sellingPrice != 0) {
             // If the commission type is percentage-based
             if ($commissionType == "percent_commission") {
                 // Calculate the price with the percentage-based commission
@@ -666,7 +666,7 @@ class Product extends Model
         $sellingPriceWithCommission = 0;
 
         // If the selling price is not zero and there is a commission value
-        if ($sellingPrice != 0 && $commissionValue) {
+        if ($sellingPrice != 0) {
             // If the commission type is percentage-based
             if ($commissionType == "percent_commission") {
                 // Calculate the price with the percentage-based commission

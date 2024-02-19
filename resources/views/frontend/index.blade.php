@@ -212,7 +212,7 @@
                                         <div class="product-details">
                                             <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                             <div class="product-price">
-                                                @if (!$item->single_price_with_commission == 0)
+                                                @if ($item->single_price_with_commission == 0)
                                                     <div class="product-price">
                                                         <a href="tel:02126402540">
                                                             <i class="w-icon-phone"></i>
@@ -220,10 +220,7 @@
                                                         </a>
                                                     </div>
                                                 @else
-                                                    <ins class="new-price">
-                                                        {{number_format($item->single_price_with_commission, 0, '', ',')}} 
-                                                        {{$item->determine_product_currency()}}
-                                                    </ins>
+                                                    <ins class="new-price">{{number_format($item->single_price_with_commission, 0, '', ',')}} {{$item->determine_product_currency()}}</ins>
                                                 @endif
                                             </div>
                                         </div>
@@ -242,8 +239,7 @@
     @if(count($steelCategory))
     <div class="title-link-wrapper filter-title after-none pt-4 mb-0 appear-animate">
         <h2 class="title mr-auto">محصولات فولادی و فلزی</h2>
-        <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap"
-            >
+        <ul class="nav-filters list-style-none d-flex align-items-center flex-wrap">
             <li><a href="javascript:void(0)" class="nav-filtersteel active" data-filter="all_categories_steel">تمامی موارد</a></li>
             @foreach ($steelCategory as $steelCategoryItem)
                 <li><a href="javascript:void(0)" class="nav-filtersteel" data-filter="steel_{{$steelCategoryItem->id}}">{{$steelCategoryItem->category_name}}</a></li>
@@ -269,7 +265,6 @@
                                         <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         
                                         <div class="product-price">
-                                            {{-- <ins class="new-price">19000 تومان</ins><del class="old-price">40000 تومان</del> --}}
                                             @if ($item->single_price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
@@ -323,7 +318,6 @@
                                     <div class="product-details">                                  
                                         <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
                                         <div class="product-price">
-                                            
                                             @if ($item->single_price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
@@ -377,9 +371,9 @@
                                         </figure>
                                         <div class="product-details">
                                             <h4 class="product-name"><a href="{{route('product.details', $item->product_slug)}}">{{$item->product_name}} {!! $item->trading_method != 'internal' ? '<label class="product-label label-hot">ارزی</label>' : '' !!}</a></h4>
-                                            
+                                           
                                             <div class="product-price">
-                                                @if ($item->single_price_with_commission == 0)
+                                                @if($item->single_price_with_commission == 0)
                                                     <div class="product-price">
                                                         <a href="tel:02126402540">
                                                             <i class="w-icon-phone"></i>

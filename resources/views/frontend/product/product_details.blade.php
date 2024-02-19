@@ -8,26 +8,6 @@
             <li><a href="{{URL::to('/')}}">خانه </a></li>
             <li>{{$product->product_name}}</li>
         </ul>
-        {{-- <ul class="product-nav list-style-none">
-            <li class="product-nav-prev">
-                <a href="#">
-                    <i class="w-icon-angle-right"></i>
-                </a>
-                <span class="product-nav-popup">
-                    <img src="{{asset('frontend/assets/images/products/product-nav-prev.jpg')}}" alt="Product" width="110"
-                        height="110" />
-                    <span class="product-name">نرم صدا ساز</span>
-                </span>
-            </li>
-            <li class="product-nav-next"><a href="#"><i class="w-icon-angle-left"></i>
-                </a>
-                <span class="product-nav-popup">
-                    <img src="{{asset('frontend/assets/images/products/product-nav-next.jpg')}}" alt="Product" width="110"
-                        height="110" />
-                    <span class="product-name">بلندگوی صدای فوق العاده</span>
-                </span>
-            </li>
-        </ul> --}}
     </nav>
     <!-- End of Breadcrumb -->
 
@@ -97,9 +77,6 @@
                                             دسته بندی: 
                                             <span class="product-category"><a href="{{route('shop.category',['id'=> $product->parent_category_id])}}">{{!empty($category->category_name) ? $category->category_name : 'بدون دسته بندی'}} </a></span>
                                         </div>
-                                        {{-- <div class="product-sku">
-                                           کد:  <span>MS46891340</span>
-                                        </div> --}}
                                     </div>
                                 </div>
 
@@ -145,7 +122,17 @@
                                                 <div class="col-md-6">
                                                     @foreach ($product->outlets as $key => $outlet_item)
                                                         <div class="product-price {{$key == 0 ? '' : 'd-none'}}" id="outlet-{{$outlet_item->id}}">
-                                                            <ins class="new-price">{{number_format(App\Models\Product::calculatePriceWithCommission($outlet_item->pivot->selling_price, $product), 0, '', ',')}} {{$product->determine_product_currency()}} </ins>
+                                                            <ins class="new-price">
+                                                                @if($varible_product_price = App\Models\Product::calculatePriceWithCommission($outlet_item->pivot->selling_price, $product))
+                                                                    {{number_format($varible_product_price, 0, '', ',')}} 
+                                                                    {{$product->determine_product_currency()}} 
+                                                                @else
+                                                                    <a href="tel:02126402540">
+                                                                        <i class="w-icon-phone"></i>
+                                                                        تماس بگیرید
+                                                                    </a>
+                                                                @endif
+                                                            </ins>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -161,15 +148,6 @@
                                     </div>
                                 @endif
                                 
-                                {{-- <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 80%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                    <a href="#product-tab-reviews" class="rating-reviews scroll-to">(3
-                                        نظر )</a>
-                                </div> --}}
-
                                 <div class="product-short-desc">
                                     <span class="list-type-check">
                                        {!! $product->short_desc !!}
@@ -177,49 +155,6 @@
                                 </div>
 
                                 <hr class="product-divider">
-
-                                {{-- @if ($product->currency != 'toman')
-                                    <div class="product-form product-variation-form mb-2">
-                                        <div class="oil-instruction btn btn-dark">
-                                            <i class="w-icon-download"></i>
-                                            <a class="text-white" href="{{asset('upload/TRANSACTION_PROCEDURE_A1_and_Diesel_and_SULFUR.pdf')}}">دریافت روش اجرایی</a>
-                                        </div>
-                                    </div>
-                                @endif --}}
-
-                                {{-- @if ($product->packing != 'none')
-                                <div class="single-page-product-variation mb-2">
-                                    <div>
-                                        <span class="measurement-color-static">
-                                            نوع بسته بندی:
-                                        </span>
-                                        @if ($product->packing == 'tanker')
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                تانکر
-                                            </span>
-                                        @elseif($product->packing == 'tank')    
-                                            <span class="btn btn-dark measurement-color-dynamic">
-                                                مخزن
-                                            </span>
-                                        @endif
-                                    </div>   
-                                </div>
-                                @endif --}}
-
-                                {{-- <div class="product-form product-variation-form product-color-swatch">
-                                    <label>رنگ :</label>
-                                    <div class="d-flex align-items-center product-variations">
-                                        <a href="#" class="color" style="background-color: #ffcc01"></a>
-                                        <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                                        <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                                        <a href="#" class="color" style="background-color: #ccc;"></a>
-                                        <a href="#" class="color" style="background-color: #333;"></a>
-                                    </div>
-                                </div>
-
-                                {{-- <div class="product-variation-price">
-                                    <span></span>
-                                </div> --}}
 
                                 <!-- Start of Attributes -->
                                 <h4>مشخصات</h4>
@@ -265,8 +200,6 @@
                                         </div>
                                     @endif
                                 @endforeach    
-                                
-                                {{-- <a href="#" class="product-variation-clean">پاک کردن همه </a> --}}
                                 <!-- End of Attributes -->
 
                                 <div class="fix-bottom product-sticky-content sticky-content mt-4">
@@ -336,67 +269,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="frequently-bought-together mt-5">
-                        <h2 class="title title-underline">اغلب خریداری شده است  </h2>
-                        <div class="bought-together-products row mt-8 pb-4">
-                            <div class="product product-wrap text-center">
-                                <figure class="product-media">
-                                    <img src="{{asset('frontend/assets/images/products/default/bought-1.jpg')}}" alt="Product"
-                                        width="138" height="138" />
-                                    <div class="product-checkbox">
-                                        <input type="checkbox" class="custom-checkbox" id="product_check1"
-                                            name="product_check1">
-                                        <label></label>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <h4 class="product-name">
-                                        <a href="#">ساعت مچی مشکی الکترونیکی</a>
-                                    </h4>
-                                    <div class="product-price">80000 تومان </div>
-                                </div>
-                            </div>
-                            <div class="product product-wrap text-center">
-                                <figure class="product-media">
-                                    <img src="{{asset('frontend/assets/images/products/default/bought-2.jpg')}}" alt="Product"
-                                        width="138" height="138" />
-                                    <div class="product-checkbox">
-                                        <input type="checkbox" class="custom-checkbox" id="product_check2"
-                                            name="product_check2">
-                                        <label></label>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <h4 class="product-name">
-                                        <a href="#">لپ تاپ اپل </a>
-                                    </h4>
-                                    <div class="product-price">18000000 تومان</div>
-                                </div>
-                            </div>
-                            <div class="product product-wrap text-center">
-                                <figure class="product-media">
-                                    <img src="{{asset('frontend/assets/images/products/default/bought-3.jpg')}}" alt="Product"
-                                        width="138" height="138" />
-                                    <div class="product-checkbox">
-                                        <input type="checkbox" class="custom-checkbox" id="product_check3"
-                                            name="product_check3">
-                                        <label></label>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <h4 class="product-name">
-                                        <a href="#">هدفون لنوو سفید </a>
-                                    </h4>
-                                    <div class="product-price">39000 تومان</div>
-                                </div>
-                            </div>
-                            <div class="product-button">
-                                <div class="bought-price font-weight-bolder text-primary ls-50">48000000 تومان</div>
-                                <div class="bought-count">برای 3 مورد</div>
-                                <a href="cart.html" class="btn btn-dark btn-rounded">افزودن به سبد</a>
-                            </div>
-                        </div>
-                    </div> --}}
+                  
                     <div class="tab tab-nav-boxed tab-nav-underline product-tabs">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
@@ -426,10 +299,6 @@
                                 <a href="#product-tab-vendor" class="nav-link">اطلاعات فروشنده</a>
                             </li>
                             @endif
-                            
-                            {{-- <li class="nav-item">
-                                <a href="#product-tab-reviews" class="nav-link">نظرات مشتریان (3)</a>
-                            </li> --}}
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="product-tab-description">
@@ -438,24 +307,6 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="product-tab-specification">
-                                {{-- <ul class="list-none">
-                                    <li>
-                                        <label>مودال </label>
-                                        <p>سایت اسمان 320</p>
-                                    </li>
-                                    <li>
-                                        <label>رنگ </label>
-                                        <p>سیاه </p>
-                                    </li>
-                                    <li>
-                                        <label>سایز</label>
-                                        <p>کوچک - بزرگ</p>
-                                    </li>
-                                    <li>
-                                        <label>زمان گارانتی</label>
-                                        <p>3 ماه </p>
-                                    </li>
-                                </ul> --}}
                                 {!! $product->specification !!}
                             </div>
 
@@ -557,541 +408,6 @@
                                 </p>
                             </div>
                             @endif
-
-                            
-                            {{-- <div class="tab-pane" id="product-tab-reviews">
-                                <div class="row mb-4">
-                                    <div class="col-xl-4 col-lg-5 mb-4">
-                                        <div class="ratings-wrapper">
-                                            <div class="avg-rating-container">
-                                                <h4 class="avg-mark font-weight-bolder ls-50">3.3</h4>
-                                                <div class="avg-rating">
-                                                    <p class="text-dark mb-1">میانگین امتیاز </p>
-                                                    <div class="ratings-container">
-                                                        <div class="ratings-full">
-                                                            <span class="ratings" style="width: 60%;"></span>
-                                                            <span class="tooltiptext tooltip-top"></span>
-                                                        </div>
-                                                        <a href="#" class="rating-reviews">(3 نظر )</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="ratings-value d-flex align-items-center text-dark ls-25">
-                                                <span
-                                                    class="text-dark font-weight-bold">66.7%</span>توصیه شده <span
-                                                    class="count">(2 از 3)</span>
-                                            </div>
-                                            <div class="ratings-list">
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 100%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <div class="progress-bar progress-bar-sm ">
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="progress-value">
-                                                        <mark>70%</mark>
-                                                    </div>
-                                                </div>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 80%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <div class="progress-bar progress-bar-sm ">
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="progress-value">
-                                                        <mark>30%</mark>
-                                                    </div>
-                                                </div>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 60%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <div class="progress-bar progress-bar-sm ">
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="progress-value">
-                                                        <mark>40%</mark>
-                                                    </div>
-                                                </div>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 40%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <div class="progress-bar progress-bar-sm ">
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="progress-value">
-                                                        <mark>0%</mark>
-                                                    </div>
-                                                </div>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 20%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <div class="progress-bar progress-bar-sm ">
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="progress-value">
-                                                        <mark>0%</mark>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-8 col-lg-7 mb-4">
-                                        <div class="review-form-wrapper">
-                                            <h3 class="title tab-pane-title font-weight-bold mb-1">نظر خود را ارسال کنید</h3>
-                                            <p class="mb-3">آدرس ایمیل شما منتشر نخواهد شد. فیلدهای الزامی مشخص شده اند *</p>
-                                            <form action="#" method="POST" class="review-form">
-                                                <div class="rating-form">
-                                                    <label for="rating">امتیاز شما به این محصول :</label>
-                                                    <span class="rating-stars">
-                                                        <a class="star-1" href="#">1</a>
-                                                        <a class="star-2" href="#">2</a>
-                                                        <a class="star-3" href="#">3</a>
-                                                        <a class="star-4" href="#">4</a>
-                                                        <a class="star-5" href="#">5</a>
-                                                    </span>
-                                                    <select name="rating" id="rating" required=""
-                                                        style="display: none;">
-                                                        <option value="">امتیاز </option>
-                                                        <option value="5">عالی </option>
-                                                        <option value="4">خوب </option>
-                                                        <option value="3">میانگین </option>
-                                                        <option value="2">بد نیست</option>
-                                                        <option value="1">خیلی بد</option>
-                                                    </select>
-                                                </div>
-                                                <textarea cols="30" rows="6"
-                                                    placeholder="نظر خود را اینجا بنویسید..." class="form-control"
-                                                    id="review"></textarea>
-                                                <div class="row gutter-md">
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="نام شما" id="author">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="ایمیل شما" id="email_1">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="checkbox" class="custom-checkbox"
-                                                        id="save-checkbox">
-                                                    <label for="save-checkbox">برای دفعه بعد که نظر می دهم نام، ایمیل و وب سایت من را در این مرورگر ذخیره کنید.</label>
-                                                </div>
-                                                <button type="submit" class="btn btn-dark">ارسال نظر</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a href="#show-all" class="nav-link active">نمایش همه </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#helpful-positive" class="nav-link">مفیدترین نکته مثبت</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#helpful-negative" class="nav-link">مفیدترین منفی</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#highest-rating" class="nav-link">بالاترین امتیاز</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#lowest-rating" class="nav-link">کمترین رتبه</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="show-all">
-                                            <ul class="comments list-style-none">
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/1-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 60%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-1.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-1.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/2-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 80%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/3-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 60%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (0)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (1)
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" id="helpful-positive">
-                                            <ul class="comments list-style-none">
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/1-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 60%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-1.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-1.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/2-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 80%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" id="helpful-negative">
-                                            <ul class="comments list-style-none">
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/3-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 60%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (0)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (1)
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" id="highest-rating">
-                                            <ul class="comments list-style-none">
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/2-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 80%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-2.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" id="lowest-rating">
-                                            <ul class="comments list-style-none">
-                                                <li class="comment">
-                                                    <div class="comment-body">
-                                                        <figure class="comment-avatar">
-                                                            <img src="{{asset('frontend/assets/images/agents/1-100x100.png')}}"
-                                                                alt="Commenter Avatar" width="90" height="90">
-                                                        </figure>
-                                                        <div class="comment-content">
-                                                            <h4 class="comment-author">
-                                                                <a href="#">جان دوو</a>
-                                                                <span class="comment-date">اردیبهشت 1401</span>
-                                                            </h4>
-                                                            <div class="ratings-container comment-rating">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                        style="width: 60%;"></span>
-                                                                    <span
-                                                                        class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد..</p>
-                                                            <div class="comment-action">
-                                                                <a href="#"
-                                                                    class="btn btn-secondary btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-up"></i>مفید  (1)
-                                                                </a>
-                                                                <a href="#"
-                                                                    class="btn btn-dark btn-link btn-underline sm btn-icon-left font-weight-normal text-capitalize">
-                                                                    <i class="far fa-thumbs-down"></i>ضرر 
-                                                                    (0)
-                                                                </a>
-                                                                <div class="review-image">
-                                                                    <a href="#">
-                                                                        <figure>
-                                                                            <img src="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}"
-                                                                                width="60" height="60"
-                                                                                alt="تصویر ضمیمه نقد جان دو در ساعت مچی مشکی الکترونیکی"
-                                                                                data-zoom-image="{{asset('frontend/assets/images/products/default/review-img-3.jpg')}}" />
-                                                                        </figure>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                     <section class="vendor-product-section">
@@ -1122,36 +438,15 @@
                                         <a href="{{route('product.details', $relatedProduct->product_slug)}}">
                                             <img src="{{!empty($relatedProduct->product_thumbnail) ? asset($relatedProduct->product_thumbnail) : asset('storage/upload/no_image.jpg') }}" alt="Product"
                                                 width="300" height="338" />
-                                            {{-- <img src="{{asset('frontend/assets/images/products/default/1-2.jpg')}}" alt="Product"
-                                                width="300" height="338" /> --}}
                                         </a>
-                                        {{-- <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد "></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class="btn-product btn-quickview" title="نمایش سریع">نمایش سریع</a>
-                                        </div> --}}
                                     </figure>
                                     <div class="product-details">
                                         <div class="product-cat"><a href="{{route('shop.category',['id'=> $relatedProduct->parent_category_id])}}">{{App\Models\Category::find($relatedProduct->parent_category_id)->category_name}}</a>
                                         </div>
                                         <h4 class="product-name"><a href="{{route('product.details', $relatedProduct->product_slug)}}">{{$relatedProduct->product_name}}</a>
                                         </h4>
-                                        {{-- <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div> --}}
+                                      
                                         <div class="product-pa-wrapper">
-                                            
-
                                             @if ($relatedProduct->price_with_commission == 0)
                                                 <div class="product-price">
                                                     <a href="tel:02126402540">
@@ -1160,7 +455,8 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="product-price">{{number_format($relatedProduct->price_with_commission, 0, '', ',')}} {{$relatedProduct->determine_product_currency()}}</div>
+                                                <div class="product-price">
+                                                    {{number_format($relatedProduct->price_with_commission, 0, '', ',')}} {{$relatedProduct->determine_product_currency()}}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -1200,27 +496,9 @@
                                         <img src="{{!empty($recently_viewed_product_item->product_thumbnail) ? asset($recently_viewed_product_item->product_thumbnail) : asset('storage/upload/no_image.jpg') }}" alt="Product"
                                             width="300" height="338" />
                                     </a>
-                                    {{-- <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                            title="افزودن به سبد "></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                            title="افزودن به علاقه مندیها"></a>
-                                        <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                            title="افزودن برای مقایسه"></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="نمایش سریع">نمایش سریع</a>
-                                    </div> --}}
                                 </figure>
                                 <div class="product-details">
                                     <h4 class="product-name"><a href="{{route('product.details', $recently_viewed_product_item->product_slug)}}">{{$recently_viewed_product_item->product_name}}</a></h4>
-                                    {{-- <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width: 100%;"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                    </div> --}}
                                     <div class="product-pa-wrapper">
                                         <div class="product-pa-wrapper">
                                             @if ($recently_viewed_product_item->price_with_commission == 0)
@@ -1355,164 +633,9 @@
                                         <img src="{{asset('frontend/assets/images/shop/banner3.jpg')}}" alt="Banner" width="266"
                                             height="220" style="background-color: #1D2D44;" />
                                     </figure>
-                                    <!-- <div class="banner-content">
-                                        <div class="banner-price-info font-weight-bolder text-white lh-1 ls-25">
-                                            40<sup class="font-weight-bold">%</sup><sub
-                                                class="font-weight-bold text-uppercase ls-25">تخفیف </sub>
-                                        </div>
-                                        <h4
-                                            class="banner-subtitle text-white font-weight-bolder text-uppercase mb-0">
-                                            فروش نامحدود </h4>
-                                    </div> -->
                                 </div>
                             </div>
                             <!-- End of Widget Banner -->
-
-                            {{-- <div class="widget widget-products">
-                                <div class="title-link-wrapper mb-2">
-                                    <h4 class="title title-link font-weight-bold">محصولات بیشتر </h4>
-                                </div>
-
-                                <div class="swiper nav-top">
-                                    <div class="swiper-container swiper-theme nav-top" data-swiper-options = "{
-                                        'slidesPerView': 1,
-                                        'spaceBetween': 20,
-                                        'navigation': {
-                                            'prevEl': '.swiper-button-prev',
-                                            'nextEl': '.swiper-button-next'
-                                        }
-                                    }">
-                                        <div class="swiper-wrapper">
-                                            <div class="widget-col swiper-slide">
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/13.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">ساعت هوشمند </a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">80000 تومان - 90000 تومان</div>
-                                                    </div>
-                                                </div>
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/14.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">مرکز پزشکی آسمان</a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 80%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">220000 تومان</div>
-                                                    </div>
-                                                </div>
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/15.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">موتور بدلکاری مشکی</a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 60%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">180000 تومان</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-col swiper-slide">
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/16.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">اسکیت پان</a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">480000 تومان</div>
-                                                    </div>
-                                                </div>
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/17.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">اجاق گاز مدرن</a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 80%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">325000 تومان</div>
-                                                    </div>
-                                                </div>
-                                                <div class="product product-widget">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{asset('frontend/assets/images/shop/18.jpg')}}" alt="Product"
-                                                                width="100" height="113" />
-                                                        </a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h4 class="product-name">
-                                                            <a href="#">دستگاه سی تی</a>
-                                                        </h4>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
-                                                                <span class="tooltiptext tooltip-top"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-price">220000 تومان</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class="swiper-button-next"></button>
-                                        <button class="swiper-button-prev"></button>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </aside>
