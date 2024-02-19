@@ -1,26 +1,21 @@
-@php
-    $categoryCount = $category->child->count();
-@endphp
-
-@if($categoryCount)  
-    <ul>
-        @foreach ($category->child as $categoryItem)
+<ul>
+    @foreach ($child as $childItem)
             <li>
-                <a href="{{route('shop.category',['id'=> $categoryItem->id])}}">
-                    {{$categoryItem->category_name}}
+                <a href="{{route('shop.category', ['id'=> $childItem['category_id']])}}">
+                    {{$childItem['category_name']}}
                 </a>
-                @if(count($categoryItem->child))
+                
+                @if(count($childItem['child']))
                     <ul>
-                        @foreach ($categoryItem->child as $categoryChildItem)
+                        @foreach ($childItem['child'] as $categoryChildLoop)
                             <li>
-                                <a href="{{route('shop.category',['id'=> $categoryChildItem->id])}}">
-                                    {{$categoryChildItem->category_name}}
+                                <a href="{{route('shop.category',['id'=> $categoryChildLoop['category_id']])}}">
+                                    {{$categoryChildLoop['category_name']}}
                                 </a>
                             </li>
                         @endforeach
                     </ul>
                 @endif
             </li>
-        @endforeach
-    </ul>
-@endif
+    @endforeach
+</ul>

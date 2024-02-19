@@ -9,16 +9,18 @@
                 <img src="{{asset('frontend/assets/images/demos/demo13/logo.png')}}" alt="logo" width="145" height="45" />
             </a>
             <h3 class="d-block text-dark font-weight-bolder dropdown-title pb-0 mb-0">محصولات پلتفرم یلسو</h3>
+
             <div class="dropdown-box text-default">
                 <ul class="menu vertical-menu category-menu yelsu_main_categories">
-                    @foreach ($parentCategories as $parentCategory)
-                    <li class="has-submenu">
-                        <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
-                            <img width="45px" src = "{{asset($parentCategory->category_image)}}" alt="{{$parentCategory->category_name}}"/> {{$parentCategory->category_name}}
-                            <span class="submenu-toggle-btn"></span>
-                        </a>
-                        @includeIf("frontend.body.layout.megamenu.dynamic-menu", ['category' => $parentCategory])
-                    </li>
+                    @foreach ($megaMenuCategories as $parentCategory)
+                        <li class="has-submenu">
+                            <a href="{{route('shop.category', ['id'=> $parentCategory['category_id']])}}">
+                                <img width="40px" src = "{{asset($parentCategory['img_src'])}}" alt="{{$parentCategory['category_name']}}"/>
+                                    {{$parentCategory['category_name']}}
+                                    <span class="submenu-toggle-btn"></span>
+                            </a>
+                            @includeIf("frontend.body.layout.megamenu.dynamic-menu", ['child' => $parentCategory['child']])
+                        </li>
                     @endforeach
                 </ul>
             </div>

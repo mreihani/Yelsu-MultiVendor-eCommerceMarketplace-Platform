@@ -7,15 +7,6 @@
 
     
     <div class="mobile-menu-container scrollable">
-        {{-- <form action="https://www.yelsu.com/search/products" method="POST" class="input-wrapper">
-            @csrf
-            <input type="text" class="form-control" name="search_query" autocomplete="off"
-                placeholder="جستجو" />
-            <button class="btn btn-search" type="submit">
-                <i class="w-icon-search"></i>
-            </button>
-        </form> --}}
-        
         <!-- End of Search Form -->
         <div class="tab">
             <ul class="nav nav-tabs" role="tablist">
@@ -38,49 +29,21 @@
                 </ul>
             </div>
 
-            <div class="tab-pane" id="categories">
-                @php
-                    $parentCategories = App\Models\Category::where('parent',0)->get();
-                @endphp
-
-                <ul class="mobile-menu">
-                    {{-- <li>
-                        <a href="{{route('shop.category',['id'=> 1])}}">
-                            <img width="30px" src = "{{asset('frontend/assets/images/yelsu_images/yelsu_steel.svg')}}" alt="steel"/>محصولات فولادی و فلزی
-                        </a>
-                        <ul>
+            @if(!$agent->isDesktop())
+                <div class="tab-pane" id="categories">
+                    <ul class="mobile-menu">
+                        @foreach ($megaMenuCategories as $parentCategory)
                             <li>
-                                <a href="#">زنانه </a>
-                                <ul>
-                                    <li><a href="shop-fullwidth-banner.html">تازه رسیده ها </a>
-                                    </li>
-                                    <li><a href="shop-fullwidth-banner.html">پرفروش ترین ها </a>
-                                    </li>
-                                    <li><a href="shop-fullwidth-banner.html">پر طرفدار </a></li>
-                                    <li><a href="shop-fullwidth-banner.html">تن پوش </a></li>
-                                    <li><a href="shop-fullwidth-banner.html">کفش ها </a></li>
-                                    <li><a href="shop-fullwidth-banner.html">کیسه ها </a></li>
-                                    <li><a href="shop-fullwidth-banner.html">تجهیزات جانبی </a>
-                                    </li>
-                                    <li><a href="shop-fullwidth-banner.html">جواهر و
-                                            ساعت </a></li>
-                                    <li><a href="shop-fullwidth-banner.html">ویژه </a></li>
-                                </ul>
+                                <a href="{{route('shop.category',['id'=> $parentCategory['category_id']])}}">
+                                    <img width="30px" src = "{{asset($parentCategory['img_src'])}}" alt="steel"/> {{$parentCategory['category_name']}}
+                                </a>
+                                @includeIf("frontend.body.layout.megamenu.dynamic-menu-mobile", ['child' => $parentCategory['child']])
                             </li>
-                        </ul>
-                    </li> --}}
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-                    @foreach ($parentCategories as $parentCategory)
-                        <li>
-                            <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
-                                <img width="30px" src = "{{asset($parentCategory->category_image)}}" alt="steel"/> {{$parentCategory->category_name}}
-                            </a>
-                            @includeIf("frontend.body.layout.megamenu.dynamic-menu-mobile", ['category' => $parentCategory])
-                        </li>
-                    @endforeach
-                    
-                </ul>
-            </div>
         </div>
     </div>
 </div>

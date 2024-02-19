@@ -891,8 +891,8 @@ class IndexController extends Controller
         // End of - exclude products which store has been disabled
 
 
-        $categories = Category::latest()->get();
-        $parentCategories = Category::where('parent', 0)->latest()->get()->reverse();
+        $categories = Category::with(['child'])->latest()->get();
+        $parentCategories = Category::with(['child'])->where('parent', 0)->latest()->get()->reverse();
 
         $root_catgory_obj = NULL;
         $category_hierarchy_arr = [];
@@ -900,7 +900,7 @@ class IndexController extends Controller
         // category for filter
         $filter_category_array = [];
         foreach ($parentCategories as $parentCategory) {
-            $all_children = Category::find($parentCategory->id)->child;
+            $all_children = Category::with(['child'])->find($parentCategory->id)->child;
             $filter_category_array[] = array($parentCategory, $all_children);
         }
         $filter_category_array = array_reverse($filter_category_array);
@@ -911,7 +911,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط تامین کنندگان
-        $outlets = Outlet::all();
+        $outlets = Outlet::with('user')->get()->take(10);
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;

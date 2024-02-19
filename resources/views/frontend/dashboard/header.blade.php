@@ -1,18 +1,4 @@
 <header class="header">
-    {{-- <div class="header-top">
-        <div class="container">
-            <div class="header-left">
-                <p class="welcome-msg">پیام فروشگاه لغو کنید. به فروشگاه ما خوش آمدید!</p>
-            </div>
-            <div class="header-right">               
-            <span class="divider d-lg-show"></span>
-            <a href="blog.html" class="d-lg-show">بلاگ </a>
-            <a href="contact-us.html" class="d-lg-show">تماس با ما </a>                       
-            </div>
-        </div>
-    </div> --}}
-    <!-- End of Header Top -->
-
     <div class="header-middle">
         <div class="container">
             <div class="header-left mr-md-4">
@@ -26,7 +12,7 @@
                         <select id="category" name="cat_id">
                             <option value="0">جستجو محصولات (همه دسته بندی ها)</option>
                             @foreach (App\Models\Category::where('parent', 0)->latest()->get()->reverse() as $parentCategory)
-                            <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
+                                <option value="{{$parentCategory->id}}">&nbsp;&nbsp;-&#8239;{{$parentCategory->category_name}}</option>
                             @endforeach
                             <option value="v">جستجو تولید کنندگان / تأمین کنندگان</option>
                             <option value="m">جستجو بازرگانان</option>
@@ -117,7 +103,6 @@
                                 <a href="{{ URL::to('/checkout') }}" class="btn btn-primary btn-rounded">پرداخت </a>
                             </div>
 
-                            
                             <div style="margin-bottom:100px;"></div>
                         </div>
                     </div>
@@ -139,36 +124,28 @@
                             <i class="w-icon-category"></i>
                             <span>دسته بندی محصولات</span>
                         </a>
-
-                        @php
-                            $parentCategories = App\Models\Category::where('parent',0)->get();
-                        @endphp
-
-                        <div class="dropdown-box">
-                            <ul class="menu vertical-menu category-menu">
-                                @foreach ($parentCategories as $parentCategory)
-                                    <li>
-                                        <a href="{{route('shop.category',['id'=> $parentCategory->id])}}">
-                                            <img width="40px" src = "{{asset($parentCategory->category_image)}}" alt="steel"/> {{$parentCategory->category_name}}
-                                        </a>
-                                        @includeIf("frontend.body.layout.megamenu.dynamic-menu", ['category' => $parentCategory])
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
                         
+                        @if($agent->isDesktop())
+                            <div class="dropdown-box">
+                                <ul class="menu vertical-menu category-menu">
+                                    @foreach ($megaMenuCategories as $parentCategory)
+                                        <li>
+                                            <a href="{{route('shop.category', ['id'=> $parentCategory['category_id']])}}">
+                                                <img width="40px" src = "{{asset($parentCategory['img_src'])}}" alt="{{$parentCategory['category_name']}}"/>
+                                                {{$parentCategory['category_name']}}
+                                            </a>
+                                            @includeIf("frontend.body.layout.megamenu.dynamic-menu", ['child' => $parentCategory['child']])
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <nav class="main-nav">
                         <ul class="menu active-underline">
                             <li>
                                 <a href="{{URL::to('/')}}">خانه </a>
                             </li>
-                            {{-- <li>
-                                <a href="#">خدمات </a>
-                            </li> --}}
-                            {{-- <li>
-                                <a href="{{URL::to('/shop')}}">فروشگاه </a>
-                            </li> --}}
                             <li class="has-submenu">
                                 <a href=""> دسترسی های پلتفرم  </a>
                                 <ul class="submenu">
@@ -199,7 +176,6 @@
                 </div>
                 <div class="header-right">
                     <a href="{{route('dashboard',['type' => 'orders'])}}" class="d-xl-show"><i class="w-icon-orders mr-1"></i>پیگیری سفارش </a>
-                    {{-- <a href="#"><i class="w-icon-sale"></i>معاملات روزانه </a> --}}
                 </div>
             </div>
         </div>

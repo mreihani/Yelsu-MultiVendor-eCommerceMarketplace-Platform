@@ -1,32 +1,21 @@
-@php
-    $categoryCount = $category->child->count();
-
-    $chunkIterationNumber = 1;
-    while (true) {
-        if ($categoryCount < 4 * $chunkIterationNumber) break;
-        $chunkIterationNumber++;
-    }
-@endphp
-
-@if($categoryCount)  
+@if(count($child))
     <ul class="megamenu">
-        @foreach ($category->child->chunk($chunkIterationNumber) as $key => $categoryChunkItem)
+        @foreach ($child as $categoryChunkItem)
             <li>
-                @foreach ($categoryChunkItem->load('child') as $categoryChildItem)
+                @foreach($categoryChunkItem['child'] as $categoryChildItem)
                     <h4 class="menu-title">
-                        <img src="{{!empty($categoryChildItem->category_image) ? asset($categoryChildItem->category_image) : 
-                        asset('storage/upload/no_image.jpg') }}" alt="{{$categoryChildItem->category_image}}" width="40" height="40"
+                        <img src="{{$categoryChildItem['img_src']}}" alt="{{$categoryChildItem['category_name']}}" width="40" height="40"
                         style="border-radius: 50%; border: 1px solid #dddddd;">
-                        <a href="{{route('shop.category',['id'=> $categoryChildItem->id])}}">
-                            {{$categoryChildItem->category_name}}
+                        <a href="{{route('shop.category',['id'=> $categoryChildItem['category_id']])}}">
+                            {{$categoryChildItem['category_name']}}
                         </a>
                     </h4>
                     <hr class="divider">
                     <ul>
-                        @foreach ($categoryChildItem->child as $categoryChild)
+                        @foreach ($categoryChildItem['child'] as $categoryChild)
                             <li>
-                                <a href="{{route('shop.category',['id'=> $categoryChild->id])}}">
-                                    {{$categoryChild->category_name}}
+                                <a href="{{route('shop.category', ['id'=> $categoryChild['category_id']])}}">
+                                    {{$categoryChild['category_name']}}
                                 </a>
                             </li>
                         @endforeach
@@ -42,6 +31,7 @@
                     </div>
                 </div>
             </li>
-    </ul>  
+    </ul> 
 @endif
 
+    

@@ -5,32 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    {{-- <title>وولمارت - قدرتمند ترین قالب چند منظوره فروشگاهی html</title>
-
-    <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
-    <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
-    <meta name="author" content="D-THEMES"> --}}
-
     {!! SEO::generate() !!}    
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{asset('frontend/assets/images/icons/favicon.png')}}">
-
-
-    <!-- WebFont.js -->
-    {{-- <script>
-        WebFontConfig = {
-            google: { families: ['Poppins:400,500,600,700'] }
-        };
-        ( function ( d ) {
-            var wf = d.createElement( 'script' ), s = d.scripts[0];
-            wf.src = '{{asset('frontend/assets/js/webfont.js')}}';
-            wf.async = true;
-            s.parentNode.insertBefore( wf, s );
-        } )( document );
-    </script> --}}
 
     <link rel="preload" href="{{asset('frontend/assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2')}}" as="font" type="font/woff2"
         crossorigin="anonymous">

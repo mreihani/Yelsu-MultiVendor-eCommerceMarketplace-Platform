@@ -156,7 +156,6 @@
         @endif
     <!-- End of Shop Banner -->
 
-
     <!-- Start of Shop Category -->
     <div class="container">
         <div class="shop-default-category category-ellipse-section mb-6">                           
@@ -181,7 +180,6 @@
         </div>
     </div>
     <!-- End of Shop Category -->
-
 
     <!-- Start of leaflet maps -->
     @if(count($outletsArr))
@@ -272,10 +270,6 @@
                                             <div class="product-action-horizontal" style="width:90px">
                                                 <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                     title="افزودن به سبد "></a>
-                                                {{-- <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="علاقه مندیها"></a>
-                                                <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                    title="مقایسه"></a> --}}
                                                 <a href="#" class="btn-product-icon btn-quickview w-icon-search"
                                                     title="نمایش سریع"></a>
                                             </div>
@@ -296,13 +290,7 @@
                                                     <a href="{{route('product.details', $product->product_slug)}}">{{$product->product_name}} <label class="product-label label-hot">ارزی</label></a>
                                                 @endif
                                             </h3>
-                                            {{-- <div class="ratings-container">
-                                                <div class="ratings-full">
-                                                    <span class="ratings" style="width: 100%;"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
-                                                </div>
-                                                <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                            </div> --}}
+                                            
                                             <div class="product-pa-wrapper">
                                                 <div class="product-price">
                                                     @if ($product->single_price_with_commission == 0)
@@ -523,69 +511,6 @@
                         </div>
                         <!-- End of Collapsible Widget -->
 
-                        <!-- Start of Collapsible Widget -->
-
-                        {{-- <div class="widget widget-collapsible">
-                            <h3 class="widget-title"><span>قیمت </span></h3>
-                            <div class="widget-body">
-                                <ul class="filter-items search-ul">
-                                    <li><a href="#">0 - 99000 تومان</a></li>
-                                    <li><a href="#">100,000 - 500,000 تومان</a></li>
-                                    <li><a href="#">500,000 - 1,000,000 تومان</a></li>
-                                    <li><a href="#">1,000,000 - 5,000,000 تومان</a></li>
-                                    <li><a href="#">5,000,000 تومان +</a></li>
-                                </ul>
-                                <div class="price-range">
-                                    <input type="number" name="min_price" class="min_price text-center"
-                                        placeholder="حداقل"><span class="delimiter">-</span><input type="number"
-                                        name="max_price" class="max_price text-center" placeholder="حداکثر">
-                                </div>
-                            </div>
-                        </div> --}}
-
-                        <!-- End of Collapsible Widget -->
-
-                        <!-- Start of Collapsible Widget -->
-                        {{-- <div class="widget widget-collapsible">
-                            <h3 class="widget-title"><span>سایز </span></h3>
-                            <ul class="widget-body filter-items item-check mt-1">
-                                <li><a href="#">خبلی بزرگ </a></li>
-                                <li><a href="#">بزرگ </a></li>
-                                <li><a href="#">متوسط </a></li>
-                                <li><a href="#">کوچک </a></li>
-                            </ul>
-                        </div> --}}
-                        <!-- End of Collapsible Widget -->
-
-                        <!-- Start of Collapsible Widget -->
-                        {{-- <div class="widget widget-collapsible">
-                            <h3 class="widget-title"><span>برند </span></h3>
-                            <ul class="widget-body filter-items item-check mt-1">
-                                <li><a href="#">گروه خودرو زیبا </a></li>
-                                <li><a href="#">علف سبز </a></li>
-                                <li><a href="#">Node Js</a></li>
-                                <li><a href="#">NS8</a></li>
-                                <li><a href="#">Red</a></li>
-                                <li><a href="#">Skysuite Tech</a></li>
-                                <li><a href="#">Sterling</a></li>
-                            </ul>
-                        </div> --}}
-                        <!-- End of Collapsible Widget -->
-
-                        <!-- Start of Collapsible Widget -->
-                        {{-- <div class="widget widget-collapsible">
-                            <h3 class="widget-title"><span>رنگ </span></h3>
-                            <ul class="widget-body filter-items item-check">
-                                <li><a href="#">سیاه</a></li>
-                                <li><a href="#">آبی</a></li>
-                                <li><a href="#">قهوه ای</a></li>
-                                <li><a href="#">سبز </a></li>
-                                <li><a href="#">خاکستری </a></li>
-                                <li><a href="#">نارنجی </a></li>
-                                <li><a href="#">زرد </a></li>
-                            </ul>
-                        </div> --}}
-                        <!-- End of Collapsible Widget -->
                         <div class="text-center mt-2">
                             <button type="submit" class="btn btn-primary btn-rounded">اعمال فیلتر</a>
                         </div>
