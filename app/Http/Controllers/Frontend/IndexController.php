@@ -945,8 +945,10 @@ class IndexController extends Controller
 
         $inputArray = [];
 
-        Category::all();
-        Product::all();
+        
+        foreach (Product::all() as $value) {
+            $value->single_price_with_commission;
+        }
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
@@ -1026,8 +1028,10 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        Category::all();
-        Product::all();
+        // Delete later
+        foreach (Product::all() as $value) {
+            $value->single_price_with_commission;
+        }
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
@@ -1128,8 +1132,10 @@ class IndexController extends Controller
             SEOMeta::setKeywords($meta_keywords);
         }
         
-        Category::all();
-        Product::all();
+        // Delete later
+        foreach (Product::all() as $value) {
+            $value->single_price_with_commission;
+        }
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     }
