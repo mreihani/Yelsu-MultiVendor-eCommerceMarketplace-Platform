@@ -12,7 +12,7 @@
 
             <div class="dropdown-box text-default">
                 <ul class="menu vertical-menu category-menu yelsu_main_categories">
-                    @foreach ($megaMenuCategories as $parentCategory)
+                    @foreach ($megaMenuCategoriesDesktop as $parentCategory)
                         <li class="has-submenu">
                             <a href="{{route('shop.category', ['id'=> $parentCategory['category_id']])}}">
                                 <img width="40px" src = "{{asset($parentCategory['img_src'])}}" alt="{{$parentCategory['category_name']}}"/>

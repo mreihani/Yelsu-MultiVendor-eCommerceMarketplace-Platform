@@ -408,16 +408,6 @@ class Product extends Model
 
     // ورودی را محصول میگیرد و در نهایت شیء کاربر مرتبط را تحویل می دهد
     public function determine_product_related_user_object() {
-        // if($this->vendor_id != NULL) {
-        //     $user_id = (int) $this->vendor_id;
-        // } elseif($this->merchant_id != NULL) {
-        //     $user_id = (int) $this->merchant_id;
-        // } elseif($this->retailer_id != NULL) {
-        //     $user_id = (int) $this->retailer_id;
-        // } else {
-        //     $user_id = 0;
-        // }
-
         $user_id = $this->determine_product_owner->id;
 
         return $user_id;

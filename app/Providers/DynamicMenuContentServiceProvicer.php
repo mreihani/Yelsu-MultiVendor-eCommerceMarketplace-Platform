@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Categories\GetMegaMenuCategories\GetDynamicMegaMenuMobile;
 use App\Services\Categories\GetMegaMenuCategories\GetDynamicMegaMenuDesktop;
+use Illuminate\Support\Facades\View;
 
 
 class DynamicMenuContentServiceProvicer extends ServiceProvider
@@ -27,19 +28,13 @@ class DynamicMenuContentServiceProvicer extends ServiceProvider
         GetDynamicMegaMenuDesktop $megaMenuCategoriesDesktop,
         GetDynamicMegaMenuMobile $megaMenuCategoriesMobile): void
     {
-        $agent = new Agent();
-   
-        if($this->app->request->getRequestUri() != "/" && $agent->isDesktop()) {
-            $this->megaMenuCategories = $megaMenuCategoriesDesktop->execute();
-        } elseif($this->app->request->getRequestUri() != "/" && !$agent->isDesktop()) {
-            $this->megaMenuCategories = $megaMenuCategoriesMobile->execute();
-        } else {
-            $this->megaMenuCategories = $megaMenuCategoriesDesktop->execute();
-        }
+        $this->megaMenuCategoriesDesktop = $megaMenuCategoriesDesktop->execute();
+        $this->megaMenuCategoriesMobile = $megaMenuCategoriesMobile->execute();
         
-        view()->composer(['frontend.master_dashboard', 'frontend.main_theme'], function($view) {
+        view()->composer(['frontend.master_dashboard', 'frontend.main_theme', 'frontend.shop'], function($view) {
             $view->with([
-                'megaMenuCategories' => $this->megaMenuCategories
+                'megaMenuCategoriesDesktop' => $this->megaMenuCategoriesDesktop,
+                'megaMenuCategoriesMobile' => $this->megaMenuCategoriesMobile,
             ]);
         });
     }

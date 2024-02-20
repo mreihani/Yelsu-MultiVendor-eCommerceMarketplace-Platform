@@ -24,6 +24,7 @@ class GetDynamicMegaMenuMobile {
                     $categoryChunkItemChildrenArray[] = [
                         'category_id' => $categoryChunkItemChildren->id,
                         'category_name' => $categoryChunkItemChildren->category_name,
+                        'child' => [],
                     ];
                 }
 

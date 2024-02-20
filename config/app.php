@@ -201,6 +201,7 @@ return [
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
         App\Providers\DynamicMenuContentServiceProvicer::class,
+        App\Providers\ChatUserDataProvider::class,
         App\Providers\AgentServiceProvider::class,
     ],
 

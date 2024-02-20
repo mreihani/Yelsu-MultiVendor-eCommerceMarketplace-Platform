@@ -495,13 +495,13 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title"><span>تمام دسته بندی ها</span></h3>
                             <ul class="widget-body filter-items search-ul">
-                                @if ($categories->count())
-                                    @foreach ($filter_category_array as $category)
+                                @if (count($megaMenuCategoriesMobile))
+                                    @foreach ($megaMenuCategoriesMobile as $category)
                                         <li class="filterButtonShopPage rootCat">
-                                            <input type="checkbox" name="category_{{$category[0]->id}}" value="{{$category[0]->id}}" {{in_array($category[0]->id, $inputArray) ? 'checked' : ''}}> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category[0]->category_name}} {{count($category[1]) ? "(".count($category[1])." زیر دسته)" : ''}}
+                                            <input type="checkbox" name="category_{{$category['category_id']}}" value="{{$category['category_id']}}" {{in_array($category['category_id'], $inputArray) ? 'checked' : ''}}> <i class="fa fa-plus"></i><i class="fa fa-minus" style="display: none;"></i> {{$category['category_name']}} {{count($category['child']) ? "(".count($category['child'])." زیر دسته)" : ''}}
                                         </li>
                                         <div class="subCategoryBtn subCatGroup">
-                                            @include('frontend.body.layout.shop-page-filter.categories-group', ['categories' => $category[1]])
+                                            @include('frontend.body.layout.shop-page-filter.categories-group', ['categories' => $category['child']])
                                         </div>
                                     @endforeach
                                 @else   

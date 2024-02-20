@@ -128,7 +128,7 @@
                         @if($agent->isDesktop())
                             <div class="dropdown-box">
                                 <ul class="menu vertical-menu category-menu">
-                                    @foreach ($megaMenuCategories as $parentCategory)
+                                    @foreach ($megaMenuCategoriesDesktop as $parentCategory)
                                         <li>
                                             <a href="{{route('shop.category', ['id'=> $parentCategory['category_id']])}}">
                                                 <img width="40px" src = "{{asset($parentCategory['img_src'])}}" alt="{{$parentCategory['category_name']}}"/>

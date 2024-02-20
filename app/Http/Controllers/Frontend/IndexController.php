@@ -846,52 +846,10 @@ class IndexController extends Controller
         // exclude products which store has been disabled
         $products_arr = [];
 
-        $products = Product::where('status', 'active')->latest()->get();
-        
-        foreach ($products as $product) {
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
+        $products = Product::with('attributes')->where('status', 'active')->where('product_verification', 'active')->withWhereHas('determine_product_owner', function ($query) {
+            $query->where('status', 'active');
+        })->paginate(40);
 
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
-
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
-
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            $products_arr[] = $product;
-        }
-        $products = new Collection($products_arr);
-
-        $totalGroup = count($products);
-        $perPage = 40;
-        $page = Paginator::resolveCurrentPage('page');
-
-        $products = new LengthAwarePaginator($products->forPage($page, $perPage), $totalGroup, $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-        // End of - exclude products which store has been disabled
-
-
-        $categories = Category::with(['child'])->latest()->get();
         $parentCategories = Category::with(['child'])->where('parent', 0)->latest()->get()->reverse();
 
         $root_catgory_obj = NULL;
@@ -909,9 +867,8 @@ class IndexController extends Controller
         $category = NULL;
         $outletsArr = [];
 
-
         // افزودن نقاط تامین کنندگان
-        $outlets = Outlet::with('user')->get()->take(10);
+        $outlets = Outlet::with('user')->take(100)->get();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -928,7 +885,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط بازرگانان
-        $outlets = Merchantoutlet::all();
+        $outlets = Merchantoutlet::take(100)->get();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -945,7 +902,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط خرده فروشان
-        $outlets = Retaileroutlet::all();
+        $outlets = Retaileroutlet::take(100)->get();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -962,7 +919,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط گمرک ها
-        $outlets = Customsoutlet::all();
+        $outlets = Customsoutlet::take(100)->get();
         foreach ($outlets as $outlet) {
             $name = $outlet->name;
             $address = $outlet->address;
@@ -997,7 +954,7 @@ class IndexController extends Controller
 
         $inputArray = [];
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
     } //End method
 
     public function ViewShopFiltered(Request $request)

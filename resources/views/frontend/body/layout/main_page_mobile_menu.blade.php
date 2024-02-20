@@ -32,7 +32,7 @@
             @if(!$agent->isDesktop())
                 <div class="tab-pane" id="categories">
                     <ul class="mobile-menu">
-                        @foreach ($megaMenuCategories as $parentCategory)
+                        @foreach ($megaMenuCategoriesMobile as $parentCategory)
                             <li>
                                 <a href="{{route('shop.category',['id'=> $parentCategory['category_id']])}}">
                                     <img width="30px" src = "{{asset($parentCategory['img_src'])}}" alt="steel"/> {{$parentCategory['category_name']}}
