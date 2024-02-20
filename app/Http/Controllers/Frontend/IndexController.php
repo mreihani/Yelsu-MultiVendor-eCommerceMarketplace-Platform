@@ -946,7 +946,7 @@ class IndexController extends Controller
         $inputArray = [];
 
         
-        foreach (Product::all()->take(100) as $value) {
+        foreach (Product::all()->take(400) as $value) {
             $value->single_price_with_commission;
         }
 
@@ -1128,7 +1128,7 @@ class IndexController extends Controller
         }
         
         // Delete later
-        foreach (Product::all()->take(100) as $value) {
+        foreach (Product::all()->take(400) as $value) {
             $value->single_price_with_commission;
         }
 
