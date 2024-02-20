@@ -147,6 +147,7 @@ class VendorProductController extends Controller
             'owner_id' => Auth::user()->id,
             'trading_method' => Purify::clean($request->trading_method),
             'selling_price' => 0,
+            'product_verification' => 'inactive',
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {
@@ -388,6 +389,7 @@ class VendorProductController extends Controller
                 'product_verification' => Purify::clean($product_verification),
                 'trading_method' => Purify::clean($request->trading_method),
                 'selling_price' => 0,
+                
             ]);
 
         } else {

@@ -341,6 +341,7 @@ class MerchantController extends Controller
             'specification' => ($request->specification),
             'owner_id' => Auth::user()->id,
             'trading_method' => Purify::clean($request->trading_method),
+            'product_verification' => 'inactive',
         ]);
 
         if (Purify::clean($incomingFields['category_id'])) {

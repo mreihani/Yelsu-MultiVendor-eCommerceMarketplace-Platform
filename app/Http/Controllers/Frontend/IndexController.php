@@ -855,15 +855,6 @@ class IndexController extends Controller
         $root_catgory_obj = NULL;
         $category_hierarchy_arr = [];
 
-        // category for filter
-        $filter_category_array = [];
-        foreach ($parentCategories as $parentCategory) {
-            $all_children = Category::with(['child'])->find($parentCategory->id)->child;
-            $filter_category_array[] = array($parentCategory, $all_children);
-        }
-        $filter_category_array = array_reverse($filter_category_array);
-        // category for filter
-
         $category = NULL;
         $outletsArr = [];
 
@@ -954,7 +945,7 @@ class IndexController extends Controller
 
         $inputArray = [];
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
 
     public function ViewShopFiltered(Request $request)
@@ -972,9 +963,6 @@ class IndexController extends Controller
                 $cat_id_arr[] = $cat;
             }
         }
-
-        // dd($request->min_price);
-        // dd($request->max_price);
 
         if (! empty($cat_id_arr)) {
             foreach ($cat_id_arr as $key => $category_filter) {
@@ -1008,35 +996,13 @@ class IndexController extends Controller
         // exclude products which store has been disabled
         $products_arr = [];
         foreach ($products as $product) {
-            if ($product->status == 'disabled') {
+            if ($product->status == 'disabled' || $product->product_verification == 'inactive' || $product->determine_product_owner->status == 'inactive') {
                 continue;
             }
 
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
+            if($product) {
 
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
-
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
-
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
+                continue;
             }
 
             $products_arr[] = $product;
@@ -1045,23 +1011,11 @@ class IndexController extends Controller
         // End of - exclude products which store has been disabled
 
 
-
         $inputArray = Purify::clean($request->input());
 
-        $categories = Category::latest()->get();
         $parentCategories = Category::where('parent', 0)->latest()->get();
 
         $root_catgory_obj = NULL;
-
-        // category for filter
-        $filter_category_array = [];
-        foreach ($parentCategories as $parentCategory) {
-            $all_children = Category::find($parentCategory->id)->child;
-            $filter_category_array[] = array($parentCategory, $all_children);
-
-        }
-        $filter_category_array = array_reverse($filter_category_array);
-        // category for filter
 
         $category = NULL;
         $outletsArr = [];
@@ -1069,7 +1023,7 @@ class IndexController extends Controller
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
 
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
 
     public function ViewShopCategoryFiltered(Request $request)
@@ -1079,65 +1033,21 @@ class IndexController extends Controller
         $id = Purify::clean(request('id'));
 
         // exclude products which store has been disabled
-        $category = Category::where('id', $id)->first();
+        $category = Category::find($id);
 
         if(empty($category)) {
             redirect()->to('/')->send();
         }
 
-        $products = $category->products()->where('status', 'active')->latest()->get();
-        
-        $products_arr = [];
+        $products = Product::with('attributes')->where('status', 'active')->where('product_verification', 'active')->withWhereHas('determine_product_owner', function ($query) {
+            $query->where('status', 'active');
+        })->paginate(40);
 
-        foreach ($products as $product) {
-            if ($product->vendor_id != NULL) {
-                $vendor_id = (int) $product->vendor_id;
-                $vendor_user = User::where('id', $vendor_id)->first();
-
-                if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->merchant_id != NULL) {
-                $merchant_id = (int) $product->merchant_id;
-                $merchant_user = User::where('id', $merchant_id)->first();
-
-                if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            if ($product->retailer_id != NULL) {
-                $retailer_id = (int) $product->retailer_id;
-                $retailer_user = User::where('id', $retailer_id)->first();
-
-                if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-                    continue;
-                }
-            }
-
-            $products_arr[] = $product;
-        }
-        $products_without_pagination = new Collection($products_arr);
-
-        $totalGroup = count($products_without_pagination);
-        $perPage = 40;
-        $page = Paginator::resolveCurrentPage('page');
-
-        $products = new LengthAwarePaginator($products_without_pagination->forPage($page, $perPage), $totalGroup, $perPage, $page, [
-            'path' => 'https://www.yelsu.com/shop/category?id=' . $id,
-            'pageName' => 'page',
-        ]);
-        // End of - exclude products which store has been disabled
-
-
-        $categories = Category::latest()->get();
         $parentCategories = Category::where('parent', $id)->latest()->get()->reverse();
 
         // added recursive function
         $category_by_id = Category::find($id);
-        foreach ($categories as $categoryItem) {
+        for ($i=0; $i < Category::all()->count(); $i++) { 
             if ($category_by_id->parent == 0) {
                 $root_catgory_obj = $category_by_id;
 
@@ -1153,22 +1063,10 @@ class IndexController extends Controller
 
         $category_hierarchy_arr = array_reverse($category_hierarchy_arr);
 
-        // category for filter
-        $filter_category_array = [];
-        $parentCategoriesTotal = Category::where('parent', 0)->latest()->get();
-        foreach ($parentCategoriesTotal as $parentCategory) {
-            $all_children = Category::find($parentCategory->id)->child;
-            $filter_category_array[] = array($parentCategory, $all_children);
-
-        }
-        $filter_category_array = array_reverse($filter_category_array);
-        // category for filter
-
-
         // افزودن نقاط تامین کنندگان
         $outletsArr = [];
         $outletsArrDB = [];
-        $outlets = Outlet::all();
+        $outlets = Outlet::take(100)->get();
 
         foreach ($outlets as $outlet) {
             $category_id_arr = explode(",", $outlet->category_id);
@@ -1223,54 +1121,10 @@ class IndexController extends Controller
             $meta_keywords = explode('،', $category->meta_keywords);
             SEOMeta::setKeywords($meta_keywords);
         }
-
         
-        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'filter_category_array', 'inputArray'));
+        return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     }
 
-    // ایجاد آرایه ای از آی دی محصولاتی که مجاز نیستند
-    // public function getDisallowedProducts() {
-    //     $products_arr_id = [];
-    //     $all_products = Product::all();
-    //     foreach ($all_products as $product) {
-
-    //         if ($product->vendor_id != NULL) {
-    //             $vendor_id = (int) $product->vendor_id;
-    //             $vendor_user = User::where('id', $vendor_id)->first();
-
-    //             if ($vendor_user && $vendor_user->role == "vendor" && ($vendor_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-    //                 $products_arr_id[] = $product->id;
-    //                 continue;
-    //             }
-    //         }
-
-    //         if ($product->merchant_id != NULL) {
-    //             $merchant_id = (int) $product->merchant_id;
-    //             $merchant_user = User::where('id', $merchant_id)->first();
-
-    //             if ($merchant_user && $merchant_user->role == "merchant" && ($merchant_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-    //                 $products_arr_id[] = $product->id;
-    //                 continue;
-    //             }
-    //         }
-
-    //         if ($product->retailer_id != NULL) {
-    //             $retailer_id = (int) $product->retailer_id;
-    //             $retailer_user = User::where('id', $retailer_id)->first();
-
-    //             if ($retailer_user && $retailer_user->role == "retailer" && ($retailer_user->status == 'inactive' || $product->product_verification == 'inactive')) {
-    //                 $products_arr_id[] = $product->id;
-    //                 continue;
-    //             }
-    //         }
-
-    //         if($product->status == "disabled") {
-    //             $products_arr_id[] = $product->id;
-    //         }
-    //     }
-
-    //     return $products_arr_id;
-    // }
 
     // ایجاد آرایه ای از آی دی محصولاتی که مجاز هستند
     public function getAllowedProducts($products) {
