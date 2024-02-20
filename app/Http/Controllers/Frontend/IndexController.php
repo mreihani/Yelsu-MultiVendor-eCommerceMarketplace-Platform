@@ -946,7 +946,7 @@ class IndexController extends Controller
         $inputArray = [];
 
         
-        foreach (Product::all() as $value) {
+        foreach (Product::all()->take(500) as $value) {
             $value->single_price_with_commission;
         }
 
@@ -1027,11 +1027,6 @@ class IndexController extends Controller
 
         $latitudeVal = env('latitudeVal');
         $longitudeVal = env('longitudeVal');
-
-        // Delete later
-        foreach (Product::all() as $value) {
-            $value->single_price_with_commission;
-        }
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'products', 'categories', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
@@ -1133,7 +1128,7 @@ class IndexController extends Controller
         }
         
         // Delete later
-        foreach (Product::all() as $value) {
+        foreach (Product::all()->take(500) as $value) {
             $value->single_price_with_commission;
         }
 
