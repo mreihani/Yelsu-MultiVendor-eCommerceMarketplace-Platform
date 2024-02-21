@@ -841,7 +841,6 @@ class IndexController extends Controller
             $adwadaw->single_price_with_commission;
             $adwadaw->determine_product_min();
             $adwadaw->determine_product_max();
-            $adwadaw->determine_product_value_added_tax();
         }
 
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
@@ -854,7 +853,9 @@ class IndexController extends Controller
         // exclude products which store has been disabled
         $products_arr = [];
 
-        $products = Product::with(['attributes', 'attributes.items'])->where('status', 'active')->where('product_verification', 'active')->withWhereHas('determine_product_owner', function ($query) {
+        $products = Product::with(['attributes', 'attributes.items'])
+        ->where('status', 'active')->where('product_verification', 'active')
+        ->withWhereHas('determine_product_owner', function ($query) {
             $query->where('status', 'active');
         })->paginate(40);
 
