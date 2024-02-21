@@ -837,7 +837,7 @@ class IndexController extends Controller
     public function ViewShop()
     {
         // get all active products
-        foreach (Product::all() as $adwadaw) {
+        foreach (Product::all()->take(1000) as $adwadaw) {
             $adwadaw->single_price_with_commission;
         }
 
