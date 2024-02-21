@@ -840,7 +840,6 @@ class IndexController extends Controller
         foreach (Product::all() as $adwadaw) {
             $adwadaw->single_price_with_commission;
             $adwadaw->determine_product_min();
-            $adwadaw->determine_product_max();
         }
 
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
