@@ -20,7 +20,9 @@ use App\Models\Freightageloadertype;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\Products\Attributes\GetCommissionAttribute;
 use Illuminate\Database\Eloquent\Casts\Attribute as AttributeMutator;
+use App\Services\Products\Attributes\GetAttributeValueByKeywordEagered;
 
 
 class Product extends Model
@@ -122,6 +124,9 @@ class Product extends Model
         }
 
         return $attribute_loop_array;
+
+        // این رو می تونی با این روش هم درست کنی
+        // $this->attributes()->get()->pluck('pivot');
     }
 
     // تابعی که لیستی از محصولات را دریافت و آن ها را بر اساس دسته بندی خروجی میدهد
@@ -201,101 +206,139 @@ class Product extends Model
     public function determine_product_currency() {
         $currency_type = null;
 
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "currency") {
-                foreach ($attribute_value_array['attribute_value_obj'] as $attribute_value_item) {
-                    if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                        $currency_type = $attribute_value_item->value;
-                    }
-                }
-            }
+        $attributeItem = $this->attributes()
+        ->with(['items'])
+        ->get()
+        ->pluck('items')
+        ->flatten(1)
+        ->where('attribute_item_keyword', 'currency')
+        ->first();
+
+        if(!$attributeItem) {
+            return $currency_type;
         }
+
+        $currency_type = AttributeItem::find($attributeItem->id)
+        ->values
+        ->where('attribute_item_id', $attributeItem->id)
+        ->first()
+        ->value;
+
         return $currency_type;
     }
 
     // تابع برای تعیین کمیسیون یک محصول
     public function determine_product_commission() {
-        $commission_value = null;
-
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission" || AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "percent_commission")) {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                    $commission_value = $attribute_value_array['attribute_value_obj'][0]->value;
-                } else {
-                    $commission_value = $attribute_value_array["attribute_value"];
-                }
-            }
-        }
-
-        return $commission_value;
+        return GetCommissionAttribute::getCommissionValue($this);
     }
 
     // تابع برای تعیین نوع کمیسیون یک محصول
     public function determine_product_commission_type() {
-        $commission_type = null;
-
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword) {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "fix_commission") {
-                    $commission_type = "fix_commission";
-                } elseif(AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "percent_commission") {
-                    $commission_type = "percent_commission";
-                }
-            } 
-        }
-
-        return $commission_type;
+        return GetCommissionAttribute::getCommissionType($this);
     }
 
     // تابع برای تعیین حداقل مقدار مجاز یک محصول
     public function determine_product_min() {
+
+        $product = $this->load(['attributes', 'attributes.items']);
+
         $min_value = null;
 
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "min")) {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                    $min_value = $attribute_value_array['attribute_value_obj'][0]->value;
-                } else {
-                    $min_value = $attribute_value_array["attribute_value"];
-                }
-            }
+        $attributeItem
+        = 
+        $product
+        ->attributes()
+        ->get()
+        ->pluck('items')
+        ->flatten(1)
+        ->where('attribute_item_keyword', 'min')
+        ->first();
+       
+        if(!$attributeItem) {
+            return $min_value;
         }
 
-        return $min_value;
+        $attributeItemValue
+        = 
+        $product
+        ->attributes()
+        ->get()
+        ->pluck('pivot')
+        ->where('attribute_item_id', $attributeItem->id)
+        ->first();
+
+        if(!$attributeItemValue) {
+            return $min_value;
+        }
+
+        return $attributeItemValue->attribute_value;
     }
 
     // تابع برای تعیین حداکثر مقدار مجاز یک محصول
     public function determine_product_max() {
+        
         $max_value = null;
 
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && (AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "max")) {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                    $max_value = $attribute_value_array['attribute_value_obj'][0]->value;
-                } else {
-                    $max_value = $attribute_value_array["attribute_value"];
-                }
-            }
+        $attributeItem
+        = 
+        $this
+        ->attributes()
+        ->get()
+        ->pluck('items')
+        ->flatten(1)
+        ->where('attribute_item_keyword', 'min')
+        ->first();
+       
+        if(!$attributeItem) {
+            return $max_value;
         }
 
-        return $max_value;
+        $attributeItemValue
+        = 
+        $this
+        ->attributes()
+        ->get()
+        ->pluck('pivot')
+        ->where('attribute_item_id', $attributeItem->id)
+        ->first();
+
+        if(!$attributeItemValue) {
+            return $max_value;
+        }
+
+        return $attributeItemValue->attribute_value;
     }
 
     // تابع برای تعیین مقدار مالیات بر ارزش افزوده
     public function determine_product_value_added_tax() {
         $added_value_tax = null;
 
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "value_added_tax") {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                    $added_value_tax = $attribute_value_array['attribute_value_obj'][0]->value;
-                } else {
-                    $added_value_tax = $attribute_value_array["attribute_value"];
-                }
-            }
+        $attributeItem
+        = 
+        $this
+        ->attributes()
+        ->get()
+        ->pluck('items')
+        ->flatten(1)
+        ->where('attribute_item_keyword', 'value_added_tax')
+        ->first();
+       
+        if(!$attributeItem) {
+            return $added_value_tax;
         }
 
-        return $added_value_tax;
+        $attributeItemValue
+        = 
+        AttributeItem::find($attributeItem->id)
+        ->values
+        ->where('attribute_item_id', $attributeItem->id)
+        ->first();
+
+        if(!$attributeItemValue) {
+            return $added_value_tax;
+        }
+
+        return $attributeItemValue->attribute_value;
     }
 
     /**
@@ -319,15 +362,20 @@ class Product extends Model
     public function determine_product_unit() {
         $product_unit = null;
 
-        foreach ($this->attribute_items_obj_array() as $attribute_value_item_key => $attribute_value_array) {
-            if(count($attribute_value_array['attribute_value_obj']) == 1 && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword && AttributeItem::find($attribute_value_item_key)->attribute_item_keyword == "unit") {
-                if(AttributeItem::find($attribute_value_item_key)->attribute_item_type == 'dropdown') {
-                    $product_unit = $attribute_value_array['attribute_value_obj'][0]->value;
-                } else {
-                    $product_unit = $attribute_value_array["attribute_value"];
-                }
-            }
-        }
+        $attributeItemId 
+        = 
+        $this->attributes
+        ->pluck('items')
+        ->flatten(1)
+        ->where('attribute_item_keyword', 'unit')
+        ->first()
+        ->id;
+
+        $product_unit = AttributeItem::find($attributeItemId)
+        ->values
+        ->where('attribute_item_id', $attributeItemId)
+        ->first()
+        ->value;
 
         return $product_unit;
     }
@@ -716,8 +764,8 @@ class Product extends Model
     public function getSinglePriceWithCommissionAttribute()
     {
         // Check if outlets are available and return the selling price
-        if (count($this->outlets()->get())) {
-            $sellingPrice = (int) $this->outlets()->get()->first()->pivot->selling_price;
+        if (count($this->outlets)) {
+            $sellingPrice = (int) $this->outlets->first()->pivot->selling_price;
         } else {
             // Return the default selling price
             $sellingPrice = (int) $this->selling_price;

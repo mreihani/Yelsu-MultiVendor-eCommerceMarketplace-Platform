@@ -38,7 +38,7 @@ class ChatUserDataProvider extends ServiceProvider
             $this->specialist_category_array_unique = array_unique($specialist_category_array);
         }
         
-        view()->composer(['frontend.master_dashboard', 'frontend.main_theme'], function($view) {
+        view()->composer(['frontend.master_dashboard', 'frontend.main_theme', 'frontend.body.layout.chat'], function($view) {
             $view->with([
                 'specialist_category_array_unique' => $this->specialist_category_array_unique
             ]);

@@ -846,7 +846,7 @@ class IndexController extends Controller
         // exclude products which store has been disabled
         $products_arr = [];
 
-        $products = Product::with('attributes')->where('status', 'active')->where('product_verification', 'active')->withWhereHas('determine_product_owner', function ($query) {
+        $products = Product::with(['attributes', 'attributes.items'])->where('status', 'active')->where('product_verification', 'active')->withWhereHas('determine_product_owner', function ($query) {
             $query->where('status', 'active');
         })->paginate(40);
 
@@ -859,7 +859,7 @@ class IndexController extends Controller
         $outletsArr = [];
 
         // افزودن نقاط تامین کنندگان
-        $outlets = Outlet::with('user')->take(100)->get();
+        $outlets = Outlet::with('user')->get();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -876,7 +876,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط بازرگانان
-        $outlets = Merchantoutlet::take(100)->get();
+        $outlets = Merchantoutlet::all();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -893,7 +893,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط خرده فروشان
-        $outlets = Retaileroutlet::take(100)->get();
+        $outlets = Retaileroutlet::all();
         foreach ($outlets as $outlet) {
             if ($outlet->user->status == 'active') {
                 $shop_name = $outlet->shop_name;
@@ -910,7 +910,7 @@ class IndexController extends Controller
 
 
         // افزودن نقاط گمرک ها
-        $outlets = Customsoutlet::take(100)->get();
+        $outlets = Customsoutlet::all();
         foreach ($outlets as $outlet) {
             $name = $outlet->name;
             $address = $outlet->address;
@@ -944,11 +944,6 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
-
-        
-        foreach (Product::all()->take(700) as $value) {
-            $value->single_price_with_commission;
-        }
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
@@ -1071,7 +1066,7 @@ class IndexController extends Controller
         // افزودن نقاط تامین کنندگان
         $outletsArr = [];
         $outletsArrDB = [];
-        $outlets = Outlet::take(100)->get();
+        $outlets = Outlet::with('user')->get();
 
         foreach ($outlets as $outlet) {
             $category_id_arr = explode(",", $outlet->category_id);
@@ -1127,11 +1122,6 @@ class IndexController extends Controller
             SEOMeta::setKeywords($meta_keywords);
         }
         
-        // Delete later
-        foreach (Product::all()->take(700) as $value) {
-            $value->single_price_with_commission;
-        }
-
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     }
 

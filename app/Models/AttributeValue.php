@@ -14,6 +14,6 @@ class AttributeValue extends Model
 
     public function attribute_items()
     {
-        return $this->belongsTo(AttributeItem::class);
+        return $this->belongsTo(AttributeItem::class, 'attribute_item_id', 'id');
     }
 }
