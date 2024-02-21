@@ -836,6 +836,14 @@ class IndexController extends Controller
 
     public function ViewShop()
     {
+        // get all active products
+        foreach (Product::all() as $adwadaw) {
+            $adwadaw->single_price_with_commission;
+            $adwadaw->determine_product_min();
+            $adwadaw->determine_product_max();
+            $adwadaw->determine_product_value_added_tax();
+        }
+
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
         SEOMeta::setDescription('قیمت سیمان قیمت بتن قیمت فولاد خرید اینترنتی محصولات معدنی و ماشین آلات کشاورزی');
         SEOMeta::setKeywords(['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'یلسو']);
@@ -944,6 +952,8 @@ class IndexController extends Controller
         $longitudeVal = env('longitudeVal');
 
         $inputArray = [];
+
+        
 
         return view('frontend.shop', compact('latitudeVal', 'longitudeVal', 'outletsArr', 'category', 'products', 'parentCategories', 'root_catgory_obj', 'category_hierarchy_arr', 'inputArray'));
     } //End method
