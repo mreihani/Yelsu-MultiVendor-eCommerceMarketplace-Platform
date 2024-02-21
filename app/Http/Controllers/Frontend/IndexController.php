@@ -839,7 +839,6 @@ class IndexController extends Controller
         // get all active products
         foreach (Product::all() as $adwadaw) {
             $adwadaw->single_price_with_commission;
-            $adwadaw->determine_product_min();
         }
 
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
