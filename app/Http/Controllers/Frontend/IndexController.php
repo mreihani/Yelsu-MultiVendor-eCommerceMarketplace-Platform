@@ -836,11 +836,6 @@ class IndexController extends Controller
 
     public function ViewShop()
     {
-        // get all active products
-        foreach (Product::all()->take(1000) as $adwadaw) {
-            $adwadaw->single_price_with_commission;
-        }
-
         SEOMeta::setTitle('پلتفرم اقتصادی یلسو');
         SEOMeta::setDescription('قیمت سیمان قیمت بتن قیمت فولاد خرید اینترنتی محصولات معدنی و ماشین آلات کشاورزی');
         SEOMeta::setKeywords(['قیمت سیمان', 'قیمت بتن', 'قیمت فولاد', 'یلسو']);
